@@ -1,0 +1,13 @@
+doctype html
+html
+  head
+  body
+    form(action="/upload" method="post" enctype="multipart/form-data")
+      input(type="file" name="userimage")
+      input(type="submit" value="Upload image")
+
+    script.
+      if (location.hash.match(/goodjob/)) {
+        alert("Good job!");
+        location.hash = '';
+      }

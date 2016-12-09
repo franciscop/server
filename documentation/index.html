@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Documentation</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <meta name="keywords" content="">
+    <meta name="description" content="">
+    <meta property="og:url" content="">
+    <meta property="og:title" content="">
+    <meta property="og:image" content="">
+    <meta property="og:description" content="">
+
+    <link href="https://cdn.jsdelivr.net/picnicss/6.2.5/picnic.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" rel="stylesheet" />
+    <link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet">
+    <link href="/public/style.css" rel="stylesheet">
+  </head>
+  <body class="withaside">
+    <nav class="super">
+      <a href="/" class="brand">
+        <img class="logo" src="http://umbrellajs.com/web/umbrella.svg">
+        <span class="text">Server</span>
+      </a>
+
+      <input id="bmenu" type="checkbox" class="show">
+      <label for="bmenu" class="burger pseudo button switch"></label>
+
+      <header><strong>Documentation</strong></header>
+      <div class="menu loading" data-headers="h2"><ul class="flex two three-600"></ul></div>
+
+      <footer>
+        <div class="flex three">
+          <a class="pseudo button" href="https://github.com/franciscop">
+            <i class="fa fa-check"></i>Tests
+          </a>
+          <a class="pseudo button" href="https://github.com/franciscop">
+            <i class="fa fa-github-alt"></i>Github
+          </a>
+          <a class="button" href="/documentation">
+            <i class="fa fa-file-text-o"></i>Docs
+          </a>
+        </div>
+      </footer>
+    </nav>
+
+    <aside class="loading" data-headers="h1, h2">
+      <!-- <a class="brand" href="/">
+        <img class="logo" src="http://umbrellajs.com/web/umbrella.svg">
+        <span class="text">Umbrella JS</span>
+      </a> -->
+      <ul></ul>
+    </aside>
+
+    <article class="loading" data-src="README.md"></article>
+
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/umbrella/2.6.7/umbrella.min.js"></script>
+    <script src="https://unpkg.com/superdom@0"></script>
+    <script src="https://unpkg.com/marked@0.3.6"></script>
+    <script src="/public/javascript.js"></script>
+  </body>
+</html>
