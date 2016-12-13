@@ -52,4 +52,4 @@ node app.js
 
 And finally, open your browser on [localhost:3000](http://localhost:3000/) and you should see your server answered 'Hello world!'.
 
-<a class="button" href="/documentation"><i class="fa fa-file-code-o"></i> Full Documentation</a>
+<strong><a class="button" href="/documentation"><i class="fa fa-file-code-o"></i> Full Documentation</a></strong>
