@@ -39,6 +39,7 @@ module.exports = function (grunt) {
           'public/*.**',
           'views/**/*.**',
           'server.js',
+          'about.md',
           'README.md'
         ],
         tasks: ['default'],

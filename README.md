@@ -52,4 +52,16 @@ node app.js
 
 And finally, open your browser on [localhost:3000](http://localhost:3000/) and you should see your server answered 'Hello world!'.
 
+## Documentation
+
+Everything is documented here:
+
 <strong><a class="button" href="/documentation"><i class="fa fa-file-code-o"></i> Full Documentation</a></strong>
+
+## License
+
+Licensed under the MIT License. See `LICENSE` for the full license.
+
+## Author
+
+This package was created by [Francisco Presencia]() but hopefully developed and maintained by many others. See the [the list of contributors here](https://github.com/serverjs/server/graphs/contributors).

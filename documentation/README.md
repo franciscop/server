@@ -1,8 +1,39 @@
 # Documentation
 
+This is the documentation for `server`.
+
+To include the server, `require` it as a normal Node package:
+
+```js
+let server = require('server');
+```
+
+
+## Main function
+
+`server` is a function with this signature:
+
+```js
+server(options, middleware1, middleware2, ...);
+```
+
+However, it also has a couple of handy properties:
+
+- `server.router`: This is **not** the default router from express. Read the section [Router](#router) to see how it works.
+- `server.express`: The original express server. As express is a dependency, this is the result of doing `require('express')`.
+
+
 ## Options
 
-The first argument of the main function is for setting the options. It takes this format (defaults shown here):
+The first argument of the main function is for setting the options. It can be nothing, a single integer or a plain object:
+
+```js
+server();
+server(3000);
+server({ port: 3000 });  // the same
+```
+
+As you can guess, internally if it is a single integer it will be converted to the object `{ port: ARG }`. This is a handy shortcut in case you want the default options except for the port, otherwise you can specify the options (defaults shown here):
 
 ```js
 server({
@@ -16,6 +47,29 @@ server({
 });
 ```
 
+### `port`
+
+This is slightly different from other options, as the variable within the environment will always overwrite this option. This is so Heroku and other servers will work nicely. So this is the inclusion order, from more important to less:
+
+- `.env`: the variable within the environment.
+- `server(3000)` || `server({ port: 3000 })`: the variable set manually when launching the server.
+- `3000`: the default port if nothing else was specified.
+
+To set the port in the environment, create a file called `.env` with this:
+
+```
+PORT=3000
+```
+
+This will allow for your server to work nicely with some hosts such as Heroku, since those provide the port as an environment variable.
+
+
+### `public`
+
+The folder where your static assets are.
+
+
+
 ## Middleware
 
 One of the most powerful things from express and thus from `server` is the Middleware. We extended it by setting some default, useful middleware, but we wanted to also give you the flexibility to edit this.
@@ -24,18 +78,29 @@ One of the most powerful things from express and thus from `server` is the Middl
 
 There are four ways of loading middleware with `server`: as a string, as a function, as an array or as an object. They are all explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.
 
-### Middleware as a string
+### String
 
-This is the simplest of them all, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as `require('body-parser')()`), however it's perfect for your own middleware:
+This is the simplest way to add middleware, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as `require('body-parser')()`), however it's perfect for your own middleware:
 
 ```js
 // Load the middleware 'body-parser' from the folder '/middle'
 server(3000, './middle/body-parser.js');
 ```
 
-### Middleware as a function
+Then inside that `./middle/body-parser.js`:
 
-Middleware *is* a function that accepts `(req, res, next)` (or `(err, req, res, next)` parameters, so all other methods are ultimatelly converted to this one. Read more just by googling' "express middleware" or "write middleware express".
+```js
+module.exports = function(req, res, next) {
+
+  // do your thing here
+
+  next();
+}
+```
+
+### Function
+
+Middleware *is* a function that accepts `(req, res, next)` (or `(err, req, res, next)` parameters, so all other methods are ultimately converted to this one. Read more just by googling' "express middleware" or "write middleware express".
 
 As a simple example, there are many pre-packaged modules, so let's see one example where we imagine that `body-parser` is not loaded by default:
 
@@ -47,7 +112,7 @@ let bodyparser = require('body-parser')({ extended: true });
 server(3000, bodyparser);
 ```
 
-### Middleware as an array
+### Array
 
 This will be converted to a series of functions, and inside the array there can be any of the other types. It is useful to bundle them by category:
 
@@ -65,7 +130,7 @@ let routes = [
 server(3000, parsers, routes);
 ```
 
-### Middleware as an object
+### Object
 
 You can name them, and they will **replace one of the default middlewares if the name matches it**. Let's go with the simple example of `body-parser`:
 
@@ -93,7 +158,7 @@ In most situations this won't change anything, but in some edge cases it *might*
 
 
 
-## Routes
+## Router
 
 In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:
 

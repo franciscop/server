@@ -44,6 +44,8 @@ module.exports = (opts = {}, ...middle) => new Promise((resolve, reject) => {
   app.listen(port, () => resolve(app));
 });
 
+module.exports.express = express;
+
 module.exports.router = new Proxy({}, {
   get: (orig, key) => (...args) => {
     let router = express.Router();

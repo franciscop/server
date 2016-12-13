@@ -1,20 +1,24 @@
-<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible server for Node.js"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible server for Node.js"><link href="https://unpkg.com/paperdocs@0/paperdocs.min.css" rel="stylesheet"><link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet"></head><body class="homepage"><nav class="super"><a class="brand" href="/"><img class="logo" src="/public/server.svg"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about"><i class="fa fa-info"></i>About</a> <a class="pseudo button" href="https://github.com/serverjs/server" target="_blank"><i class="fa fa-github-alt"></i>Github</a> <a class="button" href="/documentation"><i class="fa fa-file-code-o"></i>Documentation</a></div></footer></nav></body><article><h1 id="about-server-">About <code>server</code></h1>
-<p>This is a package started by <a href="http://francisco.io/">Francisco Presencia</a> but hopefully it will be developed by many contributors.</p>
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible server for Node.js"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible server for Node.js"><link href="https://unpkg.com/paperdocs@0/paperdocs.min.css" rel="stylesheet"><link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet"><style>.from-h3 .button::before {
+  content: "- ";
+}
+</style></head><body class="homepage"><nav class="super"><a class="brand" href="/"><img class="logo" src="public/server.svg"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about"><i class="fa fa-info"></i>About</a> <a class="pseudo button" href="https://github.com/serverjs/server" target="_blank"><i class="fa fa-github-alt"></i>Github</a> <a class="button" href="/documentation"><i class="fa fa-file-code-o"></i>Documentation</a></div></footer></nav></body><article><h1 id="about-server-">About <code>server</code></h1>
+<p>Server is a NPM package intended to make Node.js development simpler and more intuitive.</p>
 <h2 id="goals">Goals</h2>
-<p>These are the main things that I wasn&#39;t happy with the state-of-the-art, so I decided to launch server to build upon the great work on express:</p>
+<p>These are the main things that I wasn&#39;t happy with the state-of-the-art, so I decided to launch server to build upon the great work of express:</p>
 <ol>
-<li><p>Make things work by default, including but not limited to:</p>
+<li><p>Make things work by default:</p>
 <ul>
 <li>Cookies</li>
 <li>Session</li>
 <li>Form submission</li>
 <li>Including <strong>file uploads</strong></li>
+<li>...</li>
 </ul>
 </li>
 <li><p>Make things simpler to use</p>
 <ul>
-<li>Forget about searching each package&#39;s config</li>
-<li>Secure, sensible defaults</li>
+<li>Many low-level things work out of the box</li>
+<li>Sensible, secure defaults =&gt; no need to change anything</li>
 <li>Easily customizable options</li>
 </ul>
 </li>
@@ -25,11 +29,17 @@
 <li>Websockets</li>
 </ul>
 </li>
+<li><p>Better error handling (if possible). No more ALLCAPS error messages with no information at all.</p>
+</li>
 </ol>
-<p>This will in turn <strong>make it much easier to get started</strong>. For me the fun is learning new libraries as I already know my way around Node and javascript, but this is overwhelming for people getting started in the ecosystem. The main frustration that I&#39;ve seen from people coming from:</p>
+<p>This will in turn <strong>make it much easier to get started</strong>, for both people who are new to Node or for experienced people who don&#39;t want to set-up everything again and again. The main frustration that I&#39;ve seen from people coming from:</p>
 <ul>
 <li>Different web backgrounds (Ruby on Rails, PHP), where now they have to hunt down and compare dozens of libraries to do simple tasks.</li>
 <li>Different programming backgrounds (Arduino, C++) where I have to explain not only how to get a server ready with these new tools, but also how the current state of the art and the fun of it is to build your own stack.</li>
-<li>Starting from scratch. I pity those people starting with no programming experience coming to Node.js.</li>
+<li>Starting from scratch. I pity those people starting with no programming experience coming to Node.js. This shouldn&#39;t be so difficult, should it?</li>
 </ul>
+<h2 id="contribute">Contribute</h2>
+<p>If you have some ideas of how Node.js development could be improved, please <a href="github.com/serverjs/server/issues">open a new issue in Github&#39;s repository</a>.</p>
+<h2 id="web-design">Web design</h2>
+<p>This website was built with <a href="http://francisco.io/paperdocs/">Paperdocs</a>, a project built on top of <a href="http://picnicss.com/">Picnic CSS</a> and <a href="http://umbrellajs.com/">Umbrella JS</a> from the author of Server, <a href="http://francisco.io/">Francisco Presencia</a>.</p>
 </article><script src="https://unpkg.com/paperdocs@0/paperdocs.min.js"></script><script src="//localhost:35729/livereload.js"></script></html>
