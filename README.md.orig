@@ -1,0 +1,62 @@
+<<<<<<< HEAD
+# Server
+
+The simplest yet a powerful way of launching a server with Node.js:
+
+```js
+let server = require('server');
+
+// Launch it in port 3000 to serve static files in /public
+server();
+
+// Serve static files from the project root on http://localhost:8080/
+server({ port: 8080, public: './' });
+
+// Use some simple routes
+let { get, post } = server.router;
+server({},
+  get('/', (req, res) => res.render('index')),
+  post('/', (req, res) => console.log(req.body))
+);
+```
+
+It parses urlencoded, json and files automatically with default middlewares while still letting you personalize the options or change those middlewares for others you prefer (or just remove them).
+
+## Getting started
+
+After getting Node ready and `npm init` your project, execute this from the terminal in your project folder to **install the server**:
+
+```bash
+npm install server --save
+```
+
+Then you can create a file called `app.js` and set the following:
+
+```js
+// Include the server in your file
+let server = require('server');
+let { get, post } = server.router;
+
+// Initialize the server on port 3000
+server(3000,
+
+  // Handle requests to the url "/" ( http://localhost:3000/ )
+  get('/', (req, res) => { res.send('Hello world!'); })
+);
+```
+
+Execute this in the terminal to get the server started:
+
+```bash
+node app.js
+```
+
+And finally, open your browser on [localhost:3000](http://localhost:3000/) and you should see your server answered 'Hello world!'.
+
+To get the most out of it, [read the documentation](/documentation).
+
+<a class="button" href="/documentation">Documentation</a>
+=======
+# server
+A modern and robust server for Node.js
+>>>>>>> 6e51a22f9a8b1e9c2276d402f6c39e52b083621e

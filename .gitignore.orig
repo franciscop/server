@@ -1,3 +1,7 @@
+<<<<<<< HEAD
+node_modules
+.env
+=======
 # Logs
 logs
 *.log
@@ -28,7 +32,6 @@ build/Release
 
 # Dependency directories
 node_modules
-.env
 jspm_packages
 
 # Optional npm cache directory
@@ -36,3 +39,4 @@ jspm_packages
 
 # Optional REPL history
 .node_repl_history
+>>>>>>> 6e51a22f9a8b1e9c2276d402f6c39e52b083621e
