@@ -26,6 +26,14 @@
   "devDependencies": {
     "chai": "^3.5.0",
     "chance": "^1.0.4",
+    "grunt": "^1.0.1",
+    "grunt-bytesize": "^0.2.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-pug": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-semistandard": "^1.0.6",
+    "jstransformer-marked": "^1.0.2",
     "mocha": "^3.2.0",
     "pray": "^1.0.2",
     "request": "^2.79.0"

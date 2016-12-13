@@ -1,3 +1,7 @@
+// Avoid a transition when the page loads
+setTimeout(() => {
+  delete dom.html.class.initial;
+}, 100);
 
 let tableofcontents = () => {
   dom['[data-headers]'].forEach(header => {

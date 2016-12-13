@@ -12,10 +12,7 @@ let loadware = require('loadware');
 let extend = require('extend');    // deep-copy, not shallow like Object.assign
 let config = require('./config');  // default configuration
 
-
-
 module.exports = (opts = {}, ...middle) => new Promise((resolve, reject) => {
-
   let app = express();
 
   // If it's a number it's the port

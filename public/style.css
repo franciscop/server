@@ -33,6 +33,11 @@ nav .icon {
   height: 2em;
 }
 
+nav i.fa {
+  margin-right: 10px;
+  display: inline-block;
+}
+
 nav img {
   height: 2em;
 }
@@ -314,10 +319,10 @@ nav.super .button.switch {
 
 nav.super footer {
   float: right;
-  position: relative;
-  top: 50%;
-  -webkit-transform: translateY(-50%);
-  transform: translateY(-50%);
+  position: static;
+  top: calc(100vh - 5em);
+  height: 3em;
+  padding: .45em 0;
   white-space: nowrap;
 }
 
@@ -328,6 +333,8 @@ nav.super footer .flex {
 nav.super footer .button {
   width: auto;
   padding: .3em .9em;
+  margin: 0;
+  transition: box-shadow .3s ease;
 }
 
 nav.super footer .button i {
@@ -370,6 +377,7 @@ nav.super footer .button i {
   nav.super .menu > .content,
   nav.super footer {
     margin: 0;
+    padding: 0;
   }
 
   nav.super .menu .button {
@@ -403,7 +411,7 @@ nav.super footer .button i {
     display: block;
     float: none;
     transform: none;
-    transition: all .3s ease;
+    transition: top .3s ease;
   }
 
   nav.super :checked ~ * footer {
@@ -416,7 +424,7 @@ nav.super footer .button i {
 
   nav.super footer .button {
     width: 33.333%;
-    height: 5em;
+    height: 15vh;
     border-radius: 0;
     margin: 0;
     line-height: 1;
@@ -461,7 +469,7 @@ nav.super footer .button i {
 
 
   nav.super .menu {
-    background: #ddd;
+    background: #D0E2EC;
     display: block;
     top: 3em;
     width: 100%;
@@ -474,16 +482,45 @@ nav.super footer .button i {
   }
 
   nav.super .menu .button {
+    background: #f5f5f5;
+    box-shadow: .1em .1em .1em rgba(17, 17, 17, 0.2);
+  }
+
+  nav.super .menu .button:hover {
+    color: #333;
     background: #fff;
+    box-shadow: .1em .1em .2em rgba(17, 17, 17, 0.5);
+  }
+
+  nav.super .menu .button:active {
+    box-shadow: .1em .1em .3em rgba(17, 17, 17, 0.5) inset;
+  }
+
+  nav.super .menu .button.active {
+    box-shadow: .1em .1em .1em rgba(17, 17, 17, 0.3) inset;
+  }
+
+  nav.super .menu .button.active:hover {
+    box-shadow: .1em .1em .2em rgba(17, 17, 17, 0.5) inset;
+  }
+
+  nav.super .menu .button.active:active {
+    box-shadow: .1em .1em .2em rgba(17, 17, 17, 0.8) inset;
   }
 
   nav.super .show:checked ~ .menu {
     width: 100%;  /* overwriting picnic */
-    height: calc(100vh - 8em);
+    height: calc(85vh - 3em);
     padding: .6em;
   }
 
   nav.super .show:checked ~ footer {
-    top: calc(100vh - 5em);
+    top: calc(85vh);
   }
+}
+
+
+/* Avoid a transition initially when the page loads */
+html.initial * {
+  transition: all 0s!important;
 }

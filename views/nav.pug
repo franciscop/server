@@ -1,18 +1,24 @@
 nav.super
-  a.brand(href='#')
-    img.logo(src='http://umbrellajs.com/web/umbrella.svg')
+  a.brand(href='/')
+    img.logo(src='/public/server.svg')
     span.text Server
   input#bmenu.show(type='checkbox')
   label.burger.pseudo.button.switch(for='bmenu')
   header
     strong Server.js
-  .menu.loading(data-headers='h1, h2')
-    ul.flex.two.three-600
+  .menu(data-headers='h1, h2')
+    ul.flex.one
   footer
     .flex.three
-      a.pseudo.button(href='/tests')
-        i.fa.fa-check Tests
+      a.pseudo.button(href='/about')
+        i.fa.fa-info
+        | About
+      //- Space between the buttons
+      = ' '
       a.pseudo.button(href='https://github.com/serverjs/server', target='_blank')
-        i.fa.fa-github-alt Github
+        i.fa.fa-github-alt
+        | Github
+      = ' '
       a.button(href='/documentation')
-        i.fa.fa-file-text-o Documentation
+        i.fa.fa-file-text-o
+        | Documentation

@@ -1,65 +1,116 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>Documentation</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible server for Node.js"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible server for Node.js"><link href="https://unpkg.com/paperdocs@0/paperdocs.min.css" rel="stylesheet"><link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet"></head><body class="homepage"><nav class="super"><a class="brand" href="/"><img class="logo" src="/public/server.svg"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about"><i class="fa fa-info"></i>About</a> <a class="pseudo button" href="https://github.com/serverjs/server" target="_blank"><i class="fa fa-github-alt"></i>Github</a> <a class="button" href="/documentation"><i class="fa fa-file-text-o"></i>Documentation</a></div></footer></nav></body><aside data-headers="h1, h2"><ul></ul></aside><article><h1 id="documentation">Documentation</h1>
+<h2 id="options">Options</h2>
+<p>The first argument of the main function is for setting the options. It takes this format (defaults shown here):</p>
+<pre><code class="lang-js">server({
+  port: process.env.PORT || 3000,
+  public: &#39;./public&#39;,
+  viewengine: &#39;pug&#39;,
 
-    <meta name="keywords" content="">
-    <meta name="description" content="">
-    <meta property="og:url" content="">
-    <meta property="og:title" content="">
-    <meta property="og:image" content="">
-    <meta property="og:description" content="">
+  middle: {
+    // Default middleware options here, see below
+  }
+});
+</code></pre>
+<h2 id="middleware">Middleware</h2>
+<p>One of the most powerful things from express and thus from <code>server</code> is the Middleware. We extended it by setting some default, useful middleware, but we wanted to also give you the flexibility to edit this.</p>
+<blockquote>
+<p>We recommend adding your own middleware to the folder <code>/middle</code>, and all examples below will make this assumption.</p>
+</blockquote>
+<p>There are four ways of loading middleware with <code>server</code>: as a string, as a function, as an array or as an object. They are all explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.</p>
+<h3 id="middleware-as-a-string">Middleware as a string</h3>
+<p>This is the simplest of them all, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as <code>require(&#39;body-parser&#39;)()</code>), however it&#39;s perfect for your own middleware:</p>
+<pre><code class="lang-js">// Load the middleware &#39;body-parser&#39; from the folder &#39;/middle&#39;
+server(3000, &#39;./middle/body-parser.js&#39;);
+</code></pre>
+<h3 id="middleware-as-a-function">Middleware as a function</h3>
+<p>Middleware <em>is</em> a function that accepts <code>(req, res, next)</code> (or <code>(err, req, res, next)</code> parameters, so all other methods are ultimatelly converted to this one. Read more just by googling&#39; &quot;express middleware&quot; or &quot;write middleware express&quot;.</p>
+<p>As a simple example, there are many pre-packaged modules, so let&#39;s see one example where we imagine that <code>body-parser</code> is not loaded by default:</p>
+<pre><code class="lang-js">// Include bodyparser in your file
+let bodyparser = require(&#39;body-parser&#39;)({ extended: true });
 
-    <link href="https://cdn.jsdelivr.net/picnicss/6.2.5/picnic.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/themes/prism.min.css" rel="stylesheet" />
-    <link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet">
-    <link href="/public/style.css" rel="stylesheet">
-  </head>
-  <body class="withaside">
-    <nav class="super">
-      <a href="/" class="brand">
-        <img class="logo" src="http://umbrellajs.com/web/umbrella.svg">
-        <span class="text">Server</span>
-      </a>
+// Load it as middleware
+server(3000, bodyparser);
+</code></pre>
+<h3 id="middleware-as-an-array">Middleware as an array</h3>
+<p>This will be converted to a series of functions, and inside the array there can be any of the other types. It is useful to bundle them by category:</p>
+<pre><code class="lang-js">let parsers = [
+  // ...
+];
 
-      <input id="bmenu" type="checkbox" class="show">
-      <label for="bmenu" class="burger pseudo button switch"></label>
+let { get, post } = server.router;
+let routes = [
+  get(&#39;/&#39;, (req, res) =&gt; { /* ... */ }),
+  post(&#39;/&#39;, (req, res) =&gt; { /* ... */ })
+];
 
-      <header><strong>Documentation</strong></header>
-      <div class="menu loading" data-headers="h2"><ul class="flex two three-600"></ul></div>
+server(3000, parsers, routes);
+</code></pre>
+<h3 id="middleware-as-an-object">Middleware as an object</h3>
+<p>You can name them, and they will <strong>replace one of the default middlewares if the name matches it</strong>. Let&#39;s go with the simple example of <code>body-parser</code>:</p>
+<pre><code class="lang-js">let server = require(&#39;server&#39;);
 
-      <footer>
-        <div class="flex three">
-          <a class="pseudo button" href="https://github.com/franciscop">
-            <i class="fa fa-check"></i>Tests
-          </a>
-          <a class="pseudo button" href="https://github.com/franciscop">
-            <i class="fa fa-github-alt"></i>Github
-          </a>
-          <a class="button" href="/documentation">
-            <i class="fa fa-file-text-o"></i>Docs
-          </a>
-        </div>
-      </footer>
-    </nav>
+// Uses body-parser
+server(3000);
 
-    <aside class="loading" data-headers="h1, h2">
-      <!-- <a class="brand" href="/">
-        <img class="logo" src="http://umbrellajs.com/web/umbrella.svg">
-        <span class="text">Umbrella JS</span>
-      </a> -->
-      <ul></ul>
-    </aside>
+// Don&#39;t use body-parser
+server(3000, { bodyparser: false });
 
-    <article class="loading" data-src="README.md"></article>
+// Use a different body-parser
+server(3000, { bodyparser: coolerBodyParser() });
+</code></pre>
+<p>This <em>might</em> break some code since it removes the original one and sets it in the current position. Let&#39;s see what this means with an example:</p>
+<pre><code class="lang-js">// Imagine the default middlewares are a, b and c
+server(3000, d, { b: newMiddleWare() }, e);
+</code></pre>
+<p>In most situations this won&#39;t change anything, but in some edge cases it <em>might</em> bring nasty bugs so a solution or alternative has to be found before 1.0.0.</p>
+<h2 id="routes">Routes</h2>
+<p>In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:</p>
+<h3 id="simple-router">Simple router</h3>
+<p>To define a simple router, you could</p>
+<pre><code class="lang-js">let server = require(&#39;server&#39;);
 
+// Import methods &#39;get&#39; and &#39;post&#39; from the router
+let { get, post } = server.router;
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.5.1/prism.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/umbrella/2.6.7/umbrella.min.js"></script>
-    <script src="https://unpkg.com/superdom@0"></script>
-    <script src="https://unpkg.com/marked@0.3.6"></script>
-    <script src="/public/javascript.js"></script>
-  </body>
-</html>
+server(3000,
+  get(&#39;/users&#39;, (req, res) =&gt; { /* ... */ }),
+  post(&#39;/users&#39;, (req, res) =&gt; { /* ... */ })
+);
+</code></pre>
+<h3 id="complex-router">Complex router</h3>
+<p>If you are going to have many routes, we recommend splitting it into a separated file, either in the root of the project as <code>routes.js</code> or in a different place:</p>
+<pre><code class="lang-js">// app.js
+let server = require(&#39;server&#39;);
+let routes = require(&#39;./routes&#39;);
+
+server(3000, routes);
+</code></pre>
+<pre><code class="lang-js">// routes.js
+let { get, post } = require(&#39;server&#39;).router;
+let ctrl = require(&#39;auto-load&#39;)(&#39;controllers&#39;);
+
+module.exports = [
+  get(&#39;/&#39;, ctrl.home.index),
+  get(&#39;/users&#39;, ctrl.users.index),
+  post(&#39;/users&#39;, ctrl.users.add),
+  get(&#39;/photos&#39;, ctrl.photos.index),
+  post(&#39;/photos&#39;, ctrl.photos.add),
+  ...
+];
+</code></pre>
+<p>Note: the previous is the same as this, but we use the package <code>auto-load</code> for simplicity:</p>
+<pre><code class="lang-js">let { get, post } = require(&#39;server&#39;).router;
+let home = require(&#39;./controllers/home&#39;);
+let users = require(&#39;./controllers/users&#39;);
+let photos = require(&#39;./controllers/photos&#39;);
+
+module.exports = [
+  get(&#39;/&#39;, home.index),
+  get(&#39;/users&#39;, users.index),
+  post(&#39;/users&#39;, users.add),
+  get(&#39;/photos&#39;, photos.index),
+  post(&#39;/photos&#39;, photos.add),
+  ...
+];
+</code></pre>
+</article><script src="https://unpkg.com/paperdocs@0/paperdocs.min.js"></script><script src="//localhost:35729/livereload.js"></script></html>

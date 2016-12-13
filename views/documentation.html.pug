@@ -1,0 +1,8 @@
+extends layout
+
+block content
+  aside(data-headers="h1, h2")
+    ul
+
+  article
+    include:marked ../documentation/README.md
