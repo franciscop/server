@@ -52,6 +52,4 @@ node app.js
 
 And finally, open your browser on [localhost:3000](http://localhost:3000/) and you should see your server answered 'Hello world!'.
 
-To get the most out of it, [read the documentation](/documentation).
-
-<a class="button" href="/documentation">Documentation</a>
+<a class="button" href="/documentation"><i class="fa fa-file-code-o"></i> Full Documentation</a>
