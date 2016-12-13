@@ -23,7 +23,7 @@ It parses urlencoded, json and files automatically with default middlewares whil
 
 ## Getting started
 
-After getting Node ready and `npm init` your project, execute this from the terminal in your project folder to **install the server**:
+After getting Node ready and `npm init`, execute this from the terminal in your project folder to **install the server**:
 
 ```bash
 npm install server --save
