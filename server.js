@@ -26,22 +26,37 @@ module.exports = (opts = {}, ...middle) => new Promise((resolve, reject) => {
   app.set('view engine', opts.viewengine);
 
   // Loads the middleware into the app
-  middle = loadware({
+  loadware({
     static: express.static(opts.public),
     jsonparser: bodyParser.json(),
     bodyparser: bodyParser.urlencoded(opts.middle.bodyparser),
     dataparser: dataParser(opts.middle.dataparser),
     session: expressSession(opts.middle.session),
     cookies: cookieParser(opts.middle.cookies)
-  }, middle);
-
-  // Call each of the middlewares
-  middle.forEach(mid => app.use(mid));
+  }, middle).forEach(mid => app.use(mid));
 
   // Actually start listening to the requests
   let port = process.env.PORT || opts.port;
-  console.log(`Server started on port ${port} http://localhost:${port}/`);
-  app.listen(port, () => resolve(app));
+
+  let server = {};
+  server.options = opts;
+  server.app = app;
+  server.original = server.app.listen(port, () => {
+    if (server.options.verbose) {
+      console.log(`Server started on port ${port} http://localhost:${port}/`);
+    }
+
+    // Proxy it to the original http-server
+    server = new Proxy(server, {
+      get: (ser, key) => {
+        return ser[key] || ser.original[key];
+      }
+    });
+    resolve(server);
+  });
+  server.original.on('error', err => {
+    reject(err);
+  });
 });
 
 module.exports.express = express;

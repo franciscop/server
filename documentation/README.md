@@ -61,12 +61,12 @@ To set the port in the environment, create a file called `.env` with this:
 PORT=3000
 ```
 
-This will allow for your server to work nicely with some hosts such as Heroku, since those provide the port as an environment variable.
+This will allow for your server to work nicely with some hosts such as Heroku, since those provide the port as an environment variable. Don't forget then to add `.env` then to your `.gitignore`.
 
 
 ### `public`
 
-The folder where your static assets are.
+The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through `example.com/myfile.pdf` should be in this folder.
 
 
 
@@ -222,3 +222,36 @@ module.exports = [
   ...
 ];
 ```
+
+
+
+
+
+## In-depth
+
+Some extra info if you want to get into some more advanced configuration.
+
+
+### Promise
+
+The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use. In practical terms, you can consider the parameter of the promise to be the original http-server extended with `options` with the original options, however internally it's a proxy:
+
+```js
+server().then(instance => {
+
+  // Run the server for a single second then close it
+  setTimeout(() => {
+    instance.close();
+  }, 1000);
+}).catch(error => {
+  console.log("There was an error:", error);
+});
+```
+
+For most purposes you can just ignore it and launch the server ignoring the return value:
+
+```js
+server();
+```
+
+This might be useful for error-handling, debugging and testing (see the tests in `__tests__`).
