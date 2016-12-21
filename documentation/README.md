@@ -164,7 +164,7 @@ In the end of the day, routes are just a specific kind of middleware. There are 
 
 ### Simple router
 
-To define a simple router, you could
+To define a simple router, you could do:
 
 ```js
 let server = require('server');
@@ -195,6 +195,7 @@ server(3000, routes);
 let { get, post } = require('server').router;
 let ctrl = require('auto-load')('controllers');
 
+// You can simply export an array of routes
 module.exports = [
   get('/', ctrl.home.index),
   get('/users', ctrl.users.index),
