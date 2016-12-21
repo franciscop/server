@@ -5,15 +5,15 @@
 <p>The simplest yet a powerful way of launching a server with Node.js:</p>
 <pre><code class="lang-js">let server = require(&#39;server&#39;);
 
-// Launch it in port 3000 to serve static files in /public
+// Launch it in port 3000 to serve static files in /public on http://localhost:3000/
 server();
 
-// Serve static files from the project root on http://localhost:8080/
-server({ port: 8080, public: &#39;./&#39; });
+// OR serve static files from the project root on http://localhost:8000/
+server({ port: 8000, public: &#39;./&#39; });
 
-// Use some simple routes
+// OR use some simple routes on  on http://localhost:8080/
 let { get, post } = server.router;
-server({},
+server({ port: 8080 },
   get(&#39;/&#39;, (req, res) =&gt; res.render(&#39;index&#39;)),
   post(&#39;/&#39;, (req, res) =&gt; console.log(req.body))
 );
