@@ -107,7 +107,7 @@ server(3000, d, { b: newMiddleWare() }, e);
 <h2 id="router">Router</h2>
 <p>In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:</p>
 <h3 id="simple-router">Simple router</h3>
-<p>To define a simple router, you could</p>
+<p>To define a simple router, you could do:</p>
 <pre><code class="lang-js">let server = require(&#39;server&#39;);
 
 // Import methods &#39;get&#39; and &#39;post&#39; from the router
@@ -130,6 +130,7 @@ server(3000, routes);
 let { get, post } = require(&#39;server&#39;).router;
 let ctrl = require(&#39;auto-load&#39;)(&#39;controllers&#39;);
 
+// You can simply export an array of routes
 module.exports = [
   get(&#39;/&#39;, ctrl.home.index),
   get(&#39;/users&#39;, ctrl.users.index),
