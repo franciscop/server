@@ -3,6 +3,8 @@ dotenv.config({ silent: true });
 
 // Modules
 let express = require('express');
+let compression = require('compression');
+let favicon = require('server-favicon');
 let bodyParser = require('body-parser');
 let dataParser = require('express-data-parser');
 let expressSession = require('express-session');
@@ -32,6 +34,8 @@ module.exports = (opts = {}, ...middle) => new Promise((resolve, reject) => {
   // Loads the middleware into the app
   loadware({
     static: express.static(opts.public),
+    favicon: opts.favicon ? favicon(opts.favicon) : false,
+    compression: compression(opts.middle.compression),
     jsonparser: bodyParser.json(),
     bodyparser: bodyParser.urlencoded(opts.middle.bodyparser),
     dataparser: dataParser(opts.middle.dataparser),

@@ -1,19 +1,20 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "directories": {
     "example": "examples"
   },
   "scripts": {
-    "test": "nodemon -x mocha tests",
+    "test": "jest",
     "start": "node server.js"
   },
   "author": "",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
     "dotenv": "^2.0.0",
     "express": "^4.14.0",
@@ -21,10 +22,10 @@
     "express-session": "^1.14.2",
     "extend": "^3.0.0",
     "loadware": "^1.0.0",
-    "pug": "^2.0.0-beta6"
+    "pug": "^2.0.0-beta6",
+    "serve-favicon": "^2.3.2"
   },
   "devDependencies": {
-    "chai": "^3.5.0",
     "chance": "^1.0.4",
     "grunt": "^1.0.1",
     "grunt-bytesize": "^0.2.0",
@@ -34,8 +35,6 @@
     "grunt-contrib-watch": "^1.0.0",
     "grunt-semistandard": "^1.0.6",
     "jstransformer-marked": "^1.0.2",
-    "mocha": "^3.2.0",
-    "pray": "^1.0.2",
     "request": "^2.79.0"
   }
 }
