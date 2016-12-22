@@ -4,7 +4,7 @@ dotenv.config({ silent: true });
 // Modules
 let express = require('express');
 let compression = require('compression');
-let favicon = require('server-favicon');
+let favicon = require('serve-favicon');
 let bodyParser = require('body-parser');
 let dataParser = require('express-data-parser');
 let expressSession = require('express-session');
