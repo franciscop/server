@@ -82,7 +82,7 @@ There are four ways of loading middleware with `server`: as a string, as a funct
 
 This is the simplest way to add middleware, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as `require('body-parser')()`), however it's perfect for your own middleware:
 
-> Note: this is right now broken on the alpha-1 for local packages, but expected to work on the official release
+> Note: this is right now broken on the alpha-1 for local packages, but expected it to work on the official release
 
 ```js
 // Load the middleware 'body-parser' from the folder '/middle'
