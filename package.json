@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.1",
+  "version": "1.0.0-alpha.2",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "directories": {
@@ -20,7 +20,7 @@
     "express-data-parser": "^1.1.0",
     "express-session": "^1.14.2",
     "extend": "^3.0.0",
-    "loadware": "^0.1.0",
+    "loadware": "^1.0.0",
     "pug": "^2.0.0-beta6"
   },
   "devDependencies": {

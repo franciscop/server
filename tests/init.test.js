@@ -1,11 +1,15 @@
 let server = require('../server');
 
 describe('Options', () => {
+  it('dummy', done => {
+    done();
+  });
+
   it('can be initialized empty', done => {
     server().then((server) => {
       server.close();
       done();
-    });
+    }).catch(err => console.log("Error:", err));
   });
 
   it('can be initialized with a single port parameter', done => {
@@ -39,15 +43,24 @@ describe('Options', () => {
   it('default settings are correct', done => {
     server().then(server => {
       expect(server.options.port).toBe(3000);
-      expect(server.options.viewengine).toBe('pug');
+      expect(server.options['view engine']).toBe('pug');
       expect(server.options.public).toBe('./public');
+      expect(server.options.verbose).toBe(false);
       server.close();
       done();
     });
   });
 
   it('sets the view engine properly', done => {
-    server({ viewengine: 'whatever' }).then(server => {
+    server({ 'view engine': 'whatever' }).then(server => {
+      expect(server.app.get('view engine')).toBe('whatever');
+      server.close();
+      done();
+    });
+  });
+
+  it('sets the engine properly', done => {
+    server({ engine: 'whatever' }).then(server => {
       expect(server.app.get('view engine')).toBe('whatever');
       server.close();
       done();

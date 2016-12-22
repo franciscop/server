@@ -2,7 +2,7 @@
 module.exports = opts => ({
   port: 3000,
   public: './public',
-  viewengine: opts.viewengine || opts['view engine'] || 'pug',
+  'view engine': opts.engine || opts['view engine'] || 'pug',
   verbose: false,
 
   middle: {

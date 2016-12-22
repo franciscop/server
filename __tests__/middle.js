@@ -1,3 +1,0 @@
-it('Handles middleware', () => {
-  
-});

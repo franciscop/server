@@ -23,7 +23,11 @@ module.exports = (opts = {}, ...middle) => new Promise((resolve, reject) => {
   // Set the default options (deep-copy it)
   opts = extend(true, {}, config(opts), opts);
 
-  app.set('view engine', opts.viewengine);
+  for (let key in opts) {
+    if (key !== 'middle') {
+      app.set(key, opts[key]);
+    }
+  }
 
   // Loads the middleware into the app
   loadware({

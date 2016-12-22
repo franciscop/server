@@ -7,7 +7,11 @@ let routes = [
   post('/', (req, res) => res.send('Hello ' + req.body.a)),
 ];
 
-describe('Full trip requests', () => {
+describe('Full trip request', () => {
+  it('dummy', done => {
+    done();
+  });
+
   it('can perform a simple get', done => {
     server({}, routes).then(server => {
       request('http://localhost:3000/', (err, res, body) => {
