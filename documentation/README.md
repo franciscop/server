@@ -76,9 +76,9 @@ One of the most powerful things from express and thus from `server` is the Middl
 
 > We recommend adding your own middleware to the folder `/middle`, and all examples below will make this assumption.
 
-There are four ways of loading middleware with `server`: as a string, as a function, as an array or as an object. They are all explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.
+There are four ways of loading middleware with `server` which are explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.
 
-### String
+<!-- ### String
 
 This is the simplest way to add middleware, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as `require('body-parser')()`), however it's perfect for your own middleware:
 
@@ -96,7 +96,7 @@ module.exports = function(req, res, next) {
 
   next();
 }
-```
+``` -->
 
 ### Function
 

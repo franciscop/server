@@ -49,20 +49,26 @@ server({ port: 3000 });  // the same
 <blockquote>
 <p>We recommend adding your own middleware to the folder <code>/middle</code>, and all examples below will make this assumption.</p>
 </blockquote>
-<p>There are four ways of loading middleware with <code>server</code>: as a string, as a function, as an array or as an object. They are all explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.</p>
-<h3 id="string">String</h3>
-<p>This is the simplest way to add middleware, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as <code>require(&#39;body-parser&#39;)()</code>), however it&#39;s perfect for your own middleware:</p>
-<pre><code class="lang-js">// Load the middleware &#39;body-parser&#39; from the folder &#39;/middle&#39;
-server(3000, &#39;./middle/body-parser.js&#39;);
-</code></pre>
-<p>Then inside that <code>./middle/body-parser.js</code>:</p>
-<pre><code class="lang-js">module.exports = function(req, res, next) {
+<p>There are four ways of loading middleware with <code>server</code> which are explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.</p>
+<!-- ### String
+
+This is the simplest way to add middleware, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as `require('body-parser')()`), however it's perfect for your own middleware:
+
+```js
+// Load the middleware 'body-parser' from the folder '/middle'
+server(3000, './middle/body-parser.js');
+```
+
+Then inside that `./middle/body-parser.js`:
+
+```js
+module.exports = function(req, res, next) {
 
   // do your thing here
 
   next();
 }
-</code></pre>
+``` -->
 <h3 id="function">Function</h3>
 <p>Middleware <em>is</em> a function that accepts <code>(req, res, next)</code> (or <code>(err, req, res, next)</code> parameters, so all other methods are ultimately converted to this one. Read more just by googling&#39; &quot;express middleware&quot; or &quot;write middleware express&quot;.</p>
 <p>As a simple example, there are many pre-packaged modules, so let&#39;s see one example where we imagine that <code>body-parser</code> is not loaded by default:</p>
