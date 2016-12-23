@@ -12,7 +12,7 @@ module.exports = opts => ({
       secret: 'giergosoganvdmvwevnewfnweflknewlfk',
       resave: false,
       saveUninitialized: true,
-      cookie: { secure: true }
+      cookie: {}  // Don't set to secure as default or it'll screw dev
     },
     cookies: {}
   }
