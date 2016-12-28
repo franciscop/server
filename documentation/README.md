@@ -19,8 +19,10 @@ server(options, middleware1, middleware2, ...);
 
 However, it also has a couple of handy properties:
 
-- `server.router`: This is **not** the default router from express. Read the section [Router](#router) to see how it works.
-- `server.express`: The original express server. As express is a dependency, this is the result of doing `require('express')`.
+- `server.router`: Read the section [Router](#router) to see how it works. This is **not** the default router from express.
+- `server.express`: The original express server. This is the result of doing `require('express')`.
+- `server.options`: The default options for the server.
+
 
 
 ## Options
@@ -162,6 +164,8 @@ In most situations this won't change anything, but in some edge cases it *might*
 
 In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:
 
+
+
 ### Simple router
 
 To define a simple router, you could do:
@@ -177,6 +181,8 @@ server(3000,
   post('/users', (req, res) => { /* ... */ })
 );
 ```
+
+
 
 ### Complex router
 
@@ -226,6 +232,56 @@ module.exports = [
 
 
 
+### Express router
+
+You can also use the express router:
+
+```js
+let server = require('server');
+
+let router = server.express.Router();
+router.get('/', home.index);
+router.get('/users', users.index);
+// ...
+
+server({}, router);
+```
+
+However, we recommend using server's router whenever possible:
+
+```js
+let server = require('server');
+let { get, post } = server.router;
+
+server({}, [
+  get('/', home.index),
+  get('/users', users.index)
+]);
+```
+
+
+
+### Join routes
+
+> Not yet decided whether this is included or not
+
+If you have two routers and want to make it into one for any reason, you can do so through a helper function we created.
+
+```js
+let { get, post, join } = server.router;
+
+
+let routes = join(
+  get('/', home.index),
+  get('/users', users.index),
+  // ...
+);
+
+server({}, acceptsOnlyASingleRoute(routes));
+```
+
+
+
 
 
 ## In-depth
@@ -235,7 +291,11 @@ Some extra info if you want to get into some more advanced configuration.
 
 ### Promise
 
-The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use. In practical terms, you can consider the parameter of the promise to be the original http-server extended with `options` with the original options, however internally it's a proxy:
+The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use.
+
+The parameter passed to the `.then()` function is an instance of `server` as there can be many instances with different options. You can get `http-server` through the property `.original`, `express` through `.express` and app (as in `express()`) from `.app`.
+
+Also, it will transparently use the `http-server` whether possible (through Proxy), so function calls such as `.close()` work straight on the instance:
 
 ```js
 server().then(instance => {
@@ -249,10 +309,10 @@ server().then(instance => {
 });
 ```
 
-For most purposes you can just ignore it and launch the server ignoring the return value:
+For most purposes you can just launch the server ignoring the return value:
 
 ```js
 server();
 ```
 
-This might be useful for error-handling, debugging and testing (see the tests in `__tests__`).
+This might be useful for error-handling, debugging and testing (see the tests in the folder `tests`).

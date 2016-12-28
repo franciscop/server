@@ -12,8 +12,9 @@
 </code></pre>
 <p>However, it also has a couple of handy properties:</p>
 <ul>
-<li><code>server.router</code>: This is <strong>not</strong> the default router from express. Read the section <a href="#router">Router</a> to see how it works.</li>
-<li><code>server.express</code>: The original express server. As express is a dependency, this is the result of doing <code>require(&#39;express&#39;)</code>.</li>
+<li><code>server.router</code>: Read the section <a href="#router">Router</a> to see how it works. This is <strong>not</strong> the default router from express.</li>
+<li><code>server.express</code>: The original express server. This is the result of doing <code>require(&#39;express&#39;)</code>.</li>
+<li><code>server.options</code>: The default options for the server.</li>
 </ul>
 <h2 id="options">Options</h2>
 <p>The first argument of the main function is for setting the options. It can be nothing, a single integer or a plain object:</p>
@@ -49,26 +50,20 @@ server({ port: 3000 });  // the same
 <blockquote>
 <p>We recommend adding your own middleware to the folder <code>/middle</code>, and all examples below will make this assumption.</p>
 </blockquote>
-<p>There are four ways of loading middleware with <code>server</code> which are explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.</p>
-<!-- ### String
-
-This is the simplest way to add middleware, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as `require('body-parser')()`), however it's perfect for your own middleware:
-
-```js
-// Load the middleware 'body-parser' from the folder '/middle'
-server(3000, './middle/body-parser.js');
-```
-
-Then inside that `./middle/body-parser.js`:
-
-```js
-module.exports = function(req, res, next) {
+<p>There are four ways of loading middleware with <code>server</code>: as a string, as a function, as an array or as an object. They are all explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.</p>
+<h3 id="string">String</h3>
+<p>This is the simplest way to add middleware, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as <code>require(&#39;body-parser&#39;)()</code>), however it&#39;s perfect for your own middleware:</p>
+<pre><code class="lang-js">// Load the middleware &#39;body-parser&#39; from the folder &#39;/middle&#39;
+server(3000, &#39;./middle/body-parser.js&#39;);
+</code></pre>
+<p>Then inside that <code>./middle/body-parser.js</code>:</p>
+<pre><code class="lang-js">module.exports = function(req, res, next) {
 
   // do your thing here
 
   next();
 }
-``` -->
+</code></pre>
 <h3 id="function">Function</h3>
 <p>Middleware <em>is</em> a function that accepts <code>(req, res, next)</code> (or <code>(err, req, res, next)</code> parameters, so all other methods are ultimately converted to this one. Read more just by googling&#39; &quot;express middleware&quot; or &quot;write middleware express&quot;.</p>
 <p>As a simple example, there are many pre-packaged modules, so let&#39;s see one example where we imagine that <code>body-parser</code> is not loaded by default:</p>
@@ -161,10 +156,48 @@ module.exports = [
   ...
 ];
 </code></pre>
+<h3 id="express-router">Express router</h3>
+<p>You can also use the express router:</p>
+<pre><code class="lang-js">let server = require(&#39;server&#39;);
+
+let router = server.express.Router();
+router.get(&#39;/&#39;, home.index);
+router.get(&#39;/users&#39;, users.index);
+// ...
+
+server({}, router);
+</code></pre>
+<p>However, we recommend using server&#39;s router whenever possible:</p>
+<pre><code class="lang-js">let server = require(&#39;server&#39;);
+let { get, post } = server.router;
+
+server({}, [
+  get(&#39;/&#39;, home.index),
+  get(&#39;/users&#39;, users.index)
+]);
+</code></pre>
+<h3 id="join-routes">Join routes</h3>
+<blockquote>
+<p>Not yet decided whether this is included or not</p>
+</blockquote>
+<p>If you have two routers and want to make it into one for any reason, you can do so through a helper function we created.</p>
+<pre><code class="lang-js">let { get, post, join } = server.router;
+
+
+let routes = join(
+  get(&#39;/&#39;, home.index),
+  get(&#39;/users&#39;, users.index),
+  // ...
+);
+
+server({}, acceptsOnlyASingleRoute(routes));
+</code></pre>
 <h2 id="in-depth">In-depth</h2>
 <p>Some extra info if you want to get into some more advanced configuration.</p>
 <h3 id="promise">Promise</h3>
-<p>The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use. In practical terms, you can consider the parameter of the promise to be the original http-server extended with <code>options</code> with the original options, however internally it&#39;s a proxy:</p>
+<p>The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use.</p>
+<p>The parameter passed to the <code>.then()</code> function is an instance of <code>server</code> as there can be many instances with different options. You can get <code>http-server</code> through the property <code>.original</code>, <code>express</code> through <code>.express</code> and app (as in <code>express()</code>) from <code>.app</code>.</p>
+<p>Also, it will transparently use the <code>http-server</code> whether possible (through Proxy), so function calls such as <code>.close()</code> work straight on the instance:</p>
 <pre><code class="lang-js">server().then(instance =&gt; {
 
   // Run the server for a single second then close it
@@ -175,8 +208,8 @@ module.exports = [
   console.log(&quot;There was an error:&quot;, error);
 });
 </code></pre>
-<p>For most purposes you can just ignore it and launch the server ignoring the return value:</p>
+<p>For most purposes you can just launch the server ignoring the return value:</p>
 <pre><code class="lang-js">server();
 </code></pre>
-<p>This might be useful for error-handling, debugging and testing (see the tests in <code>__tests__</code>).</p>
+<p>This might be useful for error-handling, debugging and testing (see the tests in the folder <code>tests</code>).</p>
 </article><script src="https://unpkg.com/paperdocs@0/paperdocs.min.js"></script><script src="//localhost:35729/livereload.js"></script></html>

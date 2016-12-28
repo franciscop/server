@@ -1,12 +1,10 @@
 let server = require('../server');
 
 describe('Options', () => {
-  it('dummy', done => {
-    done();
-  });
-
   it('can be initialized empty', done => {
+    // console.log(server.express);
     server().then((server) => {
+      expect(server.options.port).toBe(3000);
       server.close();
       done();
     }).catch(err => console.log("Error:", err));
@@ -59,11 +57,20 @@ describe('Options', () => {
     });
   });
 
-  it('sets the engine properly', done => {
-    server({ engine: 'whatever' }).then(server => {
-      expect(server.app.get('view engine')).toBe('whatever');
-      server.close();
-      done();
+  it('has independent instances', done => {
+    server(2000).then(serv1 => {
+      server(3000).then(serv2 => {
+        serv2.options.port = 3500;
+        expect(serv1.options.port).toBe(2000);
+        expect(serv2.options.port).toBe(3500);
+
+        serv2.a = 'abc';
+        expect(typeof serv1.a).toBe('undefined');
+        expect(serv2.a).toBe('abc');
+        serv1.close();
+        serv2.close();
+        done();
+      });
     });
   });
 });
