@@ -1,8 +1,8 @@
 // Default configuration
-module.exports = opts => ({
+module.exports = {
   port: 3000,
   public: './public',
-  'view engine': opts.engine || opts['view engine'] || 'pug',
+  'view engine': 'pug',
   verbose: false,
 
   middle: {
@@ -16,4 +16,4 @@ module.exports = opts => ({
     },
     cookies: {}
   }
-});
+};

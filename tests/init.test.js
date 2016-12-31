@@ -60,6 +60,7 @@ describe('Options', () => {
   it('has independent instances', done => {
     server(2000).then(serv1 => {
       server(3000).then(serv2 => {
+        expect(serv2.options.port).toBe(3000);
         serv2.options.port = 3500;
         expect(serv1.options.port).toBe(2000);
         expect(serv2.options.port).toBe(3500);
