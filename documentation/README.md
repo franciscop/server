@@ -39,7 +39,7 @@ As you can guess, internally if it is a single integer it will be converted to t
 
 ```js
 server({
-  port: process.env.PORT || 3000,
+  port: 3000,
   public: './public',
   viewengine: 'pug',
 
@@ -49,13 +49,39 @@ server({
 });
 ```
 
-### `port`
+**Environment variables**: `server` will overwrite any variable you pass with the environment variable. These can be set through the initial script or by creating a file called `.env`. They should be uppercase and with a underscore instead of a space:
 
-This is slightly different from other options, as the variable within the environment will always overwrite this option. This is so Heroku and other servers will work nicely. So this is the inclusion order, from more important to less:
+```
+PORT=3000
+VIEW_ENGINE=pug
+```
+
+> Don't forget then to add `.env` to your `.gitignore`.
+
+These are similar to:
+
+```js
+server({
+  port: 3000,
+  'view engine': 'pug'
+});
+```
+
+So this is the inclusion order, from more important to less:
 
 - `.env`: the variable within the environment.
-- `server(3000)` || `server({ port: 3000 })`: the variable set manually when launching the server.
+- `server({ OPTION: 3000 })`: the variable set manually when launching the server.
 - `3000`: the default port if nothing else was specified.
+
+
+### `port` : `3000`
+
+The port where you want to launch the server. Defaults to `3000` and it's the only option that can be specified as a single option:
+
+```js
+server(3000);
+server({ port: 3000 }); // the same
+```
 
 To set the port in the environment, create a file called `.env` with this:
 
@@ -63,12 +89,49 @@ To set the port in the environment, create a file called `.env` with this:
 PORT=3000
 ```
 
-This will allow for your server to work nicely with some hosts such as Heroku, since those provide the port as an environment variable. Don't forget then to add `.env` then to your `.gitignore`.
 
 
-### `public`
+### `public` : `./public`
 
-The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through `example.com/myfile.pdf` should be in this folder.
+The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through `example.com/myfile.pdf` should be in this folder. You can set it to any folder within your project.
+
+Through the initialization option:
+
+```js
+server({
+  public: './public'
+});
+```
+
+
+To set the public folder in the environment, create a file called `.env` with this:
+
+```
+PUBLIC=./public
+```
+
+
+
+### `view engine` : `pug`
+
+The view engine that you want to use to render your templates. [Read more about pug](https://pugjs.org/).
+
+Through the initialization option:
+
+```js
+server({
+  'view engine': 'pug'
+});
+```
+
+
+To set the template engine in the environment, create a file called `.env` with this:
+
+```
+VIEW_ENGINE=./public
+```
+
+
 
 
 
@@ -76,7 +139,7 @@ The folder where your static assets are. This includes images, styles, javascrip
 
 One of the most powerful things from express and thus from `server` is the Middleware. We extended it by setting some default, useful middleware, but we wanted to also give you the flexibility to edit this.
 
-> We recommend adding your own middleware to the folder `/middle`, and all examples below will make this assumption.
+> We recommend adding your own middleware to a folder in your project called `/middle`, and all examples below will make this assumption.
 
 There are four ways of loading middleware with `server`: as a string, as a function, as an array or as an object. They are all explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.
 
@@ -149,14 +212,7 @@ server(3000, { bodyparser: false });
 server(3000, { bodyparser: coolerBodyParser() });
 ```
 
-This *might* break some code since it removes the original one and sets it in the current position. Let's see what this means with an example:
 
-```js
-// Imagine the default middlewares are a, b and c
-server(3000, d, { b: newMiddleWare() }, e);
-```
-
-In most situations this won't change anything, but in some edge cases it *might* bring nasty bugs so a solution or alternative has to be found before 1.0.0.
 
 
 
@@ -212,24 +268,6 @@ module.exports = [
 ];
 ```
 
-Note: the previous is the same as this, but we use the package `auto-load` for simplicity:
-
-```js
-let { get, post } = require('server').router;
-let home = require('./controllers/home');
-let users = require('./controllers/users');
-let photos = require('./controllers/photos');
-
-module.exports = [
-  get('/', home.index),
-  get('/users', users.index),
-  post('/users', users.add),
-  get('/photos', photos.index),
-  post('/photos', photos.add),
-  ...
-];
-```
-
 
 
 ### Express router
@@ -263,8 +301,6 @@ server({}, [
 
 ### Join routes
 
-> Not yet decided whether this is included or not
-
 If you have two routers and want to make it into one for any reason, you can do so through a helper function we created.
 
 ```js
@@ -282,6 +318,24 @@ server({}, acceptsOnlyASingleRoute(routes));
 
 
 
+### Websockets
+
+> *Not yet available, coming in version 1.1*
+
+```js
+let server = require('server');
+let { get, socket } = server.router;
+
+server({}, [
+  get('/', (req, res) => res.sendFile(__dirname + '/public/index.html')),
+  socket('message', (data, socket, io) => {
+    io.emit(data);
+  })
+]);
+```
+
+
+
 
 
 ## In-depth
@@ -293,16 +347,20 @@ Some extra info if you want to get into some more advanced configuration.
 
 The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use.
 
-The parameter passed to the `.then()` function is an instance of `server` as there can be many instances with different options. You can get `http-server` through the property `.original`, `express` through `.express` and app (as in `express()`) from `.app`.
+It gets passed an object with these properties:
 
-Also, it will transparently use the `http-server` whether possible (through Proxy), so function calls such as `.close()` work straight on the instance:
+- `app`: the express instance
+- `original`: the original `http-server`
+- `express`: the express required as in `require('express')`
+
+Also, it will transparently use the `http-server` whether possible (through ES6's Proxy), so function calls such as `.close()` work straight on the instance:
 
 ```js
-server().then(instance => {
+server().then(server => {
 
   // Run the server for a single second then close it
   setTimeout(() => {
-    instance.close();
+    server.close();
   }, 1000);
 }).catch(error => {
   console.log("There was an error:", error);
@@ -315,4 +373,4 @@ For most purposes you can just launch the server ignoring the return value:
 server();
 ```
 
-This might be useful for error-handling, debugging and testing (see the tests in the folder `tests`).
+This might be useful for error-handling, debugging and testing (see the tests in the folder `tests`) or extending server's functionality.

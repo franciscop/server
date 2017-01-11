@@ -2,6 +2,7 @@
 
 You are welcome to contribute to the project. We use Grunt for building the website and will be using Jest for testing soon. As always tests and documentations are the weakest parts, but also some examples would be welcome in the folder `examples` and any idea you have to improve server is welcome through the public issue tracker.
 
+> I am comfortable depending on `express` for the time being, so please do not create any issue or PR trying to remove it.
 
 
 ## Security issues

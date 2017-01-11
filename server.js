@@ -2,14 +2,28 @@ let dotenv = require('dotenv');
 dotenv.config({ silent: true });
 
 // Modules
-let express = require('express');
-let compression = require('compression');
-let favicon = require('serve-favicon');
+// TODO: The commented ones should be integrated
+// List from http://expressjs.com/en/guide/migrating-4.html
 let bodyParser = require('body-parser');
 let dataParser = require('express-data-parser');
+let express = require('express');
+let compression = require('compression');
+// const cookieSession = require('cookie-session');
 let cookieParser = require('cookie-parser');
+// const morgan = require('morgan');
 let expressSession = require('express-session');
+let favicon = require('serve-favicon');
+// const responseTime = require('response-time');
+// const errorhandler = require('errorhandler');
+// const methodOverride = require('method-override');
+// const connectTimeout = require('connect-timeout');
+// const vhost = require('vhost');
+// const csurf = require('csurf');
+// const serveIndex = require('serve-index');
 let loadware = require('loadware');
+
+
+
 
 let extend = require('extend');    // deep-copy&clone, not like Object.assign
 
@@ -36,7 +50,7 @@ function Server (opts = {}, ...middle) {
 
     // Overwrite with the env variables if set
     if (key.toUpperCase() in process.env) {
-      this.options[key] = process.env[key.toUpperCase()];
+      this.options[key] = process.env[key.toUpperCase().replace(/\s/g, '_')];
     }
   }
 
