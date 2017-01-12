@@ -6,10 +6,8 @@ module.exports = {
   verbose: false,
 
   middle: {
-    bodyparser: { extended: true },
-    dataparser: {},
+    bodyParser: { extended: true },
     session: {
-      secret: 'giergosoganvdmvwevnewfnweflknewlfk',
       resave: false,
       saveUninitialized: true,
       cookie: {}

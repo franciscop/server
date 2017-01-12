@@ -1,80 +1,66 @@
-let dotenv = require('dotenv');
-dotenv.config({ silent: true });
+// The default modules to load
+const modules = require('./src/modules');
+const config = require('./src/config');
+const router = require('./src/router.js');
+const options = require('./src/options');   // Options loader
 
-// Modules
-// TODO: The commented ones should be integrated
-// List from http://expressjs.com/en/guide/migrating-4.html
-let bodyParser = require('body-parser');
-let dataParser = require('express-data-parser');
+
+
+// The external packages to be used besides the modules
 let express = require('express');
-let compression = require('compression');
-// const cookieSession = require('cookie-session');
-let cookieParser = require('cookie-parser');
-// const morgan = require('morgan');
-let expressSession = require('express-session');
-let favicon = require('serve-favicon');
-// const responseTime = require('response-time');
-// const errorhandler = require('errorhandler');
-// const methodOverride = require('method-override');
-// const connectTimeout = require('connect-timeout');
-// const vhost = require('vhost');
-// const csurf = require('csurf');
-// const serveIndex = require('serve-index');
 let loadware = require('loadware');
 
 
 
-
-let extend = require('extend');    // deep-copy&clone, not like Object.assign
-
+// Main function
 function Server (opts = {}, ...middle) {
   if (!(this instanceof Server)) {
     return new Server(opts, ...middle);
   }
 
-  this.app = express();
-
-  // If it's a number it's the port
-  if (typeof opts === 'number') {
-    opts = { port: opts };
-  }
+  this.express = express;
+  this.app = this.express();
 
   // Set the default options (deep-copy it)
-  this.options = extend(true, {}, this.options, opts);
+  this.options = options(config, opts);
 
-  // TODO: this seems fragile
+  // Set them into express' app
+  // TODO: whitelist here of name:type from
+  //   https://expressjs.com/en/api.html#app.settings.table
   for (let key in this.options) {
-    if (key !== 'middle') {
+    if (['boolean', 'number', 'string'].includes(typeof this.options[key])) {
       this.app.set(key, this.options[key]);
-    }
-
-    // Overwrite with the env variables if set
-    if (key.toUpperCase() in process.env) {
-      this.options[key] = process.env[key.toUpperCase().replace(/\s/g, '_')];
     }
   }
 
-  // Loads the middleware into the app
-  loadware({
+  // Get only the good modules
+  // TODO: something more solid. Maybe a thin wrapper per-module
+  let goodones = {
     static: express.static(this.options.public),
-    favicon: this.options.favicon ? favicon(this.options.favicon) : false,
-    compression: compression(this.options.middle.compression),
-    jsonparser: bodyParser.json(),
-    bodyparser: bodyParser.urlencoded(this.options.middle.bodyparser),
-    dataparser: dataParser(this.options.middle.dataparser),
-    session: expressSession(this.options.middle.session),
-    cookies: cookieParser(this.options.middle.cookies)
-  }, middle).forEach(mid => this.app.use(mid));
+  };
+  for (var key in modules) {
+    let options = this.options.middle[key] || this.options[key];
+    goodones[key] = modules[key](options);
+  }
+
+  // Load the middleware into the app
+  loadware(goodones, middle).forEach(mid => this.app.use(mid));
 
 
   return new Promise((resolve, reject) => {
-    // Actually start listening to the requests
+
+    // Start listening to requests
     this.original = this.app.listen(this.options.port, () => {
       if (this.options.verbose) {
         console.log(`Server started on port ${port} http://localhost:${port}/`);
       }
 
-      // Proxy it to the original http-server
+      // Allow for some hooks (as in socket.io)
+      if (this.attach && this.attach.length) {
+        this.attach.forEach(attachable => attachable(this));
+      }
+
+      // Proxy it to the original http-server for things like .close()
       resolve(new Proxy(this, {
         get: (ser, key) => ser[key] || ser.original[key]
       }));
@@ -84,10 +70,5 @@ function Server (opts = {}, ...middle) {
   });
 }
 
-Server.express = express;
-Server.prototype.express = express;
-Server.prototype.options = require('./config');
-
 module.exports = Server;
-
-module.exports.router = require('./router.js');
+module.exports.router = router;

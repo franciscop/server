@@ -36,6 +36,7 @@ Todo:
 - Include all of the libraries
 - Testing testing and more testing
 - Good documentation and [tutorials in Libre University](https://en.libre.university/subject/4kitSFzUe)
+- Make sure that the express-session is secure with the secret
 
 Done:
 
