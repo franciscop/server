@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.15",
+  "version": "1.0.0-alpha.16",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "directories": {
@@ -10,8 +10,13 @@
     "test": "jest",
     "start": "node server.js"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscop/server"
+  },
   "author": "Francisco Presencia <public@francisco.io>",
   "license": "MIT",
+  "homepage": "https://serverjs.io/",
   "dependencies": {
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
