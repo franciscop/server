@@ -10,7 +10,7 @@
     "test": "jest",
     "start": "node server.js"
   },
-  "author": "",
+  "author": "Francisco Presencia <public@francisco.io>",
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
@@ -33,7 +33,6 @@
     "grunt-contrib-pug": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-semistandard": "^1.0.6",
     "jstransformer-marked": "^1.0.2",
     "request": "^2.79.0"
   }

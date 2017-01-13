@@ -1,3 +1,3 @@
 module.exports = function (req, res, next) {
-  res.send('Good');
+  res.send('世界');
 }

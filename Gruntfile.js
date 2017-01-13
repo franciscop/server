@@ -11,14 +11,6 @@ module.exports = function (grunt) {
       }
     },
 
-    semistandard: {
-      app: {
-        src: [
-          './server.js'
-        ]
-      }
-    },
-
     // uglify: {
     //   options: {
     //     banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'
@@ -93,7 +85,6 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-semistandard');
   grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -102,6 +93,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-bytesize');
 
   grunt.registerTask('build', ['concat', 'uglify', 'pug']);
-  grunt.registerTask('test', ['semistandard', 'bytesize']);
+  grunt.registerTask('test', ['bytesize']);
   grunt.registerTask('default', ['pug', 'test']);
 };

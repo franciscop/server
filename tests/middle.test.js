@@ -1,28 +1,20 @@
 let server = require('server');
 let request = require('request');
 let { get } = server.router;
+let { handler, getter } = require('./helpers');
 
-let shoot = (middle, cb, opts = {}) => {
-  server(opts, middle).then(inst => {
-    request('http://localhost:3000/', (err, res, body) => {
-      inst.close();
-      expect(err).toBe(null);
-      cb(err, res, body);
-    });
-  });
-};
 
 describe('Middleware', () => {
   it('loads as a function', done => {
-    shoot((req, res) => res.send('Good'), (err, res, body) => {
-      expect(body).toBe('Good');
+    getter((req, res) => res.send('世界')).then(res => {
+      expect(res.body).toBe('世界');
       done();
     });
   });
 
   it('loads as a relative file', done => {
-    shoot('./tests/a.js', (err, res, body) => {
-      expect(body).toBe('Good');
+    handler('./tests/a.js').then(res => {
+      expect(res.body).toBe('世界');
       done();
     });
   });
