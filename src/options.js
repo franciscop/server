@@ -12,7 +12,7 @@ module.exports = (config, user) => {
   // Overwrite with the env variables if set
   for (let key in options) {
     if (key.toUpperCase().replace(/\s/g, '_') in process.env) {
-      this.options[key] = process.env[key.toUpperCase().replace(/\s/g, '_')];
+      options[key] = process.env[key.toUpperCase().replace(/\s/g, '_')];
     }
   }
 
