@@ -18,36 +18,32 @@ function Server (opts = {}, ...middle) {
     return new Server(opts, ...middle);
   }
 
-  this.express = express;
-  this.app = this.express();
-
-  // Set the default options (deep-copy it)
-  this.options = options(config, opts);
-
-  // Set them into express' app
-  // TODO: whitelist here of name:type from
-  //   https://expressjs.com/en/api.html#app.settings.table
-  for (let key in this.options) {
-    if (['boolean', 'number', 'string'].includes(typeof this.options[key])) {
-      this.app.set(key, this.options[key]);
-    }
-  }
-
-  // Get only the good modules
-  // TODO: something more solid. Maybe a thin wrapper per-module
-  let goodones = {
-    static: express.static(this.options.public),
-  };
-  for (var key in modules) {
-    let options = this.options.middle[key] || this.options[key];
-    goodones[key] = modules[key](options);
-  }
-
-  // Load the middleware into the app
-  loadware(goodones, middle).forEach(mid => this.app.use(mid));
-
-
   return new Promise((resolve, reject) => {
+
+    this.express = express;
+    this.app = this.express();
+
+    // Set the default options (deep-copy it)
+    this.options = options(config, opts);
+
+    // Set them into express' app
+    // TODO: whitelist here of name:type from
+    //   https://expressjs.com/en/api.html#app.settings.table
+    for (let key in this.options) {
+      if (['boolean', 'number', 'string'].includes(typeof this.options[key])) {
+        this.app.set(key, this.options[key]);
+      }
+    }
+
+    // Get only the good modules
+    let goodones = { static: express.static(this.options.public) };
+    for (var key in modules) {
+      let options = this.options.middle[key] || this.options[key];
+      goodones[key] = modules[key](options, this.options);
+    }
+
+    // Load the middleware into the app
+    loadware(goodones, middle).forEach(mid => this.app.use(mid));
 
     // Start listening to requests
     this.original = this.app.listen(this.options.port, () => {

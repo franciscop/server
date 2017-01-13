@@ -1,13 +1,15 @@
 let server = require('../server');
 
 describe('Options', () => {
-  it('can be initialized empty', done => {
-    // console.log(server.express);
-    server().then((server) => {
+  it('default settings are correct', done => {
+    server().then(server => {
       expect(server.options.port).toBe(3000);
+      expect(server.options['view engine']).toBe('pug');
+      expect(server.options.public).toBe('public');
+      expect(server.options.verbose).toBe(false);
       server.close();
       done();
-    }).catch(err => console.log("Error:", err));
+    });
   });
 
   it('can be initialized with a single port parameter', done => {
@@ -35,17 +37,6 @@ describe('Options', () => {
         done();
       });
       serve.close();
-    });
-  });
-
-  it('default settings are correct', done => {
-    server().then(server => {
-      expect(server.options.port).toBe(3000);
-      expect(server.options['view engine']).toBe('pug');
-      expect(server.options.public).toBe('./public');
-      expect(server.options.verbose).toBe(false);
-      server.close();
-      done();
     });
   });
 
