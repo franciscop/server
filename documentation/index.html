@@ -24,7 +24,7 @@ server({ port: 3000 });  // the same
 </code></pre>
 <p>As you can guess, internally if it is a single integer it will be converted to the object <code>{ port: ARG }</code>. This is a handy shortcut in case you want the default options except for the port, otherwise you can specify the options (defaults shown here):</p>
 <pre><code class="lang-js">server({
-  port: process.env.PORT || 3000,
+  port: 3000,
   public: &#39;./public&#39;,
   viewengine: &#39;pug&#39;,
 
@@ -33,22 +33,53 @@ server({ port: 3000 });  // the same
   }
 });
 </code></pre>
-<h3 id="-port-"><code>port</code></h3>
-<p>This is slightly different from other options, as the variable within the environment will always overwrite this option. This is so Heroku and other servers will work nicely. So this is the inclusion order, from more important to less:</p>
+<p><strong>Environment variables</strong>: <code>server</code> will overwrite any variable you pass with the environment variable. These can be set through the initial script or by creating a file called <code>.env</code>. They should be uppercase and with a underscore instead of a space:</p>
+<pre><code>PORT=3000
+VIEW_ENGINE=pug
+</code></pre><blockquote>
+<p>Don&#39;t forget then to add <code>.env</code> to your <code>.gitignore</code>.</p>
+</blockquote>
+<p>These are similar to:</p>
+<pre><code class="lang-js">server({
+  port: 3000,
+  &#39;view engine&#39;: &#39;pug&#39;
+});
+</code></pre>
+<p>So this is the inclusion order, from more important to less:</p>
 <ul>
 <li><code>.env</code>: the variable within the environment.</li>
-<li><code>server(3000)</code> || <code>server({ port: 3000 })</code>: the variable set manually when launching the server.</li>
+<li><code>server({ OPTION: 3000 })</code>: the variable set manually when launching the server.</li>
 <li><code>3000</code>: the default port if nothing else was specified.</li>
 </ul>
+<h3 id="-port-3000-"><code>port</code> : <code>3000</code></h3>
+<p>The port where you want to launch the server. Defaults to <code>3000</code> and it&#39;s the only option that can be specified as a single option:</p>
+<pre><code class="lang-js">server(3000);
+server({ port: 3000 }); // the same
+</code></pre>
 <p>To set the port in the environment, create a file called <code>.env</code> with this:</p>
 <pre><code>PORT=3000
-</code></pre><p>This will allow for your server to work nicely with some hosts such as Heroku, since those provide the port as an environment variable. Don&#39;t forget then to add <code>.env</code> then to your <code>.gitignore</code>.</p>
-<h3 id="-public-"><code>public</code></h3>
-<p>The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through <code>example.com/myfile.pdf</code> should be in this folder.</p>
-<h2 id="middleware">Middleware</h2>
+</code></pre><h3 id="-public-public-"><code>public</code> : <code>./public</code></h3>
+<p>The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through <code>example.com/myfile.pdf</code> should be in this folder. You can set it to any folder within your project.</p>
+<p>Through the initialization option:</p>
+<pre><code class="lang-js">server({
+  public: &#39;./public&#39;
+});
+</code></pre>
+<p>To set the public folder in the environment, create a file called <code>.env</code> with this:</p>
+<pre><code>PUBLIC=./public
+</code></pre><h3 id="-view-engine-pug-"><code>view engine</code> : <code>pug</code></h3>
+<p>The view engine that you want to use to render your templates. <a href="https://pugjs.org/">Read more about pug</a>.</p>
+<p>Through the initialization option:</p>
+<pre><code class="lang-js">server({
+  &#39;view engine&#39;: &#39;pug&#39;
+});
+</code></pre>
+<p>To set the template engine in the environment, create a file called <code>.env</code> with this:</p>
+<pre><code>VIEW_ENGINE=./public
+</code></pre><h2 id="middleware">Middleware</h2>
 <p>One of the most powerful things from express and thus from <code>server</code> is the Middleware. We extended it by setting some default, useful middleware, but we wanted to also give you the flexibility to edit this.</p>
 <blockquote>
-<p>We recommend adding your own middleware to the folder <code>/middle</code>, and all examples below will make this assumption.</p>
+<p>We recommend adding your own middleware to a folder in your project called <code>/middle</code>, and all examples below will make this assumption.</p>
 </blockquote>
 <p>There are four ways of loading middleware with <code>server</code>: as a string, as a function, as an array or as an object. They are all explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.</p>
 <h3 id="string">String</h3>
@@ -100,11 +131,6 @@ server(3000, { bodyparser: false });
 // Use a different body-parser
 server(3000, { bodyparser: coolerBodyParser() });
 </code></pre>
-<p>This <em>might</em> break some code since it removes the original one and sets it in the current position. Let&#39;s see what this means with an example:</p>
-<pre><code class="lang-js">// Imagine the default middlewares are a, b and c
-server(3000, d, { b: newMiddleWare() }, e);
-</code></pre>
-<p>In most situations this won&#39;t change anything, but in some edge cases it <em>might</em> bring nasty bugs so a solution or alternative has to be found before 1.0.0.</p>
 <h2 id="router">Router</h2>
 <p>In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:</p>
 <h3 id="simple-router">Simple router</h3>
@@ -141,21 +167,6 @@ module.exports = [
   ...
 ];
 </code></pre>
-<p>Note: the previous is the same as this, but we use the package <code>auto-load</code> for simplicity:</p>
-<pre><code class="lang-js">let { get, post } = require(&#39;server&#39;).router;
-let home = require(&#39;./controllers/home&#39;);
-let users = require(&#39;./controllers/users&#39;);
-let photos = require(&#39;./controllers/photos&#39;);
-
-module.exports = [
-  get(&#39;/&#39;, home.index),
-  get(&#39;/users&#39;, users.index),
-  post(&#39;/users&#39;, users.add),
-  get(&#39;/photos&#39;, photos.index),
-  post(&#39;/photos&#39;, photos.add),
-  ...
-];
-</code></pre>
 <h3 id="express-router">Express router</h3>
 <p>You can also use the express router:</p>
 <pre><code class="lang-js">let server = require(&#39;server&#39;);
@@ -177,9 +188,6 @@ server({}, [
 ]);
 </code></pre>
 <h3 id="join-routes">Join routes</h3>
-<blockquote>
-<p>Not yet decided whether this is included or not</p>
-</blockquote>
 <p>If you have two routers and want to make it into one for any reason, you can do so through a helper function we created.</p>
 <pre><code class="lang-js">let { get, post, join } = server.router;
 
@@ -192,17 +200,36 @@ let routes = join(
 
 server({}, acceptsOnlyASingleRoute(routes));
 </code></pre>
+<h3 id="websockets">Websockets</h3>
+<blockquote>
+<p><em>Not yet available, coming in version 1.1</em></p>
+</blockquote>
+<pre><code class="lang-js">let server = require(&#39;server&#39;);
+let { get, socket } = server.router;
+
+server({}, [
+  get(&#39;/&#39;, (req, res) =&gt; res.sendFile(__dirname + &#39;/public/index.html&#39;)),
+  socket(&#39;message&#39;, (data, socket, io) =&gt; {
+    io.emit(data);
+  })
+]);
+</code></pre>
 <h2 id="in-depth">In-depth</h2>
 <p>Some extra info if you want to get into some more advanced configuration.</p>
 <h3 id="promise">Promise</h3>
 <p>The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use.</p>
-<p>The parameter passed to the <code>.then()</code> function is an instance of <code>server</code> as there can be many instances with different options. You can get <code>http-server</code> through the property <code>.original</code>, <code>express</code> through <code>.express</code> and app (as in <code>express()</code>) from <code>.app</code>.</p>
-<p>Also, it will transparently use the <code>http-server</code> whether possible (through Proxy), so function calls such as <code>.close()</code> work straight on the instance:</p>
-<pre><code class="lang-js">server().then(instance =&gt; {
+<p>It gets passed an object with these properties:</p>
+<ul>
+<li><code>app</code>: the express instance</li>
+<li><code>original</code>: the original <code>http-server</code></li>
+<li><code>express</code>: the express required as in <code>require(&#39;express&#39;)</code></li>
+</ul>
+<p>Also, it will transparently use the <code>http-server</code> whether possible (through ES6&#39;s Proxy), so function calls such as <code>.close()</code> work straight on the instance:</p>
+<pre><code class="lang-js">server().then(server =&gt; {
 
   // Run the server for a single second then close it
   setTimeout(() =&gt; {
-    instance.close();
+    server.close();
   }, 1000);
 }).catch(error =&gt; {
   console.log(&quot;There was an error:&quot;, error);
@@ -211,5 +238,5 @@ server({}, acceptsOnlyASingleRoute(routes));
 <p>For most purposes you can just launch the server ignoring the return value:</p>
 <pre><code class="lang-js">server();
 </code></pre>
-<p>This might be useful for error-handling, debugging and testing (see the tests in the folder <code>tests</code>).</p>
+<p>This might be useful for error-handling, debugging and testing (see the tests in the folder <code>tests</code>) or extending server&#39;s functionality.</p>
 </article><script src="https://unpkg.com/paperdocs@0/paperdocs.min.js"></script><script src="//localhost:35729/livereload.js"></script></html>
