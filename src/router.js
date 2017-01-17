@@ -9,12 +9,28 @@ let join = (...middles) => {
   return router;
 }
 
+
+// TODO: allow concatenation of some as `status()`
+const createRouter = (method, path, ...args) => {
+  if (method === 'del') method = 'delete';
+  let router = express.Router();
+  router[method](path, ...args);
+
+  // Allow to call the response straight in the router:
+  //   get('/').send('Hello 世界')
+  ['send', 'render', 'json', 'file'].forEach(reply => {
+    router[reply] = (...args) => createRouter(method, path, (req, res) => {
+      if (reply === 'file') reply = 'sendFile';
+      res[reply](...args);
+    });
+  });
+
+  return router;
+}
+
 module.exports = new Proxy({}, {
   get: (orig, key) => (...args) => {
     if (key === 'join') return join(...args);
-    let router = express.Router();
-    if (key === 'del') key = 'delete';
-    router[key](...args);
-    return router;
+    return createRouter(key, ...args);
   }
 });

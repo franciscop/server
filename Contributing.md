@@ -10,3 +10,12 @@ You are welcome to contribute to the project. We use Grunt for building the webs
 Please do not open any vulnerability issue on Github's issue tracker. Send me an email (find my personal email in [my website](http://francisco.io/)) if you find a particular issue within server, or contact privately the package author in case it's a sub-package issue.
 
 I do not have a PGP-based email right now, but if requested I'll make sure to find out how to use it and publish it in github AND [twitter](http://twitter.com/fpresencia); for obvious reasons if you ask me for my PGP key through a private message don't trust that I answer through the same private channel or double-check with one of those public channels.
+
+
+## Kill port
+
+Kill the processes in a specific port (only Linux):
+
+```bash
+fuser -k -TERM -n tcp 3000
+```
