@@ -1,6 +1,6 @@
 # Server
 
-A simple, powerful and flexible server for Node.js:
+A simple and powerful server for Node.js:
 
 ```js
 let server = require('server');

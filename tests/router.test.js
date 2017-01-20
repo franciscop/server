@@ -24,4 +24,18 @@ describe('Full trip request', () => {
       });
     });
   });
+
+
+  it('can concatenate', done => {
+    let port = parseInt(1000 * Math.random()) + 3000;
+    server(port, [
+      get('/').status(400).send('Hello 世界')
+    ]).then(server => {
+      request('http://localhost:' + port +'/', (err, res, body) => {
+        server.close();
+        expect(body).toBe('Hello 世界');
+        done();
+      });
+    });
+  });
 });

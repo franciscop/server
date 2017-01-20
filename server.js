@@ -7,8 +7,8 @@ const options = require('./src/options');   // Options loader
 
 
 // The external packages to be used besides the modules
-let express = require('express');
-let loadware = require('loadware');
+const express = require('express');
+const loadware = require('loadware');
 
 
 
@@ -25,6 +25,10 @@ function Server (opts = {}, ...middle) {
 
     // Set the default options (deep-copy it)
     this.options = options(config, opts);
+
+    if (this.options.secret && this.options.secret === 'your-random-string-here') {
+      console.log("Oh cmon! Don't use 'your-random-string-here' as your secret!");
+    }
 
     // Set them into express' app
     // TODO: whitelist here of name:type from

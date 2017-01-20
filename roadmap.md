@@ -1,14 +1,21 @@
 # Roadmap
 
-Wish list and features.
+Wish list and features. Totally tentative, but nothing set in stone.
 
+
+## Version 1.2
+
+Passport integration.
 
 
 ## Version 1.1
 
-Integration with websockets as middleware:
+Making integration API. Integrate websockets:
 
 ```js
+let server = require('server');
+let { socket } = server.router;
+
 server({}, [
 
   // These come from user-events
@@ -21,7 +28,7 @@ server({}, [
 ]);
 ```
 
-This will require some serious handling, but in exchange will make websockets easily accessible by everyone.
+This will require some serious handling, but in exchange will make websockets easily accessible to everyone.
 
 
 

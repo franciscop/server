@@ -3,18 +3,16 @@
 }
 </style></head><body class="homepage"><nav class="super"><a class="brand" href="/"><img class="logo" src="/public/logo.svg"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about"><i class="fa fa-info"></i>About</a> <a class="pseudo button" href="https://github.com/serverjs/server" target="_blank"><i class="fa fa-github-alt"></i>Github</a> <a class="button" href="/documentation"><i class="fa fa-file-code-o"></i>Documentation</a></div></footer></nav></body><aside data-headers="h1, h2, h3"><ul></ul></aside><article><h1 id="documentation">Documentation</h1>
 <p>This is the documentation for <code>server</code>.</p>
-<p>To include the server, <code>require</code> it as a normal Node package:</p>
-<pre><code class="lang-js">let server = require(&#39;server&#39;);
+<p>To include server, <code>require</code> it as a normal Node package:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
 </code></pre>
 <h2 id="main-function">Main function</h2>
 <p><code>server</code> is a function with this signature:</p>
 <pre><code class="lang-js">server(options, middleware1, middleware2, ...);
 </code></pre>
-<p>However, it also has a couple of handy properties:</p>
+<p>However, it also has the handy property:</p>
 <ul>
 <li><code>server.router</code>: Read the section <a href="#router">Router</a> to see how it works. This is <strong>not</strong> the default router from express.</li>
-<li><code>server.express</code>: The original express server. This is the result of doing <code>require(&#39;express&#39;)</code>.</li>
-<li><code>server.options</code>: The default options for the server.</li>
 </ul>
 <h2 id="options">Options</h2>
 <p>The first argument of the main function is for setting the options. It can be nothing, a single integer or a plain object:</p>
@@ -33,7 +31,7 @@ server({ port: 3000 });  // the same
   }
 });
 </code></pre>
-<p><strong>Environment variables</strong>: <code>server</code> will overwrite any variable you pass with the environment variable. These can be set through the initial script or by creating a file called <code>.env</code>. They should be uppercase and with a underscore instead of a space:</p>
+<p><strong>Environment variables</strong>: <code>server</code> will value the environment variables higher than the ones you pass explicitly in the function. These can be set through the initial script or by creating a file called <code>.env</code>. They should be uppercase and with a underscore instead of a space:</p>
 <pre><code>PORT=3000
 VIEW_ENGINE=pug
 </code></pre><blockquote>
@@ -46,11 +44,11 @@ VIEW_ENGINE=pug
 });
 </code></pre>
 <p>So this is the inclusion order, from more important to less:</p>
-<ul>
+<ol>
 <li><code>.env</code>: the variable within the environment.</li>
 <li><code>server({ OPTION: 3000 })</code>: the variable set manually when launching the server.</li>
-<li><code>3000</code>: the default port if nothing else was specified.</li>
-</ul>
+<li><em>defaults</em>: defaults will be used as can be seen below</li>
+</ol>
 <h3 id="-port-3000-"><code>port</code> : <code>3000</code></h3>
 <p>The port where you want to launch the server. Defaults to <code>3000</code> and it&#39;s the only option that can be specified as a single option:</p>
 <pre><code class="lang-js">server(3000);
@@ -76,6 +74,13 @@ server({ port: 3000 }); // the same
 </code></pre>
 <p>To set the template engine in the environment, create a file called <code>.env</code> with this:</p>
 <pre><code>VIEW_ENGINE=./public
+</code></pre><h3 id="-secret-undefined-"><code>secret</code> : <code>undefined</code></h3>
+<p>This will be inherited by several middleware if they are not set explicitly for the modules. Use a random string here, but it cannot be auto-generated as it has to be the same between restarts from the server. It is also recommended that you <strong>set this up inside <em>.env</em>.</strong> and not as a parameter hardcoded into the code:</p>
+<pre><code class="lang-js">// NO (in app.js):
+server({ secret: &#39;your-random-string-here&#39; });
+</code></pre>
+<p>Yes (in <code>.env</code>):</p>
+<pre><code>SECRET=your-random-string-here
 </code></pre><h2 id="middleware">Middleware</h2>
 <p>One of the most powerful things from express and thus from <code>server</code> is the Middleware. We extended it by setting some default, useful middleware, but we wanted to also give you the flexibility to edit this.</p>
 <blockquote>
@@ -120,7 +125,7 @@ server(3000, parsers, routes);
 </code></pre>
 <h3 id="object">Object</h3>
 <p>You can name them, and they will <strong>replace one of the default middlewares if the name matches it</strong>. Let&#39;s go with the simple example of <code>body-parser</code>:</p>
-<pre><code class="lang-js">let server = require(&#39;server&#39;);
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
 
 // Uses body-parser
 server(3000);
@@ -135,7 +140,7 @@ server(3000, { bodyparser: coolerBodyParser() });
 <p>In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:</p>
 <h3 id="simple-router">Simple router</h3>
 <p>To define a simple router, you could do:</p>
-<pre><code class="lang-js">let server = require(&#39;server&#39;);
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
 
 // Import methods &#39;get&#39; and &#39;post&#39; from the router
 let { get, post } = server.router;
@@ -148,7 +153,7 @@ server(3000,
 <h3 id="complex-router">Complex router</h3>
 <p>If you are going to have many routes, we recommend splitting it into a separated file, either in the root of the project as <code>routes.js</code> or in a different place:</p>
 <pre><code class="lang-js">// app.js
-let server = require(&#39;server&#39;);
+const server = require(&#39;server&#39;);
 let routes = require(&#39;./routes&#39;);
 
 server(3000, routes);
@@ -169,7 +174,7 @@ module.exports = [
 </code></pre>
 <h3 id="express-router">Express router</h3>
 <p>You can also use the express router:</p>
-<pre><code class="lang-js">let server = require(&#39;server&#39;);
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
 
 let router = server.express.Router();
 router.get(&#39;/&#39;, home.index);
@@ -179,7 +184,7 @@ router.get(&#39;/users&#39;, users.index);
 server({}, router);
 </code></pre>
 <p>However, we recommend using server&#39;s router whenever possible:</p>
-<pre><code class="lang-js">let server = require(&#39;server&#39;);
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
 let { get, post } = server.router;
 
 server({}, [
@@ -200,11 +205,27 @@ let routes = join(
 
 server({}, acceptsOnlyASingleRoute(routes));
 </code></pre>
+<h3 id="experimental">Experimental</h3>
+<blockquote>
+<p>To enable these, you&#39;ll have to add an <code>EXPERIMENTAL=1</code> to your environment variables. No need to say that this is not stable and not part of the stable API.</p>
+</blockquote>
+<p>There&#39;s an experimental way of dealing with those:</p>
+<pre><code class="lang-js">server({}, [
+  get(&#39;/&#39;).send(&#39;Hello 世界&#39;),
+  get(&#39;/about.html&#39;).file(&#39;public/about.html&#39;),
+  get(&#39;/non-existing&#39;).status(404).send(&#39;Error 404!&#39;)
+]);
+</code></pre>
+<p>They are the same methods as in <a href="http://expressjs.com/en/api.html#res.methods">Express Methods</a> and accept the same parameters (adding <code>file</code>, which is an alias of <code>sendFile</code>, and removing <code>get</code> and <code>set</code> as it conflicts with <code>Router.get</code> and <code>Router.set</code>). The ones that <em>do not send</em> a response can be concatenated, while the ones that send a response will be ignored. So the second <em>send</em> will be ignored:</p>
+<pre><code class="lang-js">server({}, [
+  get(&#39;/&#39;).status(200).send(&#39;Hi there&#39;).send(&#39;I am ignored&#39;)
+]);
+</code></pre>
 <h3 id="websockets">Websockets</h3>
 <blockquote>
 <p><em>Not yet available, coming in version 1.1</em></p>
 </blockquote>
-<pre><code class="lang-js">let server = require(&#39;server&#39;);
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
 let { get, socket } = server.router;
 
 server({}, [
@@ -239,4 +260,33 @@ server({}, [
 <pre><code class="lang-js">server();
 </code></pre>
 <p>This might be useful for error-handling, debugging and testing (see the tests in the folder <code>tests</code>) or extending server&#39;s functionality.</p>
+<h3 id="included-modules">Included modules</h3>
+<p>This is the default included middleware, which can also be seen in <code>src/modules</code>:</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/dotenv"><code>dotenv</code></a></li>
+<li><code>bodyParser</code> : <a href="https://www.npmjs.com/package/body-parser"><code>body-parser</code></a></li>
+<li><code>jsonParser</code> : <a href="https://www.npmjs.com/package/body-parser"><code>body-parser</code></a></li>
+<li><code>dataParser</code> : <a href="https://www.npmjs.com/package/express-data-parser"><code>express-data-parser</code></a></li>
+<li><code>compress</code> : <a href="https://www.npmjs.com/package/compression"><code>compression</code></a></li>
+<li><code>cookieParser</code> : <a href="https://www.npmjs.com/package/cookie-parser"><code>cookie-parser</code></a></li>
+<li><code>session</code> : <a href="https://www.npmjs.com/package/express-session"><code>express-session</code></a></li>
+<li><code>favicon</code> : <a href="https://www.npmjs.com/package/serve-favicon"><code>serve-favicon</code></a></li>
+<li><code>responseTime</code> : <a href="https://www.npmjs.com/package/response-time"><code>response-time</code></a></li>
+<li><code>methodOverride</code> : <a href="https://www.npmjs.com/package/method-override"><code>method-override</code></a></li>
+</ul>
+<p>To modify the options for any of them, pass the option in the <code>middle</code> object:</p>
+<pre><code class="lang-js">server({
+  middle: {
+    dataParser: {
+      uploadDir = &quot;public/uploads&quot;
+    }
+  }
+});
+</code></pre>
+<p>To disable any of those, pass it as a false named value in a middleware:</p>
+<pre><code class="lang-js">server(3000, { dataParser: false });
+</code></pre>
+<p>And to use a different one, pass it as a named middleware:</p>
+<pre><code class="lang-js">server(3000, { dataParser: function(req, res, next){ /* ... */ } });
+</code></pre>
 </article><script src="https://unpkg.com/paperdocs@0/paperdocs.min.js"></script><script src="//localhost:35729/livereload.js"></script></html>
