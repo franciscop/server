@@ -10,7 +10,7 @@ server(setname, get('/', sendname));
 
 ### Definition
 
-*server middleware* is a function that accepts a server instance and returns a promise for async methods or anything else for sync methods. It accepts a single parameter, which will have `req`, `res` and any available plugin.
+A *server middleware* is a function that accepts a server instance and returns a promise for async methods or anything else for sync methods. It accepts a single parameter, which will have `req`, `res` and any available plugin.
 
 ### Parameters
 

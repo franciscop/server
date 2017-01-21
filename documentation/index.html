@@ -91,7 +91,7 @@ let sendname = s =&gt; s.res.send(s.req.user);
 server(setname, get(&#39;/&#39;, sendname));
 </code></pre>
 <h3 id="definition">Definition</h3>
-<p><em>server middleware</em> is a function that accepts a server instance and returns a promise for async methods or anything else for sync methods. It accepts a single parameter, which will have <code>req</code>, <code>res</code> and any available plugin.</p>
+<p>A <em>server middleware</em> is a function that accepts a server instance and returns a promise for async methods or anything else for sync methods. It accepts a single parameter, which will have <code>req</code>, <code>res</code> and any available plugin.</p>
 <h3 id="parameters">Parameters</h3>
 <p>It will only receive a parameter, the current instance of server. This has the properties <code>req</code> and <code>res</code>, which are the same as in express:</p>
 <pre><code class="lang-js">let middleware = s =&gt; {
