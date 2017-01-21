@@ -1,5 +1,135 @@
 ## Middleware
 
+One of the most powerful things from express and thus from `server` is the Middleware. We build on this by an evolved concept while giving a wrapper for retro-compatibility:
+
+```js
+let setname = s => {
+  s.req.user = 'Francisco';
+};
+// same as: `var setname = function(s){ s.req.user = 'Francisco' };`
+let sendname = s => res.send(s.req.user);
+server(setname, get('/', sendname));
+```
+
+### Definition
+
+*server middleware* is a function that accepts a server instance and returns a promise for async methods or anything else for sync methods. It accepts a single parameter, which will have `req`, `res` and any available plugin.
+
+### Parameters
+
+It will only receive a parameter, the current instance of server. This has the properties `req` and `res`, which are the same as in express:
+
+```js
+let middleware = s => {
+  s.req;     // Request parameter, similar to `(req, res)` in express
+  s.res;     // Response parameter, similar to `(req, res)` in express
+}
+```
+
+Then all of the included plugins will be available here. Consult the documentation on each for specifics, but this is how they *could* be implemented:
+
+```js
+let middleware = s => {
+  s.socket  // A plugin that exports a websocket
+  s.db      // A plugin that exports a database
+}
+```
+
+
+If you are developing a library or just want more advanced features, you should also have access to these:
+
+```js
+let middleware = s => {
+  s.app;     // Current express instance
+  s.server;  // The http-server instance
+};
+```
+
+
+#### Destructuring
+
+You can use [ES7 destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) right in the function call:
+
+```js
+let setname = ({ req }) => req.user = 'Francisco';
+let sendname = ({ req, res }) => res.send(req.user);
+```
+
+All of the included plugins will also be available in this way:
+
+```js
+let middleware = ({ res, socket, db }) => {
+  db.findAll({ name: 'Francisco' }).then(user => res.json(user));
+}
+```
+
+
+### Return value
+
+If your middleware is going to be synchronous, you can just return nothing:
+
+```js
+let middle = ({ req }) => {
+  req.body = 'Hello world';
+}
+```
+
+In sync mode you can throw anything to trigger an error:
+
+```js
+let middle = ({ req }) => {
+  if (!req.body) {
+    throw new Error('No body provided');
+  }
+}
+server(middle).catch(err => {
+  console.log("Expecting body:", err);
+});
+```
+
+When you want to handle code asynchronously you should return a promise. Then it will continue the middleware chain as it is resolved, or skip it as it is rejected:
+
+```js
+let middle = ({ req }) => new Promise((resolve, reject) => {
+  if (req.body) {
+    resolve();
+  } else {
+    reject(new Error('No body provided'));
+  }
+});
+```
+
+Both the resolve value and the return value get ignored and the same server instance will be passed around. If you want to modify it on your middleware, do it as shown above:
+
+```js
+let addsecret = s => {
+  // This will set it by reference
+  s.options.secret = 'your-random-string-here';
+}
+let addsecret = ({ options }) => {
+  // This will also set it by reference
+  options.secret = 'your-random-string-here';
+}
+```
+
+
+
+
+```js
+let s = whatever;
+for (let key in middle) {
+  try {
+    await middle[key](s);
+  } catch (err) {
+    return reject(err);
+  }
+}
+```
+
+
+
+
+
 One of the most powerful things from express and thus from `server` is the Middleware. We extended it by setting some default, useful middleware, but we wanted to also give you the flexibility to edit this.
 
 > We recommend adding your own middleware to a folder in your project called `/middle`, and all examples below will make this assumption.

@@ -1,55 +1,58 @@
-var Chance = require('chance'),
-    chance = new Chance();
-
 // Use with `node --harmony-async-await app.js`
-// app.js
-// const timeout = function (delay) {
-//   return new Promise((resolve, reject) => {
-//     setTimeout(() => {
-//       console.log("Solved");
-//       resolve();
-//     }, delay)
-//   })
-// }
-//
-// async function timer () {
-//   console.log('timer started')
-//   await timeout(100);
-//   console.log('timer finished')
-// }
-//
-// console.log("A");
-// timer();
-// console.log("B");
-
-
-
-
-
-
-// DEFINITION
-
-// NOTE: this is NOT official; an official version might change this a lot so
-// only use this for experimenting the possibilities, not for real-world cases
-let identity = (...fields) => new Promise((resolve, reject) => {
-  resolve(fields.map(field => chance[field.name]()));
-});
-
-function IdentityField(name, all) {
-  let field = Object.assign({}, all, { name });
-  field.prompt() = function(){};
-  field.update() = function(){};
-  return field;
+let timeout = function (delay) {
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve('Async');
+    }, delay)
+  })
 }
 
-// IMPLEMENTATION
+async function timer () {
+  let val = await timeout(100);
+  console.log('Resolved:' ,val);
+}
 
-identity(
-  new IdentityField('name', { required: true, certainty: 5 }),
-  new IdentityField('email', { required: true, certainty: 5 })
-).then(user => {
-  console.log(user);
-});
+timer();
+
+timeout = function () {
+  return 'Sync!'
+}
+
+async function timer () {
+  let val = await timeout(100);
+  console.log('Resolved:' ,val);
+}
+
+timer();
+
+
+
+
+
+
+// // DEFINITION
+//
+// // NOTE: this is NOT official; an official version might change this a lot so
+// // only use this for experimenting the possibilities, not for real-world cases
+// let identity = (...fields) => new Promise((resolve, reject) => {
+//   resolve(fields.map(field => chance[field.name]()));
+// });
+//
+// function IdentityField(name, all) {
+//   let field = Object.assign({}, all, { name });
+//   field.prompt() = function(){};
+//   field.update() = function(){};
+//   return field;
+// }
+//
+// // IMPLEMENTATION
+//
+// identity(
+//   new IdentityField('name', { required: true, certainty: 5 }),
+//   new IdentityField('email', { required: true, certainty: 5 })
+// ).then(user => {
+//   console.log(user);
+// });
 
 
 // user.token    // browser-specific

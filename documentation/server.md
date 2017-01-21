@@ -1,7 +1,5 @@
 # Documentation
 
-This is the documentation for `server`.
-
 To include server, `require` it as a normal Node package:
 
 ```js
@@ -15,6 +13,9 @@ const server = require('server');
 ```js
 server(options, middleware1, middleware2, ...);
 ```
+
+- [Options](options.md) (optional): an object with the options. [Read more...](options.md).
+- [Middleware](middleware.md) (optional): the middleware that handles requests [Read more...](middleware.md).
 
 However, it also has the handy property:
 

@@ -1,6 +1,6 @@
 # Documentation
 
-Table of contents:
+The documentation for `server`. Table of contents:
 
 - [server](https://serverjs.io/documentation#main-function) ([github](server.md)): the main function
 - [options](https://serverjs.io/documentation#options) ([github](options.md)): the available options to pass to server
