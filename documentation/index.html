@@ -10,12 +10,12 @@
 <pre><code class="lang-js">server(options, middleware1, middleware2, ...);
 </code></pre>
 <ul>
-<li><a href="options.md">Options</a> (optional): an object with the options. <a href="options.md">Read more...</a>.</li>
-<li><a href="middleware.md">Middleware</a> (optional): the middleware that handles requests <a href="middleware.md">Read more...</a>.</li>
+<li><a href="options.md">Options</a> [optional]: an object with the options. <a href="options.md">Read more...</a>.</li>
+<li><a href="middleware.md">Middleware</a> [optional]: the middleware that handles requests <a href="middleware.md">Read more...</a>.</li>
 </ul>
 <p>However, it also has the handy property:</p>
 <ul>
-<li><code>server.router</code>: Read the section <a href="#router">Router</a> to see how it works. This is <strong>not</strong> the default router from express.</li>
+<li><code>server.router</code>: Read the section <a href="router.md">Router</a> to see how it works. This is <strong>not</strong> the default router from express.</li>
 </ul>
 <h2 id="options">Options</h2>
 <p>The first argument of the main function is for setting the options. It can be nothing, a single integer or a plain object:</p>
@@ -86,11 +86,8 @@ server({ secret: &#39;your-random-string-here&#39; });
 <pre><code>SECRET=your-random-string-here
 </code></pre><h2 id="middleware">Middleware</h2>
 <p>One of the most powerful things from express and thus from <code>server</code> is the Middleware. We build on this by an evolved concept while giving a wrapper for retro-compatibility:</p>
-<pre><code class="lang-js">let setname = s =&gt; {
-  s.req.user = &#39;Francisco&#39;;
-};
-// same as: `var setname = function(s){ s.req.user = &#39;Francisco&#39; };`
-let sendname = s =&gt; res.send(s.req.user);
+<pre><code class="lang-js">let setname = s =&gt; s.req.user = &#39;Francisco&#39;;
+let sendname = s =&gt; s.res.send(s.req.user);
 server(setname, get(&#39;/&#39;, sendname));
 </code></pre>
 <h3 id="definition">Definition</h3>
@@ -111,11 +108,11 @@ server(setname, get(&#39;/&#39;, sendname));
 <p>If you are developing a library or just want more advanced features, you should also have access to these:</p>
 <pre><code class="lang-js">let middleware = s =&gt; {
   s.app;     // Current express instance
-  s.server;  // The http-server instance
+  s.original;  // The http-server instance
 };
 </code></pre>
 <h4 id="destructuring">Destructuring</h4>
-<p>You can use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">ES7 destructuring</a> right in the function call:</p>
+<p>You can and probably should use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">ES7 destructuring</a> right in the function call:</p>
 <pre><code class="lang-js">let setname = ({ req }) =&gt; req.user = &#39;Francisco&#39;;
 let sendname = ({ req, res }) =&gt; res.send(req.user);
 </code></pre>
@@ -159,15 +156,7 @@ let addsecret = ({ options }) =&gt; {
   options.secret = &#39;your-random-string-here&#39;;
 }
 </code></pre>
-<pre><code class="lang-js">let s = whatever;
-for (let key in middle) {
-  try {
-    await middle[key](s);
-  } catch (err) {
-    return reject(err);
-  }
-}
-</code></pre>
+<p>// DEPRECATED:</p>
 <p>One of the most powerful things from express and thus from <code>server</code> is the Middleware. We extended it by setting some default, useful middleware, but we wanted to also give you the flexibility to edit this.</p>
 <blockquote>
 <p>We recommend adding your own middleware to a folder in your project called <code>/middle</code>, and all examples below will make this assumption.</p>
@@ -375,4 +364,9 @@ server({}, [
 <p>And to use a different one, pass it as a named middleware:</p>
 <pre><code class="lang-js">server(3000, { dataParser: function(req, res, next){ /* ... */ } });
 </code></pre>
-</article><script src="https://unpkg.com/paperdocs@0/paperdocs.min.js"></script><script src="//localhost:35729/livereload.js"></script></html>
+</article><script>// Replace about.md with #about
+[].slice.call(document.querySelectorAll('a')).filter(function(a){
+  return /[a-zA-Z0-9\-]+\.md/.test(a.getAttribute('href'));
+}).forEach(function(a){
+  a.setAttribute('href', '#' + a.getAttribute('href').replace('.md', ''));
+});</script><script src="https://unpkg.com/paperdocs@0/paperdocs.min.js"></script><script src="//localhost:35729/livereload.js"></script></html>

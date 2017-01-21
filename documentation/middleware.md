@@ -3,11 +3,8 @@
 One of the most powerful things from express and thus from `server` is the Middleware. We build on this by an evolved concept while giving a wrapper for retro-compatibility:
 
 ```js
-let setname = s => {
-  s.req.user = 'Francisco';
-};
-// same as: `var setname = function(s){ s.req.user = 'Francisco' };`
-let sendname = s => res.send(s.req.user);
+let setname = s => s.req.user = 'Francisco';
+let sendname = s => s.res.send(s.req.user);
 server(setname, get('/', sendname));
 ```
 
@@ -35,20 +32,20 @@ let middleware = s => {
 }
 ```
 
-
 If you are developing a library or just want more advanced features, you should also have access to these:
 
 ```js
 let middleware = s => {
   s.app;     // Current express instance
-  s.server;  // The http-server instance
+  s.original;  // The http-server instance
 };
 ```
 
 
+
 #### Destructuring
 
-You can use [ES7 destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) right in the function call:
+You can and probably should use [ES7 destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) right in the function call:
 
 ```js
 let setname = ({ req }) => req.user = 'Francisco';
@@ -115,16 +112,14 @@ let addsecret = ({ options }) => {
 
 
 
-```js
-let s = whatever;
-for (let key in middle) {
-  try {
-    await middle[key](s);
-  } catch (err) {
-    return reject(err);
-  }
-}
-```
+
+
+
+
+
+
+
+// DEPRECATED:
 
 
 
