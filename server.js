@@ -1,7 +1,7 @@
 // The default modules to load
 const modules = require('./src/modules');
-const config = require('./src/config');
 const router = require('./src/router.js');
+const config = require('./config');
 const options = require('./src/options');   // Options loader
 
 

@@ -1,5 +1,7 @@
 # Server
 
+<p style="background: #fbb; padding: 10px 15px; border-radius: 5px;">This is alpha software with the <a href="https://github.com/franciscop/server/issues/1">specification being finished</a> and the documentation is mainly to see if it all fits. The middleware and some bits will be changed before `1.0.0`</p>
+
 A simple and powerful server for Node.js:
 
 ```js
@@ -80,6 +82,4 @@ This package was created by [Francisco Presencia](http://francisco.io/) but hope
 
 ## Trivia
 
-This website is NOT running on *server.js*. It doesn't make sense to run a custom server to display a static website so it's hosted on Github's Pages. From my personal projects I've migrated [Comments Network](https://comments.network/) so far to use server.js. You can see it integrated here:
-
-<comment-box class="border" limit="20"></comment-box>
+This website is NOT running on *server.js*. It doesn't make sense to run a custom server to display a static website so it's hosted on Github's Pages. From my personal projects I've migrated [Comments Network](https://comments.network/) so far to use server.js.

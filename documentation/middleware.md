@@ -10,16 +10,17 @@ server(setname, get('/', sendname));
 
 ### Definition
 
-A *server middleware* is a function that accepts a server instance and returns a promise for async methods or anything else for sync methods. It accepts a single parameter, which will have `req`, `res` and any available plugin.
+A *server middleware* is a function that will be called on each request. It accepts a server instance and returns a promise for asynchronous methods or anything else for synchronous methods.
 
 ### Parameters
 
-It will only receive a parameter, the current instance of server. This has the properties `req` and `res`, which are the same as in express:
+It will only receive a parameter, the current instance of server. This has, among others, the properties `req` `res` (similar to express) and `options`:
 
 ```js
 let middleware = s => {
-  s.req;     // Request parameter, similar to `(req, res)` in express
-  s.res;     // Response parameter, similar to `(req, res)` in express
+  s.req;      // Request parameter, similar to `(req, res)` in express
+  s.res;      // Response parameter, similar to `(req, res)` in express
+  s.options;  // The options for the server instance
 }
 ```
 
@@ -27,8 +28,8 @@ Then all of the included plugins will be available here. Consult the documentati
 
 ```js
 let middleware = s => {
-  s.socket  // A plugin that exports a websocket
-  s.db      // A plugin that exports a database
+  s.socket;  // A plugin that exports a websocket
+  s.db;      // A plugin that exports a database
 }
 ```
 

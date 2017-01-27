@@ -91,18 +91,19 @@ let sendname = s =&gt; s.res.send(s.req.user);
 server(setname, get(&#39;/&#39;, sendname));
 </code></pre>
 <h3 id="definition">Definition</h3>
-<p>A <em>server middleware</em> is a function that accepts a server instance and returns a promise for async methods or anything else for sync methods. It accepts a single parameter, which will have <code>req</code>, <code>res</code> and any available plugin.</p>
+<p>A <em>server middleware</em> is a function that will be called on each request. It accepts a server instance and returns a promise for asynchronous methods or anything else for synchronous methods.</p>
 <h3 id="parameters">Parameters</h3>
-<p>It will only receive a parameter, the current instance of server. This has the properties <code>req</code> and <code>res</code>, which are the same as in express:</p>
+<p>It will only receive a parameter, the current instance of server. This has, among others, the properties <code>req</code> <code>res</code> (similar to express) and <code>options</code>:</p>
 <pre><code class="lang-js">let middleware = s =&gt; {
-  s.req;     // Request parameter, similar to `(req, res)` in express
-  s.res;     // Response parameter, similar to `(req, res)` in express
+  s.req;      // Request parameter, similar to `(req, res)` in express
+  s.res;      // Response parameter, similar to `(req, res)` in express
+  s.options;  // The options for the server instance
 }
 </code></pre>
 <p>Then all of the included plugins will be available here. Consult the documentation on each for specifics, but this is how they <em>could</em> be implemented:</p>
 <pre><code class="lang-js">let middleware = s =&gt; {
-  s.socket  // A plugin that exports a websocket
-  s.db      // A plugin that exports a database
+  s.socket;  // A plugin that exports a websocket
+  s.db;      // A plugin that exports a database
 }
 </code></pre>
 <p>If you are developing a library or just want more advanced features, you should also have access to these:</p>
