@@ -1,6 +1,6 @@
 # Server
 
-<p style="background: #fbb; padding: 10px 15px; border-radius: 5px;">This is alpha software with the <a href="https://github.com/franciscop/server/issues/1">specification being finished</a> and the documentation is mainly to see if it all fits. The middleware and some bits will be changed before `1.0.0`</p>
+<blockquote style="background: #fbb; padding: 10px 15px; border-radius: 5px;">This is alpha software with the <a href="https://github.com/franciscop/server/issues/1">specification being finished</a> and the documentation is mainly to see if it all fits. The middleware and some bits will be changed before `1.0.0`</blockquote>
 
 A simple and powerful server for Node.js:
 
