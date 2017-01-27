@@ -2,26 +2,24 @@
 
 <blockquote style="background: #fbb; padding: 10px 15px; border-radius: 5px;">This is alpha software with the <a href="https://github.com/franciscop/server/issues/1">specification being finished</a> and the documentation is mainly to see if it all fits. The middleware and some bits will be changed before `1.0.0`</blockquote>
 
-A simple and powerful server for Node.js:
+A **simple and powerful server** for Node.js:
 
 ```js
-let server = require('server');
+const server = require('server');
 
-// Launch it in port 3000 to serve static files in /public on http://localhost:3000/
+// Serve static files from /public on port 3000
 server();
 
-// OR serve static files from the project root on http://localhost:8000/
-server({ port: 8000, public: './' });
+// OR serve static files from the root on port 8080
+server({ port: 8080, public: './' });
 
-// OR use some simple routes on  on http://localhost:8080/
-let { get, post } = server.router;
-server({ port: 8080 },
-  get('/', (req, res) => res.render('index')),
-  post('/', (req, res) => console.log(req.body))
+// OR use some simple routes on http://localhost:3000/
+const { get, post } = server.router;
+server(
+  get('/', (req, res) => { res.render('index') }),
+  post('/', (req, res) => { console.log(req.body) })
 );
 ```
-
-It parses cookies, forms, files, etc automatically with default middlewares while still letting you personalize the options or change those middlewares for others you prefer (or just remove them).
 
 
 
