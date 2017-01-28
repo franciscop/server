@@ -43,6 +43,7 @@
     "grunt-contrib-pug": "^1.0.0",
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
+    "jest": "^18.1.0",
     "jstransformer-marked": "^1.0.2",
     "request": "^2.79.0"
   }
