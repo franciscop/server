@@ -10,6 +10,7 @@ let routes = [
 describe('Full trip request', () => {
   it('can perform a simple get with built-in response', done => {
     let port = parseInt(1000 * Math.random()) + 3000;
+    console.log(get('/').send, typeof get('/').send);
     server(port, [
       get('/').send('Hello 世界')
     ]).then(server => {
