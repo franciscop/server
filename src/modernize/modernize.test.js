@@ -57,6 +57,10 @@ describe('Middleware handles the promise', () => {
     modern((req, res, next) => next())(ctx).then(() => done());
   });
 
+  it('cannot handle error middleware', () => {
+    expect(() => modern((err, req, res, next) => {})).toThrow();
+  });
+
   it('passes the context', done => {
     let ctx = { req: 1, res: 2 };
     modern((req, res, next) => next())(ctx).then(ctx => {

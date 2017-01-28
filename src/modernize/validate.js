@@ -1,9 +1,14 @@
+const errors = require('./errors');
+
 exports.middleware = middle => {
   if (!middle) {
     throw errors.MissingMiddleware();
   }
   if (!(middle instanceof Function)) {
     throw errors.InvalidMiddleware({ type: typeof middle });
+  }
+  if (middle.length === 4) {
+    throw errors.ErrorMiddleware();
   }
 }
 

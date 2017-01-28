@@ -1,5 +1,5 @@
 // Modules - All of the modules that are loaded by default
-dotenv: require('dotenv').config({ silent: true });
+require('dotenv').config({ silent: true });
 
 // ?TODO: something more solid. Maybe a thin wrapper per-module
 // List mostly from http://expressjs.com/en/guide/migrating-4.html
