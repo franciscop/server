@@ -8,10 +8,6 @@ let routes = [
 ];
 
 describe('Full trip request', () => {
-  it('dummy', done => {
-    done();
-  });
-
   it('can perform a simple get with built-in response', done => {
     let port = parseInt(1000 * Math.random()) + 3000;
     server(port, [
