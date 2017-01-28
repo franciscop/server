@@ -1,9 +1,6 @@
 const extend = require('extend');  // deep clone, not like shallow Object.assign
 const config = require('./config');
-require('dotenv').config({
-  path: '../../.env',
-  silent: true
-});
+require('dotenv').config({ silent: true });
 
 function isNumeric(num){
   return !isNaN(num)
