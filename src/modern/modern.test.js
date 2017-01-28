@@ -1,3 +1,4 @@
+const join = require('../join');
 const modern = require('./index');
 const middle = (req, res, next) => { next() };
 const ctx = { req: {}, res: {} };
@@ -79,6 +80,85 @@ describe('Middleware handles the promise', () => {
     modern(middle)({ req: {}, res: {} }).then(ctx => {
       expect(ctx.req.user).toBe('myname');
       expect(ctx.res.send).toBe('sending');
+      done();
+    });
+  });
+
+  it('has chainable context', done => {
+    let ctx = { req: { user: 'a' }, res: { send: 'b' } };
+    let middle = (req, res, next) => {
+      req.user += 1;
+      res.send += 2;
+      next();
+    };
+    modern(middle)(ctx).then(modern(middle)).then(ctx => {
+      expect(ctx.req.user).toBe('a11');
+      expect(ctx.res.send).toBe('b22');
+      done();
+    });
+  });
+
+  it('factory can receive options', done => {
+
+    // The full context
+    let ctx = {
+      req: { user: 'a' },
+      res: { send: 'b' },
+      options: { extra: 1}
+    };
+
+    // A middleware factory
+    let factory = opts => {
+      return (req, res, next) => {
+        req.user += opts.extra;
+        res.send += opts.extra;
+        next();
+      }
+    };
+
+    // Plain ol' middleware
+    let factored = factory({ extra: 1 });
+
+    // We need to pass it and then re-call it
+    let middles = [
+
+      // Native sync, this could be extracted to '({ req, res, options })'
+      ctx => {
+        ctx.req.user += ctx.options.extra;
+        ctx.res.send += ctx.options.extra;
+      },
+
+      // Native async
+      ctx => new Promise((resolve) => {
+        ctx.req.user += ctx.options.extra;
+        ctx.res.send += ctx.options.extra;
+        resolve();
+      }),
+
+      // Hardcoded case:
+      modern((req, res, next) => {
+        req.user += 1;
+        res.send += 1;
+        next();
+      }),
+
+      // Using some info from the context:
+      ctx => modern((req, res, next) => {
+        req.user += ctx.options.extra;
+        res.send += ctx.options.extra;
+        next();
+      })(ctx),
+
+      // The definition might come from a factory
+      ctx => modern(factory({ extra: ctx.options.extra }))(ctx),
+
+      // The same as above but already defined
+      ctx => modern(factored)(ctx)
+    ];
+
+    join(middles)(ctx).then(ctx => {
+      expect(ctx.req.user).toBe('a111111');
+      expect(ctx.res.send).toBe('b111111');
       done();
     });
   });

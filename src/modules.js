@@ -1,9 +1,12 @@
 // Modules - All of the modules that are loaded by default
-require('dotenv').config({ silent: true });
 
 // ?TODO: something more solid. Maybe a thin wrapper per-module
 // List mostly from http://expressjs.com/en/guide/migrating-4.html
+// module.exports = [
+//   ctx => modern(require('body-parser').urlencoded(ctx.middle.bodyParser))(ctx)
+// ];
 module.exports = {
+  public: (path, self) => self.express.static(path),
   bodyParser: require('body-parser').urlencoded,
   jsonParser: require('body-parser').json,
   dataParser: require('express-data-parser'),

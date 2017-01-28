@@ -1,34 +1,29 @@
-// The default modules to load
-const modules = require('./src/modules');
-const router = require('./src/router.js');
-const config = require('./config');
-const options = require('./src/options');   // Options loader
-
-
-
-// The external packages to be used besides the modules
+// External packages
 const express = require('express');
 const loadware = require('loadware');
 
+// Internal modules
+const config = require('./src/config');
+const modules = require('./src/modules');
+const router = require('./src/router.js');
+
+
+const plugins = [{
+  options: {},
+  app: app => {},
+  middle: ctx => {},
+}];
 
 
 // Main function
 function Server (opts = {}, ...middle) {
-  if (!(this instanceof Server)) {
-    return new Server(opts, ...middle);
-  }
-
   return new Promise((resolve, reject) => {
 
     this.express = express;
     this.app = this.express();
 
-    // Set the default options (deep-copy it)
-    this.options = options(config, opts);
-
-    if (this.options.secret && this.options.secret === 'your-random-string-here') {
-      console.log("Oh cmon! Don't use 'your-random-string-here' as your secret!");
-    }
+    // Set the options or defaults
+    this.options = config(opts);   // PLUGIN.options: {}
 
     // Set them into express' app
     // TODO: whitelist here of name:type from
@@ -38,16 +33,16 @@ function Server (opts = {}, ...middle) {
         this.app.set(key, this.options[key]);
       }
     }
+    // PLUGIN.app: (app) => ...
 
-    // Get only the good modules
-    let goodones = { static: express.static(this.options.public) };
-    for (var key in modules) {
-      let options = this.options.middle[key] || this.options[key];
-      goodones[key] = modules[key](options, this.options);
-    }
+    // Get the good modules with the options
+    const goodones = Object.keys(modules).map(key => modules[key](
+      this.options.middle[key] || this.options[key], this
+    ));
 
     // Load the middleware into the app
     loadware(goodones, middle).forEach(mid => this.app.use(mid));
+    // PLUGIN.middle: opts => ctx => {}
 
     // Start listening to requests
     this.original = this.app.listen(this.options.port, () => {
@@ -55,10 +50,7 @@ function Server (opts = {}, ...middle) {
         console.log(`Server started on port ${port} http://localhost:${port}/`);
       }
 
-      // Allow for some hooks (as in socket.io)
-      if (this.attach && this.attach.length) {
-        this.attach.forEach(attachable => attachable(this));
-      }
+      // PLUGIN.attach: ctx => {}
 
       // Proxy it to the original http-server for things like .close()
       resolve(new Proxy(this, {
@@ -70,5 +62,5 @@ function Server (opts = {}, ...middle) {
   });
 }
 
-module.exports = Server;
+module.exports = (...opts) => new Server(...opts);
 module.exports.router = router;

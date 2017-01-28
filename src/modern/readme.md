@@ -1,6 +1,6 @@
-# Modernize
+# Modern
 
-This is a function to convert `connect` (and `express`) middleware to modern middleware for [`server` (link)](https://serverjs.io/). It takes the old-style middleware and returns a new style middleware.
+This is a function to convert `connect` (and `express`) middleware to *modern* middleware for [`server` (link)](https://serverjs.io/). It takes the old-style middleware and returns one based around promises.
 
 Old style:
 

@@ -23,13 +23,13 @@ describe('initializes', () => {
     expect(Object.keys(opts.middle.session.cookie).length).toBe(0);
   });
 
-  it('can set with a single param', () => {
+  it('can set port with a single param', () => {
     const opts = config(2000);
     expect(opts.port).toBe(2000);
     expect(opts.public).toBe('public');
   });
 
-  it('can set as an object', () => {
+  it('can set port as an object', () => {
     const opts = config({ port: 2000 });
     expect(opts.port).toBe(2000);
     expect(opts.public).toBe('public');
@@ -48,5 +48,9 @@ describe('initializes', () => {
   it('no overwritting if no environment set', () => {
     const opts = config({ democ: 10 });
     expect(opts.democ).toBe(10);
+  });
+
+  it('throws if default secret', () => {
+    expect(() => config({ secret: 'your-random-string-here' })).toThrow();
   });
 });
