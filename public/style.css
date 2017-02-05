@@ -47,7 +47,7 @@ body.homepage {
 }
 
 nav.super .switch::before {
-  margin-top: 0;
+  margin-top: -5px;
   padding-top: 0;
 }
 
