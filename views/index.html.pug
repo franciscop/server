@@ -1,5 +1,15 @@
 extends layout
 
 block content
+  .hero
+    .content
+      h1 
+        strong server 
+        | for Node.js
+      p.sub npm install server --save
+      a.button.docs(href='/documentation')
+        //- i.fa.fa-file-code-o
+        | Documentation
+        i.fa.fa-angle-right
   article
     include:marked ../README.md

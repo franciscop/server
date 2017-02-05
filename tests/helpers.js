@@ -13,11 +13,11 @@ exports.handler = (middle, opts = {}, servOpts = {}) => new Promise((resolve, re
     request(options, (err, res) => {
       instance.close();
       if (err) {
-        console.log("Error:", err);
+        // console.log("Error:", err);
         return reject(err);
       }
       if (res.statusCode < 200 || res.statusCode >= 300) {
-        console.log("Error:", res.statusCode, res.body);
+        // console.log("Error:", res.statusCode, res.body);
         return reject(res);
       }
       resolve(res);

@@ -50,7 +50,11 @@ describe('initializes', () => {
     expect(opts.democ).toBe(10);
   });
 
-  it('throws if default secret', () => {
+  it('it accepts a secret', () => {
+    expect(config({ secret: 'sdfdsgfsd' }).secret).toBe('sdfdsgfsd');
+  });
+
+  it('throws with default secret', () => {
     expect(() => config({ secret: 'your-random-string-here' })).toThrow();
   });
 });

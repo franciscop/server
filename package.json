@@ -30,6 +30,7 @@
     "human-error": "^0.2.0",
     "loadware": "^1.0.0",
     "method-override": "^2.3.7",
+    "path-to-regexp-wrap": "0.0.4",
     "pug": "^2.0.0-beta6",
     "response-time": "^2.3.2",
     "serve-favicon": "^2.3.2",

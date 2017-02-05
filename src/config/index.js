@@ -3,9 +3,12 @@ const config = require('./config');
 const errors = require('./errors');
 require('dotenv').config({ silent: true });
 
-function isNumeric(num){
-  return !isNaN(num)
-}
+// Check if a variable is numeric even if string
+const is = {
+  numeric: num => !isNaN(num),
+  boolean: b => b === true || b === false
+    || (typeof b === 'string' && ['true', 'false'].includes(b.toLowerCase()))
+};
 
 module.exports = (user = {}) => {
 
@@ -20,12 +23,15 @@ module.exports = (user = {}) => {
   for (let key in options) {
     if (key.toUpperCase().replace(/\s/g, '_') in process.env) {
       let env = process.env[key.toUpperCase().replace(/\s/g, '_')];
-      if (isNumeric(env)) env = +env;
+
+      // Convert it to Number if it's numeric
+      if (is.numeric(env)) env = +env;
+      if (is.boolean(env)) env = typeof env === 'string' ? env === 'true' : env;
       options[key] = env;
     }
   }
 
-  if (options.secret && options.secret === 'your-random-string-here') {
+  if (options.secret === 'your-random-string-here') {
     throw errors.NotSoSecret();
   }
 
