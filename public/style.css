@@ -47,7 +47,7 @@ body.homepage {
 }
 
 nav.super .switch::before {
-  content: '=';
+  content: '⋮';
 }
 
 @media all and (min-width: 500px) {
