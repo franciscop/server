@@ -47,8 +47,10 @@ body.homepage {
 }
 
 nav.super .switch::before {
-  margin-top: -5px;
-  padding-top: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
 }
 
 @media all and (min-width: 500px) {
