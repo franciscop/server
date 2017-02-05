@@ -10,30 +10,19 @@
   margin: 0;
   text-align: center;
   color: #fff;
+  background: #58a2df;
   padding: 1px 0;
-  background: #58a2df url("/public/kite.jpg") no-repeat center center scroll;
-  background-size: cover;
   transition: min-height 999999s;
 }
 
 .hero .content {
-  width: auto;
-  max-width: 100%;
+  padding: 10px;
+  width: 100%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translateY(-50%) translateX(-50%);
   margin: 0 auto;
-}
-
-@media all and (max-width: 800px) {
-  .hero {
-    background: #58a2df;
-  }
-  .hero .content {
-    padding: 20px;
-    width: 100%;
-  }
 }
 
 body.homepage {
@@ -43,7 +32,6 @@ body.homepage {
 
 .hero h1 {
   font-weight: normal;
-  font-size: 2.5em;
   padding: 0;
   margin: 0;
 }
@@ -51,11 +39,28 @@ body.homepage {
 .sub {
   padding: 5px 15px;
   text-align: left;
-  font-size: 1.8em;
+  font-size: 1.4em;
   margin: 0;
   font-family: monospace;
   font-weight: 300;
   background: rgba(255, 255, 255, .1);
+}
+
+@media all and (min-width: 800px) {
+  .hero {
+    background: #58a2df url("/public/kite.jpg") no-repeat center center scroll;
+    background-size: cover;
+  }
+  .hero .content {
+    width: auto;
+    max-width: 100%;
+  }
+  .hero h1 {
+    font-size: 2.5em;
+  }
+  .hero .sub {
+    font-size: 1.8em;
+  }
 }
 
 .button {
