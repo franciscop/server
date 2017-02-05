@@ -31,6 +31,7 @@
     background: #58a2df;
   }
   .hero .content {
+    padding: 20px;
     width: 100%;
   }
 }
