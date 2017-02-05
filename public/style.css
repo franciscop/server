@@ -46,6 +46,10 @@ body.homepage {
   background: rgba(255, 255, 255, .1);
 }
 
+nav.super .switch::before {
+  content: '=';
+}
+
 @media all and (min-width: 500px) {
   .hero .content {
     width: 330px;
