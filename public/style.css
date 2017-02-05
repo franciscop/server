@@ -46,6 +46,13 @@ body.homepage {
   background: rgba(255, 255, 255, .1);
 }
 
+@media all and (min-width: 500px) {
+  .hero .content {
+    width: 330px;
+    max-width: 100%;
+  }
+}
+
 @media all and (min-width: 800px) {
   .hero {
     background: #58a2df url("/public/kite.jpg") no-repeat center center scroll;
@@ -59,7 +66,7 @@ body.homepage {
     font-size: 2.5em;
   }
   .hero .sub {
-    font-size: 1.8em;
+    font-size: 1.6em;
   }
 }
 
