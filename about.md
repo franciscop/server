@@ -1,4 +1,4 @@
-# About `server`
+# About server
 
 Server is a NPM package intended to make Node.js development simpler and more intuitive.
 

@@ -1,6 +1,14 @@
 extends layout
 
 block content
+  .hero
+    .content
+      h1 About 
+        strong server 
+      p.sub modern, simple & flexible
+      a.button.docs(href='/')
+        i.fa.fa-angle-left
+        | Go back home
 
-  article
+  article.about
     include:marked ../about.md

@@ -29,8 +29,10 @@
 body.homepage {
   background: #58a2df;
 }
+
 article {
   margin-top: 0;
+  margin-bottom: 30vh;
 }
 
 
@@ -41,12 +43,16 @@ article {
 }
 
 .sub {
+  margin: 0;
+}
+
+pre.sub {
   padding: 5px 15px;
   text-align: left;
   font-size: 1.4em;
-  margin: 0;
   font-family: monospace;
   font-weight: 300;
+  border-radius: 0;
   background: rgba(255, 255, 255, .1);
 }
 
@@ -97,7 +103,7 @@ nav.super .switch::before {
   margin-right: 10px;
 }
 
-.docs i:last-child::before {
+.docs i.fa-angle-right:last-child::before {
   margin-right: 0;
   margin-left: 10px;
 }
