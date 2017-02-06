@@ -21,7 +21,7 @@ module.exports = middle => {
     ctx.req = req;
     ctx.res = res;
     ctx.app = req.app;
-    ctx.options = req.options;
+    ctx.options = req.app.options;
     if (middle instanceof Promise) {
       throw new Error('You should be wrapping the function, not the factory');
     }

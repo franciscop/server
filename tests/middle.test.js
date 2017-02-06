@@ -14,6 +14,7 @@ describe('Middleware', () => {
 
   it('has a valid context', () => {
     return getter(ctx => {
+      ctx.res.send('Hello');
       expect(ctx.req).toBeDefined();
       expect(ctx.res).toBeDefined();
       expect(ctx.options).toBeDefined();

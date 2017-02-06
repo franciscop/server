@@ -8,19 +8,19 @@ let data = { hello: '世界' };
 describe('Default modules', () => {
 
   it('bodyParser', done => {
-    let middle = (req, res) => {
-      expect(req.body.hello).toBe('世界');
-      expect(req.headers['content-type']).toBe('application/x-www-form-urlencoded');
-      res.send();
+    let middle = ctx => {
+      expect(ctx.req.body.hello).toBe('世界');
+      expect(ctx.req.headers['content-type']).toBe('application/x-www-form-urlencoded');
+      ctx.res.send();
     };
     poster(middle, data).then(res => done());
   });
 
   it('jsonParser', done => {
-    let middle = (req, res) => {
-      expect(req.body.place).toBe('世界');
-      expect(req.headers['content-type']).toBe('application/json');
-      res.send();
+    let middle = ctx => {
+      expect(ctx.req.body.place).toBe('世界');
+      expect(ctx.req.headers['content-type']).toBe('application/json');
+      ctx.res.send();
     };
 
     handler(middle, { body: { place: '世界' }, json: true }).then(res => done());
@@ -28,20 +28,21 @@ describe('Default modules', () => {
 
   it('dataParser', done => {
     let formData = { logo: fs.createReadStream(__dirname + '/logo.png') };
-    let middle = (req, res) => {
-      expect(req.files.logo.name).toBe('logo.png');
-      expect(req.files.logo.type).toBe('image/png');
-      expect(req.files.logo.size).toBe(10151);
-      res.send();
+    let middle = ctx => {
+      expect(ctx.req.files.logo.name).toBe('logo.png');
+      expect(ctx.req.files.logo.type).toBe('image/png');
+      expect(ctx.req.files.logo.size).toBe(10151);
+      ctx.res.send();
     }
 
     handler(middle, { method: 'POST', formData: formData }).then(res => done());
   });
 
+  // request() does not accept gzip
   it.skip('compress', done => {
-    let middle = (req, res) => {
+    let middle = ctx => {
       // 100 'a's
-      res.send('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      ctx.res.send('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
     }
 
     getter(middle).then(res => {
@@ -51,7 +52,7 @@ describe('Default modules', () => {
   });
 
   it('cookieParser', done => {
-    let middle = (req, res) => res.cookie('place', '世界').send();
+    let middle = ctx => ctx.res.cookie('place', '世界').send();
     poster(middle, { place: '世界' }).then(res => {
       let cookieheader = res.headers['set-cookie'];
       expect(cookieheader.length).toBe(1);
@@ -60,8 +61,8 @@ describe('Default modules', () => {
     });
   });
 
-  it.skip('session', done => {
-    let middle = (req, res) => res.cookie('place', '世界').send();
+  it('session', done => {
+    let middle = ctx => ctx.res.cookie('place', '世界').send();
     poster(middle, { place: '世界' }).then(res => {
       let cookieheader = res.headers['set-cookie'];
       expect(cookieheader.length).toBe(1);
@@ -71,9 +72,9 @@ describe('Default modules', () => {
   });
 
   it('favicon', done => {
-    let middle = (req, res) => {
+    let middle = ctx => {
       console.log("Called");
-      res.send();
+      ctx.res.send();
     };
     handler(middle, {
       url: 'http://localhost:3721/favicon.ico'
@@ -85,7 +86,7 @@ describe('Default modules', () => {
   });
 
   it('response-time', done => {
-    let middle = (req, res) => res.send('世界');
+    let middle = ctx => ctx.res.send('世界');
     getter(middle).then(res => {
       expect(typeof res.headers['x-response-time']).toBe('string');
       done();
@@ -93,10 +94,10 @@ describe('Default modules', () => {
   });
 
   it('method-override', done => {
-    let middle = (req, res) => {
-      expect(req.method).toBe('PUT');
-      expect(req.originalMethod).toBe('POST');
-      res.send('世界');
+    let middle = ctx => {
+      expect(ctx.req.method).toBe('PUT');
+      expect(ctx.req.originalMethod).toBe('POST');
+      ctx.res.send('世界');
     }
     handler(middle, { method: 'POST', headers: {
       'X-HTTP-Method-Override': 'PUT'

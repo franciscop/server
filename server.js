@@ -5,10 +5,10 @@ const loadware = require('loadware');
 // Internal modules
 const config = require('./src/config');
 const modules = require('./src/modules');
-const router = require('./src/router.js');
+const router = require('./src/router/index.js');
+const join = require('./src/join/index.js');
 const modern = require('./src/modern');
 const compat = require('./src/compat');
-const join = require('./src/join');
 
 
 const plugins = [{
@@ -27,6 +27,7 @@ function Server (opts = {}, ...middle) {
 
     // Set the options or defaults
     this.options = config(opts);   // PLUGIN.options: {}
+    this.app.options = this.options;
 
     // Set them into express' app
     // TODO: whitelist here of name:type from
@@ -43,12 +44,25 @@ function Server (opts = {}, ...middle) {
       this.options.middle[key] || this.options[key], this
     )).filter(sth => sth).map(modern);
 
-    // Load the middleware into the app
-    loadware(goodones, middle).forEach(mid => {
-      console.log("Middle:", mid);
-      this.app.use(compat(mid));
+
+    const createCtx = (req, res) => Object.assign({},
+      this,
+      { req: req, res: res }
+    );
+
+    // Main thing here
+    this.app.use((req, res, next) => {
+      let middles = loadware(goodones, middle);
+      let ctx = createCtx(req, res);
+      join(middles)(ctx).then(() => next());
     });
+
+    // Load the middleware into the app
+    // loadware(goodones, middle).forEach(mid => {
+    //   // this.app.use(compat(mid));
+    // });
     // PLUGIN.middle: opts => ctx => {}
+
 
     // Start listening to requests
     this.original = this.app.listen(this.options.port, () => {

@@ -84,25 +84,8 @@ describe('performance', () => {
       let total = /Requests per second:\s+(\d+)/.exec(analysis);
       if (!total) throw new Error('Could not parse the solution:', analysis);
       let rps = parseInt(total[1]);
-      // console.log("RPS:", rps);
+      console.log("RPS:", rps);
       expect(rps).toBeGreaterThan(1000);
     });
   }, 10000);
-});
-
-
-
-describe('alternative router', () => {
-
-  it.skip('can perform a simple get with built-in response', () => {
-    return handler(get('/').send('Hello 世界')).then(res => {
-      expect(res.body).toBe('Hello 世界');
-    });
-  });
-
-  it.skip('can concatenate', () => {
-    return handler(get('/').status(400).send('Hello 世界')).catch(res => {
-      expect(res.body).toBe('Hello 世界');
-    });
-  });
 });

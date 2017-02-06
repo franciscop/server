@@ -1,3 +1,1 @@
-module.exports = function (req, res, next) {
-  res.send('世界');
-}
+module.exports = ctx => ctx.res.send('世界');
