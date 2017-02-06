@@ -6,6 +6,9 @@ const loadware = require('loadware');
 const config = require('./src/config');
 const modules = require('./src/modules');
 const router = require('./src/router.js');
+const modern = require('./src/modern');
+const compat = require('./src/compat');
+const join = require('./src/join');
 
 
 const plugins = [{
@@ -38,10 +41,13 @@ function Server (opts = {}, ...middle) {
     // Get the good modules with the options
     const goodones = Object.keys(modules).map(key => modules[key](
       this.options.middle[key] || this.options[key], this
-    ));
+    )).filter(sth => sth).map(modern);
 
     // Load the middleware into the app
-    loadware(goodones, middle).forEach(mid => this.app.use(mid));
+    loadware(goodones, middle).forEach(mid => {
+      console.log("Middle:", mid);
+      this.app.use(compat(mid));
+    });
     // PLUGIN.middle: opts => ctx => {}
 
     // Start listening to requests

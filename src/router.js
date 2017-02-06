@@ -1,5 +1,7 @@
-let express = require('express');
-let loadware = require('loadware');
+const express = require('express');
+const loadware = require('loadware');
+const modern = require('./modern');
+const compat = require('./compat');
 
 let join = (...middles) => {
   let router = express.Router();
@@ -14,27 +16,9 @@ let join = (...middles) => {
 const createRouter = (method, path, ...args) => {
   if (method === 'del') method = 'delete';
   let router = express.Router();
-  router[method](path, ...args);
-
-  // This is only experimental right now
-  if (process.env.EXPERIMENTAL === '1') {
-    // Allow to call the response straight in the router:
-    //   get('/').send('Hello 世界')
-    ['append', 'attachment', 'cookie', 'clearCookie', 'download', 'end', 'file',
-      'format', 'json', 'jsonp', 'links', 'location', 'redirect', 'render',
-      'send', 'sendFile', 'sendStatus', 'status', 'status', 'type', 'vary'
-    ].forEach(type => {
-      router[type] = router[type] || ((...extra) => createRouter(method, path, ...args, (req, res, next) => {
-        if (type === 'file') type = 'sendFile';
-        res[type](...extra);
-        if (!res.headersSent) {
-          next();
-        }
-      }));
-    });
-  }
-
-  return router;
+  // console.log("Len:", ...loadware(args).filter(one => one).map(compat({ options: {} })));
+  router[method](path, ...loadware(args).filter(one => one).map(compat));
+  return modern(router);
 }
 
 module.exports = new Proxy({}, {

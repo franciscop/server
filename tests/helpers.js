@@ -4,12 +4,27 @@ let { get, post, put, del } = server.router;
 
 let port = 3000;
 
-exports.handler = (middle, opts = {}, servOpts = {}) => new Promise((resolve, reject) => {
+
+// Just send 'Hello world' from the server side
+exports.hello = ctx => ctx.res.send('Hello 世界');
+
+// Make sure this method is never called
+exports.err = ctx => { throw new Error('This should not be called'); };
+
+
+exports.launch = launch = (middle = [], servOpts = {}) => {
+  port = port + 1 + parseInt(Math.random() * 100);
+  return server(Object.assign({}, { port: port }, servOpts), middle);
+};
+
+exports.handler = (middle, opts = {}, servOpts) => new Promise((resolve, reject) => {
   // As they are loaded in parallel and from different files, we need to randomize it
   // The assuption here is under 100 tests/file
-  port = port + 1 + parseInt(Math.random() * 900);
-  server(Object.assign({}, { port: port }, servOpts), middle).then(instance => {
-    let options = Object.assign({}, { url: 'http://localhost:' + port + '/', gzip: true }, opts);
+  launch(middle, servOpts).then(instance => {
+    let options = Object.assign({}, {
+      url: 'http://localhost:' + port + '/',
+      gzip: true
+    }, opts);
     request(options, (err, res) => {
       instance.close();
       if (err) {

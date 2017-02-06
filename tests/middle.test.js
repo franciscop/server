@@ -6,9 +6,17 @@ let { handler, getter } = require('./helpers');
 
 describe('Middleware', () => {
   it('loads as a function', done => {
-    getter((req, res) => res.send('世界')).then(res => {
-      expect(res.body).toBe('世界');
+    getter(ctx => ctx.res.send('Hello 世界')).then(res => {
+      expect(res.body).toBe('Hello 世界');
       done();
+    });
+  });
+
+  it('has a valid context', () => {
+    return getter(ctx => {
+      expect(ctx.req).toBeDefined();
+      expect(ctx.res).toBeDefined();
+      expect(ctx.options).toBeDefined();
     });
   });
 

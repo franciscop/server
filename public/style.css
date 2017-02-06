@@ -107,3 +107,8 @@ nav.super .switch::before {
   margin-right: 0;
   margin-left: 10px;
 }
+
+article.home h1,
+article.about h1 {
+  display: none;
+}
