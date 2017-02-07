@@ -66,16 +66,18 @@ You can also download the repository and try the examples by browsing to them an
 
 ## License
 
-Licensed under the MIT License. See `LICENSE` for the full license.
+Licensed under the MIT License. See [LICENSE](https://github.com/franciscop/server/blob/master/LICENSE) for the full license.
 
 
 
 ## Author
 
-This package was created by [Francisco Presencia](http://francisco.io/) but hopefully developed and maintained by many others. See the [the list of contributors here](https://github.com/serverjs/server/graphs/contributors).
+This package was created by [Francisco Presencia](http://francisco.io/) but hopefully developed and maintained by many others. See the [the list of contributors here](https://github.com/franciscop/server/graphs/contributors).
 
 
 
 ## Trivia
+
+This site is created with [Paperdocs (another project I made)](http://francisco.io/paperdocs/).
 
 This website is NOT running on *server.js*. It doesn't make sense to run a custom server to display a static website so it's hosted on Github's Pages. From my personal projects I've migrated [Comments Network](https://comments.network/) so far to use server.js.

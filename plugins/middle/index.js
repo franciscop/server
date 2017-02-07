@@ -56,7 +56,8 @@ plugin.middle = [
 
   // Cookie parser
   renaissance(ctx => {
-    if (ctx.options.middle.cookieParser) {
+    const opts = ctx.options.middle.cookieParser || ctx.options.cookieParser;
+    if (opts && opts.secret) {
       return require('cookie-parser')(ctx.options.middle.cookieParser);
     }
   }),

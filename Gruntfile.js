@@ -20,6 +20,19 @@ module.exports = function (grunt) {
       }
     },
 
+    // Launch a small static server
+    connect: {
+      server: {
+        options: {
+          port: 3000,
+          hostname: '*',
+          base: 'docs',
+          livereload: true,
+          useAvailablePort: false
+        }
+      }
+    },
+
     watch: {
       scripts: {
         files: [
@@ -63,6 +76,7 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
+  grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-pug');
   grunt.loadNpmTasks('grunt-contrib-watch');
@@ -71,5 +85,5 @@ module.exports = function (grunt) {
 
   grunt.registerTask('build', ['browserify']);
   grunt.registerTask('test', ['jshint', 'bytesize']);
-  grunt.registerTask('default', ['pug', 'test']);
+  grunt.registerTask('default', ['pug', 'test', 'connect']);
 };

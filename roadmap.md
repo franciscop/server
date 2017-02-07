@@ -5,12 +5,12 @@ Wish list and features. Totally tentative, but nothing set in stone.
 
 ## Version 1.2
 
-Passport integration.
+Passport integration. Performance.
 
 
 ## Version 1.1
 
-Making integration API. Integrate websockets:
+Making Plugin API. Integrate websockets:
 
 ```js
 let server = require('server');
@@ -43,10 +43,10 @@ Todo:
 - Include all of the libraries
 - Testing testing and more testing
 - Good documentation and [tutorials in Libre University](https://en.libre.university/subject/4kitSFzUe)
-- Make sure that the express-session is secure with the secret
 
 Done:
 
 - Created the base
 - Implemented some of the libraries
 - Use it in real-world projects
+- Make sure that the express-session is secure with the secret (session usage depend on whether the token is provided or not)

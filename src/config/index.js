@@ -1,5 +1,5 @@
 const extend = require('extend');  // deep clone, not like shallow Object.assign
-const config = require('./config');
+const config = require('./defaults');
 const errors = require('./errors');
 require('dotenv').config({ silent: true });
 

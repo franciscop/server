@@ -64,4 +64,34 @@ describe('plugins', () => {
   it('loads plugin config', () => {
     expect(config({}, [{ name: 'middle', options: { a: 'b' } }]).middle.a).toBe('b');
   });
+  it('loads plugin config', () => {
+    expect(config({}, [{ name: 'middle', options: opts => {
+      opts.a = 'b';
+      return opts;
+    } }]).middle.a).toBe('b');
+  });
+});
+
+
+describe('app', () => {
+  const appify = (key, cb) => ({
+    set: (name, value) => (name === key) ? cb(value) : false
+  });
+
+  it ('sets the defaults', () => {
+    config({ foo: 'bar' }, [], appify('foo', value => {
+      expect(value).toBe('bar');
+    }));
+  });
+
+  it('sets values to the app', done => {
+    config({ foo: 'bar' }, [], {
+      set: (name, value) => {
+        if (name === 'foo') {
+          expect(value).toBe('bar');
+          done();
+        }
+      }
+    });
+  });
 });

@@ -27,7 +27,7 @@ let server = require('server');
 let { get, post } = server.router;
 
 server([
-  get('/', ),
+  get('/', ctx => {}),
 ]);
 ```
 
@@ -38,9 +38,10 @@ server([
 // Synchronous
 let mid = ctx => ctx.req.user = { me: 'me' };
 
-// Async purposefully unresolved
+// Async
 let mid = ctx => new Promise((resolve, reject) => {
   ctx.send('Hello 世界');
+  resolve();
 });
 
 // Unresolved by router design

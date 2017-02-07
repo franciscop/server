@@ -72,7 +72,7 @@ describe('performance', () => {
     });
   });
 
-  it('makes at least 1000 req/second', () => {
+  it.skip('makes at least 1000 req/second', () => {
     if (!performance) return Promise.resolve('Good');
 
     return launch(get('/', hello)).then(ctx => command('ab', [
