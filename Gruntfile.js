@@ -1,3 +1,6 @@
+/* jshint esversion: 6 */
+const filters = require('./docs/filters.js');
+
 // This builds the library itself
 module.exports = function (grunt) {
   // Configuration
@@ -55,7 +58,9 @@ module.exports = function (grunt) {
     pug: {
       compile: {
         options: {
-          client: false
+          client: false,
+          data: {},
+          filters: filters
         },
         files: {
           'docs/index.html': 'docs/views/index.html.pug',

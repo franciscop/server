@@ -2,11 +2,26 @@
   content: "- ";
 }
 
+nav {
+  padding-left: calc(50% - 600px);
+  padding-right: calc(50% - 600px);
+  margin: 0 auto;
+}
+
+nav .brand {
+  margin-left: 10px;
+}
+
+nav footer {
+  margin-right: 10px;
+}
+
 .hero {
   background: red;
   position: relative;
   width: 100%;
-  min-height: 60%;
+  height: 60%;
+  min-height: 300px;
   margin: 0;
   text-align: center;
   color: #fff;
