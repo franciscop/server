@@ -1,6 +1,5 @@
 // External packages
 const express = require('express');
-const loadware = require('loadware');
 
 // Internal modules
 const config = require('./src/config');
@@ -8,7 +7,7 @@ const modules = require('./src/modules');
 const router = require('./src/router/index.js');
 const join = require('./src/join/index.js');
 const modern = require('./src/modern');
-const compat = require('./src/compat');
+// const compat = require('./src/compat');
 
 
 const plugins = [{
@@ -44,23 +43,13 @@ function Server (opts = {}, ...middle) {
       this.options.middle[key] || this.options[key], this
     )).filter(sth => sth).map(modern);
 
-
-    const createCtx = (req, res) => Object.assign({},
-      this,
-      { req: req, res: res }
-    );
+    // Create the initial context
+    const context = (req, res) => Object.assign({}, this, { req: req, res: res });
 
     // Main thing here
-    this.app.use((req, res, next) => {
-      let middles = loadware(goodones, middle);
-      let ctx = createCtx(req, res);
-      join(middles)(ctx).then(() => next());
-    });
+    this.app.use((req, res) => join(goodones, middle)(context(req, res)));
 
-    // Load the middleware into the app
-    // loadware(goodones, middle).forEach(mid => {
-    //   // this.app.use(compat(mid));
-    // });
+
     // PLUGIN.middle: opts => ctx => {}
 
 

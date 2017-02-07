@@ -16,8 +16,8 @@ server({ port: 8080, public: './' });
 // OR use some simple routes on http://localhost:3000/
 const { get, post } = server.router;
 server(
-  get('/', (req, res) => { res.render('index') }),
-  post('/', (req, res) => { console.log(req.body) })
+  get('/', ctx => ctx.res.render('index')),
+  post('/', ctx => console.log(ctx.req.body))
 );
 ```
 
@@ -42,7 +42,7 @@ let { get, post } = server.router;
 server(3000,
 
   // Handle requests to the url "/" ( http://localhost:3000/ )
-  get('/', (req, res) => res.send('Hello world!'))
+  get('/', ctx => ctx.res.send('Hello world!'))
 );
 ```
 

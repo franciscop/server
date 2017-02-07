@@ -84,7 +84,7 @@ describe('performance', () => {
       let total = /Requests per second:\s+(\d+)/.exec(analysis);
       if (!total) throw new Error('Could not parse the solution:', analysis);
       let rps = parseInt(total[1]);
-      console.log("RPS:", rps);
+      // console.log("RPS:", rps);
       expect(rps).toBeGreaterThan(1000);
     });
   }, 10000);
