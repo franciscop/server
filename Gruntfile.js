@@ -3,12 +3,7 @@ module.exports = function (grunt) {
   // Configuration
   grunt.initConfig({
     jshint: {
-      ignore_warning: {
-        src: ['Gruntfile.js', 'server.js'],
-        options: {
-          '-W043': true  // Allow for multiline with \ backslash
-        }
-      }
+      src: ['Gruntfile.js', 'server.js']
     },
 
     browserify: {
@@ -68,12 +63,13 @@ module.exports = function (grunt) {
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-watch');
+  grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-pug');
+  grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-bytesize');
 
   grunt.registerTask('build', ['browserify']);
-  grunt.registerTask('test', ['bytesize']);
-  grunt.registerTask('default', ['pug', 'build', 'test']);
+  grunt.registerTask('test', ['jshint', 'bytesize']);
+  grunt.registerTask('default', ['pug', 'test']);
 };

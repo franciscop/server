@@ -1,3 +1,5 @@
+/* jshint esversion: 6 */
+
 // External packages
 const express = require('express');
 
@@ -7,19 +9,23 @@ const modules = require('./src/modules');
 const router = require('./src/router/index.js');
 const join = require('./src/join/index.js');
 const modern = require('./src/modern');
-// const compat = require('./src/compat');
 
-
-const plugins = [{
-  options: {},
-  app: app => {},
-  middle: ctx => {},
-}];
-
+// v1.1
+// const plugins = [{
+//   options: {},
+//   app: app => {},
+//   middle: ctx => {},
+// }];
 
 // Main function
-function Server (opts = {}, ...middle) {
+function Server (...middle) {
   return new Promise((resolve, reject) => {
+
+    let opts = {};
+    if (!(middle[0] instanceof Function)) {
+      opts = middle.shift();
+    }
+
 
     this.express = express;
     this.app = this.express();

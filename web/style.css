@@ -119,3 +119,9 @@ article.home p:first-of-type,
 article.about p:first-of-type {
     margin-top: 0;
 }
+
+@media all and (max-width: 900px) {
+  article {
+    padding: 15px 20px 20px;
+  }
+}
