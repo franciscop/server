@@ -9,7 +9,7 @@ module.exports = function (grunt) {
     browserify: {
       dist: {
         files: {
-          'web/javascript.min.js': 'web/javascript.jsz'
+          'docs/javascript.min.js': 'docs/javascript.jsz'
         },
         options: {
           transform: [['babelify', { presets: ['es2015'] }], ['uglifyify']],
@@ -26,7 +26,7 @@ module.exports = function (grunt) {
           'package.js', // To bump versions
           'Gruntfile.js',
           'documentation/*.**',
-          'web/**/*.**',
+          'docs/**/*.**',
           'server.js',
           'about.md',
           'README.md'
@@ -45,9 +45,9 @@ module.exports = function (grunt) {
           client: false
         },
         files: {
-          'index.html': 'web/views/index.html.pug',
-          'about.html': 'web/views/about.html.pug',
-          'documentation/index.html': 'web/views/documentation.html.pug'
+          'docs/index.html': 'docs/views/index.html.pug',
+          'docs/about.html': 'docs/views/about.html.pug',
+          'docs/documentation.html': 'docs/views/documentation.html.pug'
         }
       }
     },
@@ -55,8 +55,8 @@ module.exports = function (grunt) {
     bytesize: {
       all: {
         src: [
-          'web/style.css',
-          'web/javascript.js'
+          'docs/style.css',
+          'docs/javascript.js'
         ]
       }
     }

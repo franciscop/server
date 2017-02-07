@@ -73,7 +73,7 @@ nav.super .switch::before {
 
 @media all and (min-width: 800px) {
   .hero {
-    background: #58a2df url("/web/img/kite.jpg") no-repeat center center scroll;
+    background: #58a2df url("/img/kite.jpg") no-repeat center center scroll;
     background-size: cover;
   }
   .hero .content {
