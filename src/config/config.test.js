@@ -14,25 +14,25 @@ describe('initializes', () => {
   it('returns the correct defaults', () => {
     const opts = config();
     expect(opts.port).toBe(3000);
-    expect(opts.public).toBe('public');
     expect(opts['view engine']).toBe('pug');
     expect(opts.verbose).toBe(false);
-    expect(opts.middle.bodyParser.extended).toBe(true);
-    expect(opts.middle.session.resave).toBe(false);
-    expect(opts.middle.session.saveUninitialized).toBe(true);
-    expect(Object.keys(opts.middle.session.cookie).length).toBe(0);
+
+    // This is now a plugin:
+    // expect(opts.middle.public).toBe('public');
+    // expect(opts.middle.bodyParser.extended).toBe(true);
+    // expect(opts.middle.session.resave).toBe(false);
+    // expect(opts.middle.session.saveUninitialized).toBe(true);
+    // expect(Object.keys(opts.middle.session.cookie).length).toBe(0);
   });
 
   it('can set port with a single param', () => {
     const opts = config(2000);
     expect(opts.port).toBe(2000);
-    expect(opts.public).toBe('public');
   });
 
   it('can set port as an object', () => {
     const opts = config({ port: 2000 });
     expect(opts.port).toBe(2000);
-    expect(opts.public).toBe('public');
   });
 
   it('environment wins params', () => {
@@ -56,5 +56,12 @@ describe('initializes', () => {
 
   it('throws with default secret', () => {
     expect(() => config({ secret: 'your-random-string-here' })).toThrow();
+  });
+});
+
+
+describe('plugins', () => {
+  it('loads plugin config', () => {
+    expect(config({}, [{ name: 'middle', options: { a: 'b' } }]).middle.a).toBe('b');
   });
 });

@@ -7,13 +7,13 @@ let data = { hello: '世界' };
 
 describe('Default modules', () => {
 
-  it('bodyParser', done => {
+  it('bodyParser', () => {
     let middle = ctx => {
       expect(ctx.req.body.hello).toBe('世界');
       expect(ctx.req.headers['content-type']).toBe('application/x-www-form-urlencoded');
       ctx.res.send();
     };
-    poster(middle, data).then(res => done());
+    return poster(middle, data);
   });
 
   it('jsonParser', done => {
@@ -27,6 +27,7 @@ describe('Default modules', () => {
   });
 
   it('dataParser', done => {
+
     let formData = { logo: fs.createReadStream(__dirname + '/logo.png') };
     let middle = ctx => {
       expect(ctx.req.files.logo.name).toBe('logo.png');
@@ -72,13 +73,12 @@ describe('Default modules', () => {
   });
 
   it('favicon', done => {
-    let middle = ctx => {
-      console.log("Called");
-      ctx.res.send();
-    };
+    let middle = ctx => ctx.res.send();
     handler(middle, {
       url: 'http://localhost:3721/favicon.ico'
-    }, { port: 3721, favicon: __dirname + '/logo.png' }).then(res => {
+    }, { port: 3721, middle: {
+      favicon: __dirname + '/logo.png'
+    } }).then(res => {
       expect(res.headers['content-type']).toBe('image/x-icon');
       expect(res.headers['content-encoding']).toBe('gzip');
       done();

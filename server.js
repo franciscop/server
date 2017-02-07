@@ -1,3 +1,6 @@
+// server for Node.js (https://serverjs.io/)
+// A simple and powerful server for Node.js.
+
 /* jshint esversion: 6 */
 
 // External packages
@@ -5,62 +8,35 @@ const express = require('express');
 
 // Internal modules
 const config = require('./src/config');
-const modules = require('./src/modules');
 const router = require('./src/router/index.js');
 const join = require('./src/join/index.js');
-const modern = require('./src/modern');
-
-// v1.1
-// const plugins = [{
-//   options: {},
-//   app: app => {},
-//   middle: ctx => {},
-// }];
+const plugins = [
+  require('./plugins/middle')
+];
 
 // Main function
 function Server (...middle) {
   return new Promise((resolve, reject) => {
+    "use strict";
 
-    let opts = {};
-    if (!(middle[0] instanceof Function)) {
-      opts = middle.shift();
-    }
-
+    const opts = middle[0] instanceof Function ? {} : middle.shift();
 
     this.express = express;
     this.app = this.express();
 
-    // Set the options or defaults
-    this.options = config(opts);   // PLUGIN.options: {}
-    this.app.options = this.options;
-
-    // Set them into express' app
-    // TODO: whitelist here of name:type from
-    //   https://expressjs.com/en/api.html#app.settings.table
-    for (let key in this.options) {
-      if (['boolean', 'number', 'string'].includes(typeof this.options[key])) {
-        this.app.set(key, this.options[key]);
-      }
-    }
-    // PLUGIN.app: (app) => ...
-
-    // Get the good modules with the options
-    const goodones = Object.keys(modules).map(key => modules[key](
-      this.options.middle[key] || this.options[key], this
-    )).filter(sth => sth).map(modern);
+    // Set the options for the context of Server.js
+    this.options = config(opts, plugins, this.app);
 
     // Create the initial context
     const context = (req, res) => Object.assign({}, this, { req: req, res: res });
 
+    // PLUGIN middleware
+    middle = join(plugins.map(p => p.middleware || p.middle), middle);
+
     // Main thing here
-    this.app.use((req, res) => join(goodones, middle)(context(req, res)));
+    this.app.use((req, res) => middle(context(req, res)));
 
-
-    // PLUGIN.middle: opts => ctx => {}
-
-
-    // Start listening to requests
-    this.original = this.app.listen(this.options.port, () => {
+    const launch = () => {
       if (this.options.verbose) {
         console.log(`Server started on port ${port} http://localhost:${port}/`);
       }
@@ -69,9 +45,12 @@ function Server (...middle) {
 
       // Proxy it to the original http-server for things like .close()
       resolve(new Proxy(this, {
-        get: (ser, key) => ser[key] || ser.original[key]
+        get: (ctx, key) => ctx[key] || ctx.original[key]
       }));
-    });
+    };
+
+    // Start listening to requests
+    this.original = this.app.listen(this.options.port, launch);
 
     this.original.on('error', err => reject(err));
   });

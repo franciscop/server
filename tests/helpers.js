@@ -12,21 +12,23 @@ exports.hello = ctx => ctx.res.send('Hello 世界');
 exports.err = ctx => { throw new Error('This should not be called'); };
 
 
-exports.launch = launch = (middle = [], servOpts = {}) => {
+exports.launch = launch = (middle = [], opts = {}) => {
   port = port + 1 + parseInt(Math.random() * 100);
-  return server(Object.assign({}, { port: port }, servOpts), middle);
+  opts = Object.assign({}, { port: port }, opts);
+  return server(opts, middle);
 };
 
 exports.handler = (middle, opts = {}, servOpts) => new Promise((resolve, reject) => {
   // As they are loaded in parallel and from different files, we need to randomize it
   // The assuption here is under 100 tests/file
-  launch(middle, servOpts).then(instance => {
+  launch(middle, servOpts).then(ctx => {
     let options = Object.assign({}, {
       url: 'http://localhost:' + port + '/',
       gzip: true
     }, opts);
+
     request(options, (err, res) => {
-      instance.close();
+      ctx.close();
       if (err) {
         // console.log("Error:", err);
         return reject(err);
@@ -37,7 +39,7 @@ exports.handler = (middle, opts = {}, servOpts) => new Promise((resolve, reject)
       }
       resolve(res);
     });
-  }).catch(err => { throw err; });
+  });
 });
 
 exports.getter = (middle, data = {}) => exports.handler(get('/', middle), {

@@ -5,8 +5,10 @@ describe('Options', () => {
     server().then(server => {
       expect(server.options.port).toBe(3000);
       expect(server.options['view engine']).toBe('pug');
-      expect(server.options.public).toBe('public');
       expect(server.options.verbose).toBe(false);
+
+      // Now this is a plugin:
+      // expect(server.options.public).toBe('public');
       server.close();
       done();
     });

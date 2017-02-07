@@ -10,7 +10,7 @@ const is = {
     || (typeof b === 'string' && ['true', 'false'].includes(b.toLowerCase()))
 };
 
-module.exports = (user = {}) => {
+module.exports = (user = {}, plugins, app) => {
 
   // If it's a number it's the port
   if (typeof user === 'number') {
@@ -33,6 +33,31 @@ module.exports = (user = {}) => {
 
   if (options.secret === 'your-random-string-here') {
     throw errors.NotSoSecret();
+  }
+
+  // Load the options from the plugin array, namespaced with the plugin name
+  if (plugins) {
+    plugins.forEach(plugin => {
+      let opts = plugin.options;
+      options[plugin.name] = extend(true,
+        opts instanceof Function ? opts(options) : opts,
+        options[plugin.name] || {}
+      );
+    });
+  }
+
+
+  if (app) {
+    app.options = options;
+
+    // Set them into express' app
+    // TODO: whitelist here of name:type from
+    //   https://expressjs.com/en/api.html#app.settings.table
+    for (let key in options) {
+      if (app.set && ['boolean', 'number', 'string'].includes(typeof options[key])) {
+        app.set(key, options[key]);
+      }
+    }
   }
 
   return options;
