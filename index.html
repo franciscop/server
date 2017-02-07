@@ -1,6 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible server for Node.js"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible server for Node.js"><link href="https://unpkg.com/paperdocs@0/paperdocs.min.css" rel="stylesheet"><link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet"><link href="/public/style.css" rel="stylesheet"></head><body class="homepage"><nav class="super"><a class="brand" href="/"><img class="logo" src="/public/logo.svg"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="article h1, article h2, article h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about"><i class="fa fa-info"></i>About</a> <a class="pseudo button" href="https://github.com/franciscop/server" target="_blank"><i class="fa fa-github-alt"></i>Github</a> <a class="button" href="/documentation"><i class="fa fa-file-code-o"></i>Documentation</a></div></footer></nav></body><div class="hero"><div class="content"><h1> <strong>server </strong>for Node.js</h1><pre class="sub">npm install server --save</pre><a class="button docs" href="/documentation">Documentation<i class="fa fa-angle-right"></i></a></div></div><article class="home"><h1 id="server">Server</h1>
-<blockquote style="background: #fbb; padding: 10px 15px; border-radius: 5px;">This is alpha software with the <a href="https://github.com/franciscop/server/issues/1">specification being finished</a> and the documentation is mainly to see if it all fits. The middleware and some bits will be changed before <code>1.0.0</code></blockquote>
-
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible server for Node.js"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible server for Node.js"><link href="https://unpkg.com/paperdocs@0/paperdocs.min.css" rel="stylesheet"><link href="https://opensource.keycdn.com/fontawesome/4.7.0/font-awesome.min.css" rel="stylesheet"><link href="/web/style.css" rel="stylesheet"></head><body class="homepage"><nav class="super"><a class="brand" href="/"><img class="logo" src="/web/img/logo.svg"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="article h1, article h2, article h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about"><i class="fa fa-info"></i>About</a> <a class="pseudo button" href="https://github.com/franciscop/server" target="_blank"><i class="fa fa-github-alt"></i>Github</a> <a class="button" href="/documentation"><i class="fa fa-file-code-o"></i>Documentation</a></div></footer></nav></body><div class="hero"><div class="content"><h1> <strong>server </strong>for Node.js</h1><pre class="sub">npm install server --save</pre><a class="button docs" href="/documentation">Documentation<i class="fa fa-angle-right"></i></a></div></div><article class="home"><h1 id="server">Server</h1>
 <p>A <strong>simple and powerful server</strong> for Node.js:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 
@@ -13,8 +11,8 @@ server({ port: 8080, public: &#39;./&#39; });
 // OR use some simple routes on http://localhost:3000/
 const { get, post } = server.router;
 server(
-  get(&#39;/&#39;, (req, res) =&gt; { res.render(&#39;index&#39;) }),
-  post(&#39;/&#39;, (req, res) =&gt; { console.log(req.body) })
+  get(&#39;/&#39;, ctx =&gt; ctx.res.render(&#39;index&#39;)),
+  post(&#39;/&#39;, ctx =&gt; console.log(ctx.req.body))
 );
 </code></pre>
 <h2 id="getting-started">Getting started</h2>
@@ -30,7 +28,7 @@ let { get, post } = server.router;
 server(3000,
 
   // Handle requests to the url &quot;/&quot; ( http://localhost:3000/ )
-  get(&#39;/&#39;, (req, res) =&gt; res.send(&#39;Hello world!&#39;))
+  get(&#39;/&#39;, ctx =&gt; ctx.res.send(&#39;Hello world!&#39;))
 );
 </code></pre>
 <p>Execute this in the terminal to get the server started:</p>

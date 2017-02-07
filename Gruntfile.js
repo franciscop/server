@@ -11,16 +11,19 @@ module.exports = function (grunt) {
       }
     },
 
-    // uglify: {
-    //   options: {
-    //     banner: '/* Umbrella JS ' + grunt.file.readJSON('package.json').version + ' umbrellajs.com */\n'
-    //   },
-    //   my_target: {
-    //     files: {
-    //       'umbrella.min.js': 'umbrella.js'
-    //     }
-    //   }
-    // },
+    browserify: {
+      dist: {
+        files: {
+          'web/javascript.min.js': 'web/javascript.jsz'
+        },
+        options: {
+          transform: [['babelify', { presets: ['es2015'] }], ['uglifyify']],
+          browserifyOptions: {
+            debug: true
+          }
+        }
+      }
+    },
 
     watch: {
       scripts: {
@@ -28,8 +31,7 @@ module.exports = function (grunt) {
           'package.js', // To bump versions
           'Gruntfile.js',
           'documentation/*.**',
-          'public/*.**',
-          'views/**/*.**',
+          'web/**/*.**',
           'server.js',
           'about.md',
           'README.md'
@@ -48,50 +50,30 @@ module.exports = function (grunt) {
           client: false
         },
         files: {
-          'index.html': 'views/index.html.pug',
-          'about.html': 'views/about.html.pug',
-          'documentation/index.html': 'views/documentation.html.pug'
+          'index.html': 'web/views/index.html.pug',
+          'about.html': 'web/views/about.html.pug',
+          'documentation/index.html': 'web/views/documentation.html.pug'
         }
       }
     },
 
-    // concat: {
-    //   main: {
-    //     // No test files
-    //     options: {
-    //       process: function (src, file) {
-    //         return /test\.js/.test(file) ? '' : src;
-    //       }
-    //     },
-    //     files: {
-    //       'umbrella.js': ['src/umbrella.js', 'src/plugins/**/*.js', 'src/export.js'],
-    //       'documentation.md': ['src/readme.md', 'src/plugins/**/readme.md']
-    //     }
-    //   },
-    //   test: {
-    //     files: {
-    //       'test/test.js': ['src/test.js', 'src/plugins/**/test.js']
-    //     }
-    //   }
-    // },
-
     bytesize: {
       all: {
         src: [
-          'public/style.css',
-          'public/javascript.js'
+          'web/style.css',
+          'web/javascript.js'
         ]
       }
     }
   });
 
   grunt.loadNpmTasks('grunt-contrib-concat');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-contrib-pug');
+  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-bytesize');
 
-  grunt.registerTask('build', ['concat', 'uglify', 'pug']);
+  grunt.registerTask('build', ['browserify']);
   grunt.registerTask('test', ['bytesize']);
-  grunt.registerTask('default', ['pug', 'test']);
+  grunt.registerTask('default', ['pug', 'build', 'test']);
 };

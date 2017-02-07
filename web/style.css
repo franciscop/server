@@ -73,7 +73,7 @@ nav.super .switch::before {
 
 @media all and (min-width: 800px) {
   .hero {
-    background: #58a2df url("/public/kite.jpg") no-repeat center center scroll;
+    background: #58a2df url("/web/img/kite.jpg") no-repeat center center scroll;
     background-size: cover;
   }
   .hero .content {
@@ -108,7 +108,14 @@ nav.super .switch::before {
   margin-left: 10px;
 }
 
+
+/* The h1 is already on the hero */
 article.home h1,
 article.about h1 {
   display: none;
+}
+
+article.home p:first-of-type,
+article.about p:first-of-type {
+    margin-top: 0;
 }
