@@ -72,7 +72,7 @@ describe('performance', () => {
     });
   });
 
-  it('makes at least 1000 req/second without middleware', () => {
+  it.skip('makes at least 1000 req/second without middleware', () => {
     if (!performance) return Promise.resolve('Good');
 
     const runAB = ctx => {
