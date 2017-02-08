@@ -17,7 +17,18 @@ module.exports = (user = {}, plugins, app) => {
     user = { port: user };
   }
 
-  let options = extend(true, {}, config, user);
+  let options = extend({}, config);
+
+  // Load the options from the plugin array, namespaced with the plugin name
+  if (plugins) {
+    plugins.forEach(plugin => {
+      const valuify = cb => cb instanceof Function ? cb(options) : cb;
+      const obj = { [plugin.name]: valuify(plugin.options) };
+      options = extend(true, {}, options, obj);
+    });
+  }
+
+  extend(true, options, user);
 
   // Overwrite with the env variables if set
   for (let key in options) {
@@ -35,16 +46,6 @@ module.exports = (user = {}, plugins, app) => {
     throw errors.NotSoSecret();
   }
 
-  // Load the options from the plugin array, namespaced with the plugin name
-  if (plugins) {
-    plugins.forEach(plugin => {
-      let opts = plugin.options;
-      options[plugin.name] = extend(true,
-        opts instanceof Function ? opts(options) : opts,
-        options[plugin.name] || {}
-      );
-    });
-  }
 
 
   if (app) {

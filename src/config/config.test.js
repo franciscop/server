@@ -64,7 +64,7 @@ describe('plugins', () => {
   it('loads plugin config', () => {
     expect(config({}, [{ name: 'middle', options: { a: 'b' } }]).middle.a).toBe('b');
   });
-  it('loads plugin config', () => {
+  it('loads plugin config with function', () => {
     expect(config({}, [{ name: 'middle', options: opts => {
       opts.a = 'b';
       return opts;

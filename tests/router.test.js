@@ -2,7 +2,7 @@ let request = require('request-promise-native');
 let server = require('../server');
 let { get, post, put, del } = server.router;
 let { hello, err, launch, handler, getter, poster } = require('./helpers');
-let command = require('./command');
+let command = require('promised-exec');
 
 // Check that a response is performed and it's a simple one
 const checker = ({ body = 'Hello 世界', method = 'GET' } = {}) => res => {
@@ -63,7 +63,7 @@ describe('performance', () => {
   let performance = false;
 
   beforeAll(() => {
-    return command('which', ['ab']).then(res => {
+    return command('which ab').then(res => {
       if (res) {
         performance = true;
       } else {
@@ -72,15 +72,13 @@ describe('performance', () => {
     });
   });
 
-  it.skip('makes at least 1000 req/second', () => {
+  it('makes at least 1000 req/second without middleware', () => {
     if (!performance) return Promise.resolve('Good');
 
-    return launch(get('/', hello)).then(ctx => command('ab', [
-      '-r',
-      '-n', '2000',    // total number of requests
-      '-c', '100',     // concurrent requests
-      'http://localhost:' + ctx.options.port + '/'
-    ])).then(analysis => {
+    const runAB = ctx => {
+      return command(`ab -r -n 2000 -c 100 http://localhost:${ctx.options.port}/`);
+    }
+    return launch(get('/', hello), { middle: false }).then(runAB).then(analysis => {
       let total = /Requests per second:\s+(\d+)/.exec(analysis);
       if (!total) throw new Error('Could not parse the solution:', analysis);
       let rps = parseInt(total[1]);
