@@ -1,6 +1,6 @@
 # Server
 
-A **simple and powerful server** for Node.js:
+**Simple and powerful server** for Node.js:
 
 ```js
 const server = require('server');
