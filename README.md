@@ -76,8 +76,12 @@ This package was created by [Francisco Presencia](http://francisco.io/) but hope
 
 
 
-## Trivia
+## Hire me
 
-This site is created with [Paperdocs (another project I made)](http://francisco.io/paperdocs/).
+I love using my work in real life and I'm available for contractor work. My freelancing helps keep `server` and [my other open source projects](https://github.com/franciscop/) up to date! Hire me to do:
 
-This website is NOT running on *server.js*. It doesn't make sense to run a custom server to display a static website so it's hosted on Github's Pages. From my personal projects I've migrated [Comments Network](https://comments.network/) so far to use server.js.
+- Front-end: [Picnic CSS](http://picnicss.com/) ♦ [Paperdocs](http://francisco.io/paperdocs) ♦ [Angular Attack](http://angularattack.com/) ♦ [Ruby Rampage](https://www.rubyrampage.com/) ♦ [Server JS website](https://serverjs.io/)
+- Full-stack: [Makers UPV](https://makersupv.com/) ♦ [Learning vocabulary](http://anchor.science/)
+- Back-end: [Server JS (the library)](http://serverjs.io/) ♦ [Drive DB](https://github.com/franciscop/drive-db) ♦  [Express Data Parser](https://github.com/franciscop/express-data-parser)
+
+Find my email [in my website](http://francisco.io/).

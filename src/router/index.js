@@ -22,8 +22,8 @@ const generic = (path, method, ...promises) => ctx => {
 };
 
 // Create a middleware that splits paths
-exports.all  = (path, ...promises) => generic(path,    'ALL', ...promises);
-exports.get  = (path, ...promises) => generic(path,    'GET', ...promises);
-exports.post = (path, ...promises) => generic(path,   'POST', ...promises);
-exports.put  = (path, ...promises) => generic(path,    'PUT', ...promises);
-exports.del  = (path, ...promises) => generic(path, 'DELETE', ...promises);
+exports.all  = (path, ...middle) => generic(path,    'ALL', ...middle);
+exports.get  = (path, ...middle) => generic(path,    'GET', ...middle);
+exports.post = (path, ...middle) => generic(path,   'POST', ...middle);
+exports.put  = (path, ...middle) => generic(path,    'PUT', ...middle);
+exports.del  = (path, ...middle) => generic(path, 'DELETE', ...middle);
