@@ -16,7 +16,7 @@ const { get, socket } = server.router;
 server(
   get('/', ctx => ctx.res.render('home')),
   socket('connect', ctx => ctx.io.emit('connected', ctx.socket.id)),
-  socket('message', ctx => ctx.io.emit('connected', ctx.data))
+  socket('message', ctx => ctx.io.emit('message', ctx.data))
 );
 ```
 

@@ -9,7 +9,7 @@ const { get, socket } = server.router;
 server(
   get(&#39;/&#39;, ctx =&gt; ctx.res.render(&#39;home&#39;)),
   socket(&#39;connect&#39;, ctx =&gt; ctx.io.emit(&#39;connected&#39;, ctx.socket.id)),
-  socket(&#39;message&#39;, ctx =&gt; ctx.io.emit(&#39;connected&#39;, ctx.data))
+  socket(&#39;message&#39;, ctx =&gt; ctx.io.emit(&#39;message&#39;, ctx.data))
 );
 </code></pre>
 <h2 id="goals">Goals</h2>
