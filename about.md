@@ -1,6 +1,25 @@
 # About server
 
-Server is a NPM package intended to make Node.js development simpler and more intuitive.
+## Motivation
+
+I have taught Node.js + express.js to quite some people and there's always a point where I just have to say: "this part is way too complex to explain at this point, so just copy/paste this". This breaking point is connecting express.js to all those middlewares.
+
+So when I was traveling with [Hacker Paradise](http://www.hackerparadise.org/) through Asia and we got to the same point I decided to do something about it. First I created a [*file upload middleware*](https://github.com/franciscop/express-data-parser) and then started the ground work for what now is *server*.
+
+The trigger was really getting the package for `server` in NPM (thanks NPM!) during my trip. After that and based on the previous experiments, I decided to set out for real and make something worthwhile. So I dug into express.js, middleware, routers, etc and now I'm proud that **server is something I use** to make websites faster and easier.
+
+[Join me in Github](https://github.com/franciscop/server) to get the best out of server and help Node.js achieve its full potential. Next up are websockets routes:
+
+```js
+const server = require('server');
+const { get, socket } = server.router;
+server(
+  get('/', ctx => ctx.res.render('home')),
+  socket('connect', ctx => ctx.io.emit(`Connected: ${ctx.socket.id}`))
+);
+```
+
+
 
 ## Goals
 

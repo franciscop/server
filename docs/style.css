@@ -51,6 +51,9 @@ nav footer {
   display: inline-block;
   margin-left: 10px;
 }
+.hero .arrow.left {
+  margin: 0 10px 0 0;
+}
 
 body.homepage {
   background: #58a2df;
