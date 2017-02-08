@@ -3,8 +3,8 @@
 }
 
 nav {
-  padding-left: calc(50% - 600px);
-  padding-right: calc(50% - 600px);
+  padding-left: calc(50% - 450px);
+  padding-right: calc(50% - 450px);
   margin: 0 auto;
 }
 
@@ -27,7 +27,7 @@ nav footer {
   color: #fff;
   background: #58a2df;
   padding: 1px 0;
-  transition: min-height 999999s;
+  transition: min-height 999999s, height 999999s;
 }
 
 .hero .content {
@@ -86,11 +86,17 @@ nav.super .switch::before {
   }
 }
 
+
+button.secret {
+  display: none;
+}
+
 @media all and (min-width: 800px) {
   .hero {
     background: #58a2df url("/img/kite.jpg") no-repeat center center scroll;
     background-size: cover;
   }
+
   .hero .content {
     width: auto;
     max-width: 100%;
@@ -100,6 +106,37 @@ nav.super .switch::before {
   }
   .hero .sub {
     font-size: 1.6em;
+  }
+
+  button.secret {
+    display: block;
+    background: none;
+    color: rgba(255, 255, 255, .05);
+    margin: 0 auto;
+    cursor: inherit;
+  }
+
+  button.secret:focus {
+    box-shadow: none;
+    color: rgba(255, 255, 255, .05);
+  }
+
+  button.secret:hover {
+    box-shadow: none;
+    background: rgba(255, 255, 255, .5);
+    color: rgba(0, 0, 0, .5);
+    transition: all .3s ease .3s;
+  }
+
+
+  body.homepage.liftoff {
+    background: #000 url("/img/lanterns.jpg") no-repeat center center scroll;
+    background-size: cover;
+    transition: all 1s ease;
+  }
+
+  body.homepage.liftoff .hero {
+    background: none;
   }
 }
 

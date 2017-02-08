@@ -11,5 +11,16 @@ block content
         //- i.fa.fa-file-code-o
         | Documentation
         i.fa.fa-angle-right
+
+      // Just having some fun (;
+      button.secret super secret button
+
   article.home
     include:marked:noheader ../../README.md
+
+
+  script.
+    function $(sel) { return document.querySelector(sel); }
+    $('button.secret').onclick = function () {
+      $('body').classList.toggle('liftoff');
+    }
