@@ -9,11 +9,15 @@ nav {
 }
 
 nav .brand {
-  margin-left: 10px;
+  margin-left: .5em;
+}
+
+nav .brand .logo {
+  margin-right: 1em;
 }
 
 nav footer {
-  margin-right: 10px;
+  margin-right: 0.5em;
 }
 
 .hero {
@@ -48,6 +52,7 @@ body.homepage {
 article {
   margin-top: 0;
   margin-bottom: 30vh;
+  padding: 3em;
 }
 
 
