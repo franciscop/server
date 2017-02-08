@@ -61,3 +61,14 @@ If you have some ideas of how Node.js development could be improved, please [ope
 ## Web design
 
 This website was built with [Paperdocs](http://francisco.io/paperdocs/), a project built on top of [Picnic CSS](http://picnicss.com/) and [Umbrella JS](http://umbrellajs.com/) from the author of Server, [Francisco Presencia](http://francisco.io/).
+
+
+## Hire me
+
+I love using my work in real life and I'm available for contractor work. My freelancing helps keep `server` and [other open source projects](https://github.com/franciscop/) up to date! Hire me to do:
+
+- Front-end: [Picnic CSS](http://picnicss.com/) ♦ [Paperdocs](http://francisco.io/paperdocs) ♦ [Angular Attack](http://angularattack.com/) ♦ [Ruby Rampage](https://www.rubyrampage.com/) ♦ [Server JS website](https://serverjs.io/)
+- Full-stack: [Makers UPV](https://makersupv.com/) ♦ [Learning vocabulary](http://anchor.science/)
+- Back-end: [Server JS (the library)](http://serverjs.io/) ♦ [Drive DB](https://github.com/franciscop/drive-db) ♦  [Express Data Parser](https://github.com/franciscop/express-data-parser)
+
+Find my email [in my website](http://francisco.io/).
