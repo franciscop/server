@@ -1,5 +1,7 @@
 # Documentation
 
+> Note: An in-depth *tutorial* coming soon
+
 To include server, `require` it as a normal Node package:
 
 ```js

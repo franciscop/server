@@ -33,8 +33,8 @@ Then you can create a file called `app.js` and set the following:
 
 ```js
 // Include the server in your file
-let server = require('server');
-let { get, post } = server.router;
+const server = require('server');
+const { get, post } = server.router;
 
 // Initialize the server on port 3000
 server(3000,

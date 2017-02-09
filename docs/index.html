@@ -21,8 +21,8 @@ server(
 </code></pre>
 <p>Then you can create a file called <code>app.js</code> and set the following:</p>
 <pre><code class="lang-js">// Include the server in your file
-let server = require(&#39;server&#39;);
-let { get, post } = server.router;
+const server = require(&#39;server&#39;);
+const { get, post } = server.router;
 
 // Initialize the server on port 3000
 server(3000,
