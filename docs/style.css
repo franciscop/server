@@ -182,14 +182,8 @@ button.secret {
 }
 
 
-/* The h1 is already on the hero */
-article.home h1,
-article.about h1 {
-  display: none;
-}
-
-article.home p:first-of-type,
-article.about p:first-of-type {
+/* p only if it's the first element */
+article.home > p:first-child {
     margin-top: 0;
 }
 
