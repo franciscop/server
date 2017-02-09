@@ -191,6 +191,13 @@ article.about p:first-of-type {
     margin-top: 0;
 }
 
+/*tighten up*/
+article h1,
+article h2,
+article h3 {
+  margin: -60px 0 -15px;
+}
+
 @media all and (max-width: 900px) {
   article {
     padding: 15px 20px 20px;
