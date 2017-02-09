@@ -74,10 +74,6 @@ Licensed under the MIT License. See [LICENSE](https://github.com/franciscop/serv
 
 This package was created by [Francisco Presencia](http://francisco.io/) but hopefully developed and maintained by many others. See the [the list of contributors here](https://github.com/franciscop/server/graphs/contributors).
 
-
-
-## Hire me
-
 I love using my work and I'm available for contractor work. Freelancing helps maintain `server` and [my other open source projects](https://github.com/franciscop/) up to date! Hire me to do:
 
 - Front-end: [Picnic CSS](http://picnicss.com/) ♦ [Paperdocs](http://francisco.io/paperdocs) ♦ [Angular Attack](http://angularattack.com/) ♦ [Ruby Rampage](https://www.rubyrampage.com/) ♦ [Server JS website](https://serverjs.io/)
