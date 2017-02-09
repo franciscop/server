@@ -20,8 +20,11 @@ nav footer {
   margin-right: 0.5em;
 }
 
+body {
+  background: #58a2df;
+}
+
 .hero {
-  background: red;
   position: relative;
   width: 100%;
   height: 60%;
@@ -29,7 +32,6 @@ nav footer {
   margin: 0;
   text-align: center;
   color: #fff;
-  background: #58a2df;
   padding: 1px 0;
   transition: min-height 999999s, height 999999s;
 }
@@ -148,13 +150,13 @@ button.secret {
   }
 
 
-  body.homepage.liftoff {
+  body.liftoff {
     background: #000 url("/img/lanterns.jpg") no-repeat center center scroll;
     background-size: cover;
     transition: all 1s ease;
   }
 
-  body.homepage.liftoff .hero {
+  body.liftoff .hero {
     background: none;
   }
 }
