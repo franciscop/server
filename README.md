@@ -78,7 +78,7 @@ This package was created by [Francisco Presencia](http://francisco.io/) but hope
 
 ## Hire me
 
-I love using my work in real life and I'm available for contractor work. My freelancing helps keep `server` and [my other open source projects](https://github.com/franciscop/) up to date! Hire me to do:
+I love using my work and I'm available for contractor work. Freelancing helps maintain `server` and [my other open source projects](https://github.com/franciscop/) up to date! Hire me to do:
 
 - Front-end: [Picnic CSS](http://picnicss.com/) ♦ [Paperdocs](http://francisco.io/paperdocs) ♦ [Angular Attack](http://angularattack.com/) ♦ [Ruby Rampage](https://www.rubyrampage.com/) ♦ [Server JS website](https://serverjs.io/)
 - Full-stack: [Makers UPV](https://makersupv.com/) ♦ [Learning vocabulary](http://anchor.science/)

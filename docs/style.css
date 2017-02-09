@@ -107,6 +107,10 @@ button.secret {
 }
 
 @media all and (min-width: 800px) {
+  body {
+    font-size: 1.1em;
+  }
+
   .hero {
     background: #58a2df url("/img/kite.jpg") no-repeat center center scroll;
     background-size: cover;
