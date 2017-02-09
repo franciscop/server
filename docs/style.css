@@ -133,7 +133,7 @@ button.secret {
     display: block;
     background: none;
     color: rgba(255, 255, 255, .05);
-    margin: 0 auto;
+    margin: 0 auto -50px;
     cursor: inherit;
   }
 
@@ -182,7 +182,7 @@ button.secret {
 }
 
 
-/* p only if it's the first element */
+/* p only if it's the first elementc */
 article.home > p:first-child {
     margin-top: 0;
 }
