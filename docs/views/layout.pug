@@ -26,8 +26,12 @@ html.initial
     //- Follow the doNotTrack
     script.
       (function(){
-        if (navigator.doNotTrack !== 0) {
+        // Only track if doNotTrack === 0
+        if (navigator.doNotTrack === 1) {
           return console.log("Honoring your doNotTrack. Keep making the web awesome ♥");
+        }
+        if (navigator.doNotTrack !== 0) {
+          return console.log("No doNotTrack detected so we won't track you. Keep making the web awesome ♥");
         }
         // The code here
         (function(e,a){if(!a.__SV){var b=window;try{var c,l,i,j=b.location,g=j.hash;c=function(a,b){return(l=a.match(RegExp(b+"=([^&]*)")))?l[1]:null};g&&c(g,"state")&&(i=JSON.parse(decodeURIComponent(c(g,"state"))),"mpeditor"===i.action&&(b.sessionStorage.setItem("_mpcehash",g),history.replaceState(i.desiredHash||"",e.title,j.pathname+j.search)))}catch(m){}var k,h;window.mixpanel=a;a._i=[];a.init=function(b,c,f){function e(b,a){var c=a.split(".");2==c.length&&(b=b[c[0]],a=c[1]);b[a]=function(){b.push([a].concat(Array.prototype.slice.call(arguments,
