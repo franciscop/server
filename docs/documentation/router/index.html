@@ -1,0 +1,100 @@
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><link href="/style.css" rel="stylesheet"></head><body><nav class="super"><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about">About</a> <a class="pseudo button" href="https://medium.com/server-for-node-js">Blog </a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a> <a class="button" href="/documentation">Documentation</a></div></footer></nav><div class="hero"><div class="content"><h1> <strong>server() </strong>docs</h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
+<p>In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:</p>
+<h2 id="simple-router">Simple router</h2>
+<p>To define a simple router, you could do:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+
+// Import methods &#39;get&#39; and &#39;post&#39; from the router
+let { get, post } = server.router;
+
+server(3000,
+  get(&#39;/users&#39;, (req, res) =&gt; { /* ... */ }),
+  post(&#39;/users&#39;, (req, res) =&gt; { /* ... */ })
+);
+</code></pre>
+<h2 id="complex-router">Complex router</h2>
+<p>If you are going to have many routes, we recommend splitting it into a separated file, either in the root of the project as <code>routes.js</code> or in a different place:</p>
+<pre><code class="lang-js">// app.js
+const server = require(&#39;server&#39;);
+let routes = require(&#39;./routes&#39;);
+
+server(3000, routes);
+</code></pre>
+<pre><code class="lang-js">// routes.js
+let { get, post } = require(&#39;server&#39;).router;
+let ctrl = require(&#39;auto-load&#39;)(&#39;controllers&#39;);
+
+// You can simply export an array of routes
+module.exports = [
+  get(&#39;/&#39;, ctrl.home.index),
+  get(&#39;/users&#39;, ctrl.users.index),
+  post(&#39;/users&#39;, ctrl.users.add),
+  get(&#39;/photos&#39;, ctrl.photos.index),
+  post(&#39;/photos&#39;, ctrl.photos.add),
+  ...
+];
+</code></pre>
+<h2 id="express-router">Express router</h2>
+<p>You can also use the express router:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+
+let router = server.express.Router();
+router.get(&#39;/&#39;, home.index);
+router.get(&#39;/users&#39;, users.index);
+// ...
+
+server({}, router);
+</code></pre>
+<p>However, we recommend using server&#39;s router whenever possible:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+let { get, post } = server.router;
+
+server({}, [
+  get(&#39;/&#39;, home.index),
+  get(&#39;/users&#39;, users.index)
+]);
+</code></pre>
+<h2 id="join-routes">Join routes</h2>
+<p>If you have two routers and want to make it into one for any reason, you can do so through a helper function we created.</p>
+<pre><code class="lang-js">let { get, post, join } = server.router;
+
+
+let routes = join(
+  get(&#39;/&#39;, home.index),
+  get(&#39;/users&#39;, users.index),
+  // ...
+);
+
+server({}, acceptsOnlyASingleRoute(routes));
+</code></pre>
+<h2 id="experimental">Experimental</h2>
+<blockquote>
+<p>To enable these, you&#39;ll have to add an <code>EXPERIMENTAL=1</code> to your environment variables. No need to say that this is not stable and not part of the stable API.</p>
+</blockquote>
+<p>There&#39;s an experimental way of dealing with those:</p>
+<pre><code class="lang-js">server({}, [
+  get(&#39;/&#39;).send(&#39;Hello 世界&#39;),
+  get(&#39;/about.html&#39;).file(&#39;public/about.html&#39;),
+  get(&#39;/non-existing&#39;).status(404).send(&#39;Error 404!&#39;)
+]);
+</code></pre>
+<p>They are the same methods as in <a href="http://expressjs.com/en/api.html#res.methods">Express Methods</a> and accept the same parameters (adding <code>file</code>, which is an alias of <code>sendFile</code>, and removing <code>get</code> and <code>set</code> as it conflicts with <code>Router.get</code> and <code>Router.set</code>). The ones that <em>do not send</em> a response can be concatenated, while the ones that send a response will be ignored. So the second <em>send</em> will be ignored:</p>
+<pre><code class="lang-js">server({}, [
+  get(&#39;/&#39;).status(200).send(&#39;Hi there&#39;).send(&#39;I am ignored&#39;)
+]);
+</code></pre>
+<h2 id="websockets">Websockets</h2>
+<blockquote>
+<p><em>Not yet available, coming in version 1.1</em></p>
+</blockquote>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+let { get, socket } = server.router;
+
+server({}, [
+  get(&#39;/&#39;, (req, res) =&gt; res.sendFile(__dirname + &#39;/public/index.html&#39;)),
+  socket(&#39;message&#39;, (data, socket, io) =&gt; {
+    io.emit(data);
+  })
+]);
+</code></pre>
+</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script type="text/javascript" src="javascript.js"></script></body></html>

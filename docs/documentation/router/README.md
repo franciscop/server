@@ -1,10 +1,10 @@
-## Router
+# Router
 
 In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:
 
 
 
-### Simple router
+## Simple router
 
 To define a simple router, you could do:
 
@@ -22,7 +22,7 @@ server(3000,
 
 
 
-### Complex router
+## Complex router
 
 If you are going to have many routes, we recommend splitting it into a separated file, either in the root of the project as `routes.js` or in a different place:
 
@@ -52,7 +52,7 @@ module.exports = [
 
 
 
-### Express router
+## Express router
 
 You can also use the express router:
 
@@ -81,7 +81,7 @@ server({}, [
 
 
 
-### Join routes
+## Join routes
 
 If you have two routers and want to make it into one for any reason, you can do so through a helper function we created.
 
@@ -99,7 +99,7 @@ server({}, acceptsOnlyASingleRoute(routes));
 ```
 
 
-### Experimental
+## Experimental
 
 > To enable these, you'll have to add an `EXPERIMENTAL=1` to your environment variables. No need to say that this is not stable and not part of the stable API.
 
@@ -123,7 +123,7 @@ server({}, [
 
 
 
-### Websockets
+## Websockets
 
 > *Not yet available, coming in version 1.1*
 

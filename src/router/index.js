@@ -2,20 +2,19 @@ const join = require('../join');
 const params = require('path-to-regexp-wrap')();
 
 // Generic request handler
-// TODO: optimize by extracting params(path) outside
+// TODO: optimize? by extracting params(path) outside
 const generic = (method, ...middle) => ctx => {
 
-  const path = typeof middle[0] === 'string' ? middle.shift() : '*';
+  // A route should be solved only once
+  if (ctx.req.solved) return;
 
   // Only for the correct methods
-  if (method !== ctx.req.method && method !== 'ALL') return;
+  if (method !== ctx.req.method) return;
 
   // Only do this if the correct path
+  const path = typeof middle[0] === 'string' ? middle.shift() : '*';
   ctx.req.params = params(path)(ctx.req.url);
   if (!ctx.req.params) return;
-
-  // It can/should be solved only once
-  if (ctx.req.solved) return;
 
   // Perform this promise chain
   return join(middle)(ctx).then(ctx => {
