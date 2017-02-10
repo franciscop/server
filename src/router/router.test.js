@@ -1,7 +1,9 @@
 const extend = require('extend');
 const loadware = require('loadware');
 const join = require('../join');
-const { get } = require('./index');
+const { get, error } = require('./index');
+const { handler, getter } = require('../../tests/helpers');
+
 
 const createCtx = (opts = {}) => extend({
   req: { url: '/', method: 'GET' },
@@ -52,5 +54,67 @@ describe('router with promises', () => {
       expect(ctx.req.params.lastname).toBe('presencia');
       done();
     });
+  });
+});
+
+
+
+describe('Error routes', () => {
+  it('can catch errors', () => {
+    const generate = ctx => { throw new Error('Should be caught'); };
+    const handle = error(ctx => ctx.res.send('Error 世界'));
+    return getter([generate, handle]).then(res => {
+      expect(res.body).toBe('Error 世界');
+    });
+  });
+
+  it('can catch errors with full path', () => {
+    const generate = ctx => ctx.error('test:a');
+    const handle = error('test:a', ctx => {
+      expect(ctx.error).toBeInstanceOf(Error);
+      expect(ctx.error.message).toBe('test:a');
+      ctx.res.send('Error 世界');
+    });
+    return getter([generate, handle]).then(res => {
+      expect(res.body).toBe('Error 世界');
+    });
+  });
+
+  it('can catch errors with partial path', () => {
+    const generate = ctx => ctx.error('test:b');
+    const handle = error('test', ctx => {
+      expect(ctx.error).toBeInstanceOf(Error);
+      expect(ctx.error.message).toBe('test:b');
+      ctx.res.send('Error 世界');
+    });
+    return getter([generate, handle]).then(res => {
+      expect(res.body).toBe('Error 世界');
+    });
+  });
+
+  const errors = {
+    'test:pre:1': new Error('Hi there 1'),
+    'test:pre:a': new Error('Hi there a'),
+    'test:pre:b': new Error('Hi there b'),
+  };
+
+  it('can generate errors', () => {
+    const generate = ctx => ctx.error('test:pre:1');
+    const handle = error('test', ctx => {
+      expect(ctx.error).toBeInstanceOf(Error);
+      expect(ctx.error.message).toBe('Hi there 1');
+      ctx.res.send();
+    });
+    return getter([generate, handle], {}, { errors });
+  });
+
+  it('can generate errors', () => {
+    const generate = ctx => ctx.error('generic error');
+    const handle = error('generic error', ctx => {
+      expect(ctx.error).toBeInstanceOf(Error);
+      expect(ctx.error.message).toBe('generic error');
+      ctx.res.send();
+    });
+    return getter([generate, handle], {}, { errors });
   });
 });

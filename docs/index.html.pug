@@ -1,4 +1,4 @@
-extends layout
+extends _layout/index
 
 block content
   .hero
@@ -16,7 +16,7 @@ block content
       button.secret super secret button
 
   article.home
-    include:marked:noheader ../../README.md
+    include:marked:noheader ../README.md
 
 
   script.

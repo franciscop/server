@@ -63,9 +63,9 @@ module.exports = function (grunt) {
           filters: filters
         },
         files: {
-          'docs/index.html': 'docs/views/index.html.pug',
-          'docs/about.html': 'docs/views/about.html.pug',
-          'docs/documentation.html': 'docs/views/documentation.html.pug'
+          'docs/index.html': 'docs/index.html.pug',
+          'docs/about/index.html': 'docs/about/index.html.pug',
+          'docs/documentation/index.html': 'docs/documentation/index.html.pug'
         }
       }
     },

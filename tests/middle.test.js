@@ -1,6 +1,6 @@
 let server = require('server');
 let request = require('request');
-let { get } = server.router;
+let { get, error } = server.router;
 let { handler, getter } = require('./helpers');
 
 

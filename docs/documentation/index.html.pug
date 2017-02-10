@@ -1,0 +1,16 @@
+extends ../_layout/index
+
+block content
+  .hero
+    .content
+      h1 
+        strong Documentation
+      pre.sub npm install server --save
+      div.pages
+        a.button(href="server") server()
+        a.button(href="middleware") Middleware
+        a.button(href="router") Router
+        a.button(href="advanced") Advanced
+
+  article
+    include:marked:noheader ./README.md

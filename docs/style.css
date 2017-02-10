@@ -183,7 +183,7 @@ button.secret {
 
 
 /* p only if it's the first elementc */
-article.home > p:first-child {
+article > p:first-child {
     margin-top: 0;
 }
 
@@ -191,11 +191,20 @@ article.home > p:first-child {
 article h1,
 article h2,
 article h3 {
-  margin: -60px 0 -15px;
+  margin: -40px 0 -15px;
 }
 
 @media all and (max-width: 900px) {
   article {
     padding: 15px 20px 20px;
   }
+}
+
+
+.pages {
+  text-align: center;
+  margin: 10px auto 0;
+}
+.pages .button {
+  margin-right: .3em;
 }

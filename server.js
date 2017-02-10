@@ -11,6 +11,7 @@ const config = require('./src/config');
 const router = require('./src/router/index.js');
 const join = require('./src/join/index.js');
 const modern = require('./src/modern');
+const error = require('./src/error');
 const plugins = [
   require('./plugins/middle')
 ];
@@ -24,10 +25,12 @@ function Server (...middle) {
 
     this.express = express;
     this.app = this.express();
-    this.modern = modern;
 
     // Set the options for the context of Server.js
     this.options = config(opts, plugins, this.app);
+
+    this.modern = modern;
+    this.error = error(this.options.errors);
 
     // Create the initial context
     const context = (req, res) => Object.assign({}, this, { req: req, res: res });

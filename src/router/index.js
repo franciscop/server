@@ -2,7 +2,10 @@ const join = require('../join');
 const params = require('path-to-regexp-wrap')();
 
 // Generic request handler
-const generic = (path, method, ...promises) => ctx => {
+// TODO: optimize by extracting params(path) outside
+const generic = (method, ...middle) => ctx => {
+
+  const path = typeof middle[0] === 'string' ? middle.shift() : '*';
 
   // Only for the correct methods
   if (method !== ctx.req.method && method !== 'ALL') return;
@@ -15,15 +18,30 @@ const generic = (path, method, ...promises) => ctx => {
   if (ctx.req.solved) return;
 
   // Perform this promise chain
-  return join(promises)(ctx).then(ctx => {
+  return join(middle)(ctx).then(ctx => {
     ctx.req.solved = true;
     return ctx;
   });
 };
 
 // Create a middleware that splits paths
-exports.all  = (path, ...middle) => generic(path,    'ALL', ...middle);
-exports.get  = (path, ...middle) => generic(path,    'GET', ...middle);
-exports.post = (path, ...middle) => generic(path,   'POST', ...middle);
-exports.put  = (path, ...middle) => generic(path,    'PUT', ...middle);
-exports.del  = (path, ...middle) => generic(path, 'DELETE', ...middle);
+exports.all  = (...middle) => generic(   'ALL', ...middle);
+exports.get  = (...middle) => generic(   'GET', ...middle);
+exports.post = (...middle) => generic(  'POST', ...middle);
+exports.put  = (...middle) => generic(   'PUT', ...middle);
+exports.del  = (...middle) => generic('DELETE', ...middle);
+
+exports.error = (...middle) => {
+  let path = typeof middle[0] === 'string' ? middle.shift() : false;
+  let parser = params(path);
+  let generic = () => {};
+  generic.error = ctx => {
+    // All of them if there's no path
+    if (!path) return join(middle)(ctx);
+
+    const frag = ctx.error.path ? ctx.error.path.slice(0, path.length) : '';
+    if (frag === path) return join(middle)(ctx);
+    throw ctx.error;
+  }
+  return generic;
+}

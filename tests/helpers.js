@@ -42,10 +42,10 @@ exports.handler = (middle, opts = {}, servOpts) => new Promise((resolve, reject)
   });
 });
 
-exports.getter = (middle, data = {}) => exports.handler(get('/', middle), {
+exports.getter = (middle, data = {}, opts) => exports.handler(get('/', middle), {
   form: data
-});
+}, opts);
 
-exports.poster = (middle, data = {}) => exports.handler(post('/', middle), {
+exports.poster = (middle, data = {}, opts) => exports.handler(post('/', middle), {
   form: data, method: 'POST'
-});
+}, opts);

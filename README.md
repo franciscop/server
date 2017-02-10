@@ -1,6 +1,6 @@
 # Server
 
-**Simple and powerful server** for Node.js:
+Simple and powerful server that just works so **you can focus on your awesome project**:
 
 ```js
 const server = require('server');
@@ -23,7 +23,7 @@ server(
 
 ## Getting started
 
-After getting Node ready and `npm init`, run this in your project folder to **install the server**:
+After getting Node.js ready and `npm init`, run this in your project folder to **install the server**:
 
 ```bash
 npm install server --save
@@ -78,6 +78,6 @@ I love using my work and I'm available for contractor work. Freelancing helps ma
 
 - Front-end: [Picnic CSS](http://picnicss.com/) ♦ [Paperdocs](http://francisco.io/paperdocs) ♦ [Angular Attack](http://angularattack.com/) ♦ [Ruby Rampage](https://www.rubyrampage.com/) ♦ [Server JS website](https://serverjs.io/)
 - Full-stack: [Makers UPV](https://makersupv.com/) ♦ [Learning vocabulary](http://anchor.science/)
-- Back-end: [Server JS (the library)](http://serverjs.io/) ♦ [Drive DB](https://github.com/franciscop/drive-db) ♦  [Express Data Parser](https://github.com/franciscop/express-data-parser)
+- Back-end: [Server JS (the library)](http://serverjs.io/) ♦ [Drive DB](https://github.com/franciscop/drive-db) ♦ [Express Data Parser](https://github.com/franciscop/express-data-parser)
 
-Find my email [in my website](http://francisco.io/).
+You can also sponsor the project and your logo will be shown here with ∞ ♥. Open an issue to have an open conversation or contact me directly (email [in my website](http://francisco.io/)).
