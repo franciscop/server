@@ -5,11 +5,11 @@
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 
 // Import methods &#39;get&#39; and &#39;post&#39; from the router
-let { get, post } = server.router;
+const { get, post } = server.router;
 
-server(3000,
-  get(&#39;/users&#39;, (req, res) =&gt; { /* ... */ }),
-  post(&#39;/users&#39;, (req, res) =&gt; { /* ... */ })
+server(
+  get(&#39;/users&#39;, ctx =&gt; { /* ... */ }),
+  post(&#39;/users&#39;, ctx =&gt; { /* ... */ })
 );
 </code></pre>
 <h2 id="complex-router">Complex router</h2>
