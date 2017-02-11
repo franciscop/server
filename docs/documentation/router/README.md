@@ -12,11 +12,11 @@ To define a simple router, you could do:
 const server = require('server');
 
 // Import methods 'get' and 'post' from the router
-let { get, post } = server.router;
+const { get, post } = server.router;
 
-server(3000,
-  get('/users', (req, res) => { /* ... */ }),
-  post('/users', (req, res) => { /* ... */ })
+server(
+  get('/users', ctx => { /* ... */ }),
+  post('/users', ctx => { /* ... */ })
 );
 ```
 
