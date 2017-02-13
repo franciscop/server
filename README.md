@@ -1,4 +1,4 @@
-# Server
+# **Server** for Node.js
 
 Simple and powerful server that just works so **you can focus on your awesome project**:
 
