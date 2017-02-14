@@ -27,9 +27,9 @@ function Server (...middle) {
     // - Boolean (middle)
     // - Function (middle)
     // - Array (middle)
-    const opts = (typeof middle[0] === 'boolean'
-      || middle[0] instanceof Function
-      || middle[0] instanceof Array
+    const opts = (typeof middle[0] === 'boolean' ||
+      middle[0] instanceof Function ||
+      middle[0] instanceof Array
     ) ? {} : middle.shift();
 
     this.express = express;
