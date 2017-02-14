@@ -21,7 +21,16 @@ function Server (...middle) {
   return new Promise((resolve, reject) => {
     "use strict";
 
-    const opts = middle[0] instanceof Function ? {} : middle.shift();
+    // First parameter can be:
+    // - Number (opts)
+    // - Object (opts) => cannot be ID'd
+    // - Boolean (middle)
+    // - Function (middle)
+    // - Array (middle)
+    const opts = (typeof middle[0] === 'boolean'
+      || middle[0] instanceof Function
+      || middle[0] instanceof Array
+    ) ? {} : middle.shift();
 
     this.express = express;
     this.app = this.express();

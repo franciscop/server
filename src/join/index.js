@@ -9,7 +9,8 @@ module.exports = (...middles) => ctx => load(middles).reduce((prev, next) => {
   };
 
   // Make sure that we pass the original context to the next promise
-  return prev.catch(handler).then(next).then(fake => ctx);
+  // Catched errors should not be passed to the next thing
+  return prev.catch(handler).then(fake => ctx).then(next).then(fake => ctx);
 
 // Get it started with the right context
 }, Promise.resolve(ctx));

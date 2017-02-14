@@ -5,7 +5,19 @@ let { get, post, put, del } = server.router;
 let { getter, poster, handler } = require('./helpers');
 let data = { hello: '世界' };
 
+const content = type => ctx => {
+  expect(ctx.req.headers['content-type']).toBe(type);
+}
+
 describe('Default modules', () => {
+
+  it('can cancel all bodyparser', () => {
+    let middle = ctx => {
+      expect(ctx.req.body).toBe(undefined);
+      ctx.res.send();
+    };
+    return poster(middle, data, { middle: false });
+  });
 
   it('bodyParser', () => {
     let middle = ctx => {
@@ -14,6 +26,15 @@ describe('Default modules', () => {
       ctx.res.send();
     };
     return poster(middle, data);
+  });
+
+  it('bodyParser can be cancelled', () => {
+    let middle = ctx => {
+      expect(ctx.req.body).toEqual({});
+      expect(ctx.req.headers['content-type']).toBe('application/x-www-form-urlencoded');
+      ctx.res.send();
+    };
+    return poster(middle, data, { middle: { bodyParser: false } });
   });
 
   it('jsonParser', done => {
