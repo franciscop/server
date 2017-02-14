@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.18",
+  "version": "1.0.0-alpha.19",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "directories": {

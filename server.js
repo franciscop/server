@@ -24,10 +24,14 @@ function Server (...middle) {
     // First parameter can be:
     // - Number (opts)
     // - Object (opts) => cannot be ID'd
+    // - undefined || null (middle)
     // - Boolean (middle)
     // - Function (middle)
     // - Array (middle)
-    const opts = (typeof middle[0] === 'boolean' ||
+    const opts = (
+      typeof middle[0] === 'undefined' ||
+      typeof middle[0] === 'boolean' ||
+      middle[0] === null ||
       middle[0] instanceof Function ||
       middle[0] instanceof Array
     ) ? {} : middle.shift();
