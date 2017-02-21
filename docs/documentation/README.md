@@ -49,7 +49,7 @@ The last but maybe most important part is the router that you can use to create 
 ```js
 const server = require('server');
 
-// Some of the routers available
+// Import some of the routers available
 const { get, post, put, del } = server.router;
 
 // Handle requests to http://localhost:3000/

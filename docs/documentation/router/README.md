@@ -1,6 +1,8 @@
 # Router
 
-In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:
+In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend following either the *simple router* and *complex router* explained below.
+
+The `ctx` variable is [explained in middleware's documentation](https://serverjs.io/documentation/middleware/#context) so we will just be using it here.
 
 
 
@@ -29,15 +31,15 @@ If you are going to have many routes, we recommend splitting it into a separated
 ```js
 // app.js
 const server = require('server');
-let routes = require('./routes');
+const routes = require('./routes');
 
-server(3000, routes);
+server(routes);
 ```
 
 ```js
 // routes.js
-let { get, post } = require('server').router;
-let ctrl = require('auto-load')('controllers');
+const { get, post } = require('server').router;
+const ctrl = require('auto-load')('controllers');
 
 // You can simply export an array of routes
 module.exports = [
@@ -59,7 +61,7 @@ You can also use the express router:
 ```js
 const server = require('server');
 
-let router = server.express.Router();
+const router = server.express.Router();
 router.get('/', home.index);
 router.get('/users', users.index);
 // ...

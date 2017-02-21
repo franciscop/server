@@ -28,7 +28,7 @@ server(middleware1);
 <p>The last but maybe most important part is the router that you can use to create routes. Internally a route is a middleware more and you use it for handling user requests to specific places:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 
-// Some of the routers available
+// Import some of the routers available
 const { get, post, put, del } = server.router;
 
 // Handle requests to http://localhost:3000/

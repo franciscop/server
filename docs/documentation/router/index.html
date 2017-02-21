@@ -1,5 +1,6 @@
 <!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><link href="/style.css" rel="stylesheet"></head><body><nav class="super"><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about">About</a> <a class="pseudo button" href="https://medium.com/server-for-node-js">Blog </a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a> <a class="button" href="/documentation">Documentation</a></div></footer></nav><div class="hero"><div class="content"><h1> <strong>Router</strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
-<p>In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend these two:</p>
+<p>In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend following either the <em>simple router</em> and <em>complex router</em> explained below.</p>
+<p>The <code>ctx</code> variable is <a href="https://serverjs.io/documentation/middleware/#context">explained in middleware&#39;s documentation</a> so we will just be using it here.</p>
 <h2 id="simple-router">Simple router</h2>
 <p>To define a simple router, you could do:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
@@ -16,13 +17,13 @@ server(
 <p>If you are going to have many routes, we recommend splitting it into a separated file, either in the root of the project as <code>routes.js</code> or in a different place:</p>
 <pre><code class="lang-js">// app.js
 const server = require(&#39;server&#39;);
-let routes = require(&#39;./routes&#39;);
+const routes = require(&#39;./routes&#39;);
 
-server(3000, routes);
+server(routes);
 </code></pre>
 <pre><code class="lang-js">// routes.js
-let { get, post } = require(&#39;server&#39;).router;
-let ctrl = require(&#39;auto-load&#39;)(&#39;controllers&#39;);
+const { get, post } = require(&#39;server&#39;).router;
+const ctrl = require(&#39;auto-load&#39;)(&#39;controllers&#39;);
 
 // You can simply export an array of routes
 module.exports = [
@@ -38,7 +39,7 @@ module.exports = [
 <p>You can also use the express router:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 
-let router = server.express.Router();
+const router = server.express.Router();
 router.get(&#39;/&#39;, home.index);
 router.get(&#39;/users&#39;, users.index);
 // ...
