@@ -3,8 +3,8 @@
 One of the most powerful things from express and thus from `server` is the Middleware. We build on this by an evolved concept while giving a wrapper for retro-compatibility:
 
 ```js
-let setname = s => s.req.user = 'Francisco';
-let sendname = s => s.res.send(s.req.user);
+const setname = ctx => ctx.req.user = 'Francisco';
+const sendname = ctx => ctx.res.send(ctx.req.user);
 server(setname, get('/', sendname));
 ```
 

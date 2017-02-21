@@ -1,12 +1,59 @@
 # Router
 
-In the end of the day, routes are just a specific kind of middleware. There are many ways of including them, however we recommend following either the *simple router* and *complex router* explained below.
+A router is a function that creates *route(s)*, which in turns tell the server how to handle each request. They are a specific kind of middleware that wraps your logic and acts as a gateway to it:
 
-The `ctx` variable is [explained in middleware's documentation](https://serverjs.io/documentation/middleware/#context) so we will just be using it here.
+```js
+// Plain middleware for ANY request (NOT a router)
+const all = ctx => { /* ... */ };
+
+// Create a GET route for the users page
+const users = get('/users', ctx => { /* ... */ })
+```
+
+The `ctx` variable is [explained in the middleware documentation](https://serverjs.io/documentation/middleware/#context). One important difference between the routes and middleware is that [**all routes are final**](routes-are-final). This means that **each request will use one route at most**.
+
+All of the routers reside within the `server.router` and follow this structure:
+
+```js
+const server = require('server');
+const { NAME } = server.router;
+const doSomething = NAME(ID, fn1, [fn2], [fn3]);
+server(doSomething);
+```
 
 
 
-## Simple router
+
+## REST
+
+The [basic REST routers](http://stackoverflow.com/q/671118/938236) are present: `get`, `post`, `put`, `del`. Delete is called `del` since 'delete' is a reserved word in Javascript. This is the recommended way of importing the routers with destructuring:
+
+```js
+const server = require('server');
+const { get, post, put, del } = server.router;
+```
+
+> TODO: create a tutorial as I couldn't find any decent one for this:
+
+They all [accept a path in a similar way to Express.js](http://expressjs.com/en/4x/api.html#router) as ID, which will be parametrized:
+
+```js
+const server = require('server');
+const { get } = server.router;
+
+// Homepage
+get('/', ctx => { /* ... */ });
+
+// A specific page
+get('/users', ctx => { /* ... */ });
+
+// Any page such as /contact, /users, /125, etc
+get('/:page', ctx => { /* ... */ });
+```
+
+
+
+### Simple router
 
 To define a simple router, you could do:
 
@@ -24,7 +71,7 @@ server(
 
 
 
-## Complex router
+### Complex router
 
 If you are going to have many routes, we recommend splitting it into a separated file, either in the root of the project as `routes.js` or in a different place:
 
@@ -53,75 +100,9 @@ module.exports = [
 ```
 
 
+## Error
 
-## Express router
-
-You can also use the express router:
-
-```js
-const server = require('server');
-
-const router = server.express.Router();
-router.get('/', home.index);
-router.get('/users', users.index);
-// ...
-
-server({}, router);
-```
-
-However, we recommend using server's router whenever possible:
-
-```js
-const server = require('server');
-let { get, post } = server.router;
-
-server({}, [
-  get('/', home.index),
-  get('/users', users.index)
-]);
-```
-
-
-
-## Join routes
-
-If you have two routers and want to make it into one for any reason, you can do so through a helper function we created.
-
-```js
-let { get, post, join } = server.router;
-
-
-let routes = join(
-  get('/', home.index),
-  get('/users', users.index),
-  // ...
-);
-
-server({}, acceptsOnlyASingleRoute(routes));
-```
-
-
-## Experimental
-
-> To enable these, you'll have to add an `EXPERIMENTAL=1` to your environment variables. No need to say that this is not stable and not part of the stable API.
-
-There's an experimental way of dealing with those:
-
-```js
-server({}, [
-  get('/').send('Hello 世界'),
-  get('/about.html').file('public/about.html'),
-  get('/non-existing').status(404).send('Error 404!')
-]);
-```
-
-They are the same methods as in [Express Methods](http://expressjs.com/en/api.html#res.methods) and accept the same parameters (adding `file`, which is an alias of `sendFile`, and removing `get` and `set` as it conflicts with `Router.get` and `Router.set`). The ones that *do not send* a response can be concatenated, while the ones that send a response will be ignored. So the second *send* will be ignored:
-
-```js
-server({}, [
-  get('/').status(200).send('Hi there').send('I am ignored')
-]);
-```
+> Explain about the router error: `const { error } = server.router;` and how it handles the errors thrown: `throw new Error()` || `ctx.throw('test:a')?`
 
 
 
@@ -140,3 +121,14 @@ server({}, [
   })
 ]);
 ```
+
+
+## Retrocompatibility
+
+> Explain about the wrapper for all the middleware out there
+
+
+
+## Routes are final
+
+> Explain how a route is matched only once
