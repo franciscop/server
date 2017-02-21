@@ -1,6 +1,6 @@
 let request = require('request');
 let server = require('../server');
-let { get, post, put, del } = server.router;
+let { get, post, put, del, error } = server.router;
 
 let port = 3000;
 
@@ -15,7 +15,7 @@ exports.err = ctx => { throw new Error('This should not be called'); };
 exports.launch = launch = (middle = [], opts = {}) => {
   port = port + 1 + parseInt(Math.random() * 100);
   opts = Object.assign({}, { port: port }, opts);
-  return server(opts, middle);
+  return server(opts, middle, error('*', ctx => console.log(ctx.error)));
 };
 
 exports.handler = (middle, opts = {}, servOpts) => new Promise((resolve, reject) => {

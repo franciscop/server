@@ -1,4 +1,4 @@
-# Documentation
+# server()
 
 > Note: An in-depth *tutorial* coming soon
 

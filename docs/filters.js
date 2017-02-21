@@ -1,3 +1,2 @@
-module.exports.noheader = block => {
-  return block.replace(/<h1[^>]*>[^<]*<\/h1>/, '');
-}
+// Should be okay
+module.exports.noheader = block => block.replace(/<h1.*>.+?<\/h1>/g, '');

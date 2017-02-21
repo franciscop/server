@@ -25,7 +25,7 @@ const plugin = {
   }
 };
 
-plugin.middle = [
+plugin.before = [
 
   // Public folder
   renaissance(ctx => {

@@ -1,4 +1,4 @@
-## Middleware
+# Middleware
 
 One of the most powerful things from express and thus from `server` is the Middleware. We build on this by an evolved concept while giving a wrapper for retro-compatibility:
 

@@ -49,7 +49,11 @@ function Server (...middle) {
     const context = (req, res) => Object.assign({}, this, { req: req, res: res });
 
     // PLUGIN middleware
-    middle = join(plugins.map(p => p.middleware || p.middle), middle);
+    middle = join(
+      plugins.map(p => p.beforeware || p.before),
+      middle,
+      plugins.map(p => p.afterware || p.after)
+    );
 
     // Main thing here
     this.app.use((req, res) => middle(context(req, res)));

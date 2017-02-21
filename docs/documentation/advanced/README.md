@@ -1,4 +1,4 @@
-# Documentation
+# Advanced
 
 > Note: An in-depth *tutorial* coming soon
 
