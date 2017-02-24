@@ -63,10 +63,6 @@ body {
   margin: 0 0 0 10px;
 }
 
-body.homepage {
-  background: #58a2df;
-}
-
 article {
   margin-top: 0;
   margin-bottom: 30vh;
@@ -183,7 +179,7 @@ button.secret {
 
 /* p only if it's the first elementc */
 article > p:first-child {
-    margin-top: 0;
+  margin-top: 0;
 }
 
 /*tighten up*/

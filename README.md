@@ -1,5 +1,7 @@
 # **Server** for Node.js
 
+<blockquote class="error">This is alpha software; use at your own risk</blockquote>
+
 Simple and powerful server that just works so **you can focus on your awesome project**:
 
 ```js
