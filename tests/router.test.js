@@ -3,6 +3,10 @@ let server = require('../server');
 let { get, post, put, del } = server.router;
 let { hello, err, launch, handler, getter, poster } = require('./helpers');
 let command = require('promised-exec');
+let routes = [
+  get('/', ctx => ctx.res.send('Hello 世界')),
+  post('/', ctx => ctx.res.send('Hello ' + ctx.req.body.a)),
+];
 
 // Check that a response is performed and it's a simple one
 const checker = ({ body = 'Hello 世界', method = 'GET' } = {}) => res => {
@@ -55,6 +59,29 @@ describe('Ends where it should end', () => {
       get('/', hello),
       get('/', err)
     ]).then(checker());
+  });
+
+  // A bug shifted the router's middleware on each request so now we test for
+  // multiple request to make sure the middleware remains the same
+  it('parses params correctly', done => {
+    const middle = get('/:id', ctx => ctx.res.send(ctx.req.params.id));
+    handler(middle, { path: '/42?ignored=true' }).then(res => {
+      expect(res.body).toBe('42');
+      done();
+    });
+  });
+
+  // A bug shifted the router's middleware on each request so now we test for
+  // multiple request to make sure the middleware remains the same
+  it('does not modify the router', done => {
+    launch([get('/w', ctx => ctx.res.send('w'))].concat(routes)).then(ctx => {
+      const url = 'http://localhost:' + ctx.options.port + '/';
+      request(url).then(() => request(url)).then(() => request(url)).then(body => {
+        ctx.close();
+        expect(body).toBe('Hello 世界')
+        done();
+      });
+    });
   });
 });
 

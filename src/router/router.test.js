@@ -6,7 +6,7 @@ const { handler, getter } = require('../../tests/helpers');
 
 
 const createCtx = (opts = {}) => extend({
-  req: { url: '/', method: 'GET' },
+  req: { url: '/', path: '/', method: 'GET' },
   res: {},
   options: {}
 }, opts);
@@ -47,7 +47,7 @@ describe('router with promises', () => {
 
   it('still works?', done => {
     let ctx = createCtx();
-    ctx.req.url = '/test/francisco/presencia/bla';
+    ctx.req.path = '/test/francisco/presencia/bla';
     get('/test/:name/:lastname/bla')(ctx).then(ctx => {
       expect(ctx.req.solved).toBe(true);
       expect(ctx.req.params.name).toBe('francisco');

@@ -26,19 +26,6 @@ describe('Full trip request', () => {
     });
   });
 
-  // A bug shifted the router's middleware on each request so now we test for
-  // multiple request to make sure the middleware remains the same
-  it('does not modify the router', done => {
-    launch([get('/w', ctx => ctx.res.send('w'))].concat(routes)).then(ctx => {
-      const url = 'http://localhost:' + ctx.options.port + '/';
-      request(url).then(() => request(url)).then(() => request(url)).then(body => {
-        ctx.close();
-        expect(body).toBe('Hello 世界')
-        done();
-      });
-    });
-  });
-
   it('can perform a simple post', () => {
     let reply = ctx => ctx.res.send('Hello ' + ctx.req.body.a);
     return poster(reply, { a: '世界' }).then(res => {

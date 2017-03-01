@@ -23,9 +23,11 @@ exports.handler = (middle, opts = {}, servOpts) => new Promise((resolve, reject)
   // The assuption here is under 100 tests/file
   launch(middle, servOpts).then(ctx => {
     let options = Object.assign({}, {
-      url: 'http://localhost:' + ctx.options.port + '/',
+      url: 'http://localhost:' + ctx.options.port + (opts.path || '/'),
       gzip: true
     }, opts);
+
+    delete options.path;
 
     request(options, (err, res) => {
       ctx.close();

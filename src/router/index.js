@@ -20,7 +20,7 @@ const generic = (method, ...middle) => {
     if (method !== ctx.req.method) return;
 
     // Only do this if the correct path
-    ctx.req.params = match(ctx.req.url);
+    ctx.req.params = match(ctx.req.path);
     if (!ctx.req.params) return;
 
     // Perform this promise chain
