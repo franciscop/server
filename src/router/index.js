@@ -5,11 +5,11 @@ const params = require('path-to-regexp-wrap')();
 // Generic request handler
 const generic = (method, ...middle) => {
 
-  // Only do this if the correct path
-  // It has been extracted because otherwise it'd shift once per call
+
+  // Extracted or otherwise it'd shift once per call; also more performant
   const path = typeof middle[0] === 'string' ? middle.shift() : '*';
   const match = params(path);
-  const joined = join(middle);
+  middle = join(middle);
 
   return ctx => {
 
@@ -19,11 +19,12 @@ const generic = (method, ...middle) => {
     // Only for the correct method
     if (method !== ctx.req.method) return;
 
-    // Continue if the URL is not the correct one
-    if (!match(ctx.req.url)) return;
+    // Only do this if the correct path
+    ctx.req.params = match(ctx.req.url);
+    if (!ctx.req.params) return;
 
     // Perform this promise chain
-    return joined(ctx).then(ctx => {
+    return middle(ctx).then(ctx => {
       ctx.req.solved = true;
       return ctx;
     });
