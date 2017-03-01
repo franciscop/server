@@ -31,7 +31,6 @@ describe('Default modules', () => {
 
   it.only('bodyParser can be cancelled', () => {
     let middle = ctx => {
-      console.log(ctx.req.body);
       expect(ctx.req.body).toEqual({});
       expect(ctx.req.headers['content-type']).toBe('application/x-www-form-urlencoded');
       ctx.res.send();
