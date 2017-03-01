@@ -1,18 +1,21 @@
+// THESE ARE JUST IDEAS; THEY MIGHT OR MIGHT NOT WORK
+
 // Include the server in your file
 let server = require('server');
 let { get, post, config } = server.router;
 let { send, json, file, render } = server.answer;
 
+// This compares simple implementations; not expected to be the typical ones
 // Initialize the server on port 3000
-server({ port: 3000 },
+server(
 
-  // default
-  get('/', (req, res) => res.send('hello 世界')),
-  get('/', (req, res) => res.json({ hello: '世界' })),
-  get('/', (req, res) => res.file('./public/index.html')),
-  get('/', (req, res) => res.status(400).render('index.pug', {})),
+  // +direct +simple +express +koa -WET
+  get('/', ctx => ctx.res.send('hello 世界')),
+  get('/', ctx => ctx.res.json({ hello: '世界' })),
+  get('/', ctx => ctx.res.file('./public/index.html')),
+  get('/', ctx => ctx.res.status(400).render('index.pug', {})),
 
-  // +clean +standard +direct +chainable -complex(inside)
+  // +clean +standard +direct +chainable -complex(inside) -confusing
   get('/').send('hello 世界'),
   get('/').json({ hello: '世界' }),
   get('/').file('./public/index.html'),
