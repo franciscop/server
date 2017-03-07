@@ -8,7 +8,8 @@ server({ port: 3000 });  // the same
 <pre><code class="lang-js">server({
   port: 3000,
   public: &#39;./public&#39;,
-  viewengine: &#39;pug&#39;,
+  &#39;view engine&#39;: &#39;pug&#39;,
+  verbose: false,
 
   middle: {
     // Default middleware options here, see below
@@ -58,6 +59,17 @@ server({ port: 3000 }); // the same
 </code></pre>
 <p>To set the template engine in the environment, create a file called <code>.env</code> with this:</p>
 <pre><code>VIEW_ENGINE=./public
+</code></pre><h3 id="-verbose-false"><code>verbose</code> : false</h3>
+<p>Will log the current running port to the console.</p>
+<pre><code class="lang-js">server({
+  verbose: true
+});
+</code></pre>
+<p>Or alternatively set the property in your environment file <code>.env</code></p>
+<pre><code>VERBOSE=true
+</code></pre><p>Results in;</p>
+<pre><code>$ node .\index.js
+Server started on port 3000 http://localhost:3000/
 </code></pre><h3 id="-secret-undefined-"><code>secret</code> : <code>undefined</code></h3>
 <p>This will be inherited by several middleware if they are not set explicitly for the modules. Use a random string here, but it cannot be auto-generated as it has to be the same between restarts from the server. It is also recommended that you <strong>set this up inside <em>.env</em>.</strong> and not as a parameter hardcoded into the code:</p>
 <pre><code class="lang-js">// NO (in app.js):
