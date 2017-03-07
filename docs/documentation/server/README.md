@@ -16,7 +16,7 @@ const server = require('server');
 server(options, middleware1, middleware2, ...);
 ```
 
-- [Options](options.md) [optional]: an object with the options. [Read more...](options.md).
+- [Options](options) [optional]: an object with the options. [Read more...](options).
 - [Middleware](middleware.md) [optional]: the middleware that handles requests [Read more...](middleware.md).
 
 However, it also has the handy property:
