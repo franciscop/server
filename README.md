@@ -1,6 +1,7 @@
 # **Server** for Node.js
 
-<blockquote class="error">This is alpha software; use at your own risk</blockquote>
+[![Status](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server) [![Downloads](https://img.shields.io/npm/dm/server.svg)](https://www.npmjs.com/package/server) [![License MIT](https://img.shields.io/npm/l/server.svg)](https://github.com/franciscop/server/blob/master/LICENSE) [![Alpha](https://img.shields.io/badge/version-ALPHA-red.svg )](https://github.com/franciscop/server/issues/1)
+
 
 Simple and powerful server that just works so **you can focus on your awesome project**:
 
