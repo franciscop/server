@@ -1,13 +1,7 @@
-// Modules - All of the modules that are loaded by default
-// For some reason, the tests are in /test/connect.test.js
+// Make express middleware into server's middleware
 const modern = require('../../src/modern');
+const renaissance = require('../../src/modern/renaissance');
 
-// This is not the middleware itself; it is called on init once and returns the
-// actual middleware
-const renaissance = mod => ctx => {
-  let res = mod(ctx, ctx.options);
-  return res ? modern(res)(ctx) : Promise.resolve();
-}
 
 const csrf = require('csurf');
 const csrfProtection = csrf({ cookie: false });
@@ -20,38 +14,6 @@ module.exports = [
     if (ctx.options.middle.public) {
       return ctx.express.static(ctx.options.middle.public);
     }
-  }),
-
-  // Body Parser
-  renaissance(ctx => {
-    if (!ctx.options.middle) return;
-    if (!ctx.options.middle.bodyParser) return;
-    return require('body-parser').urlencoded(ctx.options.middle.bodyParser);
-  }),
-
-  // JSON parser
-  renaissance(ctx => {
-    if (!ctx.options.middle) return;
-    if (ctx.options.middle.jsonParser) {
-      return require('body-parser').json(ctx.options.middle.jsonParser);
-    }
-  }),
-
-  // Data parser
-  renaissance(ctx => {
-    if (!ctx.options.middle) return;
-    if (ctx.options.middle.dataParser) {
-      return require('express-data-parser')(ctx.options.middle.dataParser);
-    }
-  }),
-
-  // Cookie parser
-  renaissance(ctx => {
-    if (!ctx.options.middle) return;
-    if (!ctx.options.middle.cookieParser) return;
-    let secret = ctx.options.middle.cookieParser.secret;
-    if (typeof secret !== 'string') secret = ctx.options.secret;
-    return require('cookie-parser')(secret);
   }),
 
   // Compress
@@ -84,13 +46,6 @@ module.exports = [
     if (!ctx.options.middle) return;
     if (ctx.options.middle.responseTime) {
       return require('response-time')(ctx.options.responseTime);
-    }
-  }),
-
-  renaissance(ctx => {
-    if (!ctx.options.middle) return;
-    if (ctx.options.middle.methodOverride) {
-      return require('method-override')(ctx.options.methodOverride);
     }
   }),
 

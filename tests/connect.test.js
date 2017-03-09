@@ -12,75 +12,19 @@ const content = type => ctx => {
 
 describe('Default modules', () => {
 
-  it('can cancel all bodyparser', () => {
-    let middle = ctx => {
-      expect(ctx.req.body).toBe(undefined);
-      ctx.res.send();
-    };
-    return poster(middle, data, { middle: false }).catch(console.log);
-  });
-
-  it('bodyParser', () => {
-    let middle = ctx => {
-      expect(ctx.req.body).toBeDefined();
-      expect(ctx.req.body.hello).toBe('世界');
-      expect(ctx.req.headers['content-type']).toBe('application/x-www-form-urlencoded');
-      ctx.res.send();
-    };
-    return poster(middle, data);
-  });
-
-  it('bodyParser can be cancelled', () => {
-    let middle = ctx => {
-      expect(ctx.req.body).toEqual({});
-      expect(ctx.req.headers['content-type']).toBe('application/x-www-form-urlencoded');
-      ctx.res.send();
-    };
-    return poster(middle, data, { middle: { bodyParser: false } });
-  });
-
-  it('jsonParser', done => {
-    let middle = ctx => {
-      expect(ctx.req.body.place).toBe('世界');
-      expect(ctx.req.headers['content-type']).toBe('application/json');
-      ctx.res.send();
-    };
-
-    handler(middle, { body: { place: '世界' }, json: true }).then(res => done());
-  });
-
-  it('dataParser', done => {
-
-    let formData = { logo: fs.createReadStream(__dirname + '/logo.png') };
-    let middle = ctx => {
-      expect(ctx.req.files.logo.name).toBe('logo.png');
-      expect(ctx.req.files.logo.type).toBe('image/png');
-      expect(ctx.req.files.logo.size).toBe(10151);
-      ctx.res.send();
-    }
-
-    handler(middle, { method: 'POST', formData: formData }).then(res => done());
-  });
-
-  // request() does not accept gzip
+  // SKIP: request() does not accept gzip
   it.skip('compress', done => {
     let middle = ctx => {
       // 100 'a's
-      ctx.res.send('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+      const as = 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+                 'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa';
+      ctx.res.send(as);
     }
 
     getter(middle).then(res => {
       expect(res.caseless.dict['content-length'] < 90).toBe(true);
-      done();
-    });
-  });
-
-  it('cookieParser', done => {
-    let middle = ctx => ctx.res.cookie('place', '世界').send();
-    poster(middle, { place: '世界' }).then(res => {
-      let cookieheader = res.headers['set-cookie'];
-      expect(cookieheader.length).toBe(1);
-      expect(cookieheader[0]).toBe('place=%E4%B8%96%E7%95%8C; Path=/');
       done();
     });
   });
@@ -115,19 +59,6 @@ describe('Default modules', () => {
       done();
     });
   });
-
-  it('method-override', done => {
-    let middle = ctx => {
-      expect(ctx.req.method).toBe('PUT');
-      expect(ctx.req.originalMethod).toBe('POST');
-      ctx.res.send('世界');
-    }
-    handler(middle, { method: 'POST', headers: {
-      'X-HTTP-Method-Override': 'PUT'
-    } }).then(res => done());
-  });
-
-
 
   it('csurf', done => {
     let routes = [

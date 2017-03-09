@@ -1,9 +1,9 @@
 const request = require('request-promise-native');
-let server = require('../server');
-let { get, post, put, del, error } = server.router;
-let { handler, getter, poster } = require('./helpers');
+const server = require('../server');
+const { get, post, put, del, error } = server.router;
+const { handler, getter, poster } = require('./helpers');
 
-let routes = [
+const routes = [
   get('/', ctx => ctx.res.send('Hello 世界')),
   post('/', ctx => ctx.res.send('Hello ' + ctx.req.body.a)),
 ];
