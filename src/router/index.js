@@ -39,13 +39,13 @@ exports.put  = (...middle) => generic(   'PUT', ...middle);
 exports.del  = (...middle) => generic('DELETE', ...middle);
 
 exports.error = (...middle) => {
-  let path = typeof middle[0] === 'string' ? middle.shift() : false;
-  let parser = params(path);
-  let generic = () => {};
+  const path = typeof middle[0] === 'string' ? middle.shift() : false;
+  const generic = () => {};
   generic.error = ctx => {
     // All of them if there's no path
-    if (!path) return join(middle)(ctx);
+    if (!path || path === '*') return join(middle)(ctx);
 
+    // TODO: find a way to fix this
     const frag = ctx.error.path ? ctx.error.path.slice(0, path.length) : '';
     if (frag === path) return join(middle)(ctx);
     throw ctx.error;

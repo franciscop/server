@@ -21,6 +21,7 @@
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
     "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
     "dotenv": "^2.0.0",
     "errors": "^0.3.0",
     "express": "^4.14.0",
@@ -54,6 +55,7 @@
     "promised-exec": "^1.0.1",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
+    "supertest": "^3.0.0",
     "uglifyify": "^3.0.4"
   }
 }

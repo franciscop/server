@@ -14,18 +14,21 @@ server(
   get('/', ctx => ctx.res.json({ hello: '世界' })),
   get('/', ctx => ctx.res.file('./public/index.html')),
   get('/', ctx => ctx.res.status(400).render('index.pug', {})),
+  get('/user/:id', ctx => cache({}).then(db({})).then(render('user.pug'))),
 
   // +clean +standard +direct +chainable -complex(inside) -confusing
   get('/').send('hello 世界'),
   get('/').json({ hello: '世界' }),
   get('/').file('./public/index.html'),
   get('/').status(400).render('index.pug', {}),
+  get('/user/:id').cache({}).db({}).render('user.pug')
 
   // +compatible +trivial -extra syntax -unchainable
   get('/', send('hello 世界')),
-  get('/', json({ hello: '世界' })),
+  get('/', json({ hello: '世 界' })),
   get('/', file('./public/index.html')),
   get('/', status(400), render('index.pug', {})),
+  get('/user/:id', cache({}), db({}), render('user.pug'))
 
   // +promises -incompatible -wrapper -extra syntax -longest
   get('/').then(send('hello 世界')),

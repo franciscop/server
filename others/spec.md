@@ -50,3 +50,19 @@ let mid = get('/', ctx => ctx.res.send('Hello 世界'));
 
 
 ## Plugins
+
+A possible example:
+
+```js
+const myPlugin = {
+  options: {
+    port: Number,
+    public: 'public',
+    secret: String
+  },
+  init: [],
+  before: [],
+  after: [],
+  launch: []
+};
+```

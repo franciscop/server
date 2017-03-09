@@ -4,8 +4,15 @@ const load = require('loadware');
 module.exports = (...middles) => ctx => load(middles).reduce((prev, next) => {
 
   const handler = err => {
+
+    // Keep throwing it until a middleware tries to catch it
+    if (!next.error || !(next.error instanceof Function)) {
+      throw err;
+    }
+
+    // Middleware to handle it
     ctx.error = err;
-    if (next.error && next instanceof Function) next.error(ctx);
+    return next.error(ctx);
   };
 
   // Make sure that we pass the original context to the next promise

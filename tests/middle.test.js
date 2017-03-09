@@ -33,6 +33,9 @@ describe('Middleware', () => {
 
   // NOTE: port has to be changed for parallel tests
   it('loads as an function in the first parameter', () => {
+    server.plugins.push({ init: ctx => {
+      ctx.options.port = 2000 + parseInt(Math.random() * 10000);
+    }});
     return server(hello).then(autorequest).then(res => {
       expect(res.body).toBe('Hello 世界');
     });

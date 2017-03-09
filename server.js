@@ -12,9 +12,8 @@ const router = require('./src/router/index.js');
 const join = require('./src/join/index.js');
 const modern = require('./src/modern');
 const error = require('./src/error');
-const plugins = [
-  require('./plugins/middle')
-];
+const defaultErrors = require('./src/error/errors.js');
+const final = require('./src/final');
 
 // Main function
 function Server (...middle) {
@@ -40,7 +39,10 @@ function Server (...middle) {
     this.app = this.express();
 
     // Set the options for the context of Server.js
-    this.options = config(opts, plugins, this.app);
+    this.plugins = module.exports.plugins;
+    this.options = config(opts, this.plugins, this.app);
+
+    this.plugins.map(p => p.init).filter(i => i).forEach(init => init(this));
 
     this.modern = modern;
     this.error = error(this.options.errors);
@@ -50,9 +52,9 @@ function Server (...middle) {
 
     // PLUGIN middleware
     middle = join(
-      plugins.map(p => p.beforeware || p.before),
+      this.plugins.map(p => p.beforeware || p.before),
       middle,
-      plugins.map(p => p.afterware || p.after)
+      this.plugins.map(p => p.afterware || p.after)
     );
 
     // Main thing here
@@ -74,9 +76,19 @@ function Server (...middle) {
     // Start listening to requests
     this.original = this.app.listen(this.options.port, launch);
 
-    this.original.on('error', err => reject(err));
+    this.original.on('error', err => {
+      const nicks = { EADDRINUSE: 'PortAlreadyUsed' };
+      if (nicks[err.code] && defaultErrors[nicks[err.code]]) {
+        reject(defaultErrors[nicks[err.code]](err));
+      } else {
+        reject(err);
+      }
+    });
   });
 }
 
 module.exports = (...opts) => new Server(...opts);
 module.exports.router = router;
+module.exports.plugins = [
+  require('./plugins/middle')
+];
