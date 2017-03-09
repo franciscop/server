@@ -26,14 +26,11 @@ server(
 
 These are the main things that I wasn't happy with the state-of-the-art, so I decided to launch server to build upon the great work of express:
 
-1. Make things work by default:
-  - Cookies
-  - Session
-  - Form submission
-  - Including **file uploads**
-  - ...
+1. Make things work by default (by domain):
+  - Parsers: json, urlencoded, **file uploads**
+  - Persistence: session, cookies, csrf
 
-2. Make things simpler to use
+2. Make things simpler to use:
   - Many low-level things work out of the box
   - Sensible, secure defaults => no need to change anything
   - Easily customizable options
