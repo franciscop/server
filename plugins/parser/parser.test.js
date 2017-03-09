@@ -71,7 +71,7 @@ describe('Default modules', () => {
 
 
 
-describe('Cancel parts', () => {
+describe('Cancel parts through options', () => {
 
   it('can cancel bodyParser', () => {
     const middle = ctx => {
