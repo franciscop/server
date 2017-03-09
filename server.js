@@ -42,7 +42,7 @@ function Server (...middle) {
     this.plugins = module.exports.plugins;
     this.options = config(opts, this.plugins, this.app);
 
-    this.plugins.map(p => p.init).filter(i => i).forEach(init => init(this));
+    this.plugins.filter(n => this.options[n.name]).map(p => p.init).filter(i => i).forEach(init => init(this));
 
     this.modern = modern;
     this.error = error(this.options.errors);
@@ -52,9 +52,9 @@ function Server (...middle) {
 
     // PLUGIN middleware
     middle = join(
-      this.plugins.map(p => p.beforeware || p.before),
+      this.plugins.filter(n => this.options[n.name]).map(p => p.beforeware || p.before),
       middle,
-      this.plugins.map(p => p.afterware || p.after)
+      this.plugins.filter(n => this.options[n.name]).map(p => p.afterware || p.after)
     );
 
     // Main thing here

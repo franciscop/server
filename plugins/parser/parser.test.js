@@ -72,13 +72,6 @@ describe('Default modules', () => {
 
 
 describe('Cancel parts', () => {
-  it('can cancel all parsers', () => {
-    const middle = ctx => {
-      expect(ctx.req.body).toBe(undefined);
-      ctx.res.send();
-    };
-    return poster(middle, data, { parser: false });
-  });
 
   it('can cancel bodyParser', () => {
     const middle = ctx => {
@@ -90,4 +83,13 @@ describe('Cancel parts', () => {
   });
 
   // TODO: check all others can be cancelled
+
+  // NOTE: this comes from the default behaviour now; migrate it
+  it('can cancel all parsers', () => {
+    const middle = ctx => {
+      expect(ctx.req.body).toBe(undefined);
+      ctx.res.send();
+    };
+    return poster(middle, data, { parser: false });
+  });
 });
