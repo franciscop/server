@@ -48,3 +48,53 @@ server({}, [
   get('/').status(200).send('Hi there').send('I am ignored')
 ]);
 ```
+
+
+
+### Promise
+
+The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use.
+
+It gets passed the `ctx` object, just without the request-specific parameters (not including `req` and `res` among others). It does include:
+
+- `app`: the express instance
+- `server`: the original `http-server`
+- `express`: the express required as in `require('express')`
+
+Also, it will transparently use the `http-server` whether possible (through ES6's Proxy), so function calls such as `.close()` work straight on the instance:
+
+```js
+server().then(ctx => {
+
+  // Run the server for a single second then close it
+  setTimeout(() => {
+    ctx.close();
+  }, 1000);
+}).catch(error => {
+  console.log("There was an error:", error);
+});
+```
+
+For most purposes you can just launch the server ignoring the return value:
+
+```js
+server();
+```
+
+This might be useful for error-handling, debugging and testing (see the tests in the folder `tests`) or extending server's functionality.
+
+
+### Included modules
+
+This is the default included middleware, which can also be seen in `src/modules`:
+
+- [`dotenv`](https://www.npmjs.com/package/dotenv)
+- `bodyParser` : [`body-parser`](https://www.npmjs.com/package/body-parser)
+- `jsonParser` : [`body-parser`](https://www.npmjs.com/package/body-parser)
+- `dataParser` : [`express-data-parser`](https://www.npmjs.com/package/express-data-parser)
+- `compress` : [`compression`](https://www.npmjs.com/package/compression)
+- `cookieParser` : [`cookie-parser`](https://www.npmjs.com/package/cookie-parser)
+- `session` : [`express-session`](https://www.npmjs.com/package/express-session)
+- `favicon` : [`serve-favicon`](https://www.npmjs.com/package/serve-favicon)
+- `responseTime` : [`response-time`](https://www.npmjs.com/package/response-time)
+- `methodOverride` : [`method-override`](https://www.npmjs.com/package/method-override)
