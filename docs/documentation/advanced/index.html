@@ -31,4 +31,41 @@ server({}, acceptsOnlyASingleRoute(routes));
   get(&#39;/&#39;).status(200).send(&#39;Hi there&#39;).send(&#39;I am ignored&#39;)
 ]);
 </code></pre>
+<h3 id="promise">Promise</h3>
+<p>The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use.</p>
+<p>It gets passed the <code>ctx</code> object, just without the request-specific parameters (not including <code>req</code> and <code>res</code> among others). It does include:</p>
+<ul>
+<li><code>app</code>: the express instance</li>
+<li><code>server</code>: the original <code>http-server</code></li>
+<li><code>express</code>: the express required as in <code>require(&#39;express&#39;)</code></li>
+</ul>
+<p>Also, it will transparently use the <code>http-server</code> whether possible (through ES6&#39;s Proxy), so function calls such as <code>.close()</code> work straight on the instance:</p>
+<pre><code class="lang-js">server().then(ctx =&gt; {
+
+  // Run the server for a single second then close it
+  setTimeout(() =&gt; {
+    ctx.close();
+  }, 1000);
+}).catch(error =&gt; {
+  console.log(&quot;There was an error:&quot;, error);
+});
+</code></pre>
+<p>For most purposes you can just launch the server ignoring the return value:</p>
+<pre><code class="lang-js">server();
+</code></pre>
+<p>This might be useful for error-handling, debugging and testing (see the tests in the folder <code>tests</code>) or extending server&#39;s functionality.</p>
+<h3 id="included-modules">Included modules</h3>
+<p>This is the default included middleware, which can also be seen in <code>src/modules</code>:</p>
+<ul>
+<li><a href="https://www.npmjs.com/package/dotenv"><code>dotenv</code></a></li>
+<li><code>bodyParser</code> : <a href="https://www.npmjs.com/package/body-parser"><code>body-parser</code></a></li>
+<li><code>jsonParser</code> : <a href="https://www.npmjs.com/package/body-parser"><code>body-parser</code></a></li>
+<li><code>dataParser</code> : <a href="https://www.npmjs.com/package/express-data-parser"><code>express-data-parser</code></a></li>
+<li><code>compress</code> : <a href="https://www.npmjs.com/package/compression"><code>compression</code></a></li>
+<li><code>cookieParser</code> : <a href="https://www.npmjs.com/package/cookie-parser"><code>cookie-parser</code></a></li>
+<li><code>session</code> : <a href="https://www.npmjs.com/package/express-session"><code>express-session</code></a></li>
+<li><code>favicon</code> : <a href="https://www.npmjs.com/package/serve-favicon"><code>serve-favicon</code></a></li>
+<li><code>responseTime</code> : <a href="https://www.npmjs.com/package/response-time"><code>response-time</code></a></li>
+<li><code>methodOverride</code> : <a href="https://www.npmjs.com/package/method-override"><code>method-override</code></a></li>
+</ul>
 </article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script type="text/javascript" src="/javascript.js"></script></body></html>
