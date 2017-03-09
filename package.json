@@ -50,6 +50,7 @@
     "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
     "grunt-es6-transpiler": "^1.0.2",
+    "hbs": "^4.0.1",
     "jest": "^18.1.0",
     "jstransformer-marked": "^1.0.2",
     "promised-exec": "^1.0.1",
