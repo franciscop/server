@@ -2,7 +2,7 @@
 
 Compare performance of `server` with `express`. As server is based on express, the theoretical maximum rps is that of express, so this is just to see that it doesn't fall too far below.
 
-In my machine, this means that `server` can perform **36.37%** of the requests of `express` with the default configuration and **56.2%** with no middleware. From initial debugging, this seems to be related mainly to Promises inefficiencies which should get better as Promises get improved in V8 and as we improve the library.
+In my machine, this means that `server` can perform **37.4%** of the requests of `express` with the default configuration and **56.2%** with no middleware. From initial debugging, this seems to be related mainly to Promises inefficiencies which should get better as Promises get improved in V8 and as we improve the library.
 
 I consider this to be good enough to keep developing and release the 1.0.0. Optimizations for this should be handled in the future before 2.0.0.
 
@@ -89,34 +89,34 @@ Document Path:          /
 Document Length:        12 bytes
 
 Concurrency Level:      100
-Time taken for tests:   52.847 seconds
+Time taken for tests:   51.368 seconds
 Complete requests:      100000
 Failed requests:        0
 Total transferred:      23200000 bytes
 HTML transferred:       1200000 bytes
-Requests per second:    1892.27 [#/sec] (mean)
-Time per request:       52.847 [ms] (mean)
-Time per request:       0.528 [ms] (mean, across all concurrent requests)
-Transfer rate:          428.72 [Kbytes/sec] received
+Requests per second:    1946.76 [#/sec] (mean)
+Time per request:       51.368 [ms] (mean)
+Time per request:       0.514 [ms] (mean, across all concurrent requests)
+Transfer rate:          441.06 [Kbytes/sec] received
 
 Connection Times (ms)
               min  mean[+/-sd] median   max
-Connect:        0    0   0.2      0       7
-Processing:    40   53   5.3     53      85
-Waiting:       40   53   5.3     53      85
-Total:         44   53   5.3     53      85
+Connect:        0    0   0.3      0      12
+Processing:    24   51   5.2     51      84
+Waiting:       24   51   5.2     51      84
+Total:         36   51   5.2     51      84
 
 Percentage of the requests served within a certain time (ms)
-  50%     53
-  66%     54
-  75%     54
-  80%     55
-  90%     56
-  95%     59
-  98%     74
-  99%     78
- 100%     85 (longest request)
-```
+  50%     51
+  66%     52
+  75%     53
+  80%     53
+  90%     55
+  95%     58
+  98%     72
+  99%     76
+ 100%     84 (longest request)
+ ```
 
 
 
