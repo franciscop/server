@@ -62,7 +62,7 @@ function Server (...middle) {
 
     const launch = () => {
       if (this.options.verbose) {
-        console.log(`Server started on port ${port} http://localhost:${port}/`);
+        console.log(`Server started on port ${this.options.port} http://localhost:${this.options.port}/`);
       }
 
       // PLUGIN.attach: ctx => {}

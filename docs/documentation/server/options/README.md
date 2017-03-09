@@ -1,33 +1,3 @@
-# server()
-
-> Note: An in-depth *tutorial* coming soon
-
-To include server, `require` it as a normal Node package:
-
-```js
-const server = require('server');
-```
-
-## Main function
-
-`server` is a function with this signature:
-
-```js
-server(options, middleware1, middleware2, ...);
-```
-
-- [Options](options) [optional]: an object with the options. [Read more...](options).
-- [Middleware](middleware.md) [optional]: the middleware that handles requests [Read more...](middleware.md).
-
-However, it also has the handy property:
-
-- `server.router`: Read the section [Router](router.md) to see how it works. This is **not** the default router from express.
-
-
-
-
-
-
 ## Options
 
 The first argument of the main function is for setting the options. It can be nothing, a single integer or a plain object:
@@ -44,7 +14,8 @@ As you can guess, internally if it is a single integer it will be converted to t
 server({
   port: 3000,
   public: './public',
-  viewengine: 'pug',
+  'view engine': 'pug',
+  verbose: false,
 
   middle: {
     // Default middleware options here, see below
@@ -133,6 +104,32 @@ To set the template engine in the environment, create a file called `.env` with 
 ```
 VIEW_ENGINE=./public
 ```
+
+
+
+### `verbose` : false
+
+Will log the current running port to the console.
+
+```js
+server({
+  verbose: true
+});
+```
+
+Or alternatively set the property in your environment file `.env`
+
+```
+VERBOSE=true
+```
+
+Results in;
+
+```
+$ node .\index.js
+Server started on port 3000 http://localhost:3000/
+```
+
 
 
 ### `secret` : `undefined`
