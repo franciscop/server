@@ -1,0 +1,61 @@
+{
+  "name": "server",
+  "version": "1.0.0-alpha.21",
+  "description": "A modern and powerful server for Node.js",
+  "main": "server.js",
+  "directories": {
+    "example": "examples"
+  },
+  "scripts": {
+    "test": "jest --coverage",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/franciscop/server"
+  },
+  "author": "Francisco Presencia <public@francisco.io>",
+  "license": "MIT",
+  "homepage": "https://serverjs.io/",
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "csurf": "^1.9.0",
+    "dotenv": "^2.0.0",
+    "errors": "^0.3.0",
+    "express": "^4.14.0",
+    "express-data-parser": "^1.2.0",
+    "express-session": "^1.14.2",
+    "extend": "^3.0.0",
+    "human-error": "^0.2.0",
+    "loadware": "^2.0.0",
+    "method-override": "^2.3.7",
+    "path-to-regexp-wrap": "0.0.4",
+    "pug": "^2.0.0-beta6",
+    "response-time": "^2.3.2",
+    "serve-favicon": "^2.3.2",
+    "serve-index": "^1.8.0"
+  },
+  "devDependencies": {
+    "babelify": "^7.3.0",
+    "chance": "^1.0.4",
+    "grunt": "^1.0.1",
+    "grunt-browserify": "^5.0.0",
+    "grunt-bytesize": "^0.2.0",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-connect": "^1.0.2",
+    "grunt-contrib-jshint": "^1.1.0",
+    "grunt-contrib-pug": "^1.0.0",
+    "grunt-contrib-uglify": "^2.0.0",
+    "grunt-contrib-watch": "^1.0.0",
+    "grunt-es6-transpiler": "^1.0.2",
+    "jest": "^18.1.0",
+    "jstransformer-marked": "^1.0.2",
+    "promised-exec": "^1.0.1",
+    "request": "^2.79.0",
+    "request-promise-native": "^1.0.3",
+    "supertest": "^3.0.0",
+    "uglifyify": "^3.0.4"
+  }
+}

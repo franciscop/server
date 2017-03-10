@@ -1,0 +1,205 @@
+.from-h3 .button::before {
+  content: "- ";
+}
+
+nav {
+  padding-left: calc(50% - 450px);
+  padding-right: calc(50% - 450px);
+  margin: 0 auto;
+}
+
+nav .brand {
+  margin-left: .5em;
+}
+
+nav .brand .logo {
+  margin-right: 1em;
+}
+
+nav footer {
+  margin-right: 0.5em;
+}
+
+body {
+  background: #58a2df;
+}
+
+.hero {
+  position: relative;
+  width: 100%;
+  height: 60%;
+  min-height: 300px;
+  margin: 0;
+  text-align: center;
+  color: #fff;
+  padding: 1px 0;
+  transition: min-height 999999s, height 999999s;
+}
+
+.hero .content {
+  padding: 10px;
+  width: 100%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+  margin: 0 auto;
+}
+
+.hero .arrow {
+  font-size: .7em;
+  font-weight: 100000;
+  transform: scaleX(1.3);
+  display: inline-block;
+  margin: 0 10px;
+}
+.hero .button .arrow {
+  transform: scaleX(1.3) translateY(-1px);
+}
+.hero .arrow.left {
+  margin: 0 10px 0 0;
+}
+.hero .arrow.right {
+  margin: 0 0 0 10px;
+}
+
+article {
+  margin-top: 0;
+  margin-bottom: 30vh;
+  padding: 3em;
+}
+
+
+.hero h1 {
+  font-weight: normal;
+  padding: 0;
+  margin: 0;
+}
+
+.sub {
+  margin: 0;
+}
+
+pre.sub {
+  padding: 5px 15px;
+  text-align: left;
+  font-size: 1.4em;
+  font-family: monospace;
+  font-weight: 300;
+  border-radius: 0;
+  background: rgba(255, 255, 255, .1);
+}
+
+nav.super .switch::before {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  line-height: 45px;
+}
+
+@media all and (min-width: 500px) {
+  .hero .content {
+    width: 330px;
+    max-width: 100%;
+  }
+}
+
+
+button.secret {
+  display: none;
+}
+
+@media all and (min-width: 800px) {
+  body {
+    font-size: 1.1em;
+  }
+
+  .hero {
+    background: #58a2df url("/img/kite.jpg") no-repeat center center scroll;
+    background-size: cover;
+  }
+
+  .hero .content {
+    width: auto;
+    max-width: 100%;
+  }
+  .hero h1 {
+    font-size: 2.5em;
+  }
+  .hero .sub {
+    font-size: 1.6em;
+  }
+
+  button.secret {
+    display: block;
+    background: none;
+    color: rgba(255, 255, 255, .05);
+    margin: 0 auto -50px;
+    cursor: inherit;
+  }
+
+  button.secret:focus {
+    box-shadow: none;
+    color: rgba(255, 255, 255, .05);
+  }
+
+  button.secret:hover {
+    box-shadow: none;
+    background: rgba(255, 255, 255, .5);
+    color: rgba(0, 0, 0, .5);
+    transition: all .3s ease .3s;
+  }
+
+
+  body.liftoff {
+    background: #000 url("/img/lanterns.jpg") no-repeat center center scroll;
+    background-size: cover;
+    transition: all 1s ease;
+  }
+
+  body.liftoff .hero {
+    background: none;
+  }
+}
+
+.button {
+  background: #f55;
+}
+
+.hero .button {
+  font-weight: bold;
+  margin-top: 20px;
+  background: #f55;
+}
+
+.docs {
+  padding: .6em 1.2em;
+}
+
+/* p only if it's the first elementc */
+article > p:first-child {
+  margin-top: 0;
+}
+
+/*tighten up*/
+article h1,
+article h2,
+article h3 {
+  margin: -40px 0 -15px;
+}
+
+@media all and (max-width: 900px) {
+  article {
+    padding: 15px 20px 20px;
+  }
+}
+
+
+.pages {
+  text-align: center;
+  margin: 10px auto 0;
+}
+.pages .button {
+  margin-right: .3em;
+}

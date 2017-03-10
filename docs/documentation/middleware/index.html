@@ -1,0 +1,129 @@
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><link href="/style.css" rel="stylesheet"></head><body><nav class="super"><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about">About</a> <a class="pseudo button" href="https://medium.com/server-for-node-js">Blog </a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a> <a class="button" href="/documentation">Documentation</a></div></footer></nav><div class="hero"><div class="content"><h1> <strong>Middleware</strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
+<p>One of the most powerful things from express and thus from <code>server</code> is the Middleware. We build on this by an evolved concept while giving a wrapper for retro-compatibility:</p>
+<pre><code class="lang-js">const setname = ctx =&gt; ctx.req.user = &#39;Francisco&#39;;
+const sendname = ctx =&gt; ctx.res.send(ctx.req.user);
+server(setname, get(&#39;/&#39;, sendname));
+</code></pre>
+<h3 id="definition">Definition</h3>
+<p>A <em>server middleware</em> is a function that will be called on each request. It accepts a server instance and returns a promise for asynchronous methods or anything else for synchronous methods.</p>
+<h3 id="parameters">Parameters</h3>
+<p>It will only receive a parameter, the current instance of server. This has, among others, the properties <code>req</code> <code>res</code> (similar to express) and <code>options</code>:</p>
+<pre><code class="lang-js">let middleware = s =&gt; {
+  s.req;      // Request parameter, similar to `(req, res)` in express
+  s.res;      // Response parameter, similar to `(req, res)` in express
+  s.options;  // The options for the server instance
+}
+</code></pre>
+<p>Then all of the included plugins will be available here. Consult the documentation on each for specifics, but this is how they <em>could</em> be implemented:</p>
+<pre><code class="lang-js">let middleware = s =&gt; {
+  s.socket;  // A plugin that exports a websocket
+  s.db;      // A plugin that exports a database
+}
+</code></pre>
+<p>If you are developing a library or just want more advanced features, you should also have access to these:</p>
+<pre><code class="lang-js">let middleware = s =&gt; {
+  s.app;     // Current express instance
+  s.original;  // The http-server instance
+};
+</code></pre>
+<h4 id="destructuring">Destructuring</h4>
+<p>You can and probably should use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">ES7 destructuring</a> right in the function call:</p>
+<pre><code class="lang-js">let setname = ({ req }) =&gt; req.user = &#39;Francisco&#39;;
+let sendname = ({ req, res }) =&gt; res.send(req.user);
+</code></pre>
+<p>All of the included plugins will also be available in this way:</p>
+<pre><code class="lang-js">let middleware = ({ res, socket, db }) =&gt; {
+  db.findAll({ name: &#39;Francisco&#39; }).then(user =&gt; res.json(user));
+}
+</code></pre>
+<h3 id="return-value">Return value</h3>
+<p>If your middleware is going to be synchronous, you can just return nothing:</p>
+<pre><code class="lang-js">let middle = ({ req }) =&gt; {
+  req.body = &#39;Hello world&#39;;
+}
+</code></pre>
+<p>In sync mode you can throw anything to trigger an error:</p>
+<pre><code class="lang-js">let middle = ({ req }) =&gt; {
+  if (!req.body) {
+    throw new Error(&#39;No body provided&#39;);
+  }
+}
+server(middle).catch(err =&gt; {
+  console.log(&quot;Expecting body:&quot;, err);
+});
+</code></pre>
+<p>When you want to handle code asynchronously you should return a promise. Then it will continue the middleware chain as it is resolved, or skip it as it is rejected:</p>
+<pre><code class="lang-js">let middle = ({ req }) =&gt; new Promise((resolve, reject) =&gt; {
+  if (req.body) {
+    resolve();
+  } else {
+    reject(new Error(&#39;No body provided&#39;));
+  }
+});
+</code></pre>
+<p>Both the resolve value and the return value get ignored and the same server instance will be passed around. If you want to modify it on your middleware, do it as shown above:</p>
+<pre><code class="lang-js">let addsecret = s =&gt; {
+  // This will set it by reference
+  s.options.secret = &#39;your-random-string-here&#39;;
+}
+let addsecret = ({ options }) =&gt; {
+  // This will also set it by reference
+  options.secret = &#39;your-random-string-here&#39;;
+}
+</code></pre>
+<p>// DEPRECATED:</p>
+<p>One of the most powerful things from express and thus from <code>server</code> is the Middleware. We extended it by setting some default, useful middleware, but we wanted to also give you the flexibility to edit this.</p>
+<blockquote>
+<p>We recommend adding your own middleware to a folder in your project called <code>/middle</code>, and all examples below will make this assumption.</p>
+</blockquote>
+<p>There are four ways of loading middleware with <code>server</code>: as a string, as a function, as an array or as an object. They are all explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.</p>
+<h3 id="string">String</h3>
+<p>This is the simplest way to add middleware, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as <code>require(&#39;body-parser&#39;)()</code>), however it&#39;s perfect for your own middleware:</p>
+<pre><code class="lang-js">// Load the middleware &#39;body-parser&#39; from the folder &#39;/middle&#39;
+server(3000, &#39;./middle/body-parser.js&#39;);
+</code></pre>
+<p>Then inside that <code>./middle/body-parser.js</code>:</p>
+<pre><code class="lang-js">module.exports = function(req, res, next) {
+
+  // do your thing here
+
+  next();
+}
+</code></pre>
+<h3 id="function">Function</h3>
+<p>Middleware <em>is</em> a function that accepts <code>(req, res, next)</code> (or <code>(err, req, res, next)</code> parameters, so all other methods are ultimately converted to this one. Read more just by googling&#39; &quot;express middleware&quot; or &quot;write middleware express&quot;.</p>
+<p>As a simple example, there are many pre-packaged modules, so let&#39;s see one example where we imagine that <code>body-parser</code> is not loaded by default:</p>
+<pre><code class="lang-js">// Include bodyparser in your file
+let bodyparser = require(&#39;body-parser&#39;)({ extended: true });
+
+// Load it as middleware
+server(3000, bodyparser);
+</code></pre>
+<h3 id="array">Array</h3>
+<p>This will be converted to a series of functions, and inside the array there can be any of the other types. It is useful to bundle them by category:</p>
+<pre><code class="lang-js">let parsers = [
+  // ...
+];
+
+let { get, post } = server.router;
+let routes = [
+  get(&#39;/&#39;, (req, res) =&gt; { /* ... */ }),
+  post(&#39;/&#39;, (req, res) =&gt; { /* ... */ })
+];
+
+server(3000, parsers, routes);
+</code></pre>
+<h3 id="object">Object</h3>
+<p>You can name them, and they will <strong>replace one of the default middlewares if the name matches it</strong>. Let&#39;s go with the simple example of <code>body-parser</code>:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+
+// Uses body-parser
+server(3000);
+
+// Don&#39;t use body-parser
+server(3000, { bodyparser: false });
+
+// Use a different body-parser
+server(3000, { bodyparser: coolerBodyParser() });
+</code></pre>
+</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script type="text/javascript" src="/javascript.js"></script></body></html>

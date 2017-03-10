@@ -1,0 +1,87 @@
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><link href="/style.css" rel="stylesheet"></head><body><nav class="super"><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about">About</a> <a class="pseudo button" href="https://medium.com/server-for-node-js">Blog </a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a> <a class="button" href="/documentation">Documentation</a></div></footer></nav><div class="hero"><div class="content"><h1> <strong>server() </strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
+<blockquote>
+<p>Note: An in-depth <em>tutorial</em> coming soon</p>
+</blockquote>
+<p>To include server, <code>require</code> it as a normal Node package:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+</code></pre>
+<h2 id="main-function">Main function</h2>
+<p><code>server</code> is a function with this signature:</p>
+<pre><code class="lang-js">server(options, middleware1, middleware2, ...);
+</code></pre>
+<ul>
+<li><a href="options.md">Options</a> [optional]: an object with the options. <a href="options.md">Read more...</a>.</li>
+<li><a href="middleware.md">Middleware</a> [optional]: the middleware that handles requests <a href="middleware.md">Read more...</a>.</li>
+</ul>
+<p>However, it also has the handy property:</p>
+<ul>
+<li><code>server.router</code>: Read the section <a href="router.md">Router</a> to see how it works. This is <strong>not</strong> the default router from express.</li>
+</ul>
+<h2 id="options">Options</h2>
+<p>The first argument of the main function is for setting the options. It can be nothing, a single integer or a plain object:</p>
+<pre><code class="lang-js">server();
+server(3000);
+server({ port: 3000 });  // the same
+</code></pre>
+<p>As you can guess, internally if it is a single integer it will be converted to the object <code>{ port: ARG }</code>. This is a handy shortcut in case you want the default options except for the port, otherwise you can specify the options (defaults shown here):</p>
+<pre><code class="lang-js">server({
+  port: 3000,
+  public: &#39;./public&#39;,
+  viewengine: &#39;pug&#39;,
+
+  middle: {
+    // Default middleware options here, see below
+  }
+});
+</code></pre>
+<p><strong>Environment variables</strong>: <code>server</code> will value the environment variables higher than the ones you pass explicitly in the function. These can be set through the initial script or by creating a file called <code>.env</code>. They should be uppercase and with a underscore instead of a space:</p>
+<pre><code>PORT=3000
+VIEW_ENGINE=pug
+</code></pre><blockquote>
+<p>Don&#39;t forget then to add <code>.env</code> to your <code>.gitignore</code>.</p>
+</blockquote>
+<p>These are similar to:</p>
+<pre><code class="lang-js">server({
+  port: 3000,
+  &#39;view engine&#39;: &#39;pug&#39;
+});
+</code></pre>
+<p>So this is the inclusion order, from more important to less:</p>
+<ol>
+<li><code>.env</code>: the variable within the environment.</li>
+<li><code>server({ OPTION: 3000 })</code>: the variable set manually when launching the server.</li>
+<li><em>defaults</em>: defaults will be used as can be seen below</li>
+</ol>
+<h3 id="-port-3000-"><code>port</code> : <code>3000</code></h3>
+<p>The port where you want to launch the server. Defaults to <code>3000</code> and it&#39;s the only option that can be specified as a single option:</p>
+<pre><code class="lang-js">server(3000);
+server({ port: 3000 }); // the same
+</code></pre>
+<p>To set the port in the environment, create a file called <code>.env</code> with this:</p>
+<pre><code>PORT=3000
+</code></pre><h3 id="-public-public-"><code>public</code> : <code>./public</code></h3>
+<p>The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through <code>example.com/myfile.pdf</code> should be in this folder. You can set it to any folder within your project.</p>
+<p>Through the initialization option:</p>
+<pre><code class="lang-js">server({
+  public: &#39;./public&#39;
+});
+</code></pre>
+<p>To set the public folder in the environment, create a file called <code>.env</code> with this:</p>
+<pre><code>PUBLIC=./public
+</code></pre><h3 id="-view-engine-pug-"><code>view engine</code> : <code>pug</code></h3>
+<p>The view engine that you want to use to render your templates. <a href="https://pugjs.org/">Read more about pug</a>.</p>
+<p>Through the initialization option:</p>
+<pre><code class="lang-js">server({
+  &#39;view engine&#39;: &#39;pug&#39;
+});
+</code></pre>
+<p>To set the template engine in the environment, create a file called <code>.env</code> with this:</p>
+<pre><code>VIEW_ENGINE=./public
+</code></pre><h3 id="-secret-undefined-"><code>secret</code> : <code>undefined</code></h3>
+<p>This will be inherited by several middleware if they are not set explicitly for the modules. Use a random string here, but it cannot be auto-generated as it has to be the same between restarts from the server. It is also recommended that you <strong>set this up inside <em>.env</em>.</strong> and not as a parameter hardcoded into the code:</p>
+<pre><code class="lang-js">// NO (in app.js):
+server({ secret: &#39;your-random-string-here&#39; });
+</code></pre>
+<p>Yes (in <code>.env</code>):</p>
+<pre><code>SECRET=your-random-string-here
+</code></pre></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script type="text/javascript" src="/javascript.js"></script></body></html>

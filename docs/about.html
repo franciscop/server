@@ -1,0 +1,54 @@
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><link href="/style.css" rel="stylesheet"></head><body><nav class="super"><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about">About</a> <a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a> <a class="button" href="/documentation">Documentation</a></div></footer></nav><div class="hero"><div class="content"><h1>About <strong>server </strong></h1><p class="sub">modern, simple & flexible</p><a class="button docs" href="/"><span class="arrow left">〈</span>Go back home</a></div></div><article class="about">
+<h2 id="motivation">Motivation</h2>
+<p>I have taught Node.js + express.js to quite some people and there&#39;s always a point where I just have to say: &quot;this part is way too complex to explain at this point, so just copy/paste this&quot;. This breaking point is connecting express.js to all those middlewares.</p>
+<p>When I was <a href="http://www.hackerparadise.org/">traveling with Hacker Paradise</a> through Asia and we got to the same point I decided to do something about it. First I created a <a href="https://github.com/franciscop/express-data-parser"><em>file upload middleware</em></a> and then started the ground work for what now is <em>server</em>.</p>
+<p>The final trigger was getting the package <code>server</code> in <a href="https://www.npmjs.com/package/server">NPM</a> (thanks NPM!). After that and based on the previous experiments, I decided to set out for real and make something worthwhile. So I dug into express.js, middleware, routers, etc and now I&#39;m proud that <strong>server is something I use</strong> to make websites faster and easier.</p>
+<p><a href="https://github.com/franciscop/server">Join me in Github</a> to get the best out of server and help Node.js achieve its full potential. Next up are websockets routes:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { get, socket } = server.router;
+server(
+  get(&#39;/&#39;, ctx =&gt; ctx.res.render(&#39;home&#39;)),
+  socket(&#39;connect&#39;, ctx =&gt; ctx.io.emit(&#39;connected&#39;, ctx.socket.id)),
+  socket(&#39;message&#39;, ctx =&gt; ctx.io.emit(&#39;message&#39;, ctx.data))
+);
+</code></pre>
+<h2 id="goals">Goals</h2>
+<p>These are the main things that I wasn&#39;t happy with the state-of-the-art, so I decided to launch server to build upon the great work of express:</p>
+<ol>
+<li><p>Make things work by default:</p>
+<ul>
+<li>Cookies</li>
+<li>Session</li>
+<li>Form submission</li>
+<li>Including <strong>file uploads</strong></li>
+<li>...</li>
+</ul>
+</li>
+<li><p>Make things simpler to use</p>
+<ul>
+<li>Many low-level things work out of the box</li>
+<li>Sensible, secure defaults =&gt; no need to change anything</li>
+<li>Easily customizable options</li>
+</ul>
+</li>
+<li><p>Make some important services available where possible, or some hooks to make it easier:</p>
+<ul>
+<li>Passport</li>
+<li>Database (MongoDB, etc)</li>
+<li>Websockets</li>
+</ul>
+</li>
+<li><p>Better error handling (if possible). No more ALLCAPS error messages with no information at all.</p>
+</li>
+</ol>
+<p>This will in turn <strong>make it much easier to get started</strong>, for both people who are new to Node or for experienced people who don&#39;t want to set-up everything again and again. The main frustration that I&#39;ve seen from people coming from:</p>
+<ul>
+<li>Different web backgrounds (Ruby on Rails, PHP), where now they have to hunt down and compare dozens of libraries to do simple tasks.</li>
+<li>Different programming backgrounds (Arduino, C++) where I have to explain not only how to get a server ready with these new tools, but also how the current state of the art and the fun of it is to build your own stack.</li>
+<li>Starting from scratch. I pity those people starting with no programming experience coming to Node.js. This shouldn&#39;t be so difficult, should it?</li>
+</ul>
+<h2 id="contribute">Contribute</h2>
+<p>If you have some ideas of how Node.js development could be improved, please <a href="github.com/franciscop/server/issues">open a new issue in Github&#39;s repository</a>.</p>
+<h2 id="web-design">Web design</h2>
+<p>This website was built with <a href="http://francisco.io/paperdocs/">Paperdocs</a>, a project built on top of <a href="http://picnicss.com/">Picnic CSS</a> and <a href="http://umbrellajs.com/">Umbrella JS</a> from the author of Server, <a href="http://francisco.io/">Francisco Presencia</a>.</p>
+</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script type="text/javascript" src="javascript.js"></script></body></html>

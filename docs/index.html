@@ -1,0 +1,57 @@
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><link href="/style.css" rel="stylesheet"></head><body><nav class="super"><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about">About</a> <a class="pseudo button" href="https://medium.com/server-for-node-js">Blog </a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a> <a class="button" href="/documentation">Documentation</a></div></footer></nav><div class="hero"><div class="content"><h1> <strong>server </strong>for Node.js</h1><pre class="sub">npm install server --save</pre><a class="button docs" href="/documentation">Documentation<span class="arrow"> 〉</span></a><!-- Just having some fun (;--><button class="secret">super secret button</button></div></div><article class="home">
+<p><a href="https://circleci.com/gh/franciscop/server"><img src="https://circleci.com/gh/franciscop/server.svg?style=shield" alt="Status"></a> <a href="https://www.npmjs.com/package/server"><img src="https://img.shields.io/npm/dm/server.svg" alt="Downloads"></a> <a href="https://github.com/franciscop/server/blob/master/LICENSE"><img src="https://img.shields.io/npm/l/server.svg" alt="License MIT"></a> <a href="https://github.com/franciscop/server/issues/1"><img src="https://img.shields.io/badge/version-ALPHA-red.svg" alt="Alpha"></a></p>
+<p>Simple and powerful server that just works so <strong>you can focus on your awesome project</strong>:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+
+// Serve static files from /public on port 3000
+server();
+
+// OR serve static files from the root on port 8080
+server({ port: 8080, public: &#39;./&#39; });
+
+// OR use some simple routes on http://localhost:3000/
+const { get, post } = server.router;
+server(
+  get(&#39;/&#39;, ctx =&gt; ctx.res.render(&#39;index&#39;)),
+  post(&#39;/&#39;, ctx =&gt; console.log(ctx.req.body))
+);
+</code></pre>
+<h2 id="getting-started">Getting started</h2>
+<p>After getting Node.js ready and <code>npm init</code>, run this in your project folder to <strong>install the server</strong>:</p>
+<pre><code class="lang-bash">npm install server --save
+</code></pre>
+<p>Then you can create a file called <code>app.js</code> and set the following:</p>
+<pre><code class="lang-js">// Include the server in your file
+const server = require(&#39;server&#39;);
+const { get, post } = server.router;
+
+// Initialize the server on port 3000
+server(3000,
+
+  // Handle requests to the url &quot;/&quot; ( http://localhost:3000/ )
+  get(&#39;/&#39;, ctx =&gt; ctx.res.send(&#39;Hello world!&#39;))
+);
+</code></pre>
+<p>Execute this in the terminal to get the server started:</p>
+<pre><code class="lang-bash">node app.js
+</code></pre>
+<p>And finally, open your browser on <a href="http://localhost:3000/">localhost:3000</a> and you should see your server answered &#39;Hello world!&#39;.</p>
+<h2 id="documentation">Documentation</h2>
+<p>Everything is documented in detail here:</p>
+<p><strong><a class="button" href="/documentation">Full Documentation</a></strong></p>
+<p>You can also download the repository and try the examples by browsing to them and <code>node app.js</code> inside each of them in <code>/examples</code>.</p>
+<h2 id="license">License</h2>
+<p>Licensed under the MIT License. See <a href="https://github.com/franciscop/server/blob/master/LICENSE">LICENSE</a> for the full license.</p>
+<h2 id="author">Author</h2>
+<p>This package was created by <a href="http://francisco.io/">Francisco Presencia</a> but hopefully developed and maintained by many others. See the <a href="https://github.com/franciscop/server/graphs/contributors">the list of contributors here</a>.</p>
+<p>I love using my work and I&#39;m available for contractor work. Freelancing helps maintain <code>server</code> and <a href="https://github.com/franciscop/">my other open source projects</a> up to date! Hire me to do:</p>
+<ul>
+<li>Front-end: <a href="http://picnicss.com/">Picnic CSS</a> ♦ <a href="http://francisco.io/paperdocs">Paperdocs</a> ♦ <a href="http://angularattack.com/">Angular Attack</a> ♦ <a href="https://www.rubyrampage.com/">Ruby Rampage</a> ♦ <a href="https://serverjs.io/">Server JS website</a></li>
+<li>Full-stack: <a href="https://makersupv.com/">Makers UPV</a> ♦ <a href="http://anchor.science/">Learning vocabulary</a></li>
+<li>Back-end: <a href="http://serverjs.io/">Server JS (the library)</a> ♦ <a href="https://github.com/franciscop/drive-db">Drive DB</a> ♦ <a href="https://github.com/franciscop/express-data-parser">Express Data Parser</a></li>
+</ul>
+<p>You can also sponsor the project and your logo will be shown here with ∞ ♥. Open an issue to have an open conversation or contact me directly (email <a href="http://francisco.io/">in my website</a>).</p>
+</article><script>function $(sel) { return document.querySelector(sel); }
+$('button.secret').onclick = function () {
+  $('body').classList.toggle('liftoff');
+}</script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script type="text/javascript" src="/javascript.js"></script></body></html>

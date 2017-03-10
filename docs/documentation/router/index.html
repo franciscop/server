@@ -1,0 +1,97 @@
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><link href="/style.css" rel="stylesheet"></head><body><nav class="super"><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about">About</a> <a class="pseudo button" href="https://medium.com/server-for-node-js">Blog </a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a> <a class="button" href="/documentation">Documentation</a></div></footer></nav><div class="hero"><div class="content"><h1> <strong>Router</strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
+<p>A router is a function that creates <em>route(s)</em>, which in turns tell the server how to handle each request. They are a specific kind of middleware that wraps your logic and acts as a gateway to it:</p>
+<pre><code class="lang-js">// Plain middleware for ANY request (NOT a router)
+const all = ctx =&gt; { /* ... */ };
+
+// Create a GET route for the users page
+const users = get(&#39;/users&#39;, ctx =&gt; { /* ... */ })
+</code></pre>
+<p>The <code>ctx</code> variable is <a href="https://serverjs.io/documentation/middleware/#context">explained in the middleware documentation</a>. One important difference between the routes and middleware is that <a href="routes-are-final"><strong>all routes are final</strong></a>. This means that <strong>each request will use one route at most</strong>.</p>
+<p>All of the routers reside within the <code>server.router</code> and follow this structure:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { NAME } = server.router;
+const doSomething = NAME(ID, fn1, [fn2], [fn3]);
+server(doSomething);
+</code></pre>
+<h2 id="rest">REST</h2>
+<p>The <a href="http://stackoverflow.com/q/671118/938236">basic REST routers</a> are present: <code>get</code>, <code>post</code>, <code>put</code>, <code>del</code>. Delete is called <code>del</code> since &#39;delete&#39; is a reserved word in Javascript. This is the recommended way of importing the routers with destructuring:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { get, post, put, del } = server.router;
+</code></pre>
+<blockquote>
+<p>TODO: create a tutorial as I couldn&#39;t find any decent one for this:</p>
+</blockquote>
+<p>They all <a href="http://expressjs.com/en/4x/api.html#router">accept a path in a similar way to Express.js</a> as ID, which will be parametrized:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { get } = server.router;
+
+// Homepage
+get(&#39;/&#39;, ctx =&gt; { /* ... */ });
+
+// A specific page
+get(&#39;/users&#39;, ctx =&gt; { /* ... */ });
+
+// Any page such as /contact, /users, /125, etc
+get(&#39;/:page&#39;, ctx =&gt; { /* ... */ });
+</code></pre>
+<h3 id="simple-router">Simple router</h3>
+<p>To define a simple router, you could do:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+
+// Import methods &#39;get&#39; and &#39;post&#39; from the router
+const { get, post } = server.router;
+
+server(
+  get(&#39;/users&#39;, ctx =&gt; { /* ... */ }),
+  post(&#39;/users&#39;, ctx =&gt; { /* ... */ })
+);
+</code></pre>
+<h3 id="complex-router">Complex router</h3>
+<p>If you are going to have many routes, we recommend splitting it into a separated file, either in the root of the project as <code>routes.js</code> or in a different place:</p>
+<pre><code class="lang-js">// app.js
+const server = require(&#39;server&#39;);
+const routes = require(&#39;./routes&#39;);
+
+server(routes);
+</code></pre>
+<pre><code class="lang-js">// routes.js
+const { get, post } = require(&#39;server&#39;).router;
+const ctrl = require(&#39;auto-load&#39;)(&#39;controllers&#39;);
+
+// You can simply export an array of routes
+module.exports = [
+  get(&#39;/&#39;, ctrl.home.index),
+  get(&#39;/users&#39;, ctrl.users.index),
+  post(&#39;/users&#39;, ctrl.users.add),
+  get(&#39;/photos&#39;, ctrl.photos.index),
+  post(&#39;/photos&#39;, ctrl.photos.add),
+  ...
+];
+</code></pre>
+<h2 id="error">Error</h2>
+<blockquote>
+<p>Explain about the router error: <code>const { error } = server.router;</code> and how it handles the errors thrown: <code>throw new Error()</code> || <code>ctx.throw(&#39;test:a&#39;)?</code></p>
+</blockquote>
+<h2 id="websockets">Websockets</h2>
+<blockquote>
+<p><em>Not yet available, coming in version 1.1</em></p>
+</blockquote>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+let { get, socket } = server.router;
+
+server({}, [
+  get(&#39;/&#39;, (req, res) =&gt; res.sendFile(__dirname + &#39;/public/index.html&#39;)),
+  socket(&#39;message&#39;, (data, socket, io) =&gt; {
+    io.emit(data);
+  })
+]);
+</code></pre>
+<h2 id="retrocompatibility">Retrocompatibility</h2>
+<blockquote>
+<p>Explain about the wrapper for all the middleware out there</p>
+</blockquote>
+<h2 id="routes-are-final">Routes are final</h2>
+<blockquote>
+<p>Explain how a route is matched only once</p>
+</blockquote>
+</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script type="text/javascript" src="/javascript.js"></script></body></html>

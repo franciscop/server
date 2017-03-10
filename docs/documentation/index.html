@@ -1,0 +1,48 @@
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><link href="/style.css" rel="stylesheet"></head><body><nav class="super"><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu"></label><header><strong>Server.js</strong></header><div class="menu" data-headers="h1, h2, h3"><ul class="flex one"></ul></div><footer><div class="flex three"><a class="pseudo button" href="/about">About</a> <a class="pseudo button" href="https://medium.com/server-for-node-js">Blog </a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a> <a class="button" href="/documentation">Documentation</a></div></footer></nav><div class="hero"><div class="content"><h1> <strong>Documentation</strong></h1><pre class="sub">npm install server --save</pre><div class="pages"><a class="button" href="server">server()</a><a class="button" href="middleware">Middleware</a><a class="button" href="router">Router</a><a class="button" href="advanced">Advanced</a></div></div></div><article>
+<p>Conceptually <strong>server</strong> is quite simple: you have a main function that accepts some functions, and each of those does a bit of work:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+server(fn1, fn2, fn3, ...);
+</code></pre>
+<p>The generic heavy lifting is already implemented internally <strong>so you can focus on your project</strong> and not in fiddling with headers and response types. These are the three big areas that are most important for using server: the <a href="server">function <code>server()</code></a>, <a href="middleware">middleware</a> and <a href="router">router</a>.</p>
+<h2 id="-server-server-"><a href="server">server()</a></h2>
+<p>The main function. The most common usage is accepting options and middleware that do some work. Mandatory <em>Hello World</em> here:</p>
+<pre><code class="lang-js">// Load the server from the dependencies
+const server = require(&#39;server&#39;);
+
+// Display &quot;Hello 世界&quot; in http://localhost:8080/*
+server({ port: 8080 }, ctx =&gt; ctx.res.send(&#39;Hello 世界&#39;));
+</code></pre>
+<p><a class="button" href="server">server() documentation</a></p>
+<h2 id="-middleware-middleware-"><a href="middleware">Middleware</a></h2>
+<p>Middleware are functions that accepts a context, does some work and is resolved either synchronous or asynchronous. We just saw one in the example above:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+
+// Our middleware sends &quot;Hello 世界&quot; to the browser
+const middleware1 = ctx =&gt; ctx.res.send(&#39;Hello 世界&#39;);
+
+// Load the middleware and launch the server
+server(middleware1);
+</code></pre>
+<p><a class="button" href="middleware">Middleware documentation</a></p>
+<h2 id="-router-router-"><a href="router">Router</a></h2>
+<p>The last but maybe most important part is the router that you can use to create routes. Internally a route is a middleware more and you use it for handling user requests to specific places:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+
+// Import some of the routers available
+const { get, post, put, del } = server.router;
+
+// Handle requests to http://localhost:3000/
+const home = get(&#39;/&#39;, ctx =&gt; ctx.res.send(&#39;Homepage&#39;));
+
+// Handle requests to http://localhost:3000/SOMETHING
+const page = get(&#39;/:page&#39;, ctx =&gt; {
+  ctx.res.send(`Showing page ${ctx.req.params.page}`);
+});
+
+server(home, page);
+</code></pre>
+<p><a class="button" href="router">Router documentation</a></p>
+<h2 id="-advanced-advanced-"><a href="advanced">Advanced</a></h2>
+<p>Some recommendations on using and debugging server. A peak into the technology inside for understanding it better. Explanation on some of the design constrains for server.</p>
+<p><a class="button" href="advanced">Advanced documentation</a></p>
+</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script type="text/javascript" src="/javascript.js"></script></body></html>

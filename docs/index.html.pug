@@ -1,0 +1,26 @@
+extends _layout/index
+
+block content
+  .hero
+    .content
+      h1 
+        strong server 
+        | for Node.js
+      pre.sub npm install server --save
+      a.button.docs(href='/documentation')
+        //- i.fa.fa-file-code-o
+        | Documentation
+        span.arrow  〉
+
+      // Just having some fun (;
+      button.secret super secret button
+
+  article.home
+    include:marked:noheader ../README.md
+
+
+  script.
+    function $(sel) { return document.querySelector(sel); }
+    $('button.secret').onclick = function () {
+      $('body').classList.toggle('liftoff');
+    }

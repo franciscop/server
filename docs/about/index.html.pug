@@ -1,0 +1,14 @@
+extends ../_layout/index
+
+block content
+  .hero
+    .content
+      h1 About 
+        strong server 
+      p.sub modern, simple & flexible
+      a.button.docs(href='/')
+        span.arrow.left 〈
+        | Go back home
+
+  article.about
+    include:marked:noheader ../../about.md
