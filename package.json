@@ -56,6 +56,7 @@
     "promised-exec": "^1.0.1",
     "request": "^2.79.0",
     "request-promise-native": "^1.0.3",
+    "request-promises": "^1.0.1",
     "supertest": "^3.0.0",
     "uglifyify": "^3.0.4"
   }

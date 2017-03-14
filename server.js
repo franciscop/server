@@ -42,7 +42,7 @@ function Server (...middle) {
     this.plugins = module.exports.plugins;
     this.options = config(opts, this.plugins, this.app);
 
-    this.plugins.filter(n => this.options[n.name]).map(p => p.init).filter(i => i).forEach(init => init(this));
+    this.plugins.filter(p => p.init && this.options[p.name]).forEach(p => p.init(this));
 
     this.modern = modern;
     this.error = error(this.options.errors);
@@ -62,7 +62,7 @@ function Server (...middle) {
 
     const launch = () => {
       if (this.options.verbose) {
-        console.log(`Server started on port ${port} http://localhost:${port}/`);
+        console.log(`Server started on port ${this.options.port} http://localhost:${this.options.port}/`);
       }
 
       // PLUGIN.attach: ctx => {}

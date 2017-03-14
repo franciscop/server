@@ -1,9 +1,8 @@
 // Middleware plugin
 // Restore some of the old Express functionality
 const plugin = {
-  name: 'middle',
+  name: 'connect',
   options: {
-    public: 'public',
     compress: {},
     session: {
       resave: false,
@@ -11,9 +10,11 @@ const plugin = {
       cookie: {}
     },
     responseTime: {},
-    csrf: {}
+    csrf: false
   },
-  before: require('./before')
+
+  init: require('./init'),
+  before: []   // It is populated in "init()"
 };
 
 module.exports = plugin;
