@@ -55,6 +55,11 @@ module.exports = (user = {}, plugins, app) => {
     // TODO: whitelist here of name:type from
     //   https://expressjs.com/en/api.html#app.settings.table
     for (let key in options) {
+      if (key === 'view engine' && typeof options[key] === 'object') {
+        const engineName = Object.keys(options[key])[0]
+        app.engine(engineName, options[key][engineName])
+        app.set(key, engineName);
+      }
       if (app.set && ['boolean', 'number', 'string'].includes(typeof options[key])) {
         app.set(key, options[key]);
       }
