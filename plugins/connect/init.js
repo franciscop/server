@@ -5,6 +5,9 @@ module.exports = ctx => {
   const options = ctx.options.connect;
   const connect = ctx.plugins.filter(p => p.name === 'connect')[0];
 
+  // TODO: fix it so this is not needed
+  connect.before = [];
+
   // Inherit
   options.public = options.public || ctx.options.public;
 

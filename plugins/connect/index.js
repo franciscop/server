@@ -10,7 +10,7 @@ const plugin = {
       cookie: {}
     },
     responseTime: {},
-    csrf: false
+    csrf: {}
   },
 
   init: require('./init'),

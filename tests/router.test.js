@@ -1,12 +1,13 @@
-let request = require('request-promise-native');
-let server = require('../server');
-let { get, post, put, del } = server.router;
-let { hello, err, launch, handler, getter, poster } = require('./helpers');
-let command = require('promised-exec');
-let routes = [
+const request = require('request-promise-native');
+const server = require('../server');
+const { get, post, put, del } = server.router;
+const { hello, err, launch, handler, getter, poster } = require('./helpers');
+const command = require('promised-exec');
+const routes = [
   get('/', ctx => ctx.res.send('Hello 世界')),
   post('/', ctx => ctx.res.send('Hello ' + ctx.req.body.a)),
 ];
+const nocsrf = { connect: { csrf: false } };
 
 // Check that a response is performed and it's a simple one
 const checker = ({ body = 'Hello 世界', method = 'GET' } = {}) => res => {
@@ -21,17 +22,17 @@ describe('Basic router types', () => {
 
   it('can do a POST request', () => {
     const method = 'POST';
-    return handler(post('/', hello), { method }).then(checker({ method }));
+    return handler(post('/', hello), { method }, nocsrf).then(checker({ method }));
   });
 
   it('can do a PUT request', () => {
     const method = 'PUT';
-    return handler(put('/', hello), { method }).then(checker({ method }));
+    return handler(put('/', hello), { method }, nocsrf).then(checker({ method }));
   });
 
   it('can do a DELETE request', () => {
     const method = 'DELETE';
-    return handler(del('/', hello), { method }).then(checker({ method }));
+    return handler(del('/', hello), { method }, nocsrf).then(checker({ method }));
   });
 });
 
@@ -86,31 +87,31 @@ describe('Ends where it should end', () => {
 });
 
 
-describe('performance', () => {
-  let performance = false;
-
-  beforeAll(() => {
-    return command('which ab').then(res => {
-      if (res) {
-        performance = true;
-      } else {
-        console.log("Install apache benchmark for performance testing.");
-      }
-    });
-  });
-
-  it.skip('makes at least 1000 req/second without middleware', () => {
-    if (!performance) return Promise.resolve('Good');
-
-    const runAB = ctx => {
-      return command(`ab -r -n 2000 -c 100 http://localhost:${ctx.options.port}/`);
-    }
-    return launch(get('/', hello), { middle: false }).then(runAB).then(analysis => {
-      let total = /Requests per second:\s+(\d+)/.exec(analysis);
-      if (!total) throw new Error('Could not parse the solution:', analysis);
-      let rps = parseInt(total[1]);
-      // console.log("RPS:", rps);
-      expect(rps).toBeGreaterThan(1000);
-    });
-  }, 10000);
-});
+// describe('performance', () => {
+//   let performance = false;
+//
+//   beforeAll(() => {
+//     return command('which ab').then(res => {
+//       if (res) {
+//         performance = true;
+//       } else {
+//         console.log("Install apache benchmark for performance testing.");
+//       }
+//     });
+//   });
+//
+//   it('makes at least 1000 req/second without middleware', () => {
+//     if (!performance) return Promise.resolve('Good');
+//
+//     const runAB = ctx => {
+//       return command(`ab -r -n 2000 -c 100 http://localhost:${ctx.options.port}/`);
+//     }
+//     return launch(get('/', hello), { middle: false }).then(runAB).then(analysis => {
+//       let total = /Requests per second:\s+(\d+)/.exec(analysis);
+//       if (!total) throw new Error('Could not parse the solution:', analysis);
+//       let rps = parseInt(total[1]);
+//       // console.log("RPS:", rps);
+//       expect(rps).toBeGreaterThan(1000);
+//     });
+//   }, 10000);
+// });
