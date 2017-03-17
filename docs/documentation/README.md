@@ -79,7 +79,7 @@ const page = get('/:page', ctx => {
 server(home, page);
 ```
 
-<a class="button" href="router">Router documentation</a>
+<a class="button" href="router"><strong>Router documentation</strong></a>
 
 
 
@@ -87,4 +87,4 @@ server(home, page);
 
 Some recommendations on using and debugging server. A peak into the technology inside for understanding it better. Explanation on some of the design constrains for server.
 
-<a class="button" href="advanced">Advanced documentation</a>
+<a class="button" href="advanced"><strong>Advanced documentation</strong></a>

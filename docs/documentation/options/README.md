@@ -97,7 +97,7 @@ PUBLIC=./public
 
 ### Engine
 
-The view engine that you want to use to render your templates. [Read more about pug](https://pugjs.org/).
+The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines) or [read more about pug](https://pugjs.org/). 
 
 Even if you are using a custom render engine, you might not need to set this if you are using the extension for the render() method:
 
@@ -116,5 +116,5 @@ server({ engine: 'pug' }, ctx => ctx.res.render('index'));
 Finally, you can add your own engines in this way:
 
 ```js
-
+server({ engine: { pug: fn() }}, ctx => ctx.res.render('index'));
 ```

@@ -87,7 +87,7 @@ server({ port: 3000 });  // The same as the previous one
 <p>To set the public folder in the environment, create a file called <code>.env</code> with this:</p>
 <pre><code>PUBLIC=./public
 </code></pre><h3 id="engine">Engine</h3>
-<p>The view engine that you want to use to render your templates. <a href="https://pugjs.org/">Read more about pug</a>.</p>
+<p>The view engine that you want to use to render your templates. <a href="https://github.com/expressjs/express/wiki#template-engines">See all the available engines</a> or <a href="https://pugjs.org/">read more about pug</a>. </p>
 <p>Even if you are using a custom render engine, you might not need to set this if you are using the extension for the render() method:</p>
 <pre><code class="lang-js">// No need to specify the engine if you are using the extension
 server(ctx =&gt; ctx.res.render(&#39;index.pug&#39;));
@@ -96,7 +96,7 @@ server(ctx =&gt; ctx.res.render(&#39;index.pug&#39;));
 <pre><code class="lang-js">server({ engine: &#39;pug&#39; }, ctx =&gt; ctx.res.render(&#39;index&#39;));
 </code></pre>
 <p>Finally, you can add your own engines in this way:</p>
-<pre><code class="lang-js">
+<pre><code class="lang-js">server({ engine: { pug: fn() }}, ctx =&gt; ctx.res.render(&#39;index&#39;));
 </code></pre>
 </article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>(function(){
   // Only track if doNotTrack === '0'
