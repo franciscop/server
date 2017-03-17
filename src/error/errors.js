@@ -1,5 +1,5 @@
 const errors = require('human-error')({
-  url: key => `https://serverjs.io/errors#${key}`
+  url: key => `https://serverjs.io/errors#${key.toLowerCase()}`
 });
 
 errors.PortAlreadyUsed = err => `

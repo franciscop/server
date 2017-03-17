@@ -60,8 +60,8 @@ module.exports = function (grunt) {
         files: {
           'docs/index.html': 'docs/index.html.pug',
           'docs/about/index.html': 'docs/about/index.html.pug',
+          'docs/errors/index.html': 'docs/errors/index.html.pug',
           'docs/documentation/index.html': 'docs/documentation/index.html.pug',
-          'docs/documentation/error/index.html': 'docs/documentation/error/index.html.pug',
           'docs/documentation/server/index.html': 'docs/documentation/server/index.html.pug',
           'docs/documentation/middleware/index.html': 'docs/documentation/middleware/index.html.pug',
           'docs/documentation/router/index.html': 'docs/documentation/router/index.html.pug',
