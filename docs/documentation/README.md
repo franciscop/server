@@ -1,40 +1,58 @@
 # Documentation
 
-Conceptually **server** is simple: you have a main function that accepts some functions, and each of those does a bit of work:
+Conceptually **server** is a function that accepts options and other functions. The heavy lifting is already implemented **so you can focus on your project**:
 
 ```js
+// Import the variable into the file
 const server = require('server');
+
+// options and fn1, fn2, etc are optional
 server(options, fn1, fn2, fn3, ...);
 ```
 
-The generic heavy lifting is already implemented internally **so you can focus on your project** and not in fiddling with headers and response types. These are the three big areas that are most important for using server: the [function `server()`](server), [middleware](middleware) and [router](router).
+The most important concepts to use server are: [**options**](options), [**middleware**](middleware) and [**router**](router).
 
 > [**Subscribe here**](http://eepurl.com/cGRggH) to receive tutorials when released. Tutorials are good *for learning* while the documentation is good for reference/quick use *once you know the basics*.
 
 
+## Options
 
-## server()
+In its most basic form it's a plain object with several key:values pairs:
 
-The main function. The most common usage is accepting options and middleware that do some work. Mandatory *Hello World* here:
+```js
+const server = require('server');
+
+// Set the options (shown here with the defaults)
+const options = {
+  port: 3000
+  secret: 'secret-XXXX'
+  public: 'public'
+  engine: 'pug'
+  env: 'development'
+};
+
+// Launch the server with the options
+server(options);
+```
+
+<a class="button" href="options"><strong>Options documentation</strong></a>
+
+
+## Middleware
+
+Middleware are functions that accepts a context, does some work and is resolved either synchronous or asynchronous. Mandatory *Hello World* here:
 
 ```js
 // Load the server from the dependencies
 const server = require('server');
 
-// The configuration options for server()
-const options = { port: 8080 };
-
 // Display "Hello 世界" for any request
 const middleware = ctx => ctx.res.send('Hello 世界');
 
-server(options, middleware);
+// Launch the server with a single middleware
+server(middleware);
 ```
 
-Server can be configured through options in several ways. Learn more:
-
-<a class="button" href="options"><strong>Options documentation</strong></a>
-
-Middleware are functions that accepts a context, does some work and is resolved either synchronous or asynchronous. We just saw one in the example above:
 
 <a class="button" href="middleware"><strong>Middleware documentation</strong></a>
 
