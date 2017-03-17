@@ -4,7 +4,7 @@ Conceptually **server** is simple: you have a main function that accepts some fu
 
 ```js
 const server = require('server');
-server(fn1, fn2, fn3, ...);
+server(options, fn1, fn2, fn3, ...);
 ```
 
 The generic heavy lifting is already implemented internally **so you can focus on your project** and not in fiddling with headers and response types. These are the three big areas that are most important for using server: the [function `server()`](server), [middleware](middleware) and [router](router).
@@ -13,7 +13,7 @@ The generic heavy lifting is already implemented internally **so you can focus o
 
 
 
-## [server()](server)
+## server()
 
 The main function. The most common usage is accepting options and middleware that do some work. Mandatory *Hello World* here:
 
@@ -21,29 +21,23 @@ The main function. The most common usage is accepting options and middleware tha
 // Load the server from the dependencies
 const server = require('server');
 
-// Display "Hello 世界" in http://localhost:8080/*
-server({ port: 8080 }, ctx => ctx.res.send('Hello 世界'));
+// The configuration options for server()
+const options = { port: 8080 };
+
+// Display "Hello 世界" for any request
+const middleware = ctx => ctx.res.send('Hello 世界');
+
+server(options, middleware);
 ```
 
-<a class="button" href="server">server() documentation</a>
+Server can be configured through options in several ways. Learn more:
 
-
-
-## [Middleware](middleware)
+<a class="button" href="options"><strong>Options documentation</strong></a>
 
 Middleware are functions that accepts a context, does some work and is resolved either synchronous or asynchronous. We just saw one in the example above:
 
-```js
-const server = require('server');
+<a class="button" href="middleware"><strong>Middleware documentation</strong></a>
 
-// Our middleware sends "Hello 世界" to the browser
-const middleware1 = ctx => ctx.res.send('Hello 世界');
-
-// Load the middleware and launch the server
-server(middleware1);
-```
-
-<a class="button" href="middleware">Middleware documentation</a>
 
 
 ## [Router](router)

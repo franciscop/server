@@ -62,7 +62,7 @@ module.exports = function (grunt) {
           'docs/about/index.html': 'docs/about/index.html.pug',
           'docs/errors/index.html': 'docs/errors/index.html.pug',
           'docs/documentation/index.html': 'docs/documentation/index.html.pug',
-          'docs/documentation/server/index.html': 'docs/documentation/server/index.html.pug',
+          'docs/documentation/options/index.html': 'docs/documentation/options/index.html.pug',
           'docs/documentation/middleware/index.html': 'docs/documentation/middleware/index.html.pug',
           'docs/documentation/router/index.html': 'docs/documentation/router/index.html.pug',
           'docs/documentation/advanced/index.html': 'docs/documentation/advanced/index.html.pug'
@@ -76,7 +76,7 @@ module.exports = function (grunt) {
           'package.js', // To bump versions
           'Gruntfile.js',
           'documentation/*.**',
-          'docs/**/*.**',
+          'docs/**/*.*',
           'server.js',
           'about.md',
           'README.md',

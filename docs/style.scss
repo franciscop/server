@@ -70,13 +70,22 @@ article {
 }
 
 article table {
-  margin-top: 1.5em;
+  margin: 1.5em 0 .5em;
   width: 100%;
 }
 
 article table th {
-  background: #eee;
+  background: none;
   color: #333;
+}
+
+article table tr:nth-child(2n) {
+  background: none;
+}
+
+article table th,
+article table td {
+  border: 2px solid #ddd;
 }
 
 .hero h1 {

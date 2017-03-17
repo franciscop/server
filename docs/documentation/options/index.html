@@ -1,52 +1,103 @@
 <!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin:1.5em 0 .5em;width:100%}article table th{background:none;color:#333}article table tr:nth-child(2n){background:none}article table th,article table td{border:2px solid #ddd}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}
 /*# sourceMappingURL=style.min.css.map */
-</style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Documentation</strong></h1><pre class="sub">npm install server --save</pre><div class="pages"><a class="button" href="options">Options</a><a class="button" href="middleware">Middleware</a><a class="button" href="router">Router</a><a class="button" href="advanced">Advanced</a></div></div></div><article>
-<p>Conceptually <strong>server</strong> is simple: you have a main function that accepts some functions, and each of those does a bit of work:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
-server(options, fn1, fn2, fn3, ...);
+</style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Options</strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
+<p>These are the available options, their defaults, types and how to specify them in <code>.env</code>:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>default</th>
+<th><a href="#environment">.env</a></th>
+<th>type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#port"><code>port</code></a></td>
+<td><code>3000</code></td>
+<td><code>PORT=3000</code></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><a href="#secret"><code>secret</code></a></td>
+<td><code>&#39;secret-XXXX&#39;</code></td>
+<td><code>SECRET=secret-XXXX</code></td>
+<td>String</td>
+</tr>
+<tr>
+<td><a href="#public"><code>public</code></a></td>
+<td><code>&#39;public&#39;</code></td>
+<td><code>PUBLIC=public</code></td>
+<td>String</td>
+</tr>
+<tr>
+<td><a href="#engine"><code>engine</code></a></td>
+<td><code>&#39;pug&#39;</code></td>
+<td><code>ENGINE=pug</code></td>
+<td>String, Object</td>
+</tr>
+<tr>
+<td><a href="#env"><code>env</code></a></td>
+<td><code>&#39;development&#39;</code></td>
+<td><strong><code>NODE_ENV=pug</code></strong></td>
+<td>String</td>
+</tr>
+</tbody>
+</table>
+<p>The options preference order is this, from more important to less:</p>
+<ol>
+<li><code>.env</code>: the variable within the environment.</li>
+<li><code>server({ OPTION: 3000 })</code>: the variable set manually when launching the server.</li>
+<li><em>defaults</em>: defaults will be used as can be seen below</li>
+</ol>
+<p>They are accessible for your dev needs through <code>ctx.options</code> (<a href="../middleware">read more in Middleware</a>):</p>
+<pre><code class="lang-js">server(ctx =&gt; console.log(ctx.options));
+// { port: 3000, public: &#39;./public&#39;, ... }
 </code></pre>
-<p>The generic heavy lifting is already implemented internally <strong>so you can focus on your project</strong> and not in fiddling with headers and response types. These are the three big areas that are most important for using server: the <a href="server">function <code>server()</code></a>, <a href="middleware">middleware</a> and <a href="router">router</a>.</p>
-<blockquote>
-<p><a href="http://eepurl.com/cGRggH"><strong>Subscribe here</strong></a> to receive tutorials when released. Tutorials are good <em>for learning</em> while the documentation is good for reference/quick use <em>once you know the basics</em>.</p>
+<h3 id="environment">Environment</h3>
+<p>Environment variables are <em>not commited in your version control</em> but instead they are provided by the machine or Node.js process. In this way these options can be different in your machine and in the remote server(s).</p>
+<p>They are uppercase and can be set through a file called <code>.env</code> (<a href="https://medium.com/@rafaelvidaurre/managing-environment-variables-in-node-js-2cb45a55195f">or other ways</a>):</p>
+<pre><code>PORT=3000
+PUBLIC=public
+SECRET=secret-XXXX
+ENGINE=pug
+NODE_ENV=development
+</code></pre><blockquote>
+<p>Do not forget then to add <code>.env</code> to your <code>.gitignore</code></p>
 </blockquote>
-<h2 id="server-">server()</h2>
-<p>The main function. The most common usage is accepting options and middleware that do some work. Mandatory <em>Hello World</em> here:</p>
-<pre><code class="lang-js">// Load the server from the dependencies
-const server = require(&#39;server&#39;);
-
-// The configuration options for server()
-const options = { port: 8080 };
-
-// Display &quot;Hello 世界&quot; for any request
-const middleware = ctx =&gt; ctx.res.send(&#39;Hello 世界&#39;);
-
-server(options, middleware);
+<h3 id="port">Port</h3>
+<p>The port where you want to launch the server. Defaults to <code>3000</code> and it&#39;s the only option that can be specified as a single option:</p>
+<pre><code class="lang-js">server();        // Use the default port 3000
+server(3000);    // Specify the port
+server({ port: 3000 });  // The same as the previous one
 </code></pre>
-<p>Server can be configured through options in several ways. Learn more:</p>
-<p><a class="button" href="options"><strong>Options documentation</strong></a></p>
-<p>Middleware are functions that accepts a context, does some work and is resolved either synchronous or asynchronous. We just saw one in the example above:</p>
-<p><a class="button" href="middleware"><strong>Middleware documentation</strong></a></p>
-<h2 id="-router-router-"><a href="router">Router</a></h2>
-<p>The last but maybe most important part is the router that is used to create routes. A route is really a middleware and is used for handling user requests to specific places:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
-
-// Import some of the routers available
-const { get, post, put, del } = server.router;
-
-// Handle requests to http://localhost:3000/
-const home = get(&#39;/&#39;, ctx =&gt; ctx.res.send(&#39;Homepage&#39;));
-
-// Handle requests to http://localhost:3000/SOMETHING
-const page = get(&#39;/:page&#39;, ctx =&gt; {
-  ctx.res.send(`Showing page ${ctx.req.params.page}`);
-});
-
-server(home, page);
+<p>Some hosts such as Heroku will define an environment variable called <code>PORT</code>, so it will work smoothly there. You can also set it instead in your <code>.env</code> if you prefer it:</p>
+<pre><code>PORT=3000
+</code></pre><h3 id="secret">Secret</h3>
+<p>It is <strong>highly recommended</strong> that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It will be used by several middleware for storing secrets and keeping cookies/sessions:</p>
+<pre><code>SECRET=your-random-string-here
+</code></pre><blockquote>
+<p>Note: the <em>default</em> provided is weak as it will be different each time the server is launched.</p>
+</blockquote>
+<h3 id="public">Public</h3>
+<p>The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through <code>example.com/myfile.pdf</code> should be in this folder. You can set it to any folder within your project.</p>
+<p>Through the initialization option:</p>
+<pre><code class="lang-js">server({ public: &#39;./public&#39; });
 </code></pre>
-<p><a class="button" href="router">Router documentation</a></p>
-<h2 id="-advanced-advanced-"><a href="advanced">Advanced</a></h2>
-<p>Some recommendations on using and debugging server. A peak into the technology inside for understanding it better. Explanation on some of the design constrains for server.</p>
-<p><a class="button" href="advanced">Advanced documentation</a></p>
+<p>To set the public folder in the environment, create a file called <code>.env</code> with this:</p>
+<pre><code>PUBLIC=./public
+</code></pre><h3 id="engine">Engine</h3>
+<p>The view engine that you want to use to render your templates. <a href="https://pugjs.org/">Read more about pug</a>.</p>
+<p>Even if you are using a custom render engine, you might not need to set this if you are using the extension for the render() method:</p>
+<pre><code class="lang-js">// No need to specify the engine if you are using the extension
+server(ctx =&gt; ctx.res.render(&#39;index.pug&#39;));
+</code></pre>
+<p>However if you want to use it without extension, you can do so by specifying the engine:</p>
+<pre><code class="lang-js">server({ engine: &#39;pug&#39; }, ctx =&gt; ctx.res.render(&#39;index&#39;));
+</code></pre>
+<p>Finally, you can add your own engines in this way:</p>
+<pre><code class="lang-js">
+</code></pre>
 </article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>(function(){
   // Only track if doNotTrack === '0'
   if (navigator.doNotTrack === '1') {
