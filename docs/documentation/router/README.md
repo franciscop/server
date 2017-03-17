@@ -10,7 +10,7 @@ const all = ctx => { /* ... */ };
 const users = get('/users', ctx => { /* ... */ })
 ```
 
-The `ctx` variable is [explained in the middleware documentation](https://serverjs.io/documentation/middleware/#context). One important difference between the routes and middleware is that [**all routes are final**](routes-are-final). This means that **each request will use one route at most**.
+The `ctx` variable is [explained in the middleware documentation](https://serverjs.io/documentation/middleware/#context). One important difference between the routes and middleware is that [**all routes are final**](#routes-are-final). This means that **each request will use one route at most**.
 
 All of the routers reside within the `server.router` and follow this structure:
 

@@ -6,7 +6,7 @@ const all = ctx =&gt; { /* ... */ };
 // Create a GET route for the users page
 const users = get(&#39;/users&#39;, ctx =&gt; { /* ... */ })
 </code></pre>
-<p>The <code>ctx</code> variable is <a href="https://serverjs.io/documentation/middleware/#context">explained in the middleware documentation</a>. One important difference between the routes and middleware is that <a href="routes-are-final"><strong>all routes are final</strong></a>. This means that <strong>each request will use one route at most</strong>.</p>
+<p>The <code>ctx</code> variable is <a href="https://serverjs.io/documentation/middleware/#context">explained in the middleware documentation</a>. One important difference between the routes and middleware is that <a href="#routes-are-final"><strong>all routes are final</strong></a>. This means that <strong>each request will use one route at most</strong>.</p>
 <p>All of the routers reside within the <code>server.router</code> and follow this structure:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 const { NAME } = server.router;
