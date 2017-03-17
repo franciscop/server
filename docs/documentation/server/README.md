@@ -17,7 +17,7 @@ server(options, middleware1, middleware2, ...);
 ```
 
 - [Options](../options) [optional]: an object with the options. [Read more...](../options).
-- [Middleware](../middleware) [optional]: the middleware that handles requests [Read more...](../middleware).
+- [Middleware](../middleware) [optional]: the middleware that handles requests. [Read more...](../middleware).
 
 However, it also has the handy property:
 
