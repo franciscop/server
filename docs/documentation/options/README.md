@@ -2,13 +2,13 @@
 
 These are the available options, their defaults, types and how to specify them in `.env`:
 
-|name                |default         |[.env](#environment) |type           |
-|--------------------|----------------|---------------------|---------------|
-|[`port`](#port)     |`3000`          |`PORT=3000`          |Number         |
-|[`secret`](#secret) |`'secret-XXXX'` |`SECRET=secret-XXXX` |String         |
-|[`public`](#public) |`'public'`      |`PUBLIC=public`      |String         |
-|[`engine`](#engine) |`'pug'`         |`ENGINE=pug`         |String, Object |
-|[`env`](#env)       |`'development'` |**`NODE_ENV=pug`**   |String         |
+|name                |default         |[.env](#environment)    |type           |
+|--------------------|----------------|------------------------|---------------|
+|[`port`](#port)     |`3000`          |`PORT=3000`             |Number         |
+|[`secret`](#secret) |`'secret-XXXX'` |`SECRET=secret-XXXX`    |String         |
+|[`public`](#public) |`'public'`      |`PUBLIC=public`         |String         |
+|[`engine`](#engine) |`'pug'`         |`ENGINE=pug`            |String, Object |
+|[`env`](#env)       |`'development'` |**`NODE_ENV=development`**   |String    |
 
 
 The options preference order is this, from more important to less:
@@ -97,7 +97,7 @@ PUBLIC=./public
 
 ### Engine
 
-The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines) or [read more about pug](https://pugjs.org/). 
+The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines) or [read more about pug](https://pugjs.org/).
 
 Even if you are using a custom render engine, you might not need to set this if you are using the extension for the render() method:
 
