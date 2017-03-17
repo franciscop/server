@@ -1,9 +1,6 @@
-<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{margin-left:.5em}nav .brand .logo{margin-right:1em}nav footer{margin-right:0.5em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}nav.super .switch::before{position:absolute;top:0;left:0;width:100%}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 -15px}@media all and (max-width: 900px){article{padding:15px 20px 20px}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin-top:1.5em;width:100%}article table th{background:#eee;color:#333}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}
 /*# sourceMappingURL=style.min.css.map */
 </style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>server() </strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
-<blockquote>
-<p>Note: An in-depth <em>tutorial</em> coming soon</p>
-</blockquote>
 <p>To include server, <code>require</code> it as a normal Node package:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 </code></pre>
@@ -21,15 +18,57 @@
 </ul>
 <h2 id="options">Options</h2>
 <p>The first argument of the main function is for setting the options. It can be nothing, a single integer or a plain object:</p>
-<pre><code class="lang-js">server();
-server(3000);
-server({ port: 3000 });  // the same
+<pre><code class="lang-js">server();        // Use the defaults
+server(3000);    // Specify the port
+server({ port: 3000 });  // The same as the previous one
 </code></pre>
-<p>As you can guess, internally if it is a single integer it will be converted to the object <code>{ port: ARG }</code>. This is a handy shortcut in case you want the default options except for the port, otherwise you can specify the options (defaults shown here):</p>
+<p>These are the available options, their defaults, types and how to specify them in <code>.env</code>:</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>default</th>
+<th>.env</th>
+<th>type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#port"><code>port</code></a></td>
+<td><code>3000</code></td>
+<td><code>PORT=3000</code></td>
+<td>Number</td>
+</tr>
+<tr>
+<td><a href="#engine"><code>engine</code></a></td>
+<td><code>&#39;pug&#39;</code></td>
+<td><code>ENGINE=pug</code></td>
+<td>String</td>
+</tr>
+<tr>
+<td><a href="#public"><code>public</code></a></td>
+<td><code>&#39;public&#39;</code></td>
+<td><code>PUBLIC=public</code></td>
+<td>String</td>
+</tr>
+<tr>
+<td><a href="#secret"><code>secret</code></a></td>
+<td><code>&#39;secret-XXXX&#39;</code></td>
+<td><code>SECRET=secret-XXXX</code></td>
+<td>String</td>
+</tr>
+<tr>
+<td><a href="#verbose"><code>verbose</code></a></td>
+<td><code>false</code></td>
+<td><code>VERBOSE=false</code></td>
+<td>Boolean</td>
+</tr>
+</tbody>
+</table>
 <pre><code class="lang-js">server({
   port: 3000,
   public: &#39;./public&#39;,
-  viewengine: &#39;pug&#39;,
+  engine: &#39;pug&#39;,
 
   middle: {
     // Default middleware options here, see below
@@ -38,14 +77,14 @@ server({ port: 3000 });  // the same
 </code></pre>
 <p><strong>Environment variables</strong>: <code>server</code> will value the environment variables higher than the ones you pass explicitly in the function. These can be set through the initial script or by creating a file called <code>.env</code>. They should be uppercase and with a underscore instead of a space:</p>
 <pre><code>PORT=3000
-VIEW_ENGINE=pug
+ENGINE=pug
 </code></pre><blockquote>
-<p>Don&#39;t forget then to add <code>.env</code> to your <code>.gitignore</code>.</p>
+<p>Do not forget then to add <code>.env</code> to your <code>.gitignore</code>.</p>
 </blockquote>
 <p>These are similar to:</p>
 <pre><code class="lang-js">server({
   port: 3000,
-  &#39;view engine&#39;: &#39;pug&#39;
+  engine: &#39;pug&#39;
 });
 </code></pre>
 <p>So this is the inclusion order, from more important to less:</p>
@@ -54,7 +93,9 @@ VIEW_ENGINE=pug
 <li><code>server({ OPTION: 3000 })</code>: the variable set manually when launching the server.</li>
 <li><em>defaults</em>: defaults will be used as can be seen below</li>
 </ol>
-<h3 id="-port-3000-"><code>port</code> : <code>3000</code></h3>
+<h3 id="port">Port</h3>
+<pre><code class="lang-js">{ port: 3000 }
+</code></pre>
 <p>The port where you want to launch the server. Defaults to <code>3000</code> and it&#39;s the only option that can be specified as a single option:</p>
 <pre><code class="lang-js">server(3000);
 server({ port: 3000 }); // the same

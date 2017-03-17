@@ -9,15 +9,15 @@ nav {
 }
 
 nav .brand {
-  margin-left: .5em;
+  padding: 0 .5em;
+}
+
+nav .burger {
+  margin-right: .5em;
 }
 
 nav .brand .logo {
   margin-right: 1em;
-}
-
-nav footer {
-  margin-right: 0.5em;
 }
 
 body {
@@ -69,6 +69,15 @@ article {
   padding: 3em;
 }
 
+article table {
+  margin-top: 1.5em;
+  width: 100%;
+}
+
+article table th {
+  background: #eee;
+  color: #333;
+}
 
 .hero h1 {
   font-weight: normal;
@@ -88,14 +97,6 @@ pre.sub {
   font-weight: 300;
   border-radius: 0;
   background: rgba(255, 255, 255, .1);
-}
-
-nav.super .switch::before {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  /*line-height: 45px;*/
 }
 
 @media all and (min-width: 500px) {
@@ -186,12 +187,20 @@ article > p:first-child {
 article h1,
 article h2,
 article h3 {
-  margin: -40px 0 -15px;
+  margin: -40px 0 0;
+}
+
+article h1 + *,
+article h2 + *,
+article h3 + * {
+  margin-top: .6em;
 }
 
 @media all and (max-width: 900px) {
   article {
-    padding: 15px 20px 20px;
+    padding: 20px;
+    width: 100%;
+    border-radius: 0;
   }
 }
 

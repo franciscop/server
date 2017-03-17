@@ -1,7 +1,5 @@
 # server()
 
-> Note: An in-depth *tutorial* coming soon
-
 To include server, `require` it as a normal Node package:
 
 ```js
@@ -33,18 +31,27 @@ However, it also has the handy property:
 The first argument of the main function is for setting the options. It can be nothing, a single integer or a plain object:
 
 ```js
-server();
-server(3000);
-server({ port: 3000 });  // the same
+server();        // Use the defaults
+server(3000);    // Specify the port
+server({ port: 3000 });  // The same as the previous one
 ```
 
-As you can guess, internally if it is a single integer it will be converted to the object `{ port: ARG }`. This is a handy shortcut in case you want the default options except for the port, otherwise you can specify the options (defaults shown here):
+These are the available options, their defaults, types and how to specify them in `.env`:
+
+| name                   | default          | .env                  | type     |
+|------------------------|------------------|-----------------------|----------|
+| [`port`](#port)        | `3000`           | `PORT=3000`           | Number   |
+| [`engine`](#engine)    | `'pug'`          | `ENGINE=pug`          | String   |
+| [`public`](#public)    | `'public'`       | `PUBLIC=public`       | String   |
+| [`secret`](#secret)    | `'secret-XXXX'`  | `SECRET=secret-XXXX`  | String   |
+| [`verbose`](#verbose)  | `false`          | `VERBOSE=false`       | Boolean  |
+
 
 ```js
 server({
   port: 3000,
   public: './public',
-  viewengine: 'pug',
+  engine: 'pug',
 
   middle: {
     // Default middleware options here, see below
@@ -56,17 +63,17 @@ server({
 
 ```
 PORT=3000
-VIEW_ENGINE=pug
+ENGINE=pug
 ```
 
-> Don't forget then to add `.env` to your `.gitignore`.
+> Do not forget then to add `.env` to your `.gitignore`.
 
 These are similar to:
 
 ```js
 server({
   port: 3000,
-  'view engine': 'pug'
+  engine: 'pug'
 });
 ```
 
@@ -77,7 +84,11 @@ So this is the inclusion order, from more important to less:
 3. *defaults*: defaults will be used as can be seen below
 
 
-### `port` : `3000`
+### Port
+
+```js
+{ port: 3000 }
+```
 
 The port where you want to launch the server. Defaults to `3000` and it's the only option that can be specified as a single option:
 

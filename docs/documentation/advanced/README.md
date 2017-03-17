@@ -16,7 +16,6 @@ If you have two routers and want to make it into one for any reason, you can do 
 ```js
 let { get, post, join } = server.router;
 
-
 let routes = join(
   get('/', home.index),
   get('/users', users.index),
@@ -27,6 +26,7 @@ server({}, acceptsOnlyASingleRoute(routes));
 ```
 
 
+<!--
 ## Experimental
 
 > To enable these, you'll have to add an `EXPERIMENTAL=1` to your environment variables. No need to say that this is not stable and not part of the stable API.
@@ -34,24 +34,25 @@ server({}, acceptsOnlyASingleRoute(routes));
 There's an experimental way of dealing with those:
 
 ```js
-server({}, [
-  get('/').send('Hello 世界'),
+server([
   get('/about.html').file('public/about.html'),
-  get('/non-existing').status(404).send('Error 404!')
+  get('/non-existing').status(404).send('Error 404!'),
+  get('/').send('Hello 世界')
 ]);
 ```
 
 They are the same methods as in [Express Methods](http://expressjs.com/en/api.html#res.methods) and accept the same parameters (adding `file`, which is an alias of `sendFile`, and removing `get` and `set` as it conflicts with `Router.get` and `Router.set`). The ones that *do not send* a response can be concatenated, while the ones that send a response will be ignored. So the second *send* will be ignored:
 
 ```js
-server({}, [
+server([
   get('/').status(200).send('Hi there').send('I am ignored')
 ]);
 ```
+-->
 
 
 
-### Promise
+## Promise
 
 The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use.
 
@@ -67,9 +68,7 @@ Also, it will transparently use the `http-server` whether possible (through ES6'
 server().then(ctx => {
 
   // Run the server for a single second then close it
-  setTimeout(() => {
-    ctx.close();
-  }, 1000);
+  setTimeout(() => ctx.close(), 1000);
 }).catch(error => {
   console.log("There was an error:", error);
 });
@@ -86,7 +85,7 @@ This might be useful for error-handling, debugging and testing (see the tests in
 
 ### Included modules
 
-This is the default included middleware, which can also be seen in `src/modules`:
+This is the default included middleware, which can also be seen in `plugins/parse` and `plugins/connect`:
 
 - [`dotenv`](https://www.npmjs.com/package/dotenv)
 - `bodyParser` : [`body-parser`](https://www.npmjs.com/package/body-parser)

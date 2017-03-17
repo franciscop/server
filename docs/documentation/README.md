@@ -1,15 +1,17 @@
 # Documentation
 
-Conceptually **server** is quite simple: you have a main function that accepts some functions, and each of those does a bit of work:
+Conceptually **server** is simple: you have a main function that accepts some functions, and each of those does a bit of work:
 
 ```js
 const server = require('server');
 server(fn1, fn2, fn3, ...);
 ```
 
-> **Note:** This is the documentation and not a tutorial; as such you are expected to know the basics of JS (including ES6) and how a server works. [Subscribe to receive the tutorial when released](http://eepurl.com/cGRggH).
-
 The generic heavy lifting is already implemented internally **so you can focus on your project** and not in fiddling with headers and response types. These are the three big areas that are most important for using server: the [function `server()`](server), [middleware](middleware) and [router](router).
+
+> [**Subscribe here**](http://eepurl.com/cGRggH) to receive tutorials when released. Tutorials are good *for learning* while the documentation is good for reference/quick use *once you know the basics*.
+
+
 
 ## [server()](server)
 
@@ -46,7 +48,7 @@ server(middleware1);
 
 ## [Router](router)
 
-The last but maybe most important part is the router that you can use to create routes. Internally a route is a middleware more and you use it for handling user requests to specific places:
+The last but maybe most important part is the router that is used to create routes. A route is really a middleware and is used for handling user requests to specific places:
 
 ```js
 const server = require('server');

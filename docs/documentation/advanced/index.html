@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{margin-left:.5em}nav .brand .logo{margin-right:1em}nav footer{margin-right:0.5em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}nav.super .switch::before{position:absolute;top:0;left:0;width:100%}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 -15px}@media all and (max-width: 900px){article{padding:15px 20px 20px}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin-top:1.5em;width:100%}article table th{background:#eee;color:#333}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}
 /*# sourceMappingURL=style.min.css.map */
 </style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Advanced</strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
 <p>Some of the concepts that you won&#39;t find day-to-day but that might be useful when debugging or creating your own libraries.</p>
@@ -8,7 +8,6 @@
 <p>If you have two routers and want to make it into one for any reason, you can do so through a helper function we created.</p>
 <pre><code class="lang-js">let { get, post, join } = server.router;
 
-
 let routes = join(
   get(&#39;/&#39;, home.index),
   get(&#39;/users&#39;, users.index),
@@ -17,23 +16,30 @@ let routes = join(
 
 server({}, acceptsOnlyASingleRoute(routes));
 </code></pre>
-<h2 id="experimental">Experimental</h2>
-<blockquote>
-<p>To enable these, you&#39;ll have to add an <code>EXPERIMENTAL=1</code> to your environment variables. No need to say that this is not stable and not part of the stable API.</p>
-</blockquote>
-<p>There&#39;s an experimental way of dealing with those:</p>
-<pre><code class="lang-js">server({}, [
-  get(&#39;/&#39;).send(&#39;Hello 世界&#39;),
-  get(&#39;/about.html&#39;).file(&#39;public/about.html&#39;),
-  get(&#39;/non-existing&#39;).status(404).send(&#39;Error 404!&#39;)
+<!--
+## Experimental
+
+> To enable these, you'll have to add an `EXPERIMENTAL=1` to your environment variables. No need to say that this is not stable and not part of the stable API.
+
+There's an experimental way of dealing with those:
+
+```js
+server([
+  get('/about.html').file('public/about.html'),
+  get('/non-existing').status(404).send('Error 404!'),
+  get('/').send('Hello 世界')
 ]);
-</code></pre>
-<p>They are the same methods as in <a href="http://expressjs.com/en/api.html#res.methods">Express Methods</a> and accept the same parameters (adding <code>file</code>, which is an alias of <code>sendFile</code>, and removing <code>get</code> and <code>set</code> as it conflicts with <code>Router.get</code> and <code>Router.set</code>). The ones that <em>do not send</em> a response can be concatenated, while the ones that send a response will be ignored. So the second <em>send</em> will be ignored:</p>
-<pre><code class="lang-js">server({}, [
-  get(&#39;/&#39;).status(200).send(&#39;Hi there&#39;).send(&#39;I am ignored&#39;)
+```
+
+They are the same methods as in [Express Methods](http://expressjs.com/en/api.html#res.methods) and accept the same parameters (adding `file`, which is an alias of `sendFile`, and removing `get` and `set` as it conflicts with `Router.get` and `Router.set`). The ones that *do not send* a response can be concatenated, while the ones that send a response will be ignored. So the second *send* will be ignored:
+
+```js
+server([
+  get('/').status(200).send('Hi there').send('I am ignored')
 ]);
-</code></pre>
-<h3 id="promise">Promise</h3>
+```
+-->
+<h2 id="promise">Promise</h2>
 <p>The main function returns a promise which will be fulfilled when the server is launched or might throw an initialization error such as port is already in use.</p>
 <p>It gets passed the <code>ctx</code> object, just without the request-specific parameters (not including <code>req</code> and <code>res</code> among others). It does include:</p>
 <ul>
@@ -45,9 +51,7 @@ server({}, acceptsOnlyASingleRoute(routes));
 <pre><code class="lang-js">server().then(ctx =&gt; {
 
   // Run the server for a single second then close it
-  setTimeout(() =&gt; {
-    ctx.close();
-  }, 1000);
+  setTimeout(() =&gt; ctx.close(), 1000);
 }).catch(error =&gt; {
   console.log(&quot;There was an error:&quot;, error);
 });
@@ -57,7 +61,7 @@ server({}, acceptsOnlyASingleRoute(routes));
 </code></pre>
 <p>This might be useful for error-handling, debugging and testing (see the tests in the folder <code>tests</code>) or extending server&#39;s functionality.</p>
 <h3 id="included-modules">Included modules</h3>
-<p>This is the default included middleware, which can also be seen in <code>src/modules</code>:</p>
+<p>This is the default included middleware, which can also be seen in <code>plugins/parse</code> and <code>plugins/connect</code>:</p>
 <ul>
 <li><a href="https://www.npmjs.com/package/dotenv"><code>dotenv</code></a></li>
 <li><code>bodyParser</code> : <a href="https://www.npmjs.com/package/body-parser"><code>body-parser</code></a></li>
