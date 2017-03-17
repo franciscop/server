@@ -7,6 +7,8 @@ const server = require('server');
 server(fn1, fn2, fn3, ...);
 ```
 
+> **Note:** This is the documentation and not a tutorial; as such you are expected to know the basics of JS (including ES6) and how a server works. [Subscribe to receive the tutorial when released](http://eepurl.com/cGRggH).
+
 The generic heavy lifting is already implemented internally **so you can focus on your project** and not in fiddling with headers and response types. These are the three big areas that are most important for using server: the [function `server()`](server), [middleware](middleware) and [router](router).
 
 ## [server()](server)

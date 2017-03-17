@@ -59,9 +59,12 @@ And finally, open your browser on [localhost:3000](http://localhost:3000/) and y
 
 ## Documentation
 
-Everything is documented in detail here:
+
+The documented is here:
 
 <strong><a class="button" href="https://serverjs.io/documentation/">Full Documentation</a></strong>
+
+**Note:** This is the documentation and not a tutorial; as such you are expected to know the basics of JS (including ES6) and how a server works. [Subscribe to receive the tutorial when released](http://eepurl.com/cGRggH).
 
 You can also download the repository and try the examples by browsing to them and `node app.js` inside each of them in `/examples`.
 
