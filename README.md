@@ -1,6 +1,6 @@
 # **Server** for Node.js
 
-[![[Subscribe]](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH) [![[Status]](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server) [![[Downloads]](https://img.shields.io/npm/dm/server.svg)](https://www.npmjs.com/package/server) [![[License]](https://img.shields.io/npm/l/server.svg)](https://github.com/franciscop/server/blob/master/LICENSE) [![[Roadmap]](https://img.shields.io/badge/version-ALPHA-red.svg )](https://github.com/franciscop/server/issues/1) 
+[![[Subscribe]](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH) [![[Status]](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server) [![[Downloads]](https://img.shields.io/npm/dm/server.svg)](https://www.npmjs.com/package/server) [![[License]](https://img.shields.io/npm/l/server.svg)](https://github.com/franciscop/server/blob/master/LICENSE) [![[Roadmap]](https://img.shields.io/badge/version-ALPHA-red.svg )](https://github.com/franciscop/server/issues/1)
 
 
 Simple and powerful server that just works so **you can focus on your awesome project**:
@@ -75,12 +75,10 @@ Licensed under the MIT License. See [LICENSE](https://github.com/franciscop/serv
 
 ## Author
 
-This package was created by [Francisco Presencia](http://francisco.io/) but hopefully developed and maintained by many others. See the [the list of contributors here](https://github.com/franciscop/server/graphs/contributors).
+This package was created by [Francisco Presencia](http://francisco.io/) but hopefully developed and maintained by many others. See the [the list of contributors here](https://github.com/franciscop/server/graphs/contributors). I love using my work and I'm available for contractor work. Freelancing helps maintain `server` and [my other open source projects](https://github.com/franciscop/) up to date! Hire me to do:
 
-I love using my work and I'm available for contractor work. Freelancing helps maintain `server` and [my other open source projects](https://github.com/franciscop/) up to date! Hire me to do:
-
-- Front-end: [Picnic CSS](http://picnicss.com/) ♦ [Paperdocs](http://francisco.io/paperdocs) ♦ [Angular Attack](http://angularattack.com/) ♦ [Ruby Rampage](https://www.rubyrampage.com/) ♦ [Server JS website](https://serverjs.io/)
+<!-- - Front-end: [Picnic CSS](http://picnicss.com/) ♦ [Paperdocs](http://francisco.io/paperdocs) ♦ [Angular Attack](http://angularattack.com/) ♦ [Ruby Rampage](https://www.rubyrampage.com/) ♦ [Server JS website](https://serverjs.io/)
 - Full-stack: [Makers UPV](https://makersupv.com/) ♦ [Learning vocabulary](http://anchor.science/)
-- Back-end: [Server JS (the library)](http://serverjs.io/) ♦ [Drive DB](https://github.com/franciscop/drive-db) ♦ [Express Data Parser](https://github.com/franciscop/express-data-parser)
+- Back-end: [Server JS (the library)](http://serverjs.io/) ♦ [Drive DB](https://github.com/franciscop/drive-db) ♦ [Express Data Parser](https://github.com/franciscop/express-data-parser) -->
 
 You can also sponsor the project and your logo will be shown here with ∞ ♥. Open an issue to have an open conversation or contact me directly (email [in my website](http://francisco.io/)).
