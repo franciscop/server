@@ -87,6 +87,7 @@ function Server (...middle) {
 
 module.exports = (...opts) => new Server(...opts);
 module.exports.router = router;
+module.exports.utils = { modern: modern };
 module.exports.plugins = [
   require('./plugins/parser'),
   require('./plugins/connect')

@@ -5,6 +5,6 @@ const modern = require('../../src/modern');
 // This is not the middleware itself; it is called on init once and returns the
 // actual middleware
 module.exports = mod => ctx => {
-  let res = mod(ctx, ctx.options);
+  const res = mod(ctx, ctx.options);
   return res ? modern(res)(ctx) : Promise.resolve();
 };

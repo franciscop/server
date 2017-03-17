@@ -5,7 +5,6 @@ const params = require('path-to-regexp-wrap')();
 // Generic request handler
 const generic = (method, ...middle) => {
 
-
   // Extracted or otherwise it'd shift once per call; also more performant
   const path = typeof middle[0] === 'string' ? middle.shift() : '*';
   const match = params(path);

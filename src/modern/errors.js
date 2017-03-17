@@ -3,7 +3,7 @@ const errors = require('human-error')({
 });
 
 errors.MissingMiddleware = () => `
-  modern() expects a middleware to be passed, but you passed nothing.
+  modern() expects a middleware to be passed but nothing was passed.
 `;
 
 errors.InvalidMiddleware = ({ type }) => `

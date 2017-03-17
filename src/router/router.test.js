@@ -14,7 +14,7 @@ const createCtx = (opts = {}) => extend({
 describe('router with promises', () => {
 
   it('works?', () => {
-    let middles = [
+    const middles = [
       ctx => new Promise((resolve) => resolve()),
       get('/aaa', ctx => { throw new Error(); }),
       get('/', ctx => { ctx.res.send = 'Hello 世界'; }),
@@ -29,7 +29,7 @@ describe('router with promises', () => {
   });
 
   it('works even when wrapped with join() and loadware()', () => {
-    let middles = [
+    const middles = [
       ctx => new Promise((resolve) => resolve()),
       get('/aaa', ctx => { throw new Error(); }),
       join(loadware(get('/', ctx => { ctx.res.send = 'Hello 世界'; }))),
@@ -46,7 +46,7 @@ describe('router with promises', () => {
 
 
   it('still works?', done => {
-    let ctx = createCtx();
+    const ctx = createCtx();
     ctx.req.path = '/test/francisco/presencia/bla';
     get('/test/:name/:lastname/bla')(ctx).then(ctx => {
       expect(ctx.req.solved).toBe(true);

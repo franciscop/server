@@ -111,6 +111,19 @@ let addsecret = ({ options }) => {
 ```
 
 
+## Modern
+
+Modern is a small utility that allows you to use express middleware within `server`. The proper way of using `modern` is:
+
+```js
+const server = require('server');
+const { modern } = server.utils;
+const oldCookieParser = require('cookie-parser')({ ... });
+const cookieParser = server.modern(oldCookieParser);
+
+server(cookieParser, ...);
+```
+
 
 
 

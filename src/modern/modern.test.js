@@ -63,7 +63,7 @@ describe('Middleware handles the promise', () => {
   });
 
   it('passes the context', done => {
-    let ctx = { req: 1, res: 2 };
+    const ctx = { req: 1, res: 2 };
     modern((req, res, next) => next())(ctx).then(ctx => {
       expect(ctx.req).toBe(1);
       expect(ctx.res).toBe(2);
@@ -72,7 +72,7 @@ describe('Middleware handles the promise', () => {
   });
 
   it('can modify the context', done => {
-    let middle = (req, res, next) => {
+    const middle = (req, res, next) => {
       req.user = 'myname';
       res.send = 'sending';
       next();
@@ -85,8 +85,8 @@ describe('Middleware handles the promise', () => {
   });
 
   it('has chainable context', done => {
-    let ctx = { req: { user: 'a' }, res: { send: 'b' } };
-    let middle = (req, res, next) => {
+    const ctx = { req: { user: 'a' }, res: { send: 'b' } };
+    const middle = (req, res, next) => {
       req.user += 1;
       res.send += 2;
       next();
@@ -101,14 +101,14 @@ describe('Middleware handles the promise', () => {
   it('factory can receive options', done => {
 
     // The full context
-    let ctx = {
+    const ctx = {
       req: { user: 'a' },
       res: { send: 'b' },
       options: { extra: 1}
     };
 
     // A middleware factory
-    let factory = opts => {
+    const factory = opts => {
       return (req, res, next) => {
         req.user += opts.extra;
         res.send += opts.extra;
@@ -117,10 +117,10 @@ describe('Middleware handles the promise', () => {
     };
 
     // Plain ol' middleware
-    let factored = factory({ extra: 1 });
+    const factored = factory({ extra: 1 });
 
     // We need to pass it and then re-call it
-    let middles = [
+    const middles = [
 
       // Native sync, this could be extracted to '({ req, res, options })'
       ctx => {
