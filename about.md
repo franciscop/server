@@ -52,7 +52,7 @@ This will in turn **make it much easier to get started**, for both people who ar
 
 ## Contribute
 
-If you have some ideas of how Node.js development could be improved, please [open a new issue in Github's repository](github.com/franciscop/server/issues).
+If you have some ideas of how Node.js development could be improved, please [open a new issue in Github's repository](https://github.com/franciscop/server/issues).
 
 
 
