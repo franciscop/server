@@ -1,28 +1,12 @@
-nav.super
+nav
   a.brand(href='/')
     img.logo(src='/img/split.svg' alt='S')
     span.text Server
+
   input#bmenu.show(type='checkbox')
-  label.burger.pseudo.button.switch(for='bmenu')
-  header
-    strong Server.js
-  .menu(data-headers='h1, h2, h3')
-    ul.flex.one
-  footer
-    .flex.three
-      a.pseudo.button(href='/about')
-        //- i.fa.fa-info
-        | About
-      //- Space between the buttons
-      = ' '
-      a.pseudo.button(href='https://medium.com/server-for-node-js')
-        //- i.fa.fa-file-code-o
-        | Blog
-        = ' '
-      a.pseudo.button(href='https://github.com/franciscop/server', target='_blank')
-        //- i.fa.fa-github-alt
-        | Github
-      = ' '
-      a.button(href='/documentation')
-        //- i.fa.fa-file-code-o
-        | Documentation
+  label.burger.pseudo.button.switch(for='bmenu') menu
+  .menu
+    a.pseudo.button(href='/about') About
+    a.pseudo.button(href='https://medium.com/server-for-node-js' target='_blank') Blog
+    a.pseudo.button(href='https://github.com/franciscop/server' target='_blank') Github
+    a.button(href='/documentation') Documentation
