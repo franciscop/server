@@ -19,12 +19,8 @@ function Server (...middle) {
     "use strict";
 
     // First parameter can be:
-    // - Number (opts)
-    // - Object (opts) => cannot be ID'd
-    // - undefined || null (middle)
-    // - Boolean (middle)
-    // - Function (middle)
-    // - Array (middle)
+    // - options: Number || Object (cannot be ID'd)
+    // - middleware: undefined || null || Boolean || Function || Array
     const opts = (
       typeof middle[0] === 'undefined' ||
       typeof middle[0] === 'boolean' ||
@@ -87,7 +83,9 @@ function Server (...middle) {
 
 module.exports = (...opts) => new Server(...opts);
 module.exports.router = router;
-module.exports.utils = { modern: modern };
+module.exports.utils = {
+  modern: modern
+};
 module.exports.plugins = [
   require('./plugins/parser'),
   require('./plugins/connect')
