@@ -61,7 +61,7 @@ And finally, open your browser on [localhost:3000](http://localhost:3000/) and y
 
 Everything is documented in detail here:
 
-<strong><a class="button" href="/documentation">Full Documentation</a></strong>
+<strong><a class="button" href="https://serverjs.io/documentation/">Full Documentation</a></strong>
 
 You can also download the repository and try the examples by browsing to them and `node app.js` inside each of them in `/examples`.
 
