@@ -1,7 +1,7 @@
 // Default configuration for server
 module.exports = {
   port: 3000,
-  'view engine': 'pug',
+  engine: 'pug',
   verbose: false,
   public: 'public',
   secret: 'secret-' + parseInt(1000000 * Math.random()),

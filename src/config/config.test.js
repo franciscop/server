@@ -14,7 +14,7 @@ describe('initializes', () => {
   it('returns the correct defaults', () => {
     const opts = config();
     expect(opts.port).toBe(3000);
-    expect(opts['view engine']).toBe('pug');
+    expect(opts.engine).toBe('pug');
     expect(opts.verbose).toBe(false);
 
     // This is now a plugin:

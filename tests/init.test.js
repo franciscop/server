@@ -4,7 +4,7 @@ describe('Options', () => {
   it('default settings are correct', () => {
     return server().then(server => {
       expect(server.options.port).toBe(3000);
-      expect(server.options['view engine']).toBe('pug');
+      expect(server.options.engine).toBe('pug');
       expect(server.options.verbose).toBe(false);
 
       // Now this is a plugin:
