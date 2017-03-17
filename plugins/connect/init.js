@@ -1,7 +1,6 @@
-const modern = require('../../src/modern');
-
 module.exports = ctx => {
 
+  const modern = ctx.utils.modern;
   const options = ctx.options.connect;
   const connect = ctx.plugins.filter(p => p.name === 'connect')[0];
 

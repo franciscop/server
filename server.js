@@ -10,8 +10,12 @@ const router = require('./src/router/index.js');
 const join = require('./src/join/index.js');
 const modern = require('./src/modern');
 const error = require('./src/error');
-const defaultErrors = require('./src/error/errors.js');
 const final = require('./src/final');
+
+// Create the initial context
+const context = (self, req = {}, res = {}) => {
+  return Object.assign({}, self, { req: req, res: res });
+};
 
 // Main function
 function Server (...middle) {
@@ -36,13 +40,12 @@ function Server (...middle) {
     this.plugins = module.exports.plugins;
     this.options = config(opts, this.plugins, this.app);
 
-    this.plugins.filter(p => p.init && this.options[p.name]).forEach(p => p.init(this));
-
+    this.utils = { modern: modern };
     this.modern = modern;
-    this.error = error(this.options.errors);
+    // this.error = error(this.options.errors);
+    this.throw = error(this.options.errors);
 
-    // Create the initial context
-    const context = (req, res) => Object.assign({}, this, { req: req, res: res });
+    this.plugins.filter(p => p.init && this.options[p.name]).forEach(p => p.init(this));
 
     // PLUGIN middleware
     middle = join(
@@ -52,7 +55,7 @@ function Server (...middle) {
     );
 
     // Main thing here
-    this.app.use((req, res) => middle(context(req, res)));
+    this.app.use((req, res) => middle(context(this, req, res)));
 
     const launch = () => {
       if (this.options.verbose) {
@@ -70,14 +73,7 @@ function Server (...middle) {
     // Start listening to requests
     this.server = this.app.listen(this.options.port, launch);
 
-    this.server.on('error', err => {
-      const nicks = { EADDRINUSE: 'PortAlreadyUsed' };
-      if (nicks[err.code] && defaultErrors[nicks[err.code]]) {
-        reject(defaultErrors[nicks[err.code]](err));
-      } else {
-        reject(err);
-      }
-    });
+    this.server.on('error', err => reject(error.native(err)));
   });
 }
 

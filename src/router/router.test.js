@@ -69,7 +69,7 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with full path', () => {
-    const generate = ctx => ctx.error('test:a');
+    const generate = ctx => ctx.throw('test:a');
     const handle = error('test:a', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('test:a');
@@ -81,7 +81,7 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with partial path', () => {
-    const generate = ctx => ctx.error('test:b');
+    const generate = ctx => ctx.throw('test:b');
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('test:b');
@@ -96,10 +96,11 @@ describe('Error routes', () => {
     'test:pre:1': new Error('Hi there 1'),
     'test:pre:a': new Error('Hi there a'),
     'test:pre:b': new Error('Hi there b'),
+    'test:pre:build': opts => new Error(`Hi there ${opts.name}`)
   };
 
   it('can generate errors', () => {
-    const generate = ctx => ctx.error('test:pre:1');
+    const generate = ctx => ctx.throw('test:pre:1');
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('Hi there 1');
@@ -108,8 +109,18 @@ describe('Error routes', () => {
     return getter([generate, handle], {}, { errors });
   });
 
+  it('can generate errors with options', () => {
+    const generate = ctx => ctx.throw('test:pre:build', { name: 'ABC' });
+    const handle = error('test', ctx => {
+      expect(ctx.error).toBeInstanceOf(Error);
+      expect(ctx.error.message).toBe('Hi there ABC');
+      ctx.res.send();
+    });
+    return getter([generate, handle], {}, { errors });
+  });
+
   it('can generate errors', () => {
-    const generate = ctx => ctx.error('generic error');
+    const generate = ctx => ctx.throw('generic error');
     const handle = error('generic error', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('generic error');

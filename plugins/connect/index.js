@@ -13,6 +13,8 @@ const plugin = {
     csrf: {}
   },
 
+  errors: require('./errors'),
+
   init: require('./init'),
   before: []   // It is populated in "init()"
 };
