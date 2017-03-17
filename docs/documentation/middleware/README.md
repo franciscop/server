@@ -10,35 +10,35 @@ server(setname, get('/', sendname));
 
 ### Definition
 
-A *server middleware* is a function that will be called on each request. It accepts a server instance and returns a promise for asynchronous methods or anything else for synchronous methods.
+A *server middleware* is a function that will be called on each request. It accepts a context object and returns a promise for asynchronous methods or anything else for synchronous methods.
 
 ### Parameters
 
-It will only receive a parameter, the current instance of server. This has, among others, the properties `req` `res` (similar to express) and `options`:
+It will only receive a parameter called `ctx` for context. This has, among others, the properties `req` `res` (from express) and `options`:
 
 ```js
-let middleware = s => {
-  s.req;      // Request parameter, similar to `(req, res)` in express
-  s.res;      // Response parameter, similar to `(req, res)` in express
-  s.options;  // The options for the server instance
+let middleware = ctx => {
+  ctx.req;      // Request parameter, similar to `(req, res)` in express
+  ctx.res;      // Response parameter, similar to `(req, res)` in express
+  ctx.options;  // The options for the server instance
 }
 ```
 
-Then all of the included plugins will be available here. Consult the documentation on each for specifics, but this is how they *could* be implemented:
+Then all of the included plugins will be available here. Consult the documentation on each plugin for the specifics, but this is how they *could* be implemented:
 
 ```js
-let middleware = s => {
-  s.socket;  // A plugin that exports a websocket
-  s.db;      // A plugin that exports a database
+let middleware = ctx => {
+  ctx.socket;  // A websocket exported from a plugin
+  ctx.db;      // A database exported from a plugin
 }
 ```
 
 If you are developing a library or just want more advanced features, you should also have access to these:
 
 ```js
-let middleware = s => {
-  s.app;     // Current express instance
-  s.original;  // The http-server instance
+let middleware = ctx => {
+  ctx.app;        // Current express instance
+  ctx.server;   // The http-server instance
 };
 ```
 

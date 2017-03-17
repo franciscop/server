@@ -95,7 +95,7 @@ nav.super .switch::before {
   top: 0;
   left: 0;
   width: 100%;
-  line-height: 45px;
+  /*line-height: 45px;*/
 }
 
 @media all and (min-width: 500px) {

@@ -74,7 +74,7 @@ function cookies (res) {
 
 const req = {};
 req.get = (path, fn = (() => {})) => ctx => {
-  let sofar = supertest(ctx.original).get(path);
+  let sofar = supertest(ctx.server).get(path);
   if (ctx.prev) sofar = sofar.set('Cookie', cookies(ctx.prev));
   return sofar.then(res => {
     fn(res);

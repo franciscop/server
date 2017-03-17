@@ -67,16 +67,16 @@ function Server (...middle) {
 
       // PLUGIN.attach: ctx => {}
 
-      // Proxy it to the original http-server for things like .close()
+      // Proxy it to the server http-server for things like .close()
       resolve(new Proxy(this, {
-        get: (ctx, key) => ctx[key] || ctx.original[key]
+        get: (ctx, key) => ctx[key] || ctx.server[key]
       }));
     };
 
     // Start listening to requests
-    this.original = this.app.listen(this.options.port, launch);
+    this.server = this.app.listen(this.options.port, launch);
 
-    this.original.on('error', err => {
+    this.server.on('error', err => {
       const nicks = { EADDRINUSE: 'PortAlreadyUsed' };
       if (nicks[err.code] && defaultErrors[nicks[err.code]]) {
         reject(defaultErrors[nicks[err.code]](err));

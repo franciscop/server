@@ -93,9 +93,9 @@ describe('Default modules', () => {
     ];
 
     launch(routes).then(ctx => {
-      supertest(ctx.original).get('/').expect(200).then(res => {
+      supertest(ctx.server).get('/').expect(200).then(res => {
         expect(res.text).toBeDefined();
-        supertest(ctx.original).post('/').set('Cookie', cookies(res))
+        supertest(ctx.server).post('/').set('Cookie', cookies(res))
           .send('_csrf=' + encodeURIComponent(res.text))
           .expect(200).then(() => done());
       });
