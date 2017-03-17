@@ -1,8 +1,6 @@
 // server for Node.js (https://serverjs.io/)
 // A simple and powerful server for Node.js.
 
-/* jshint esversion: 6 */
-
 // External packages
 const express = require('express');
 

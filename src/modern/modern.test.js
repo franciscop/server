@@ -1,6 +1,6 @@
 const join = require('../join');
 const modern = require('./index');
-const middle = (req, res, next) => { next() };
+const middle = (req, res, next) => next();
 const ctx = { req: {}, res: {} };
 
 describe('initializes', () => {
@@ -113,7 +113,7 @@ describe('Middleware handles the promise', () => {
         req.user += opts.extra;
         res.send += opts.extra;
         next();
-      }
+      };
     };
 
     // Plain ol' middleware

@@ -19,7 +19,7 @@ errors.ErrorMiddleware = () => `
 
 errors.MissingContext = () => `
   There is no context being passed to the middleware.
-`,
+`;
 
 errors.MalformedContext = ({ item }) => `
   The argument passed as context is malformed.

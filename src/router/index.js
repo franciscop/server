@@ -49,6 +49,6 @@ exports.error = (...middle) => {
     const frag = ctx.error.path ? ctx.error.path.slice(0, path.length) : '';
     if (frag === path) return join(middle)(ctx);
     throw ctx.error;
-  }
+  };
   return generic;
-}
+};

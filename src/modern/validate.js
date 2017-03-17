@@ -10,7 +10,7 @@ exports.middleware = middle => {
   if (middle.length === 4) {
     throw errors.ErrorMiddleware();
   }
-}
+};
 
 exports.context = ctx => {
   if (!ctx) {
@@ -22,4 +22,4 @@ exports.context = ctx => {
   if (!ctx.res) {
     throw errors.MalformedContext({ item: 'res' });
   }
-}
+};

@@ -19,4 +19,4 @@ module.exports = middle => {
     // Call the old middleware
     middle(ctx.req, ctx.res, next);
   });
-}
+};

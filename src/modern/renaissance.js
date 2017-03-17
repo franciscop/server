@@ -7,4 +7,4 @@ const modern = require('../../src/modern');
 module.exports = mod => ctx => {
   let res = mod(ctx, ctx.options);
   return res ? modern(res)(ctx) : Promise.resolve();
-}
+};

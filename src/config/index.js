@@ -6,11 +6,11 @@ require('dotenv').config({ silent: true });
 // Check if a variable is numeric even if string
 const is = {
   numeric: num => !isNaN(num),
-  boolean: b => b === true || b === false
-    || (typeof b === 'string' && ['true', 'false'].includes(b.toLowerCase()))
+  boolean: b => b === true || b === false ||
+    (typeof b === 'string' && ['true', 'false'].includes(b.toLowerCase()))
 };
 
-module.exports = (user = {}, plugins, app) => {
+module.exports = (user = {}, plugins = false, app = false) => {
 
   // If it's a number it's the port
   if (typeof user === 'number') {
@@ -56,8 +56,8 @@ module.exports = (user = {}, plugins, app) => {
     //   https://expressjs.com/en/api.html#app.settings.table
     for (let key in options) {
       if (key === 'view engine' && typeof options[key] === 'object') {
-        const engineName = Object.keys(options[key])[0]
-        app.engine(engineName, options[key][engineName])
+        const engineName = Object.keys(options[key])[0];
+        app.engine(engineName, options[key][engineName]);
         app.set(key, engineName);
       }
       if (app.set && ['boolean', 'number', 'string'].includes(typeof options[key])) {
@@ -67,4 +67,4 @@ module.exports = (user = {}, plugins, app) => {
   }
 
   return options;
-}
+};

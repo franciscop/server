@@ -5,20 +5,27 @@ const filters = require('./docs/filters.js');
 module.exports = function (grunt) {
   // Configuration
   grunt.initConfig({
+
+    bytesize: {
+      all: {
+        src: [
+          'docs/style.min.css',
+          'docs/javascript.js'
+        ]
+      }
+    },
+
     jshint: {
-      src: ['Gruntfile.js', 'server.js']
+      options: { esversion: 6 },
+      src: ['Gruntfile.js', 'server.js', 'src']
     },
 
     browserify: {
       dist: {
-        files: {
-          'docs/javascript.min.js': 'docs/javascript.jsz'
-        },
+        files: { 'docs/javascript.min.js': 'docs/javascript.js' },
         options: {
           transform: [['babelify', { presets: ['es2015'] }], ['uglifyify']],
-          browserifyOptions: {
-            debug: true
-          }
+          browserifyOptions: { debug: true }
         }
       }
     },
@@ -36,22 +43,10 @@ module.exports = function (grunt) {
       }
     },
 
-    watch: {
-      scripts: {
-        files: [
-          'package.js', // To bump versions
-          'Gruntfile.js',
-          'documentation/*.**',
-          'docs/**/*.**',
-          'server.js',
-          'about.md',
-          'README.md'
-        ],
-        tasks: ['default'],
-        options: {
-          spawn: false,
-          livereload: true
-        }
+    sass: {
+      dist: {
+        options: { style: 'compressed' },
+        files: { 'docs/style.min.css': 'docs/style.scss' }
       }
     },
 
@@ -74,12 +69,23 @@ module.exports = function (grunt) {
       }
     },
 
-    bytesize: {
-      all: {
-        src: [
-          'docs/style.css',
-          'docs/javascript.js'
-        ]
+    watch: {
+      scripts: {
+        files: [
+          'package.js', // To bump versions
+          'Gruntfile.js',
+          'documentation/*.**',
+          'docs/**/*.**',
+          'server.js',
+          'about.md',
+          'README.md',
+          'src/**/*.js'
+        ],
+        tasks: ['default'],
+        options: {
+          spawn: false,
+          livereload: true
+        }
       }
     }
   });
@@ -91,8 +97,9 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-watch');
   grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-bytesize');
+  grunt.loadNpmTasks('grunt-contrib-sass');
 
-  grunt.registerTask('build', ['browserify']);
+  grunt.registerTask('build', ['pug', 'sass']);
   grunt.registerTask('test', ['jshint', 'bytesize']);
-  grunt.registerTask('default', ['pug', 'test', 'connect']);
+  grunt.registerTask('default', ['build', 'test', 'connect']);
 };

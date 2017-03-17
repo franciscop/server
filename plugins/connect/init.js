@@ -44,10 +44,10 @@ module.exports = ctx => {
     connect.before.push(ctx => ctx.res.locals.csrf = ctx.req.csrfToken());
   }
 
-  // renaissance(ctx => {
+  // ctx => {
   //   if (!ctx.options.middle) return;
   //   ?TODO: serveIndex: (opt, all) => require('serve-index')(all.public)
-  // }),
+  // },
 
   // console.log(ctx.options.connect, ctx.options.connect.favicon);
   if (options.favicon) {
