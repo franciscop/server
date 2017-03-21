@@ -81,4 +81,4 @@ This package was created by [Francisco Presencia](http://francisco.io/) but hope
 
 I love using my work and I'm available for contractor work. Freelancing helps maintain `server` and [my other open source projects](https://github.com/franciscop/) up to date!
 
-You can also sponsor the project and your logo will be shown here with ∞ ♥. Open an issue to have an open conversation or contact me directly (email [in my website](http://francisco.io/)).
+You can also sponsor the project and your logo will be shown here with tons of ♥. <a class="email" href="http://francisco.io/" target="_blank">Contact me</a>.

@@ -62,7 +62,12 @@ server(home, page);
 <h2 id="-advanced-advanced-"><a href="advanced">Advanced</a></h2>
 <p>Some recommendations on using and debugging server. A peak into the technology inside for understanding it better. Explanation on some of the design constrains for server.</p>
 <p><a class="button" href="advanced"><strong>Advanced documentation</strong></a></p>
-</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>(function(){
+</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o';
+  document.querySelector('a.email').setAttribute('href', email);
+}, 2000);
+
+(function(){
   // Only track if doNotTrack === '0'
   if (navigator.doNotTrack === '1') {
     return console.log("Honoring your doNotTrack. Keep making the web awesome ♥");

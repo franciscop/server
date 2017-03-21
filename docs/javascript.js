@@ -1,3 +1,8 @@
+setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o';
+  document.querySelector('a.email').setAttribute('href', email);
+}, 2000);
+
 (function(){
   // Only track if doNotTrack === '0'
   if (navigator.doNotTrack === '1') {

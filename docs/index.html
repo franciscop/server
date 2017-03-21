@@ -50,11 +50,16 @@ server(3000,
 <h2 id="author">Author</h2>
 <p>This package was created by <a href="http://francisco.io/">Francisco Presencia</a> but hopefully developed and maintained by many others. See the <a href="https://github.com/franciscop/server/graphs/contributors">the list of contributors here</a>.</p>
 <p>I love using my work and I&#39;m available for contractor work. Freelancing helps maintain <code>server</code> and <a href="https://github.com/franciscop/">my other open source projects</a> up to date!</p>
-<p>You can also sponsor the project and your logo will be shown here with ∞ ♥. Open an issue to have an open conversation or contact me directly (email <a href="http://francisco.io/">in my website</a>).</p>
+<p>You can also sponsor the project and your logo will be shown here with tons of ♥. <a class="email" href="http://francisco.io/" target="_blank">Contact me</a>.</p>
 </article><script>function $(sel) { return document.querySelector(sel); }
 $('button.secret').onclick = function () {
   $('body').classList.toggle('liftoff');
-}</script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>(function(){
+}</script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o';
+  document.querySelector('a.email').setAttribute('href', email);
+}, 2000);
+
+(function(){
   // Only track if doNotTrack === '0'
   if (navigator.doNotTrack === '1') {
     return console.log("Honoring your doNotTrack. Keep making the web awesome ♥");

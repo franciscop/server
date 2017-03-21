@@ -137,7 +137,12 @@ server(3000, { bodyparser: false });
 // Use a different body-parser
 server(3000, { bodyparser: coolerBodyParser() });
 </code></pre>
-</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>(function(){
+</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o';
+  document.querySelector('a.email').setAttribute('href', email);
+}, 2000);
+
+(function(){
   // Only track if doNotTrack === '0'
   if (navigator.doNotTrack === '1') {
     return console.log("Honoring your doNotTrack. Keep making the web awesome ♥");

@@ -74,7 +74,12 @@ server([
 <li><code>responseTime</code> : <a href="https://www.npmjs.com/package/response-time"><code>response-time</code></a></li>
 <li><code>methodOverride</code> : <a href="https://www.npmjs.com/package/method-override"><code>method-override</code></a></li>
 </ul>
-</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>(function(){
+</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o';
+  document.querySelector('a.email').setAttribute('href', email);
+}, 2000);
+
+(function(){
   // Only track if doNotTrack === '0'
   if (navigator.doNotTrack === '1') {
     return console.log("Honoring your doNotTrack. Keep making the web awesome ♥");

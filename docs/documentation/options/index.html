@@ -98,7 +98,12 @@ server(ctx =&gt; ctx.res.render(&#39;index.pug&#39;));
 <p>Finally, you can add your own engines in this way:</p>
 <pre><code class="lang-js">server({ engine: { pug: fn() }}, ctx =&gt; ctx.res.render(&#39;index&#39;));
 </code></pre>
-</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>(function(){
+</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o';
+  document.querySelector('a.email').setAttribute('href', email);
+}, 2000);
+
+(function(){
   // Only track if doNotTrack === '0'
   if (navigator.doNotTrack === '1') {
     return console.log("Honoring your doNotTrack. Keep making the web awesome ♥");
