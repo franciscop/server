@@ -1,8 +1,12 @@
 setTimeout(function() {
-  var email = 'mailto:public' + '@francisco.i' + 'o';
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server for Node.js';
   document.querySelector('a.email').setAttribute('href', email);
 }, 2000);
 
+
+
+// TODO: replace this analytics mess with a simpler thing. I just want to know
+// what pages are visited! But don't want to compromise users
 (function(){
   // Only track if doNotTrack === '0'
   if (navigator.doNotTrack === '1') {
