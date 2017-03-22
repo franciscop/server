@@ -97,24 +97,29 @@ PUBLIC=./public
 
 ### Engine
 
-The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines) or [read more about pug](https://pugjs.org/).
+The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines). To use an engine you normally have to install it first (except [pug](https://pugjs.org/), which is preinstalled):
 
-Even if you are using a custom render engine, you might not need to set this if you are using the extension for the render() method:
+```
+npm install [ejs|nunjucks|handlebars|emblem] --save
+```
+
+To use that engine you just have to add the extension to the `render()` method:
 
 ```js
 // No need to specify the engine if you are using the extension
 server(ctx => ctx.res.render('index.pug'));
+server(ctx => ctx.res.render('index.hbs'));
+// ...
 ```
 
+However if you want to use it without extension, you can do so by specifying the engine in `.env`:
 
-However if you want to use it without extension, you can do so by specifying the engine:
+```
+ENGINE=pug
+```
+
+Or through the corresponding option in javascript:
 
 ```js
 server({ engine: 'pug' }, ctx => ctx.res.render('index'));
-```
-
-Finally, you can add your own engines in this way:
-
-```js
-server({ engine: { pug: fn() }}, ctx => ctx.res.render('index'));
 ```
