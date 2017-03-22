@@ -51,7 +51,8 @@ function Server (...middle) {
     middle = join(
       this.plugins.filter(n => this.options[n.name]).map(p => p.beforeware || p.before),
       middle,
-      this.plugins.filter(n => this.options[n.name]).map(p => p.afterware || p.after)
+      this.plugins.filter(n => this.options[n.name]).map(p => p.afterware || p.after),
+      final
     );
 
     // Main thing here
@@ -84,5 +85,6 @@ module.exports.utils = {
 };
 module.exports.plugins = [
   require('./plugins/parser'),
-  require('./plugins/connect')
+  require('./plugins/connect'),
+  require('./plugins/log')
 ];
