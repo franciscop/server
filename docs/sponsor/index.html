@@ -1,55 +1,39 @@
 <!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin:1.5em 0 .5em;width:100%}article table th{background:none;color:#333}article table tr:nth-child(2n){background:none}article table th,article table td{border:2px solid #ddd}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}
 /*# sourceMappingURL=style.min.css.map */
-</style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1>About <strong>server </strong></h1><p class="sub">modern, simple & flexible</p><a class="button docs" href="/"><span class="arrow left">〈</span>Go back home</a></div></div><article class="about">
-<h2 id="motivation">Motivation</h2>
-<p>I have taught Node.js + express.js to quite some people and there&#39;s always a point where I just have to say: &quot;this part is way too complex to explain at this point, so just copy/paste this&quot;. This breaking point is connecting express.js to all those middlewares.</p>
-<p>When I was <a href="http://www.hackerparadise.org/">traveling with Hacker Paradise</a> through Asia and we got to the same point I decided to do something about it. First I created a <a href="https://github.com/franciscop/express-data-parser"><em>file upload middleware</em></a> and then started the ground work for what now is <em>server</em>.</p>
-<p>The final trigger was getting the package <code>server</code> in <a href="https://www.npmjs.com/package/server">NPM</a> (thanks NPM!). After that and based on the previous experiments, I decided to set out for real and make something worthwhile. So I dug into express.js, middleware, routers, etc and now I&#39;m proud that <strong>server is something I use</strong> to make websites faster and easier.</p>
-<p><a href="https://github.com/franciscop/server">Join me in Github</a> to get the best out of server and help Node.js achieve its full potential. Next up are websockets routes:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
-const { get, socket } = server.router;
-server(
-  get(&#39;/&#39;, ctx =&gt; ctx.res.render(&#39;home&#39;)),
-  socket(&#39;connect&#39;, ctx =&gt; ctx.io.emit(&#39;connected&#39;, ctx.socket.id)),
-  socket(&#39;message&#39;, ctx =&gt; ctx.io.emit(&#39;message&#39;, ctx.data))
-);
-</code></pre>
-<h2 id="goals">Goals</h2>
-<p>These are the main things that I wasn&#39;t happy with the state-of-the-art, so I decided to launch server to build upon the great work of express:</p>
-<ol>
-<li><p>Make things work by default (by domain):</p>
-<ul>
-<li>Parsers: json, urlencoded, <strong>file uploads</strong></li>
-<li>Persistence: session, cookies, csrf</li>
-</ul>
-</li>
-<li><p>Make things simpler to use:</p>
-<ul>
-<li>Many low-level things work out of the box</li>
-<li>Sensible, secure defaults =&gt; no need to change anything</li>
-<li>Easily customizable options</li>
-</ul>
-</li>
-<li><p>Make some important services available where possible, or some hooks to make it easier:</p>
-<ul>
-<li>Passport</li>
-<li>Database (MongoDB, etc)</li>
-<li>Websockets</li>
-</ul>
-</li>
-<li><p>Better error handling (if possible). No more ALLCAPS error messages with no information at all.</p>
-</li>
-</ol>
-<p>This will in turn <strong>make it much easier to get started</strong>, for both people who are new to Node or for experienced people who don&#39;t want to set-up everything again and again. The main frustration that I&#39;ve seen from people coming from:</p>
-<ul>
-<li>Different web backgrounds (Ruby on Rails, PHP), where now they have to hunt down and compare dozens of libraries to do simple tasks.</li>
-<li>Different programming backgrounds (Arduino, C++) where I have to explain not only how to get a server ready with these new tools, but also how the current state of the art and the fun of it is to build your own stack.</li>
-<li>Starting from scratch. I pity those people starting with no programming experience coming to Node.js. This shouldn&#39;t be so difficult, should it?</li>
-</ul>
-<h2 id="contribute">Contribute</h2>
-<p>If you have some ideas of how Node.js development could be improved, please <a href="https://github.com/franciscop/server/issues">open a new issue in Github&#39;s repository</a>.</p>
-<h2 id="web-design">Web design</h2>
-<p>This website was built with <a href="http://francisco.io/paperdocs/">Paperdocs</a>, a project built on top of <a href="http://picnicss.com/">Picnic CSS</a> and <a href="http://umbrellajs.com/">Umbrella JS</a> from the author of Server, <a href="http://francisco.io/">Francisco Presencia</a>.</p>
+</style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Errors</strong></h1></div></div><article>
+<p>This project is maintained by Francisco Presencia and is part of Francisco IO LTD (UK). It is a lot of work and I&#39;d love if you or your company could help me keep building it and in the process I&#39;ll help you with Node.js.</p>
+<p><strong>All sponsors will receive an ebook and/or a book</strong> for free when released. Besides this, there are some sponsors tiers:</p>
+<table>
+<thead>
+<tr>
+<th>sponsorship</th>
+<th>perk</th>
+<th>credit (homepage + github)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1,000$</td>
+<td>email support</td>
+<td>name</td>
+</tr>
+<tr>
+<td>2,000$</td>
+<td>live coding help of 10h</td>
+<td>logo (normal) + link</td>
+</tr>
+<tr>
+<td>10,000$</td>
+<td>in-person workshop of 20h</td>
+<td>logo (large) + link</td>
+</tr>
+</tbody>
+</table>
+<h2 id="notes-and-conditions">Notes and conditions</h2>
+<p>Donations are 0-99.99$ and sponsorships are 100$+.</p>
+<p>All of the rewards have a duration of up to 2 years.</p>
+<p>I reserve the right to reject anything if I don&#39;t find it suitable, including but not limited to malign requests.</p>
+<p>Everything in this page is negotiable and will be specified when contacting me.</p>
 </article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
   var email = 'mailto:public' + '@francisco.i' + 'o?subject=server for Node.js';
   document.querySelector('a.email').setAttribute('href', email);

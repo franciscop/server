@@ -21,10 +21,14 @@ const middle = modern();  // Error
 const middle = modern(&#39;hello&#39;);
 </code></pre>
 </article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
-  var email = 'mailto:public' + '@francisco.i' + 'o';
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server for Node.js';
   document.querySelector('a.email').setAttribute('href', email);
 }, 2000);
 
+
+
+// TODO: replace this analytics mess with a simpler thing. I just want to know
+// what pages are visited! But don't want to compromise users
 (function(){
   // Only track if doNotTrack === '0'
   if (navigator.doNotTrack === '1') {

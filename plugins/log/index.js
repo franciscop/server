@@ -1,7 +1,5 @@
 // Log plugin
-// Get the raw request and transform it into something usable
-// Examples: ctx.req.body, ctx.req.files, etc
-// Note: restores some of the old Express functionality
+const morgan = require('morgan');
 const plugin = {
   name: 'log',
   options: { level: 'debug' },

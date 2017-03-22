@@ -61,6 +61,7 @@ module.exports = function (grunt) {
           'docs/index.html': 'docs/index.html.pug',
           'docs/about/index.html': 'docs/about/index.html.pug',
           'docs/errors/index.html': 'docs/errors/index.html.pug',
+          'docs/sponsor/index.html': 'docs/sponsor/index.html.pug',
           'docs/documentation/index.html': 'docs/documentation/index.html.pug',
           'docs/documentation/options/index.html': 'docs/documentation/options/index.html.pug',
           'docs/documentation/middleware/index.html': 'docs/documentation/middleware/index.html.pug',
