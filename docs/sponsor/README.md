@@ -21,4 +21,4 @@ All of the rewards have a duration of up to 2 years.
 
 I reserve the right to reject anything if I don't find it suitable, including but not limited to malign requests.
 
-Everything in this page is negotiable and will be specified when contacting me.
+Everything in this page is negotiable and will be specified when getting in touch.
