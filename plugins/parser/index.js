@@ -7,6 +7,7 @@ const plugin = {
   options: {
     body: { extended: true },
     json: {},
+    text: {},
     data: {},
     cookie: {},
     method: {},

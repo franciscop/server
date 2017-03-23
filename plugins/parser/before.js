@@ -21,6 +21,12 @@ module.exports = [
     return require('body-parser').json(ctx.options.parser.json);
   }),
 
+  // TEXT
+  renaissance(ctx => {
+    if (!ctx.options.parser.text) return;
+    return require('body-parser').text(ctx.options.parser.text);
+  }),
+
   // Data parser
   renaissance(ctx => {
     if (!ctx.options.parser.data) return;
