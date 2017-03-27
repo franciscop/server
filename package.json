@@ -3,12 +3,18 @@
   "version": "1.0.0-alpha.26",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
-  "directories": {
-    "example": "examples"
-  },
   "scripts": {
-    "test": "jest --coverage",
-    "start": "node server.js"
+    "start": "node server.js",
+    "test": "jest --coverage"
+  },
+  "engines": {
+    "node": ">=7.6.0"
+  },
+  "directories": {
+    "Documentation": "./docs/documentation",
+    "Code": "./src",
+    "Plugins": "./plugins",
+    "Examples": "./examples"
   },
   "repository": {
     "type": "git",

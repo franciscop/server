@@ -1,5 +1,45 @@
 # About server
 
+There are some of the features that make [server for Node.js](https://serverjs.io/) unique.
+
+
+
+### Node.js
+
+Javascript and Node.js (and python) are the only technologies that have grown their popularity with time as shown in the [Stack Overflow survey results](https://stackoverflow.com/insights/survey/2017/):
+
+![Stack overflow survey](../img/survey.svg)
+
+
+
+### ES6+
+
+Speaking of which, we are using modern Javascript to make developer's lives much easier and teaching modern ES6, ES7, etc along the way:
+
+```js
+// Find a specific user and display it through a template
+server(get('/user/:id', async ctx => {
+  const id = validateId(ctx.req.params.id);
+  const user = await db.user.find({ _id: id }).exec();
+  ctx.res.render('user', { user });
+}));
+```
+
+
+
+### Debug
+
+But everything is not easy and not everything works on the first try; Node.js has [arguably done a bad job here](https://medium.com/@tjholowaychuk/farewell-node-js-4ba9e7f3e52b#2a64), so we are extending its functionality with [`human-error`](https://github.com/franciscop/human-error). When you would get a `EADDRINUSE` now you get this with a link to [our errors page](/errors):
+
+![Port already in use](../img/portused.png)
+
+
+
+
+
+
+
+
 ## Motivation
 
 I have taught Node.js + express.js to quite some people and there's always a point where I just have to say: "this part is way too complex to explain at this point, so just copy/paste this". This breaking point is connecting express.js to all those middlewares.
@@ -27,8 +67,8 @@ server(
 These are the main things that I wasn't happy with the state-of-the-art, so I decided to launch server to build upon the great work of express:
 
 1. Make things work by default (by domain):
-  - Parsers: json, urlencoded, **file uploads**
-  - Persistence: session, cookies, csrf
+  - Parsers: json, urlencoded, **file uploads**, etc.
+  - Persistence: session, cookies, csrf, etc
 
 2. Make things simpler to use:
   - Many low-level things work out of the box
@@ -50,12 +90,7 @@ This will in turn **make it much easier to get started**, for both people who ar
 - Starting from scratch. I pity those people starting with no programming experience coming to Node.js. This shouldn't be so difficult, should it?
 
 
-## Contribute
-
-If you have some ideas of how Node.js development could be improved, please [open a new issue in Github's repository](https://github.com/franciscop/server/issues).
-
-
 
 ## Web design
 
-This website was built with [Paperdocs](http://francisco.io/paperdocs/), a project built on top of [Picnic CSS](http://picnicss.com/) and [Umbrella JS](http://umbrellajs.com/) from the author of Server, [Francisco Presencia](http://francisco.io/).
+This website was built with [Paperdocs](http://francisco.io/paperdocs/), a project built on top of [Picnic CSS](https://picnicss.com/) and [Umbrella JS](https://umbrellajs.com/) from the author of Server, [Francisco Presencia](http://francisco.io/).

@@ -1,6 +1,22 @@
 <!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin:1.5em 0 .5em;width:100%}article table th{background:none;color:#333}article table tr:nth-child(2n){background:none}article table th,article table td{border:2px solid #ddd}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}
 /*# sourceMappingURL=style.min.css.map */
 </style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1>About <strong>server </strong></h1><p class="sub">modern, simple & flexible</p><a class="button docs" href="/"><span class="arrow left">〈</span>Go back home</a></div></div><article class="about">
+<p>There are some of the features that make <a href="https://serverjs.io/">server for Node.js</a> unique.</p>
+<h3 id="node-js">Node.js</h3>
+<p>Javascript and Node.js (and python) are the only technologies that have grown their popularity with time as shown in the <a href="https://stackoverflow.com/insights/survey/2017/">Stack Overflow survey results</a>:</p>
+<p><img src="../img/survey.svg" alt="Stack overflow survey"></p>
+<h3 id="es6-">ES6+</h3>
+<p>Speaking of which, we are using modern Javascript to make developer&#39;s lives much easier and teaching modern ES6, ES7, etc along the way:</p>
+<pre><code class="lang-js">// Find a specific user and display it through a template
+server(get(&#39;/user/:id&#39;, async ctx =&gt; {
+  const id = validateId(ctx.req.params.id);
+  const user = await db.user.find({ _id: id }).exec();
+  ctx.res.render(&#39;user&#39;, { user });
+}));
+</code></pre>
+<h3 id="debug">Debug</h3>
+<p>But everything is not easy and not everything works on the first try; Node.js has <a href="https://medium.com/@tjholowaychuk/farewell-node-js-4ba9e7f3e52b#2a64">arguably done a bad job here</a>, so we are extending its functionality with <a href="https://github.com/franciscop/human-error"><code>human-error</code></a>. When you would get a <code>EADDRINUSE</code> now you get this with a link to <a href="/errors">our errors page</a>:</p>
+<p><img src="../img/portused.png" alt="Port already in use"></p>
 <h2 id="motivation">Motivation</h2>
 <p>I have taught Node.js + express.js to quite some people and there&#39;s always a point where I just have to say: &quot;this part is way too complex to explain at this point, so just copy/paste this&quot;. This breaking point is connecting express.js to all those middlewares.</p>
 <p>When I was <a href="http://www.hackerparadise.org/">traveling with Hacker Paradise</a> through Asia and we got to the same point I decided to do something about it. First I created a <a href="https://github.com/franciscop/express-data-parser"><em>file upload middleware</em></a> and then started the ground work for what now is <em>server</em>.</p>
@@ -19,8 +35,8 @@ server(
 <ol>
 <li><p>Make things work by default (by domain):</p>
 <ul>
-<li>Parsers: json, urlencoded, <strong>file uploads</strong></li>
-<li>Persistence: session, cookies, csrf</li>
+<li>Parsers: json, urlencoded, <strong>file uploads</strong>, etc.</li>
+<li>Persistence: session, cookies, csrf, etc</li>
 </ul>
 </li>
 <li><p>Make things simpler to use:</p>
@@ -46,10 +62,8 @@ server(
 <li>Different programming backgrounds (Arduino, C++) where I have to explain not only how to get a server ready with these new tools, but also how the current state of the art and the fun of it is to build your own stack.</li>
 <li>Starting from scratch. I pity those people starting with no programming experience coming to Node.js. This shouldn&#39;t be so difficult, should it?</li>
 </ul>
-<h2 id="contribute">Contribute</h2>
-<p>If you have some ideas of how Node.js development could be improved, please <a href="https://github.com/franciscop/server/issues">open a new issue in Github&#39;s repository</a>.</p>
 <h2 id="web-design">Web design</h2>
-<p>This website was built with <a href="http://francisco.io/paperdocs/">Paperdocs</a>, a project built on top of <a href="http://picnicss.com/">Picnic CSS</a> and <a href="http://umbrellajs.com/">Umbrella JS</a> from the author of Server, <a href="http://francisco.io/">Francisco Presencia</a>.</p>
+<p>This website was built with <a href="http://francisco.io/paperdocs/">Paperdocs</a>, a project built on top of <a href="https://picnicss.com/">Picnic CSS</a> and <a href="https://umbrellajs.com/">Umbrella JS</a> from the author of Server, <a href="http://francisco.io/">Francisco Presencia</a>.</p>
 </article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
   var email = 'mailto:public' + '@francisco.i' + 'o?subject=server for Node.js';
   document.querySelector('a.email').setAttribute('href', email);
