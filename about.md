@@ -31,7 +31,7 @@ server(get('/user/:id', async ctx => {
 
 But everything is not easy and not everything works on the first try; Node.js has [arguably done a bad job here](https://medium.com/@tjholowaychuk/farewell-node-js-4ba9e7f3e52b#2a64), so we are extending its functionality with [`human-error`](https://github.com/franciscop/human-error). When you would get a `EADDRINUSE` now you get this with a link to [our errors page](/errors):
 
-![Port already in use](../img/portused.png)
+![Port already in use](https://serverjs.io/img/portused.png)
 
 
 

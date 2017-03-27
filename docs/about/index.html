@@ -16,7 +16,7 @@ server(get(&#39;/user/:id&#39;, async ctx =&gt; {
 </code></pre>
 <h3 id="debug">Debug</h3>
 <p>But everything is not easy and not everything works on the first try; Node.js has <a href="https://medium.com/@tjholowaychuk/farewell-node-js-4ba9e7f3e52b#2a64">arguably done a bad job here</a>, so we are extending its functionality with <a href="https://github.com/franciscop/human-error"><code>human-error</code></a>. When you would get a <code>EADDRINUSE</code> now you get this with a link to <a href="/errors">our errors page</a>:</p>
-<p><img src="../img/portused.png" alt="Port already in use"></p>
+<p><img src="https://serverjs.io/img/portused.png" alt="Port already in use"></p>
 <h2 id="motivation">Motivation</h2>
 <p>I have taught Node.js + express.js to quite some people and there&#39;s always a point where I just have to say: &quot;this part is way too complex to explain at this point, so just copy/paste this&quot;. This breaking point is connecting express.js to all those middlewares.</p>
 <p>When I was <a href="http://www.hackerparadise.org/">traveling with Hacker Paradise</a> through Asia and we got to the same point I decided to do something about it. First I created a <a href="https://github.com/franciscop/express-data-parser"><em>file upload middleware</em></a> and then started the ground work for what now is <em>server</em>.</p>
