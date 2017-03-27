@@ -8,7 +8,7 @@ There are some of the features that make [server for Node.js](https://serverjs.i
 
 Javascript and Node.js (and python) are the only technologies that have grown their popularity with time as shown in the [Stack Overflow survey results](https://stackoverflow.com/insights/survey/2017/):
 
-![Stack overflow survey](/img/survey.svg)
+![Stack overflow survey](https://serverjs.io/img/survey.svg)
 
 
 
