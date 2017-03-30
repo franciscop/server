@@ -35,8 +35,8 @@ module.exports = [
 
   // Cookie parser
   renaissance(ctx => {
-    if (!ctx.options.parser.cookieParser) return;
-    let secret = ctx.options.parser.cookieParser.secret;
+    if (!ctx.options.parser.cookie) return;
+    let secret = ctx.options.parser.cookie.secret;
     if (typeof secret !== 'string') secret = ctx.options.secret;
     return require('cookie-parser')(secret);
   })
