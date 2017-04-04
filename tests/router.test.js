@@ -64,25 +64,21 @@ describe('Ends where it should end', () => {
 
   // A bug shifted the router's middleware on each request so now we test for
   // multiple request to make sure the middleware remains the same
-  it('parses params correctly', done => {
+  it('parses params correctly', async () => {
     const middle = get('/:id', ctx => ctx.res.send(ctx.req.params.id));
-    handler(middle, { path: '/42?ignored=true' }).then(res => {
-      expect(res.body).toBe('42');
-      done();
-    });
+    const res = await handler(middle, { path: '/42?ignored=true' });
+    expect(res.body).toBe('42');
   });
 
   // A bug shifted the router's middleware on each request so now we test for
   // multiple request to make sure the middleware remains the same
-  it('does not modify the router', done => {
-    launch([get('/w', ctx => ctx.res.send('w'))].concat(routes)).then(ctx => {
-      const url = 'http://localhost:' + ctx.options.port + '/';
-      request(url).then(() => request(url)).then(() => request(url)).then(body => {
-        ctx.close();
-        expect(body).toBe('Hello 世界')
-        done();
-      });
-    });
+  it('does not modify the router', async () => {
+    const ctx = await launch([get('/w', ctx => ctx.res.send('w'))].concat(routes));
+    const full = 'http://localhost:' + ctx.options.port + '/';
+    for (let url of [full, full, full]) {
+      let body = await request(url);
+      expect(body).toBe('Hello 世界');
+    }
   });
 });
 

@@ -10,25 +10,19 @@ const routes = [
 ];
 
 describe('Full trip request', () => {
-  it('dummy', done => {
-    done();
-  });
-
   it('can perform a simple get', () => {
     return getter(ctx => ctx.res.send('Hello 世界')).then(res => {
       expect(res.body).toBe('Hello 世界');
     });
   });
 
-  it('loads as an array', done => {
-    getter([ctx => ctx.res.send('Hello 世界')]).then(res => {
-      expect(res.body).toBe('Hello 世界');
-      done();
-    });
+  it('loads as an array', async () => {
+    const res = await getter([ctx => ctx.res.send('Hello 世界')]);
+    expect(res.body).toBe('Hello 世界');
   });
 
   it('can perform a simple post', () => {
-    let reply = ctx => ctx.res.send('Hello ' + ctx.req.body.a);
+    const reply = ctx => ctx.res.send('Hello ' + ctx.req.body.a);
     return poster(reply, { a: '世界' }, nocsrf).then(res => {
       expect(res.body).toBe('Hello 世界');
     });

@@ -1,69 +1,78 @@
-let server = require('../server');
+const server = require('../server');
+const { port } = require('./helpers');
 
 describe('Options', () => {
-  it('default settings are correct', () => {
-    return server().then(server => {
-      expect(server.options.port).toBe(3000);
-      expect(server.options.engine).toBe('pug');
-      expect(server.options.verbose).toBe(false);
-
-      // Now this is a plugin:
-      // expect(server.options.public).toBe('public');
-      server.close();
-    });
+  it('default settings are correct', async () => {
+    const ctx = await server();
+    ctx.close();
+    expect(ctx.options.port).toBe(3000);
+    expect(ctx.options.engine).toBe('pug');
+    expect(ctx.options.verbose).toBe(false);
+    expect(ctx.options.secret).toMatch(/^secret-/);
   });
 
-  it('can be initialized with a single port parameter', done => {
-    let port = 3000 + parseInt(Math.random() * 10000) % 1000;
-    server(port).then(server => {
-      expect(server.options.port).toBe(port);
-      server.close();
-      done();
-    });
+  it('accepts a single port Number', async () => {
+    const options = port();
+    const ctx = await server(options);
+    ctx.close();
+    expect(ctx.options.port).toBe(options);
   });
 
-  it('can be initialized with only a port', done => {
-    let port = 3000 + parseInt(Math.random() * 10000) % 1000;
-    server({ port: port }).then(server => {
-      expect(server.options.port).toBe(port);
-      server.close();
-      done();
-    });
+  it('accepts a simple Object with a port prop', async () => {
+    const options = { port: port() };
+    const ctx = await server(options);
+    ctx.close();
+    expect(ctx.options.port).toBe(options.port);
   });
 
-  it('can listen only one time to the same port', done => {
-    server(3000).then(serve => {
-      server(3000).catch(error => {
-        expect(error.code === 'EADDRINUSE')
-        done();
-      });
-      serve.close();
-    });
+  it('can listen only one time to the same port', async () => {
+    const onePort = port();
+    const ctx = await server(onePort);
+    const err = await server(onePort).catch(err => err);
+    ctx.close();
+    expect(err.code === 'EADDRINUSE');
   });
 
-  it('sets the view engine properly', done => {
-    server({ 'view engine': 'whatever' }).then(server => {
-      expect(server.app.get('view engine')).toBe('whatever');
-      server.close();
-      done();
-    });
+  it('sets the engine properly `engine`', async () => {
+    const ctx = await server({ engine: 'whatever', port: port() });
+    ctx.close();
+    expect(ctx.app.get('view engine')).toBe('whatever');
   });
 
-  it('has independent instances', done => {
-    server(2051).then(serv1 => {
-      server(3051).then(serv2 => {
-        expect(serv2.options.port).toBe(3051);
-        serv2.options.port = 3500;
-        expect(serv1.options.port).toBe(2051);
-        expect(serv2.options.port).toBe(3500);
-
-        serv2.a = 'abc';
-        expect(typeof serv1.a).toBe('undefined');
-        expect(serv2.a).toBe('abc');
-        serv1.close();
-        serv2.close();
-        done();
-      });
-    });
+  it('sets the engine properly `view engine`', async () => {
+    const ctx = await server({ 'view engine': 'whatever', port: port() });
+    ctx.close();
+    expect(ctx.app.get('view engine')).toBe('whatever');
   });
+
+  it('has independent instances', async () => {
+    const portA = port();
+    const portB = port();
+    const serv1 = await server(portA);
+    const serv2 = await server(portB);
+    serv1.close();
+    serv2.close();
+
+    expect(serv2.options.port).toBe(portB);
+    const portC = port();
+    serv2.options.port = portC;
+    expect(serv1.options.port).toBe(portA);
+    expect(serv2.options.port).toBe(portC);
+
+    serv2.a = 'abc';
+    expect(typeof serv1.a).toBe('undefined');
+    expect(serv2.a).toBe('abc');
+  });
+
+  // // NOT PART OF THE STABLE API
+  // it('logs init string', async () => {
+  //   const logs = [];
+  //   const index = server.plugins.push({
+  //     name: 'log', launch: ctx => { ctx.log = msg => logs.push(msg) }
+  //   });
+  //   const ctx = await server({ port: port(), verbose: true });
+  //   ctx.close();
+  //   delete server.plugins[index];
+  //   expect(logs.filter(one => /started on/.test(one)).length).toBe(1);
+  // });
 });

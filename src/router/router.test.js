@@ -45,15 +45,13 @@ describe('router with promises', () => {
   });
 
 
-  it('still works?', done => {
+  it('still works?', async () => {
     const ctx = createCtx();
     ctx.req.path = '/test/francisco/presencia/bla';
-    get('/test/:name/:lastname/bla')(ctx).then(ctx => {
-      expect(ctx.req.solved).toBe(true);
-      expect(ctx.req.params.name).toBe('francisco');
-      expect(ctx.req.params.lastname).toBe('presencia');
-      done();
-    });
+    let relCtx = await get('/test/:name/:lastname/bla')(ctx);
+    expect(relCtx.req.solved).toBe(true);
+    expect(relCtx.req.params.name).toBe('francisco');
+    expect(relCtx.req.params.lastname).toBe('presencia');
   });
 });
 

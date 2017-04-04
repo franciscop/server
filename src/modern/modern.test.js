@@ -1,5 +1,6 @@
 const join = require('../join');
 const modern = require('./index');
+const { throws } = require('../../tests/helpers');
 const middle = (req, res, next) => next();
 const ctx = { req: {}, res: {} };
 
@@ -30,75 +31,69 @@ describe('initializes', () => {
 
 
 describe('call the middleware', () => {
-  it('requires the context to be called', done => {
-    modern(middle)().catch(err => { done(); });
-  });
+  it('requires the context to be called', throws(async () => {
+    await modern(middle)();
+  }));
 
   it('returns a promise when called', () => {
     expect(modern(middle)(ctx) instanceof Promise).toBe(true);
   });
 
-  it('rejected with empty context', done => {
-    modern(middle)({}).catch(err => { done(); });
-  });
+  it('rejected with empty context', throws(async () => {
+    await modern(middle)({});
+  }));
 
-  it('rejected without res', done => {
-    modern(middle)({ req: {} }).catch(err => { done(); });
-  });
+  it('rejected without res', throws(async () => {
+    await modern(middle)({ req: {} });
+  }));
 
-  it('rejected without req', done => {
-    modern(middle)({ res: {} }).catch(err => { done(); });
-  });
+  it('rejected without req', throws(async () => {
+    await modern(middle)({ res: {} });
+  }));
 });
 
 
 
 describe('Middleware handles the promise', () => {
-  it('resolves when next is called empty', done => {
-    modern((req, res, next) => next())(ctx).then(() => done());
+  it('resolves when next is called empty', async () => {
+    await modern((req, res, next) => next())(ctx);
   });
 
-  it('cannot handle error middleware', () => {
-    expect(() => modern((err, req, res, next) => {})).toThrow();
-  });
+  it('cannot handle error middleware', throws(async () => {
+    await modern((err, req, res, next) => {});
+  }));
 
-  it('passes the context', done => {
+  it('passes the context', async () => {
     const ctx = { req: 1, res: 2 };
-    modern((req, res, next) => next())(ctx).then(ctx => {
-      expect(ctx.req).toBe(1);
-      expect(ctx.res).toBe(2);
-      done();
-    });
+    const readCtx = await modern((req, res, next) => next())(ctx);
+    expect(readCtx.req).toBe(1);
+    expect(readCtx.res).toBe(2);
   });
 
-  it('can modify the context', done => {
+  it('can modify the context', async () => {
     const middle = (req, res, next) => {
       req.user = 'myname';
       res.send = 'sending';
       next();
     };
-    modern(middle)({ req: {}, res: {} }).then(ctx => {
-      expect(ctx.req.user).toBe('myname');
-      expect(ctx.res.send).toBe('sending');
-      done();
-    });
+    const ctx = await modern(middle)({ req: {}, res: {} });
+    expect(ctx.req.user).toBe('myname');
+    expect(ctx.res.send).toBe('sending');
   });
 
-  it('has chainable context', done => {
+  it('has chainable context', async () => {
     const ctx = { req: { user: 'a' }, res: { send: 'b' } };
     const middle = (req, res, next) => {
       req.user += 1;
       res.send += 2;
       next();
     };
-    modern(middle)(ctx).then(modern(middle)).then(ctx => {
-      expect(ctx.req.user).toBe('a11');
-      expect(ctx.res.send).toBe('b22');
-      done();
-    });
+    const resCtx = await modern(middle)(ctx).then(modern(middle));
+    expect(resCtx.req.user).toBe('a11');
+    expect(resCtx.res.send).toBe('b22');
   });
 
-  it('factory can receive options', done => {
+  it('factory can receive options', async () => {
 
     // The full context
     const ctx = {
@@ -156,26 +151,23 @@ describe('Middleware handles the promise', () => {
       ctx => modern(factored)(ctx)
     ];
 
-    join(middles)(ctx).then(ctx => {
-      expect(ctx.req.user).toBe('a111111');
-      expect(ctx.res.send).toBe('b111111');
-      done();
-    });
+    const readCtx = await join(middles)(ctx);
+    expect(readCtx.req.user).toBe('a111111');
+    expect(readCtx.res.send).toBe('b111111');
   });
 
-  it('rejects when next is called with an error', done => {
-    modern((req, res, next) => next('Custom error'))(ctx).catch(err => {
-      expect(err).toBe('Custom error');
-      done();
-    });
-  });
+  it('rejects when next is called with an error', throws(async () => {
+    await modern((req, res, next) => next(new Error('Custom error')))(ctx);
+  }));
 
-  it('does not resolve nor reject if next is not called', done => {
+  it('does not resolve nor reject if next is not called', async () => {
     modern((req, res, next) => {})(ctx).then(ctx => {
       expect('It was resolved').toBe(false);
     }).catch(err => {
       expect('It was rejected').toBe(false);
     });
-    setTimeout(() => done(), 1000);
+    return new Promise((resolve, reject) => {
+      setTimeout(() => resolve(), 1000);
+    });
   });
 });

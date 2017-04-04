@@ -13,72 +13,78 @@ const error = require('./src/error');
 const final = require('./src/final');
 
 // Create the initial context
-const context = (self, req = {}, res = {}) => {
-  return Object.assign({}, self, { req: req, res: res });
-};
+const context = (self, req, res) => Object.assign({}, self, { req, res });
 
 // Main function
-function Server (...middle) {
+const Server = async (...middle) => {
+
+  const ctx = {};
+
+  // First parameter can be:
+  // - options: Number || Object (cannot be ID'd)
+  // - middleware: undefined || null || Boolean || Function || Array
+  const opts = (
+    typeof middle[0] === 'undefined' ||
+    typeof middle[0] === 'boolean' ||
+    middle[0] === null ||
+    middle[0] instanceof Function ||
+    middle[0] instanceof Array
+  ) ? {} : middle.shift();
+
+  ctx.express = express;
+  ctx.app = ctx.express();
+
+  // Set the options for the context of Server.js
+  ctx.options = config(opts, module.exports.plugins, ctx.app);
+
+  // Only enabled plugins through the config
+  ctx.plugins = module.exports.plugins.filter(p => ctx.options[p.name]);
+
+  ctx.utils = { modern: modern };
+  ctx.modern = modern;
+  // ctx.error = error(ctx.options.errors);
+  ctx.throw = error(ctx.options.errors);
+
+  // All the init beforehand
+  const initAll = ctx.plugins.map(p => p.init).filter(p => p);
+  for (let init of initAll) {
+    await init(ctx);
+  }
+
+  // PLUGIN middleware
+  middle = join(
+    ctx.plugins.map(p => p.beforeware || p.before),
+    middle,
+    ctx.plugins.map(p => p.afterware || p.after),
+    final
+  );
+
+  // Main thing here
+  ctx.app.use((req, res) => middle(context(ctx, req, res)));
+
+  // Start listening to requests
   return new Promise((resolve, reject) => {
-    "use strict";
+    const launch = async () => {
 
-    // First parameter can be:
-    // - options: Number || Object (cannot be ID'd)
-    // - middleware: undefined || null || Boolean || Function || Array
-    const opts = (
-      typeof middle[0] === 'undefined' ||
-      typeof middle[0] === 'boolean' ||
-      middle[0] === null ||
-      middle[0] instanceof Function ||
-      middle[0] instanceof Array
-    ) ? {} : middle.shift();
-
-    this.express = express;
-    this.app = this.express();
-
-    // Set the options for the context of Server.js
-    this.plugins = module.exports.plugins;
-    this.options = config(opts, this.plugins, this.app);
-
-    this.utils = { modern: modern };
-    this.modern = modern;
-    // this.error = error(this.options.errors);
-    this.throw = error(this.options.errors);
-
-    this.plugins.filter(p => p.init && this.options[p.name]).forEach(p => p.init(this));
-
-    // PLUGIN middleware
-    middle = join(
-      this.plugins.filter(n => this.options[n.name]).map(p => p.beforeware || p.before),
-      middle,
-      this.plugins.filter(n => this.options[n.name]).map(p => p.afterware || p.after),
-      final
-    );
-
-    // Main thing here
-    this.app.use((req, res) => middle(context(this, req, res)));
-
-    const launch = () => {
-      if (this.options.verbose) {
-        console.log(`Server started on port ${this.options.port} http://localhost:${this.options.port}/`);
+      // After launching it
+      const launchAll = ctx.plugins.map(p => p.launch).filter(p => p);
+      for (let launch of launchAll) {
+        await launch(ctx);
       }
 
-      // PLUGIN.attach: ctx => {}
+      if (ctx.options.verbose) {
+        ctx.log(`Server started on http://localhost:${ctx.options.port}/`);
+      }
 
-      // Proxy it to the server http-server for things like .close()
-      resolve(new Proxy(this, {
-        get: (ctx, key) => ctx[key] || ctx.server[key]
-      }));
+      resolve(new Proxy(ctx, { get: (orig, k) => orig[k] || orig.server[k] }));
     };
 
-    // Start listening to requests
-    this.server = this.app.listen(this.options.port, launch);
-
-    this.server.on('error', err => reject(error.native(err)));
+    ctx.server = ctx.app.listen(ctx.options.port, launch);
+    ctx.server.on('error', err => reject(error.native(err)));
   });
 }
 
-module.exports = (...opts) => new Server(...opts);
+module.exports = Server;
 module.exports.router = router;
 module.exports.utils = {
   modern: modern

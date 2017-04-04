@@ -1,3 +1,6 @@
+const buffer = require('crypto').randomBytes(60);
+const token = buffer.toString('base64').replace(/\//g,'_').replace(/\+/g,'-');
+
 // Default configuration for server
 module.exports = {
 
@@ -5,8 +8,7 @@ module.exports = {
   port: 3000,
   engine: 'pug',
   public: 'public',
-  secret: 'secret-' + parseInt(1000000 * Math.random()),
-
+  secret: 'secret-' + token,
 
 
   // Dev variables - not part of the official API

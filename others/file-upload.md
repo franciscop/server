@@ -5,6 +5,7 @@ They just work. Create a form in *pug*:
 ```pug
 form(action="/upload" method="post" enctype="multipart/form-data")
   input(type="file" name="userimage")
+  input(type="hidden" name="csrf" value=csrf())
   input(type="submit" value="Upload image")
 ```
 

@@ -84,12 +84,11 @@ describe('app', () => {
     }));
   });
 
-  it('sets values to the app', done => {
+  it('sets values to the app', () => {
     config({ foo: 'bar' }, [], {
       set: (name, value) => {
         if (name === 'foo') {
           expect(value).toBe('bar');
-          done();
         }
       }
     });

@@ -46,6 +46,14 @@ module.exports = (user = {}, plugins = false, app = false) => {
     throw errors.NotSoSecret();
   }
 
+  if ((/^secret-/.test(options.secret)) && options.verbose) {
+    console.log(`
+      Please change the secret in your environment configuration.
+      The default one is not recommended and should be changed.
+      More info in https://serverjs.io/errors#defaultSecret
+    `);
+  }
+
 
 
   if (app) {

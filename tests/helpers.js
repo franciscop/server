@@ -85,3 +85,15 @@ req.get = (path, fn = (() => {})) => ctx => {
 
 exports.req = req;
 exports.cookies = cookies;
+
+exports.throws = (cb, err = false) => async () => {
+  try {
+    const res = await cb();
+  } catch(err) {
+    if (!(err instanceof Error)) {
+      throw new Error('A non-error was thrown: ' + err);
+    }
+    return Promise.resolve();
+  }
+  throw new Error('No error was thrown');
+};

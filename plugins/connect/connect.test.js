@@ -17,88 +17,77 @@ const content = ctx => ctx.req.headers['content-type'];
 
 describe('Default modules', () => {
 
+  it('compress?', async () => {
+    const middle = ctx => ctx.res.send();
+    const url = 'http://localhost:3721/favicon.ico';
+    const favicon = __dirname + '/../../tests/logo.png';
+    const res = await handler(middle, { url }, { port: 3721, connect: { favicon } });
+    expect(res.headers['content-encoding']).toBe('gzip');
+  });
+
+  it('favicon', async () => {
+    const middle = ctx => ctx.res.send();
+    const url = 'http://localhost:3721/favicon.ico';
+    const favicon = __dirname + '/../../tests/logo.png';
+    const res = await handler(middle, { url }, { port: 3721, connect: { favicon } });
+    expect(res.headers['content-type']).toBe('image/x-icon');
+
+    // This should not go here:
+    // expect(res.headers['content-encoding']).toBe('gzip');
+  });
+
+  it('response-time', async () => {
+    const middle = ctx => ctx.res.send('世界');
+    const res = await getter(middle);
+    expect(typeof res.headers['x-response-time']).toBe('string');
+  });
+
+  // GETTER doesn't have that signature
+  it('serve-index', async () => {
+    const path = __dirname + '/../../tests';
+    const ctx = await launch([], { public: path });
+    const logoUrl = 'http://localhost:' + ctx.options.port + '/logo.png';
+    const res = await request(logoUrl);
+    expect(res.headers['content-type']).toBe('image/png');
+  });
+
+  // Can handle sessions
+  it('session', async () => {
+    const setSession = ctx => { ctx.req.session.page = 'pageA' };
+    const routes = [
+      get('/a', setSession, ctx => ctx.res.end()),
+      get('/b', ctx => ctx.res.send(ctx.req.session.page)),
+    ];
+
+    const ctx = await launch(routes);
+    await req.get('/a', res => expect(res.text).toBe(''))(ctx);
+    await req.get('/b', res => expect(res.text).toBe('pageA'))(ctx);
+  });
+
+  it('csurf', async () => {
+    const routes = [
+      get('/', ctx => ctx.res.send(ctx.res.locals.csrf)),
+      post('/', ctx => ctx.res.send('世界'))
+    ];
+
+    const ctx = await launch(routes);
+    const res = await supertest(ctx.server).get('/').expect(200);
+    expect(res.text).toBeDefined();
+    await supertest(ctx.server).post('/').set('Cookie', cookies(res))
+      .send('_csrf=' + encodeURIComponent(res.text))
+      .expect(200);
+  });
+
   // SKIP: request() does not accept gzip
-  it.skip('compress', done => {
+  it.skip('compress', async () => {
     const middle = ctx =>
       ctx.res.send('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
                    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
                    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
                    'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
 
-    launch(middle).then(ctx => {
-      supertest(ctx.original).get('/').then(res => {
-        done();
-      });
-      // expect(res.caseless.dict['content-length'] < 90).toBe(true);
-      // done();
-    });
-  });
-
-  it('compress?', () => {
-    const middle = ctx => ctx.res.send();
-    const url = 'http://localhost:3721/favicon.ico';
-    const favicon = __dirname + '/../../tests/logo.png';
-    return handler(middle, { url }, { port: 3721, connect: { favicon } })
-      .then(res => expect(res.headers['content-encoding']).toBe('gzip'));
-  });
-
-  it('favicon', () => {
-    const middle = ctx => ctx.res.send();
-    const url = 'http://localhost:3721/favicon.ico';
-    const favicon = __dirname + '/../../tests/logo.png';
-    return handler(middle, { url }, { port: 3721, connect: { favicon } })
-      .then(res => expect(res.headers['content-type']).toBe('image/x-icon'));
-
-    // This should not go here:
-    // expect(res.headers['content-encoding']).toBe('gzip');
-  });
-
-  it('response-time', () => {
-    const middle = ctx => ctx.res.send('世界');
-    return getter(middle).then(res => {
-      expect(typeof res.headers['x-response-time']).toBe('string');
-    });
-  });
-
-  // GETTER doesn't have that signature
-  it('serve-index', done => {
-    const path = __dirname + '/../../tests';
-    return launch([], { public: path }).then(ctx => {
-      const logoUrl = 'http://localhost:' + ctx.options.port + '/logo.png';
-      request(logoUrl).then(res => {
-        expect(res.headers['content-type']).toBe('image/png');
-        done();
-      });
-    });
-  });
-
-  // NOTE: for the next tests we'd need persistent `request()` (I couldn't make it)
-  // Can handle sessions
-  it('session', done => {
-    const routes = [
-      get('/a', ctx => { ctx.req.session.page = 'pageA'; ctx.res.end(); }),
-      get('/', ctx => ctx.res.send(ctx.req.session.page)),
-    ];
-
-    launch(routes).then(req.get('/a')).then(req.get('/', res => {
-      expect(res.text).toBe('pageA');
-      done();
-    }));
-  });
-
-  it('csurf', done => {
-    const routes = [
-      get('/', ctx => ctx.res.send(ctx.res.locals.csrf)),
-      post('/', ctx => ctx.res.send('世界'))
-    ];
-
-    launch(routes).then(ctx => {
-      supertest(ctx.server).get('/').expect(200).then(res => {
-        expect(res.text).toBeDefined();
-        supertest(ctx.server).post('/').set('Cookie', cookies(res))
-          .send('_csrf=' + encodeURIComponent(res.text))
-          .expect(200).then(() => done());
-      });
-    });
+    const ctx = await launch(middle);
+    const res = await supertest(ctx.original).get('/');
+    // ...
   });
 });
