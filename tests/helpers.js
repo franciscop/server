@@ -1,4 +1,4 @@
-const request = require('request');
+const request = require('request-promises');
 const supertest = require('supertest');
 const server = require('../server');
 const { get, post, put, del, error } = server.router;
@@ -25,34 +25,32 @@ exports.err = ctx => { throw new Error('This should not be called'); };
 
 exports.launch = launch = (middle = [], opts = {}) => {
   opts = Object.assign({}, { port: port() }, opts);
-  return server(opts, middle, error('*', ctx => console.log('Error:', ctx.error)));
+  return server(opts, middle);
 };
 
-exports.handler = (middle, opts = {}, servOpts) => new Promise((resolve, reject) => {
+exports.handler = async (middle, opts = {}, servOpts) => {
   // As they are loaded in parallel and from different files, we need to randomize it
   // The assuption here is under 100 tests/file
-  launch(middle, servOpts).then(ctx => {
-    let options = Object.assign({}, {
-      url: 'http://localhost:' + ctx.options.port + (opts.path || '/'),
-      gzip: true
-    }, opts);
+  const ctx = await launch(middle, servOpts);
 
-    delete options.path;
+  const options = Object.assign({}, {
+    url: 'http://localhost:' + ctx.options.port + (opts.path || '/'),
+    gzip: true
+  }, opts);
 
-    request(options, (err, res) => {
-      ctx.close();
-      if (err) {
-        // console.log("Error:", err);
-        return reject(err);
-      }
-      if (res.statusCode < 200 || res.statusCode >= 300) {
-        // console.log("Error:", res.statusCode, res.body);
-        return reject(res);
-      }
-      resolve(res);
-    });
-  });
-});
+  delete options.path;
+
+  try {
+    const res = await request(options);
+    if (res.statusCode < 200 || res.statusCode >= 300) {
+      throw new Error(`Invalid response code: ${res.statusCode}`);
+    }
+    ctx.close();
+    return res;
+  } finally {
+    ctx.close();
+  }
+};
 
 exports.getter = (middle, data = {}, opts) => exports.handler(get('/', middle), {
   form: data
@@ -73,6 +71,7 @@ function cookies (res) {
 }
 
 const req = {};
+// Keep a persistent requests
 req.get = (path, fn = (() => {})) => ctx => {
   let sofar = supertest(ctx.server).get(path);
   if (ctx.prev) sofar = sofar.set('Cookie', cookies(ctx.prev));
@@ -86,14 +85,15 @@ req.get = (path, fn = (() => {})) => ctx => {
 exports.req = req;
 exports.cookies = cookies;
 
-exports.throws = (cb, err = false) => async () => {
+// Handle a function that expects to be thrown
+exports.throws = async (cb, err = false) => {
   try {
     const res = await cb();
   } catch(err) {
     if (!(err instanceof Error)) {
       throw new Error('A non-error was thrown: ' + err);
     }
-    return Promise.resolve();
+    return err;
   }
   throw new Error('No error was thrown');
 };

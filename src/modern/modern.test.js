@@ -31,25 +31,25 @@ describe('initializes', () => {
 
 
 describe('call the middleware', () => {
-  it('requires the context to be called', throws(async () => {
-    await modern(middle)();
-  }));
+  it('requires the context to be called', async () => {
+    await throws(() => modern(middle)());
+  });
 
   it('returns a promise when called', () => {
     expect(modern(middle)(ctx) instanceof Promise).toBe(true);
   });
 
-  it('rejected with empty context', throws(async () => {
-    await modern(middle)({});
-  }));
+  it('rejected with empty context', async () => {
+    await throws(() => modern(middle)({}));
+  });
 
-  it('rejected without res', throws(async () => {
-    await modern(middle)({ req: {} });
-  }));
+  it('rejected without res', async () => {
+    await throws(() => modern(middle)({ req: {} }));
+  });
 
-  it('rejected without req', throws(async () => {
-    await modern(middle)({ res: {} });
-  }));
+  it('rejected without req', async () => {
+    await throws(() => modern(middle)({ res: {} }));
+  });
 });
 
 
@@ -59,9 +59,9 @@ describe('Middleware handles the promise', () => {
     await modern((req, res, next) => next())(ctx);
   });
 
-  it('cannot handle error middleware', throws(async () => {
-    await modern((err, req, res, next) => {});
-  }));
+  it('cannot handle error middleware', async () => {
+    await throws(() => modern((err, req, res, next) => {}));
+  });
 
   it('passes the context', async () => {
     const ctx = { req: 1, res: 2 };
@@ -156,9 +156,10 @@ describe('Middleware handles the promise', () => {
     expect(readCtx.res.send).toBe('b111111');
   });
 
-  it('rejects when next is called with an error', throws(async () => {
-    await modern((req, res, next) => next(new Error('Custom error')))(ctx);
-  }));
+  it('rejects when next is called with an error', async () => {
+    const wrong = (req, res, next) => next(new Error('Custom error'));
+    await throws(() => modern(wrong)(ctx));
+  });
 
   it('does not resolve nor reject if next is not called', async () => {
     modern((req, res, next) => {})(ctx).then(ctx => {

@@ -10,9 +10,10 @@ const plugin = {
     text: {},
     data: {},
     cookie: {},
-    method: {},
+    method: 'X-HTTP-Method-Override',
   },
-  before: require('./before')
+  init: require('./init'),
+  before: []   // It is populated in "init()"
 };
 
 module.exports = plugin;

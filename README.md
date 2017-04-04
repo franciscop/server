@@ -26,7 +26,7 @@ server(
 
 ## Getting started
 
-After getting Node.js (`> 7.6`) ready and doing `npm init` in your project folder, run this to **install the server** and keep it as a dependency:
+After getting Node.js (`> 7.6`) ready and doing `npm init` in your project folder, **install server** and keep it as a dependency:
 
 ```bash
 npm install server --save
@@ -81,4 +81,4 @@ This package was created by [Francisco Presencia](http://francisco.io/) but hope
 
 I love using my work and I'm available for contractor work. Freelancing helps maintain `server` and [my other open source projects](https://github.com/franciscop/) up to date!
 
-You can also [sponsor the project](/sponsor), get your logo in here and some other perks with tons of ♥. <a class="email" href="http://francisco.io/" target="_blank">Contact me</a>.
+You can also [sponsor the project](/sponsor), get your logo in here and some other perks with tons of ♥
