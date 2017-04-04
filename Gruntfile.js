@@ -102,6 +102,6 @@ module.exports = function (grunt) {
   grunt.loadNpmTasks('grunt-contrib-sass');
 
   grunt.registerTask('build', ['sass', 'pug']);
-  grunt.registerTask('test', ['jshint', 'bytesize']);
+  grunt.registerTask('test', ['bytesize']);
   grunt.registerTask('default', ['build', 'test', 'connect']);
 };
