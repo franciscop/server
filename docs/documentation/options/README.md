@@ -8,13 +8,17 @@ These are the available options, their defaults, types and how to specify them i
 |[`secret`](#secret) |`'secret-XXXX'` |`SECRET=secret-XXXX`    |String         |
 |[`public`](#public) |`'public'`      |`PUBLIC=public`         |String         |
 |[`engine`](#engine) |`'pug'`         |`ENGINE=pug`            |String, Object |
-|[`env`](#env)       |`'development'` |**`NODE_ENV=development`**   |String    |
+|[`env`](#env)\*     |`'development'` |**`NODE_ENV=development`**   |String    |
+|[`ssl`](#ssl)\*     |`false`         |`???`                   |Object         |
+|[`log`](#log)\*     |`all`           |`LOG=all`               |String         |
+
+\*not yet documented ([help us?](https://github.com/franciscop/server/tree/master/docs/documentation/options))
 
 
 The options preference order is this, from more important to less:
 
-1. `.env`: the variable within the environment.
-2. `server({ OPTION: 3000 })`: the variable set manually when launching the server.
+1. `.env`: the variable [within the environment](#environment).
+2. `server({ OPTION: 3000 })`: the variable [set as a parameter](#parameter) when launching the server.
 3. *defaults*: defaults will be used as can be seen below
 
 They are accessible for your dev needs through `ctx.options` ([read more in Middleware](../middleware)):
@@ -40,8 +44,25 @@ ENGINE=pug
 NODE_ENV=development
 ```
 
-> Do not forget then to add `.env` to your `.gitignore`
+> Remember to **add `.env` to your `.gitignore`**.
 
+
+
+## Parameter
+
+The alternative to the environment variables is to pass them **as the first parameter** when calling `server()`. Each option is a combination of key/value in the object and they all go in lowercase. See it with the defaults:
+
+```js
+const server = require('server');
+
+server({
+  port: 3000,
+  public: 'public',
+  secret: 'secret-XXXX',
+  engine: 'pug',
+  env: 'development'   // Remember this is "env" and not "node_env"
+});
+```
 
 
 
@@ -80,17 +101,29 @@ SECRET=your-random-string-here
 
 The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through `example.com/myfile.pdf` should be in this folder. You can set it to any folder within your project.
 
-Through the initialization option:
+To set the public folder in the environment add this to [your `.env`](#environment):
+
+```
+PUBLIC=./public
+```
+
+Through the initialization parameter:
 
 ```js
 server({ public: './public' });
 ```
 
+To set the root folder specify it as `'./'`:
 
-To set the public folder in the environment, create a file called `.env` with this:
-
+```js
+server({ public: './' });
 ```
-PUBLIC=./public
+
+If you don't want any of your files to be accessible publicly, then you can cancel it through a false or empty value:
+
+```js
+server({ public: false });
+server({ public: '' });
 ```
 
 

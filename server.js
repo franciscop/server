@@ -62,6 +62,13 @@ const Server = async (...middle) => {
   // Main thing here
   ctx.app.use((req, res) => middle(context(ctx, req, res)));
 
+  // // Different listening methods
+  // const listenAll = ctx.plugins.map(p => p.listen).filter(p => p);
+  // return new Promise.all(listenAll.map(listen => listen(ctx))).then(() => {
+  //   launchAll();
+  //   return ctx;
+  // });
+
   // Start listening to requests
   return new Promise((resolve, reject) => {
     const launch = async () => {
@@ -82,7 +89,7 @@ const Server = async (...middle) => {
     ctx.server = ctx.app.listen(ctx.options.port, launch);
     ctx.server.on('error', err => reject(error.native(err)));
   });
-}
+};
 
 module.exports = Server;
 module.exports.router = router;

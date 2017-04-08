@@ -1,35 +1,30 @@
 # Middleware
 
-One of the most powerful things from express and thus from `server` is the Middleware. We build on this by an evolved concept while giving a wrapper for retro-compatibility:
+A *server middleware* is a function that will be called on each request. It accepts [a context object](#context) and [returns a promise](#asynchronous-return) for asynchronous methods or [anything else](#synchronous-return) for synchronous methods. A couple of examples:
 
 ```js
 const setname = ctx => ctx.req.user = 'Francisco';
 const sendname = ctx => ctx.res.send(ctx.req.user);
-server(setname, get('/', sendname));
+server(setname, sendname);
 ```
 
-### Definition
+We are using the latest version of Javascript (ES7) that provides many useful options.
 
-A *server middleware* is a function that will be called on each request. It accepts a context object and returns a promise for asynchronous methods or anything else for synchronous methods.
 
-### Parameters
 
-It will only receive a parameter called `ctx` for context. This has, among others, the properties `req` `res` (from express) and `options`:
+
+
+## Context
+
+Context is the only parameter that middleware receives and we'll call it `ctx`. It represents all the information known at this point. It can appear at several points, but the most important one is as the only middleware parameter.
+
+In this situation it has, among others, the properties `req`, `res` (from express) and `options`:
 
 ```js
-let middleware = ctx => {
+const middleware = ctx => {
   ctx.req;      // Request parameter, similar to `(req, res)` in express
   ctx.res;      // Response parameter, similar to `(req, res)` in express
   ctx.options;  // The options for the server instance
-}
-```
-
-Then all of the included plugins will be available here. Consult the documentation on each plugin for the specifics, but this is how they *could* be implemented:
-
-```js
-let middleware = ctx => {
-  ctx.socket;  // A websocket exported from a plugin
-  ctx.db;      // A database exported from a plugin
 }
 ```
 
@@ -41,6 +36,78 @@ let middleware = ctx => {
   ctx.server;   // The http-server instance
 };
 ```
+
+
+TODO: explain more about `req`, `res` and `options` (explanation for each and their methods and a link to express docs).
+
+
+
+## Synchronous return
+
+A synchronous function is one that executes one line after another. To make your function synchronous you just have [not to make it asynchronous](#asynchronous-return), which means *do not return a promise*.
+
+Most code is actually synchronous so let's see some examples:
+
+```js
+// Some simple logging
+const middle1 = () => console.log('Hello 世界');
+
+// Asign a user to the request user
+const middle2 = ctx => {
+  ctx.req.user = { name: 'Francisco', available: true };
+};
+
+// Make sure that there is a user
+const middle3 = ctx => {
+  if (!ctx.req.user) {
+    throw new Error('No user detected!');
+  }
+};
+
+// Send some info to the browser
+const middle4 = ctx => {
+  ctx.res.send(`Some info for ${ctx.req.user.name}`);
+};
+```
+
+
+## Asynchronous return
+
+
+```js
+// Asynchronous
+const middle2 = async () => {
+  const user = await user.find({ name: 'Francisco' }).exec();
+  console.log(user);
+};
+```
+
+And how to use them:
+
+```js
+// Synchronous
+server(() => console.log('Hello 世界'));
+
+// Asynchronous
+server(async () => {
+  const user = await user.find({ name: 'Francisco' }).exec();
+  console.log(user);
+});
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -133,7 +200,7 @@ server(cookieParser, ...);
 
 
 
-// DEPRECATED:
+<!-- // DEPRECATED:
 
 
 
@@ -212,4 +279,4 @@ server(3000, { bodyparser: false });
 
 // Use a different body-parser
 server(3000, { bodyparser: coolerBodyParser() });
-```
+``` -->

@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin:1.5em 0 .5em;width:100%}article table th{background:none;color:#333}article table tr:nth-child(2n){background:none}article table th,article table td{border:2px solid #ddd}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin:1.5em 0 .5em;width:100%}article table th{background:none;color:#333}article table tr:nth-child(2n){background:none}article table th,article table td{border:2px solid #ddd}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}#keep-reading{margin-top:1em}article .pages{text-align:left}
 /*# sourceMappingURL=style.min.css.map */
 </style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Options</strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
 <p>These are the available options, their defaults, types and how to specify them in <code>.env</code>:</p>
@@ -37,17 +37,30 @@
 <td>String, Object</td>
 </tr>
 <tr>
-<td><a href="#env"><code>env</code></a></td>
+<td><a href="#env"><code>env</code></a>*</td>
 <td><code>&#39;development&#39;</code></td>
 <td><strong><code>NODE_ENV=development</code></strong></td>
 <td>String</td>
 </tr>
+<tr>
+<td><a href="#ssl"><code>ssl</code></a>*</td>
+<td><code>false</code></td>
+<td><code>???</code></td>
+<td>Object</td>
+</tr>
+<tr>
+<td><a href="#log"><code>log</code></a>*</td>
+<td><code>all</code></td>
+<td><code>LOG=all</code></td>
+<td>String</td>
+</tr>
 </tbody>
 </table>
+<p>*not yet documented (<a href="https://github.com/franciscop/server/tree/master/docs/documentation/options">help us?</a>)</p>
 <p>The options preference order is this, from more important to less:</p>
 <ol>
-<li><code>.env</code>: the variable within the environment.</li>
-<li><code>server({ OPTION: 3000 })</code>: the variable set manually when launching the server.</li>
+<li><code>.env</code>: the variable <a href="#environment">within the environment</a>.</li>
+<li><code>server({ OPTION: 3000 })</code>: the variable <a href="#parameter">set as a parameter</a> when launching the server.</li>
 <li><em>defaults</em>: defaults will be used as can be seen below</li>
 </ol>
 <p>They are accessible for your dev needs through <code>ctx.options</code> (<a href="../middleware">read more in Middleware</a>):</p>
@@ -63,8 +76,20 @@ SECRET=secret-XXXX
 ENGINE=pug
 NODE_ENV=development
 </code></pre><blockquote>
-<p>Do not forget then to add <code>.env</code> to your <code>.gitignore</code></p>
+<p>Remember to <strong>add <code>.env</code> to your <code>.gitignore</code></strong>.</p>
 </blockquote>
+<h2 id="parameter">Parameter</h2>
+<p>The alternative to the environment variables is to pass them <strong>as the first parameter</strong> when calling <code>server()</code>. Each option is a combination of key/value in the object and they all go in lowercase. See it with the defaults:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+
+server({
+  port: 3000,
+  public: &#39;public&#39;,
+  secret: &#39;secret-XXXX&#39;,
+  engine: &#39;pug&#39;,
+  env: &#39;development&#39;   // Remember this is &quot;env&quot; and not &quot;node_env&quot;
+});
+</code></pre>
 <h3 id="port">Port</h3>
 <p>The port where you want to launch the server. Defaults to <code>3000</code> and it&#39;s the only option that can be specified as a single option:</p>
 <pre><code class="lang-js">server();        // Use the default port 3000
@@ -81,12 +106,19 @@ server({ port: 3000 });  // The same as the previous one
 </blockquote>
 <h3 id="public">Public</h3>
 <p>The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through <code>example.com/myfile.pdf</code> should be in this folder. You can set it to any folder within your project.</p>
-<p>Through the initialization option:</p>
+<p>To set the public folder in the environment add this to <a href="#environment">your <code>.env</code></a>:</p>
+<pre><code>PUBLIC=./public
+</code></pre><p>Through the initialization parameter:</p>
 <pre><code class="lang-js">server({ public: &#39;./public&#39; });
 </code></pre>
-<p>To set the public folder in the environment, create a file called <code>.env</code> with this:</p>
-<pre><code>PUBLIC=./public
-</code></pre><h3 id="engine">Engine</h3>
+<p>To set the root folder specify it as <code>&#39;./&#39;</code>:</p>
+<pre><code class="lang-js">server({ public: &#39;./&#39; });
+</code></pre>
+<p>If you don&#39;t want any of your files to be accessible publicly, then you can cancel it through a false or empty value:</p>
+<pre><code class="lang-js">server({ public: false });
+server({ public: &#39;&#39; });
+</code></pre>
+<h3 id="engine">Engine</h3>
 <p>The view engine that you want to use to render your templates. <a href="https://github.com/expressjs/express/wiki#template-engines">See all the available engines</a>. To use an engine you normally have to install it first (except <a href="https://pugjs.org/">pug</a>, which is preinstalled):</p>
 <pre><code>npm install [ejs|nunjucks|handlebars|emblem] --save
 </code></pre><p>To use that engine you just have to add the extension to the <code>render()</code> method:</p>
@@ -100,7 +132,7 @@ server(ctx =&gt; ctx.res.render(&#39;index.hbs&#39;));
 </code></pre><p>Or through the corresponding option in javascript:</p>
 <pre><code class="lang-js">server({ engine: &#39;pug&#39; }, ctx =&gt; ctx.res.render(&#39;index&#39;));
 </code></pre>
-</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
+<h2 id="keep-reading">Keep reading</h2><p>Once you master the options there are few topics to keep going on:</p><div class="pages"><a class="button" href="../middleware">Middleware</a><a class="button" href="../router">Router</a><a class="button" href="../advanced">Advanced</a></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
   var email = 'mailto:public' + '@francisco.i' + 'o?subject=server for Node.js';
   document.querySelector('a.email').setAttribute('href', email);
 }, 2000);

@@ -1,4 +1,3 @@
-/* jshint esversion: 6 */
 const filters = require('./docs/filters.js');
 
 // This builds the library itself
