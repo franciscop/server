@@ -15,10 +15,15 @@ const final = require('./src/final');
 // Create the initial context
 const context = (self, req, res) => Object.assign({}, self, { req, res });
 
+// Get the functions from the plugins for a special point
+const hook = (ctx, name) => ctx.plugins.map(p => p[name]).filter(p => p);
+
+
+
 // Main function
 const Server = async (...middle) => {
 
-  const ctx = {};
+  let ctx = {};
 
   // First parameter can be:
   // - options: Number || Object (cannot be ID'd)
@@ -31,11 +36,8 @@ const Server = async (...middle) => {
     middle[0] instanceof Array
   ) ? {} : middle.shift();
 
-  ctx.express = express;
-  ctx.app = ctx.express();
-
   // Set the options for the context of Server.js
-  ctx.options = config(opts, module.exports.plugins, ctx.app);
+  ctx.options = config(opts, module.exports.plugins);
 
   // Only enabled plugins through the config
   ctx.plugins = module.exports.plugins.filter(p => ctx.options[p.name]);
@@ -46,49 +48,31 @@ const Server = async (...middle) => {
   ctx.throw = error(ctx.options.errors);
 
   // All the init beforehand
-  const initAll = ctx.plugins.map(p => p.init).filter(p => p);
-  for (let init of initAll) {
+  for (let init of hook(ctx, 'init')) {
     await init(ctx);
   }
 
+
   // PLUGIN middleware
-  middle = join(
-    ctx.plugins.map(p => p.beforeware || p.before),
-    middle,
-    ctx.plugins.map(p => p.afterware || p.after),
-    final
-  );
+  middle = join(hook(ctx, 'before'), middle, hook(ctx, 'after'), final);
 
   // Main thing here
   ctx.app.use((req, res) => middle(context(ctx, req, res)));
 
-  // // Different listening methods
-  // const listenAll = ctx.plugins.map(p => p.listen).filter(p => p);
-  // return new Promise.all(listenAll.map(listen => listen(ctx))).then(() => {
-  //   launchAll();
-  //   return ctx;
-  // });
 
-  // Start listening to requests
-  return new Promise((resolve, reject) => {
-    const launch = async () => {
+  // Different listening methods
+  await Promise.all(hook(ctx, 'listen').map(listen => listen(ctx)));
 
-      // After launching it
-      const launchAll = ctx.plugins.map(p => p.launch).filter(p => p);
-      for (let launch of launchAll) {
-        await launch(ctx);
-      }
+  // Proxify it to use the server if a method is not in context
+  // Useful for things like ctx.close()
+  ctx = new Proxy(ctx, { get: (orig, k) => orig[k] || orig.server[k] });
 
-      if (ctx.options.verbose) {
-        ctx.log(`Server started on http://localhost:${ctx.options.port}/`);
-      }
+  // After launching it (already proxified)
+  for (let launch of hook(ctx, 'launch')) {
+    await launch(ctx);
+  }
 
-      resolve(new Proxy(ctx, { get: (orig, k) => orig[k] || orig.server[k] }));
-    };
-
-    ctx.server = ctx.app.listen(ctx.options.port, launch);
-    ctx.server.on('error', err => reject(error.native(err)));
-  });
+  return ctx;
 };
 
 module.exports = Server;
@@ -97,7 +81,8 @@ module.exports.utils = {
   modern: modern
 };
 module.exports.plugins = [
+  require('./plugins/express'),
   require('./plugins/parser'),
   require('./plugins/connect'),
-  require('./plugins/log')
+  require('./plugins/log'),
 ];
