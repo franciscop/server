@@ -7,6 +7,9 @@ const sendname = ctx =&gt; ctx.res.send(ctx.req.user);
 server(setname, sendname);
 </code></pre>
 <p>We are using the latest version of Javascript (ES7) that provides many useful options.</p>
+<blockquote>
+<p>Note: if you resolve it with a function, this will be called with <code>ctx</code>. This is not so useful for normal devs, but it is for server contributions. See <a href="../advanced/">advanced configuration</a>.</p>
+</blockquote>
 <h2 id="context">Context</h2>
 <p>Context is the only parameter that middleware receives and we&#39;ll call it <code>ctx</code>. It represents all the information known at this point. It can appear at several points, but the most important one is as the only middleware parameter.</p>
 <p>In this situation it has, among others, the properties <code>req</code>, <code>res</code> (from express) and <code>options</code>:</p>

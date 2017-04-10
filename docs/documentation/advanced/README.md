@@ -1,6 +1,6 @@
 # Advanced
 
-Some of the concepts that you won't find day-to-day but that might be useful when debugging or creating your own libraries.
+Some of the concepts that you won't find day-to-day but that might be useful when debugging, creating your own libraries or contributing to server.
 
 
 

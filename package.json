@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.29",
+  "version": "1.0.0-alpha.30",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "scripts": {
@@ -63,8 +63,6 @@
     "jest": "^18.1.0",
     "jstransformer-marked": "^1.0.2",
     "promised-exec": "^1.0.1",
-    "request": "^2.79.0",
-    "request-promise-native": "^1.0.3",
     "request-promises": "^1.0.1",
     "supertest": "^3.0.0",
     "uglifyify": "^3.0.4"

@@ -10,6 +10,7 @@ server(setname, sendname);
 
 We are using the latest version of Javascript (ES7) that provides many useful options.
 
+> Note: if you resolve it with a function, this will be called with `ctx`. This is not so useful for normal devs, but it is for server contributions. See [advanced configuration](../advanced/).
 
 
 
@@ -94,12 +95,6 @@ server(async () => {
   console.log(user);
 });
 ```
-
-
-
-
-
-
 
 
 

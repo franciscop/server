@@ -29,7 +29,7 @@ describe('Full trip request', () => {
   });
 
   it('can set headers', () => {
-    let middle = get('/', ctx => {
+    const middle = get('/', ctx => {
       ctx.res.header('Expires', 12345);
       ctx.res.send('Hello 世界');
     });

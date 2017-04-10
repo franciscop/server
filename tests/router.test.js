@@ -1,4 +1,4 @@
-const request = require('request-promise-native');
+const request = require('request-promises');
 const server = require('../server');
 const { get, post, put, del } = server.router;
 const { hello, err, launch, handler, getter, poster } = require('./helpers');
@@ -76,38 +76,8 @@ describe('Ends where it should end', () => {
     const ctx = await launch([get('/w', ctx => ctx.res.send('w'))].concat(routes));
     const full = 'http://localhost:' + ctx.options.port + '/';
     for (let url of [full, full, full]) {
-      let body = await request(url);
-      expect(body).toBe('Hello 世界');
+      const res = await request(url);
+      expect(res.body).toBe('Hello 世界');
     }
   });
 });
-
-
-// describe('performance', () => {
-//   let performance = false;
-//
-//   beforeAll(() => {
-//     return command('which ab').then(res => {
-//       if (res) {
-//         performance = true;
-//       } else {
-//         console.log("Install apache benchmark for performance testing.");
-//       }
-//     });
-//   });
-//
-//   it('makes at least 1000 req/second without middleware', () => {
-//     if (!performance) return Promise.resolve('Good');
-//
-//     const runAB = ctx => {
-//       return command(`ab -r -n 2000 -c 100 http://localhost:${ctx.options.port}/`);
-//     }
-//     return launch(get('/', hello), { middle: false }).then(runAB).then(analysis => {
-//       let total = /Requests per second:\s+(\d+)/.exec(analysis);
-//       if (!total) throw new Error('Could not parse the solution:', analysis);
-//       let rps = parseInt(total[1]);
-//       // console.log("RPS:", rps);
-//       expect(rps).toBeGreaterThan(1000);
-//     });
-//   }, 10000);
-// });
