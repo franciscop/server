@@ -6,10 +6,8 @@
 Simple and powerful server that just works so **you can focus on your awesome project**:
 
 ```js
-// Include the library
+// Include it and import some methods for convenience
 const server = require('server');
-
-// Import the router methods
 const { get, post } = server.router;
 
 // Launch server with some opts and a couple of routes

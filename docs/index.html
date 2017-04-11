@@ -3,10 +3,8 @@
 </style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>server </strong>for Node.js</h1><pre class="sub">npm install server --save</pre><a class="button docs" href="/documentation">Documentation<span class="arrow"> 〉</span></a><!-- Just having some fun (;--><button class="secret">super secret button</button></div></div><article class="home">
 <p><a href="http://eepurl.com/cGRggH"><img src="https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg" alt="[Subscribe]"></a> <a href="https://circleci.com/gh/franciscop/server"><img src="https://circleci.com/gh/franciscop/server.svg?style=shield" alt="[Status]"></a> <a href="https://www.npmjs.com/package/server"><img src="https://img.shields.io/npm/dm/server.svg" alt="[Downloads]"></a> <a href="https://github.com/franciscop/server/issues/1"><img src="https://img.shields.io/badge/version-ALPHA-red.svg" alt="[Roadmap]"></a></p>
 <p>Simple and powerful server that just works so <strong>you can focus on your awesome project</strong>:</p>
-<pre><code class="lang-js">// Include the library
+<pre><code class="lang-js">// Include it and import some methods for convenience
 const server = require(&#39;server&#39;);
-
-// Import the router methods
 const { get, post } = server.router;
 
 // Launch server with some opts and a couple of routes
