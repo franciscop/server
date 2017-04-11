@@ -1,7 +1,8 @@
+// Integration - test the router within the whole server functionality
 const request = require('request-promises');
-const server = require('../server');
+const server = require('../../server');
 const { get, post, put, del } = server.router;
-const { hello, err, launch, handler, getter, poster } = require('./helpers');
+const { hello, err, launch, handler, getter, poster } = require('../../tests/helpers');
 const command = require('promised-exec');
 const routes = [
   get('/', ctx => ctx.res.send('Hello 世界')),
@@ -11,8 +12,8 @@ const nocsrf = { connect: { csrf: false } };
 
 // Check that a response is performed and it's a simple one
 const checker = ({ body = 'Hello 世界', method = 'GET' } = {}) => res => {
-  if (method) expect(res.request.method).toBe(method);
-  if (body) expect(res.body).toBe(body);
+  expect(res.request.method).toBe(method);
+  expect(res.body).toBe(body);
 }
 
 describe('Basic router types', () => {
@@ -62,8 +63,6 @@ describe('Ends where it should end', () => {
     ]).then(checker());
   });
 
-  // A bug shifted the router's middleware on each request so now we test for
-  // multiple request to make sure the middleware remains the same
   it('parses params correctly', async () => {
     const middle = get('/:id', ctx => ctx.res.send(ctx.req.params.id));
     const res = await handler(middle, { path: '/42?ignored=true' });

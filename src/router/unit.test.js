@@ -1,19 +1,21 @@
+// Unit - test the router on its own
 const extend = require('extend');
 const loadware = require('loadware');
 const join = require('../join');
 const { get, error } = require('./index');
 const { handler, getter } = require('../../tests/helpers');
 
-
-const createCtx = (opts = {}) => extend({
-  req: { url: '/', path: '/', method: 'GET' },
+const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
+  req: { url, path, method },
   res: {},
   options: {}
-}, opts);
+});
 
-describe('router with promises', () => {
 
-  it('works?', () => {
+
+describe('barebones router', () => {
+
+  it('works', async () => {
     const middles = [
       ctx => new Promise((resolve) => resolve()),
       get('/aaa', ctx => { throw new Error(); }),
@@ -22,13 +24,12 @@ describe('router with promises', () => {
       get('/', ctx => { throw new Error(); })
     ];
 
-    return join(middles)(createCtx()).then(ctx => {
-      expect(ctx.req.solved).toBe(true);
-      expect(ctx.res.send).toBe('Hello 世界');
-    });
+    const ctx = await join(middles)(createCtx());
+    expect(ctx.req.solved).toBe(true);
+    expect(ctx.res.send).toBe('Hello 世界');
   });
 
-  it('works even when wrapped with join() and loadware()', () => {
+  it('works even when wrapped with join() and loadware()', async () => {
     const middles = [
       ctx => new Promise((resolve) => resolve()),
       get('/aaa', ctx => { throw new Error(); }),
@@ -38,32 +39,29 @@ describe('router with promises', () => {
     ];
 
     // Returns the promise to be handled async
-    return join(middles)(createCtx()).then(ctx => {
-      expect(ctx.req.solved).toBe(true);
-      expect(ctx.res.send).toBe('Hello 世界');
-    });
+    const ctx = await join(middles)(createCtx());
+    expect(ctx.req.solved).toBe(true);
+    expect(ctx.res.send).toBe('Hello 世界');
   });
 
 
-  it('still works?', async () => {
-    const ctx = createCtx();
-    ctx.req.path = '/test/francisco/presencia/bla';
-    let relCtx = await get('/test/:name/:lastname/bla')(ctx);
-    expect(relCtx.req.solved).toBe(true);
-    expect(relCtx.req.params.name).toBe('francisco');
-    expect(relCtx.req.params.lastname).toBe('presencia');
+  it('parameters work properly', async () => {
+    const inject = createCtx({ path: '/test/francisco/presencia/bla' });
+    const ctx = await get('/test/:name/:lastname/bla')(inject);
+    expect(ctx.req.solved).toBe(true);
+    expect(ctx.req.params.name).toBe('francisco');
+    expect(ctx.req.params.lastname).toBe('presencia');
   });
 });
 
 
 
 describe('Error routes', () => {
-  it('can catch errors', () => {
+  it('can catch errors', async () => {
     const generate = ctx => { throw new Error('Should be caught'); };
     const handle = error(ctx => ctx.res.send('Error 世界'));
-    return getter([generate, handle]).then(res => {
-      expect(res.body).toBe('Error 世界');
-    });
+    const res = await getter([generate, handle]);
+    expect(res.body).toBe('Error 世界');
   });
 
   it('can catch errors with full path', () => {
