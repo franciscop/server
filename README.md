@@ -6,20 +6,17 @@
 Simple and powerful server that just works so **you can focus on your awesome project**:
 
 ```js
+// Include the library
 const server = require('server');
 
-// Serve static files from /public on port 3000
-server();
-
-// OR serve static files from the root on port 8080
-server({ port: 8080, public: './' });
-
-// OR use some simple routes on http://localhost:3000/
+// Import the router methods
 const { get, post } = server.router;
-server(
+
+// Launch server with some opts and a couple of routes
+server({ port: 8080, public: './' }, [
   get('/', ctx => ctx.res.render('index')),
   post('/', ctx => console.log(ctx.req.body))
-);
+]);
 ```
 
 
