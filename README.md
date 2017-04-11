@@ -6,7 +6,7 @@
 Simple and powerful server that just works so **you can focus on your awesome project**:
 
 ```js
-// Include it and import some methods for convenience
+// Include it and extract some methods for convenience
 const server = require('server');
 const { get, post } = server.router;
 
