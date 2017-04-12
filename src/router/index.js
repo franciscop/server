@@ -37,6 +37,8 @@ exports.post = (...middle) => generic(  'POST', ...middle);
 exports.put  = (...middle) => generic(   'PUT', ...middle);
 exports.del  = (...middle) => generic('DELETE', ...middle);
 
+exports.join = join;
+
 exports.error = (...middle) => {
   const path = typeof middle[0] === 'string' ? middle.shift() : false;
   const generic = () => {};

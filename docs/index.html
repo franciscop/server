@@ -22,12 +22,10 @@ server({ port: 8080, public: &#39;./&#39; }, [
 const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 
-// Initialize the server on port 3000
-server(3000,
-
-  // Handle requests to the url &quot;/&quot; ( http://localhost:3000/ )
+// Handle requests to the url &quot;/&quot; ( http://localhost:3000/ )
+server([
   get(&#39;/&#39;, ctx =&gt; ctx.res.send(&#39;Hello world!&#39;))
-);
+]);
 </code></pre>
 <p>Execute this in the terminal to get the server started:</p>
 <pre><code class="lang-bash">node app.js

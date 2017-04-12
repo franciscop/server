@@ -34,12 +34,10 @@ Then you can create a file called `app.js` and set the following:
 const server = require('server');
 const { get, post } = server.router;
 
-// Initialize the server on port 3000
-server(3000,
-
-  // Handle requests to the url "/" ( http://localhost:3000/ )
+// Handle requests to the url "/" ( http://localhost:3000/ )
+server([
   get('/', ctx => ctx.res.send('Hello world!'))
-);
+]);
 ```
 
 Execute this in the terminal to get the server started:
