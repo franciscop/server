@@ -50,8 +50,6 @@ describe('initializes', () => {
 
 describe('environment variables', () => {
   it('key case is ignored', () => {
-    // console.log(config());
-    // Object.values(process.env).map(val => console.log(typeof val));
     expect(config().test00).toBe('abc');
     expect(config().test01).toBe('abc');
     expect(config().test02).toBe('abc');
@@ -95,35 +93,14 @@ describe('environment variables', () => {
 
 describe('plugins', () => {
   it('loads plugin config', () => {
-    expect(config({}, [{ name: 'middle', options: { a: 'b' } }]).middle.a).toBe('b');
+    const plugin = { name: 'middle', options: { a: 'b' } };
+    expect(config({}, [plugin]).middle.a).toBe('b');
   });
   it('loads plugin config with function', () => {
-    expect(config({}, [{ name: 'middle', options: opts => {
-      opts.a = 'b';
-      return opts;
-    } }]).middle.a).toBe('b');
-  });
-});
-
-
-describe('app', () => {
-  const appify = (key, cb) => ({
-    set: (name, value) => (name === key) ? cb(value) : false
-  });
-
-  it ('sets the defaults', () => {
-    config({ foo: 'bar' }, [], appify('foo', value => {
-      expect(value).toBe('bar');
-    }));
-  });
-
-  it('sets values to the app', () => {
-    config({ foo: 'bar' }, [], {
-      set: (name, value) => {
-        if (name === 'foo') {
-          expect(value).toBe('bar');
-        }
-      }
-    });
+    const plugin = {
+      name: 'middle',
+      options: opts => { opts.a = 'b'; return opts; }
+    };
+    expect(config({}, [plugin]).middle).toEqual({ a: 'b' });
   });
 });

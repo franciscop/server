@@ -1,3 +1,4 @@
+
 // Check if a variable is numeric even if string
 const is = {
   numeric: num => !isNaN(num),

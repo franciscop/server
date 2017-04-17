@@ -1,14 +1,7 @@
 const extend = require('extend');  // deep clone, not like shallow Object.assign
 const config = require('./defaults');
 const errors = require('./errors');
-const type = require('./type');
-require('dotenv').config({ silent: true });
-
-// Get the process variables in lowercase
-const proc = {};
-for (let key in process.env) {
-  proc[key.toLowerCase()] = type(process.env[key]);
-}
+const env = require('./env');
 
 module.exports = (user = {}, plugins = []) => {
 
@@ -20,10 +13,11 @@ module.exports = (user = {}, plugins = []) => {
   let options = extend({}, config);
 
   // Load the options from the plugin array, namespaced with the plugin name
-  plugins.forEach(plugin => {
-    const valuify = cb => cb instanceof Function ? cb(options) : cb;
-    const obj = { [plugin.name]: valuify(plugin.options) };
-    options = extend(true, {}, options, obj);
+  plugins.forEach(({ name, options: opts = {}} = {}) => {
+    if (opts instanceof Function) {
+      opts = opts(options[name] || {}, options);
+    }
+    extend(true, options, { [name]: opts });
   });
 
   extend(true, options, user);
@@ -45,8 +39,8 @@ module.exports = (user = {}, plugins = []) => {
     get: (orig, key) => {
 
       // If it is set in the environment some other way
-      if (typeof proc[key] !== 'undefined') {
-        return proc[key];
+      if (typeof env[key] !== 'undefined') {
+        return env[key];
       }
 
       // It was set in the options
