@@ -23,7 +23,11 @@ const hook = (ctx, name) => ctx.plugins.map(p => p[name]).filter(p => p);
 // Main function
 const Server = async (...middle) => {
 
-  let ctx = {};
+  // Proxify it to use the server if a method is not in context
+  // Useful for things like ctx.close()
+  const ctx = new Proxy({}, {
+    get: (orig, k) => orig[k] || orig.server[k]
+  });
 
   // First parameter can be:
   // - options: Number || Object (cannot be ID'd)
@@ -53,6 +57,7 @@ const Server = async (...middle) => {
   }
 
 
+
   // PLUGIN middleware
   middle = join(hook(ctx, 'before'), middle, hook(ctx, 'after'), final);
 
@@ -60,12 +65,9 @@ const Server = async (...middle) => {
   ctx.app.use((req, res) => middle(context(ctx, req, res)));
 
 
+
   // Different listening methods
   await Promise.all(hook(ctx, 'listen').map(listen => listen(ctx)));
-
-  // Proxify it to use the server if a method is not in context
-  // Useful for things like ctx.close()
-  ctx = new Proxy(ctx, { get: (orig, k) => orig[k] || orig.server[k] });
 
   // After launching it (already proxified)
   for (let launch of hook(ctx, 'launch')) {
