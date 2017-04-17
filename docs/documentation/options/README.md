@@ -8,11 +8,12 @@ These are the available options, their defaults, types and how to specify them i
 |[`secret`](#secret) |`'secret-XXXX'` |`SECRET=secret-XXXX`    |String         |
 |[`public`](#public) |`'public'`      |`PUBLIC=public`         |String         |
 |[`engine`](#engine) |`'pug'`         |`ENGINE=pug`            |String, Object |
+|[`views`](#views)\* |`'./views'`     |`VIEWS=./views`         |String         |
 |[`env`](#env)\*     |`'development'` |**`NODE_ENV=development`**   |String    |
 |[`ssl`](#ssl)\*     |`false`         |`???`                   |Object         |
 |[`log`](#log)\*     |`all`           |`LOG=all`               |String         |
 
-\*not yet documented ([help us?](https://github.com/franciscop/server/tree/master/docs/documentation/options))
+\*not yet documented ([help us editing this?](https://github.com/franciscop/server/tree/master/docs/documentation/options))
 
 
 The options preference order is this, from more important to less:
@@ -30,11 +31,11 @@ server(ctx => console.log(ctx.options));
 
 
 
-### Environment
+## Environment
 
-Environment variables are *not commited in your version control* but instead they are provided by the machine or Node.js process. In this way these options can be different in your machine and in the remote server(s).
+Environment variables are *not commited in your version control* but instead they are provided by the machine or Node.js process. In this way these options can be different in your machine and in testing, production or other type of servers.
 
-They are uppercase and can be set through a file called `.env` ([or other ways](https://medium.com/@rafaelvidaurre/managing-environment-variables-in-node-js-2cb45a55195f)):
+They are uppercase and they can be set through a file called `.env` in your computer:
 
 ```
 PORT=3000
@@ -46,11 +47,13 @@ NODE_ENV=development
 
 > Remember to **add `.env` to your `.gitignore`**.
 
+To set them in remote server it will depend on the hosting that you use ([see Heroku example](https://devcenter.heroku.com/articles/config-vars)).
+
 
 
 ## Parameter
 
-The alternative to the environment variables is to pass them **as the first parameter** when calling `server()`. Each option is a combination of key/value in the object and they all go in lowercase. See it with the defaults:
+The alternative to the environment variables is to pass them **as the first parameter** when calling `server()`. Each option is a combination of key/value in the object and they all go in lowercase. See some options with their defaults:
 
 ```js
 const server = require('server');
@@ -60,12 +63,40 @@ server({
   public: 'public',
   secret: 'secret-XXXX',
   engine: 'pug',
-  env: 'development'   // Remember this is "env" and not "node_env"
+  env: 'development'   // Remember this is "env" and not "node_env" here
 });
 ```
 
 
+## Special cases
 
+As a general rule, an option that is an object becomes a `_` separated string in uppercase for the `.env` file. For example, for the SSL we have to pass an object such as:
+
+```js
+server({
+  port: 3000,
+  ssl: {
+    key: 'test/fixtures/keys/agent2-key.pem',
+    cert: 'test/fixtures/keys/agent2-cert.cert'
+  }
+});
+```
+
+So if we want to put this in the environment variable we'd set it up such as:
+
+```
+PORT=3000
+SSL_KEY=test/fixtures/keys/agent2-key.pem
+SSL_CERT=test/fixtures/keys/agent2-cert.cert
+```
+
+The converse is not true; a `_` separated string in the `.env` does not necessarily become an object as a parameter. You'll have to read the documentation of each option and plugin for the specific details.
+
+
+
+## Available options
+
+Description of all the available options, their defaults and how to use them.
 
 ### Port
 
@@ -87,7 +118,7 @@ PORT=3000
 
 ### Secret
 
-It is **highly recommended** that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It will be used by several middleware for storing secrets and keeping cookies/sessions:
+It is [**highly recommended**](https://github.com/franciscop/server/issues/3) that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It will be used by several middleware for storing secrets and keeping cookies/sessions:
 
 ```
 SECRET=your-random-string-here

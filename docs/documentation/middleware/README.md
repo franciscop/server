@@ -17,7 +17,7 @@ We are using the latest version of Javascript (ES7) that provides many useful op
 
 ## Context
 
-Context is the only parameter that middleware receives and we'll call it `ctx`. It represents all the information known at this point. It can appear at several points, but the most important one is as the only middleware parameter.
+Context is the only parameter that middleware receives and we'll call it `ctx`. It represents all the information known at this point. It can appear at several points, but the most important one is as a middleware parameter.
 
 In this situation it has, among others, the properties `req`, `res` (from express) and `options`:
 

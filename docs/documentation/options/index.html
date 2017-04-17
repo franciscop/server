@@ -37,6 +37,12 @@
 <td>String, Object</td>
 </tr>
 <tr>
+<td><a href="#views"><code>views</code></a>*</td>
+<td><code>&#39;./views&#39;</code></td>
+<td><code>VIEWS=./views</code></td>
+<td>String</td>
+</tr>
+<tr>
 <td><a href="#env"><code>env</code></a>*</td>
 <td><code>&#39;development&#39;</code></td>
 <td><strong><code>NODE_ENV=development</code></strong></td>
@@ -56,7 +62,7 @@
 </tr>
 </tbody>
 </table>
-<p>*not yet documented (<a href="https://github.com/franciscop/server/tree/master/docs/documentation/options">help us?</a>)</p>
+<p>*not yet documented (<a href="https://github.com/franciscop/server/tree/master/docs/documentation/options">help us editing this?</a>)</p>
 <p>The options preference order is this, from more important to less:</p>
 <ol>
 <li><code>.env</code>: the variable <a href="#environment">within the environment</a>.</li>
@@ -67,9 +73,9 @@
 <pre><code class="lang-js">server(ctx =&gt; console.log(ctx.options));
 // { port: 3000, public: &#39;./public&#39;, ... }
 </code></pre>
-<h3 id="environment">Environment</h3>
-<p>Environment variables are <em>not commited in your version control</em> but instead they are provided by the machine or Node.js process. In this way these options can be different in your machine and in the remote server(s).</p>
-<p>They are uppercase and can be set through a file called <code>.env</code> (<a href="https://medium.com/@rafaelvidaurre/managing-environment-variables-in-node-js-2cb45a55195f">or other ways</a>):</p>
+<h2 id="environment">Environment</h2>
+<p>Environment variables are <em>not commited in your version control</em> but instead they are provided by the machine or Node.js process. In this way these options can be different in your machine and in testing, production or other type of servers.</p>
+<p>They are uppercase and they can be set through a file called <code>.env</code> in your computer:</p>
 <pre><code>PORT=3000
 PUBLIC=public
 SECRET=secret-XXXX
@@ -78,8 +84,9 @@ NODE_ENV=development
 </code></pre><blockquote>
 <p>Remember to <strong>add <code>.env</code> to your <code>.gitignore</code></strong>.</p>
 </blockquote>
+<p>To set them in remote server it will depend on the hosting that you use (<a href="https://devcenter.heroku.com/articles/config-vars">see Heroku example</a>).</p>
 <h2 id="parameter">Parameter</h2>
-<p>The alternative to the environment variables is to pass them <strong>as the first parameter</strong> when calling <code>server()</code>. Each option is a combination of key/value in the object and they all go in lowercase. See it with the defaults:</p>
+<p>The alternative to the environment variables is to pass them <strong>as the first parameter</strong> when calling <code>server()</code>. Each option is a combination of key/value in the object and they all go in lowercase. See some options with their defaults:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 
 server({
@@ -87,9 +94,11 @@ server({
   public: &#39;public&#39;,
   secret: &#39;secret-XXXX&#39;,
   engine: &#39;pug&#39;,
-  env: &#39;development&#39;   // Remember this is &quot;env&quot; and not &quot;node_env&quot;
+  env: &#39;development&#39;   // Remember this is &quot;env&quot; and not &quot;node_env&quot; here
 });
 </code></pre>
+<h2 id="available-options">Available options</h2>
+<p>Description of all the available options, their defaults and how to use them.</p>
 <h3 id="port">Port</h3>
 <p>The port where you want to launch the server. Defaults to <code>3000</code> and it&#39;s the only option that can be specified as a single option:</p>
 <pre><code class="lang-js">server();        // Use the default port 3000
@@ -99,7 +108,7 @@ server({ port: 3000 });  // The same as the previous one
 <p>Some hosts such as Heroku will define an environment variable called <code>PORT</code>, so it will work smoothly there. You can also set it instead in your <code>.env</code> if you prefer it:</p>
 <pre><code>PORT=3000
 </code></pre><h3 id="secret">Secret</h3>
-<p>It is <strong>highly recommended</strong> that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It will be used by several middleware for storing secrets and keeping cookies/sessions:</p>
+<p>It is <a href="https://github.com/franciscop/server/issues/3"><strong>highly recommended</strong></a> that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It will be used by several middleware for storing secrets and keeping cookies/sessions:</p>
 <pre><code>SECRET=your-random-string-here
 </code></pre><blockquote>
 <p>Note: the <em>default</em> provided is weak as it will be different each time the server is launched.</p>
