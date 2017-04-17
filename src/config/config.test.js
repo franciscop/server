@@ -50,6 +50,7 @@ describe('initializes', () => {
 
 describe('environment variables', () => {
   it('key case is ignored', () => {
+    console.log(config());
     expect(config().test00).toBe('abc');
     expect(config().test01).toBe('abc');
     expect(config().test02).toBe('abc');
