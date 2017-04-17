@@ -1,21 +1,22 @@
 const extend = require('extend');  // deep clone, not like shallow Object.assign
 const config = require('./defaults');
 const errors = require('./errors');
+const type = require('./type');
 const env = require('dotenv').config({ silent: true });
 
 for (let key in env) {
   if (key !== key.toLowerCase()){
-    env[key.toLowerCase()] = env[key];
+    env[key.toLowerCase()] = type(env[key]);
     delete env[key];
   }
 }
 
-// Check if a variable is numeric even if string
-const is = {
-  numeric: num => !isNaN(num),
-  boolean: bool => /^(true|false)$/i.test(bool),
-  json: str => /^[\{\[]/.test(str) && /[\}\]]$/.test(str)
-};
+const proc = {};
+for (let key in process.env) {
+  proc[key.toLowerCase()] = type(process.env[key]);
+}
+
+
 
 module.exports = (user = {}, plugins = false, app = false) => {
 
@@ -40,11 +41,7 @@ module.exports = (user = {}, plugins = false, app = false) => {
   // Overwrite with the env variables if set
   // They are cast for numbers and booleans
   for (let key in env) {
-    let val = env[key];
-    if (is.numeric(val)) val = +val;
-    if (is.boolean(val)) val = /true/i.test(val);
-    if (is.json(val)) val = JSON.parse(val);
-    options[key.toLowerCase()] = val;
+    options[key.toLowerCase()] = env[key];
   }
 
   // TODO: these notifications should not be here
@@ -60,5 +57,14 @@ module.exports = (user = {}, plugins = false, app = false) => {
     `);
   }
 
-  return options;
+  return new Proxy(options, {
+    get: (orig, key) => {
+      // It was set from .env file
+      if (typeof options[key] !== 'undefined') {
+        return options[key];
+      }
+      // It was set through other means
+      return proc[key];
+    }
+  });
 };

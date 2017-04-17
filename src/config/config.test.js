@@ -50,8 +50,8 @@ describe('initializes', () => {
 
 describe('environment variables', () => {
   it('key case is ignored', () => {
-    console.log(config());
-    Object.values(process.env).map(val => console.log(typeof val));
+    // console.log(config());
+    // Object.values(process.env).map(val => console.log(typeof val));
     expect(config().test00).toBe('abc');
     expect(config().test01).toBe('abc');
     expect(config().test02).toBe('abc');
