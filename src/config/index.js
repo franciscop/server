@@ -1,13 +1,20 @@
 const extend = require('extend');  // deep clone, not like shallow Object.assign
 const config = require('./defaults');
 const errors = require('./errors');
-require('dotenv').config({ silent: true });
+const env = require('dotenv').config({ silent: true });
+
+for (let key in env) {
+  if (key !== key.toLowerCase()){
+    env[key.toLowerCase()] = env[key];
+    delete env[key];
+  }
+}
 
 // Check if a variable is numeric even if string
 const is = {
   numeric: num => !isNaN(num),
-  boolean: b => b === true || b === false ||
-    (typeof b === 'string' && ['true', 'false'].includes(b.toLowerCase()))
+  boolean: bool => /^(true|false)$/i.test(bool),
+  json: str => /^[\{\[]/.test(str) && /[\}\]]$/.test(str)
 };
 
 module.exports = (user = {}, plugins = false, app = false) => {
@@ -31,17 +38,16 @@ module.exports = (user = {}, plugins = false, app = false) => {
   extend(true, options, user);
 
   // Overwrite with the env variables if set
-  for (let key in options) {
-    if (key.toUpperCase().replace(/\s/g, '_') in process.env) {
-      let env = process.env[key.toUpperCase().replace(/\s/g, '_')];
-
-      // Convert it to Number if it's numeric
-      if (is.numeric(env)) env = +env;
-      if (is.boolean(env)) env = typeof env === 'string' ? env === 'true' : env;
-      options[key] = env;
-    }
+  // They are cast for numbers and booleans
+  for (let key in env) {
+    let val = env[key];
+    if (is.numeric(val)) val = +val;
+    if (is.boolean(val)) val = /true/i.test(val);
+    if (is.json(val)) val = JSON.parse(val);
+    options[key.toLowerCase()] = val;
   }
 
+  // TODO: these notifications should not be here
   if (options.secret === 'your-random-string-here') {
     throw errors.NotSoSecret();
   }
