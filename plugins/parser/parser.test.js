@@ -19,7 +19,7 @@ describe('Default modules', () => {
       expect(ctx.req.body).toBeDefined();
       expect(ctx.req.body.hello).toBe('世界');
       expect(content(ctx)).toBe('application/x-www-form-urlencoded');
-      ctx.res.send();
+      ctx.res.send('Hello 世界');
     };
     return poster(middle, data, nocsrf);
   });
@@ -28,7 +28,7 @@ describe('Default modules', () => {
     const middle = ctx => {
       expect(ctx.req.body.place).toBe('世界');
       expect(content(ctx)).toBe('application/json');
-      ctx.res.send();
+      ctx.res.send('Hello 世界');
     };
 
     return handler(middle, { body: { place: '世界' }, json: true });
@@ -39,7 +39,7 @@ describe('Default modules', () => {
       expect(ctx.req.files.logo.name).toBe('logo.png');
       expect(ctx.req.files.logo.type).toBe('image/png');
       expect(ctx.req.files.logo.size).toBe(10151);
-      ctx.res.send();
+      ctx.res.send('Hello 世界');
     }
     return handler(middle, { method: 'POST', formData: { logo } }, nocsrf);
   });
@@ -47,7 +47,7 @@ describe('Default modules', () => {
   // It can *set* cookies from the server()
   // TODO: it can *get* cookies from the server()
   it('cookieParser', () => {
-    const middle = ctx => ctx.res.cookie('place', '世界').send();
+    const middle = ctx => ctx.res.cookie('place', '世界').send('Hello 世界');
     return poster(middle, { place: '世界' }, nocsrf).then(res => {
       const cookieheader = res.headers['set-cookie'];
       // Should be 2 because of the session
@@ -62,7 +62,7 @@ describe('Default modules', () => {
     const middle = ctx => {
       expect(ctx.req.method).toBe('PUT');
       expect(ctx.req.originalMethod).toBe('POST');
-      ctx.res.send('世界');
+      ctx.res.send('Hello 世界');
     }
     const headers = { 'X-HTTP-Method-Override': 'PUT' };
     return handler(middle, { method: 'POST', headers }, nocsrf);
@@ -79,7 +79,7 @@ describe('Cancel parts through options', () => {
     const middle = ctx => {
       expect(ctx.req.body).toEqual({});
       expect(ctx.req.headers['content-type']).toBe('application/x-www-form-urlencoded');
-      ctx.res.send();
+      ctx.res.send('Hello 世界');
     };
     return poster(middle, data, { parser: { body: false }, connect: { csrf: false } });
   });
@@ -90,7 +90,7 @@ describe('Cancel parts through options', () => {
   it('can cancel all parsers', () => {
     const middle = ctx => {
       expect(ctx.req.body).toBe(undefined);
-      ctx.res.send();
+      ctx.res.send('Hello 世界');
     };
     return poster(middle, data, { parser: false, connect: { csrf: false } });
   });

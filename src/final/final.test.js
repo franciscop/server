@@ -1,5 +1,6 @@
 const server = require('../../server');
 const { getter, throws } = require('../../tests/helpers');
+const request = require('request-promises');
 
 describe('final', () => {
   it('gets called with an unhandled error', async () => {
@@ -15,5 +16,10 @@ describe('final', () => {
     };
     const res = await getter(simple);
     expect(res.body).toBe('Error 世界');
+  });
+
+  it('testing', async () => {
+    const res = await getter(ctx => 'Hello 世界');
+    expect(res.body).toBe('Hello 世界');
   });
 });

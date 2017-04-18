@@ -19,7 +19,10 @@ module.exports = (...middles) => ctx => load(middles).reduce((prev, next) => {
   // Catched errors should not be passed to the next thing
   return prev.catch(handler).then(fake => ctx).then(next).then(async ret => {
     if (ret instanceof Function) {
-      await ret(ctx);
+      ret = await ret(ctx);
+    }
+    if (/^(string|number)$/i.test(typeof ret)) {
+      ctx.ret = ret;
     }
     return ctx;
   });

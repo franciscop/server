@@ -8,7 +8,7 @@ const { getter, poster, handler, port } = require('../../tests/helpers');
 const persist = require('../../tests/helpers/persist');
 
 // Local helpers and data
-const empty = ctx => ctx.res.send();
+const empty = ctx => ctx.res.send('Hello 世界');
 const tests = __dirname + '/../../tests';
 const favicon = tests + '/logo.png';
 const content = ctx => ctx.req.headers['content-type'];
@@ -45,7 +45,7 @@ describe('Default modules', () => {
   it('can handle sessions', async () => {
     const setSession = ctx => { ctx.req.session.page = 'pageA' };
     const routes = [
-      get('/a', setSession, ctx => ctx.res.end()),
+      get('/a', setSession, ctx => ctx.res.send('')),
       get('/b', ctx => ctx.res.send(ctx.req.session.page)),
     ];
 

@@ -100,7 +100,7 @@ describe('Error routes', () => {
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('Hi there 1');
-      ctx.res.send();
+      ctx.res.send('Hello 世界');
     });
     return getter([generate, handle], {}, { errors });
   });
@@ -110,7 +110,7 @@ describe('Error routes', () => {
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('Hi there ABC');
-      ctx.res.send();
+      ctx.res.send('Hello 世界');
     });
     return getter([generate, handle], {}, { errors });
   });
@@ -120,7 +120,7 @@ describe('Error routes', () => {
     const handle = error('generic error', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('generic error');
-      ctx.res.send();
+      ctx.res.send('Hello 世界');
     });
     return getter([generate, handle], {}, { errors });
   });
