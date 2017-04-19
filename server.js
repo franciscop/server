@@ -26,7 +26,7 @@ const Server = async (...middle) => {
   // Proxify it to use the server if a method is not in context
   // Useful for things like ctx.close()
   const ctx = new Proxy({}, {
-    get: (orig, k) => orig[k] || orig.server[k]
+    get: (orig, k) => orig[k] || (orig.server || {})[k]
   });
 
   // First parameter can be:
