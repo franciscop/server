@@ -1,36 +1,30 @@
 // Create a socket plugin
 const socketIO = require('socket.io');
+const extend = require('extend');
 
 const server = require('server');
 const { join } = server.router;
 
-let listeners = {};
+const listeners = {};
 
 module.exports = {
   name: 'socket',
   options: {},
-  // Future ideal API:
   router: (ctx, path, middle) => {
-    // ...
-  },
-
-  // Hack so far
-  init: ctx => {
-    ctx.router = ctx.router || {};
-    ctx.router.socket = (path, ...middle) => {
-      listeners[path] = listeners[path] || [];
-      listeners[path].push(join(middle));
-    }
+    listeners[path] = listeners[path] || [];
+    listeners[path].push(middle);
   },
   launch: ctx => {
-    const io = socketIO(ctx.server);
-    io.on('connect', socket => {
+    ctx.io = socketIO(ctx.server);
+    ctx.io.on('connect', socket => {
       for (name in listeners) {
-        listeners[name].forEach(cb => {
-          socket.on(name, (...args) => {
-            cb(args, socket, io);
+        (name => {
+          listeners[name].forEach(cb => {
+            socket.on(name, data => {
+              cb(extend({}, ctx, { path: name, socket: socket, data: data }));
+            });
           });
-        });
+        })(name);
       }
     });
   }
