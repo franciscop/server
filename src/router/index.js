@@ -61,13 +61,15 @@ exports.join = join;
 module.exports = new Proxy(exports, {
   get: (orig, key) => {
     if (orig[key]) return orig[key];
-    return (path, ...middle) => {
+    return (...middle) => {
+      const path = typeof middle[0] === 'string' ? middle.shift() : '*';
+      middle = join(middle);
       let called;
       return ctx => {
         if (!called) {
           called = true;
           const routers = ctx.plugins.filter(p => p.name === key && p.router).map(p => p.router);
-          routers.forEach(router => router(ctx, path, join(middle)));
+          routers.forEach(router => router(ctx, path, middle));
         }
       }
     }
