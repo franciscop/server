@@ -87,4 +87,5 @@ module.exports.plugins = [
   require('./plugins/parser'),
   require('./plugins/connect'),
   require('./plugins/log'),
+  require('./plugins/socket'),
 ];
