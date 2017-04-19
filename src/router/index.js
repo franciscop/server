@@ -53,3 +53,14 @@ exports.error = (...middle) => {
   };
   return generic;
 };
+
+
+exports.join = join;
+
+// Allow for calling to routers that do not exist yet
+module.exports = new Proxy(exports, {
+  get: (orig, key) => {
+    if (orig[key]) return orig[key];
+    return (path, ...middle) => ctx => ctx.router[key](path, ...middle);
+  }
+});
