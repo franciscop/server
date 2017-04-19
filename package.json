@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.35",
+  "version": "1.0.0-alpha.36",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "scripts": {
@@ -10,7 +10,7 @@
   "engines": {
     "node": ">=7.6.0"
   },
-  "engineStrict" : true,
+  "engineStrict": true,
   "directories": {
     "Documentation": "./docs/documentation",
     "Code": "./src",
@@ -44,7 +44,8 @@
     "pug": "^2.0.0-beta6",
     "response-time": "^2.3.2",
     "serve-favicon": "^2.3.2",
-    "serve-index": "^1.8.0"
+    "serve-index": "^1.8.0",
+    "socket.io": "^1.7.3"
   },
   "devDependencies": {
     "babelify": "^7.3.0",
