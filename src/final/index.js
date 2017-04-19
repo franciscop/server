@@ -1,8 +1,8 @@
 // Final error handler
 const handler = ctx => {
-  if (!ctx.res.headersSent) {
-    ctx.res.send(ctx.ret || '');
-  }
+  // if (!ctx.res.headersSent) {
+  //   ctx.res.send(ctx.ret || '');
+  // }
 };
 handler.error = ctx => {
   if (ctx.options.verbose) {
