@@ -10,15 +10,15 @@ module.exports = ctx => {
   // Inherit
   options.public = options.public || ctx.options.public;
 
-  // Public folder
-  if (options.public) {
-    connect.before.push(modern(ctx.express.static(options.public)));
-  }
-
   // Compress
   if (options.compress) {
     const compress = require('compression')(options.compress);
     connect.before.push(modern(compress));
+  }
+
+  // Public folder
+  if (options.public) {
+    connect.before.push(modern(ctx.express.static(options.public)));
   }
 
   if (options.session) {

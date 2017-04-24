@@ -14,8 +14,10 @@ module.exports = {
     listeners[path] = listeners[path] || [];
     listeners[path].push(middle);
   },
-  launch: ctx => {
+  init: ctx => {
     ctx.io = socketIO(ctx.server);
+  },
+  launch: ctx => {
     ctx.io.on('connect', socket => {
       for (name in listeners) {
         (name => {
