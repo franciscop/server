@@ -1,6 +1,6 @@
 // Final error handler
 const handler = ctx => {
-  if (!ctx.res.headersSent) {
+  if (ctx.ret && !ctx.res.headersSent) {
     ctx.res.send(ctx.ret || '');
   }
 };

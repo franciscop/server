@@ -7,7 +7,8 @@ const { handler, getter } = require('../../tests/helpers');
 
 const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
   req: { url, path, method },
-  res: {},
+  res: { send: () => {} },
+  log: (...all) => console.log(...all),
   options: {}
 });
 
@@ -19,35 +20,36 @@ describe('barebones router', () => {
     const middles = [
       ctx => new Promise((resolve) => resolve()),
       get('/aaa', ctx => { throw new Error(); }),
-      get('/', ctx => { ctx.res.send = 'Hello 世界'; }),
+      get('/', ctx => 'Hello 世界'),
       get('/sth', ctx => { throw new Error(); }),
       get('/', ctx => { throw new Error(); })
     ];
 
-    const ctx = await join(middles)(createCtx());
+    const ctx = createCtx();
+    await join(middles)(ctx);
     expect(ctx.req.solved).toBe(true);
-    expect(ctx.res.send).toBe('Hello 世界');
+    expect(ctx.ret).toBe('Hello 世界');
   });
 
   it('works even when wrapped with join() and loadware()', async () => {
     const middles = [
       ctx => new Promise((resolve) => resolve()),
       get('/aaa', ctx => { throw new Error(); }),
-      join(loadware(get('/', ctx => { ctx.res.send = 'Hello 世界'; }))),
+      join(loadware(get('/', ctx => 'Hello 世界'))),
       get('/sth', ctx => { throw new Error(); }),
       get('/', ctx => { throw new Error(); })
     ];
 
     // Returns the promise to be handled async
-    const ctx = await join(middles)(createCtx());
-    expect(ctx.req.solved).toBe(true);
-    expect(ctx.res.send).toBe('Hello 世界');
+    const ctx = createCtx();
+    await join(middles)(ctx);
+    expect(ctx.ret).toBe('Hello 世界');
   });
 
 
-  it('parameters work properly', async () => {
-    const inject = createCtx({ path: '/test/francisco/presencia/bla' });
-    const ctx = await get('/test/:name/:lastname/bla')(inject);
+  it('works with parameters', async () => {
+    const ctx = createCtx({ path: '/test/francisco/presencia/bla' });
+    await get('/test/:name/:lastname/bla')(ctx);
     expect(ctx.req.solved).toBe(true);
     expect(ctx.req.params.name).toBe('francisco');
     expect(ctx.req.params.lastname).toBe('presencia');
@@ -59,13 +61,13 @@ describe('barebones router', () => {
 describe('Error routes', () => {
   it('can catch errors', async () => {
     const generate = ctx => { throw new Error('Should be caught'); };
-    const handle = error(ctx => ctx.res.send('Error 世界'));
+    const handle = error(ctx => 'Error 世界');
     const res = await getter([generate, handle]);
     expect(res.body).toBe('Error 世界');
   });
 
   it('can catch errors with full path', () => {
-    const generate = ctx => ctx.throw('test:a');
+    const generate = ctx => { ctx.throw('test:a'); };
     const handle = error('test:a', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('test:a');
@@ -77,7 +79,7 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with partial path', () => {
-    const generate = ctx => ctx.throw('test:b');
+    const generate = ctx => { ctx.throw('test:b'); };
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('test:b');
@@ -96,7 +98,7 @@ describe('Error routes', () => {
   };
 
   it('can generate errors', () => {
-    const generate = ctx => ctx.throw('test:pre:1');
+    const generate = ctx => { ctx.throw('test:pre:1'); };
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('Hi there 1');
@@ -106,7 +108,7 @@ describe('Error routes', () => {
   });
 
   it('can generate errors with options', () => {
-    const generate = ctx => ctx.throw('test:pre:build', { name: 'ABC' });
+    const generate = ctx => { ctx.throw('test:pre:build', { name: 'ABC' }); };
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('Hi there ABC');
@@ -116,7 +118,7 @@ describe('Error routes', () => {
   });
 
   it('can generate errors', () => {
-    const generate = ctx => ctx.throw('generic error');
+    const generate = ctx => { ctx.throw('generic error'); };
     const handle = error('generic error', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('generic error');

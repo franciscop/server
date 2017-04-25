@@ -63,11 +63,11 @@ describe('Middleware handles the promise', () => {
     await throws(() => modern((err, req, res, next) => {}));
   });
 
-  it('passes the context', async () => {
+  it('keeps the context', async () => {
     const ctx = { req: 1, res: 2 };
-    const readCtx = await modern((req, res, next) => next())(ctx);
-    expect(readCtx.req).toBe(1);
-    expect(readCtx.res).toBe(2);
+    const ret = await modern((req, res, next) => next())(ctx);
+    expect(ctx.req).toBe(1);
+    expect(ctx.res).toBe(2);
   });
 
   it('can modify the context', async () => {
@@ -76,7 +76,8 @@ describe('Middleware handles the promise', () => {
       res.send = 'sending';
       next();
     };
-    const ctx = await modern(middle)({ req: {}, res: {} });
+    const ctx = { req: {}, res: {} };
+    await modern(middle)(ctx);
     expect(ctx.req.user).toBe('myname');
     expect(ctx.res.send).toBe('sending');
   });
@@ -88,9 +89,9 @@ describe('Middleware handles the promise', () => {
       res.send += 2;
       next();
     };
-    const resCtx = await modern(middle)(ctx).then(modern(middle));
-    expect(resCtx.req.user).toBe('a11');
-    expect(resCtx.res.send).toBe('b22');
+    await modern(middle)(ctx).then(() => modern(middle)(ctx));
+    expect(ctx.req.user).toBe('a11');
+    expect(ctx.res.send).toBe('b22');
   });
 
   it('factory can receive options', async () => {
@@ -151,9 +152,9 @@ describe('Middleware handles the promise', () => {
       ctx => modern(factored)(ctx)
     ];
 
-    const readCtx = await join(middles)(ctx);
-    expect(readCtx.req.user).toBe('a111111');
-    expect(readCtx.res.send).toBe('b111111');
+    await join(middles)(ctx);
+    expect(ctx.req.user).toBe('a111111');
+    expect(ctx.res.send).toBe('b111111');
   });
 
   it('rejects when next is called with an error', async () => {

@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.37",
+  "version": "1.0.0-alpha.38",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "scripts": {
@@ -40,6 +40,7 @@
     "loadware": "^2.0.0",
     "method-override": "^2.3.7",
     "morgan": "^1.8.1",
+    "mz": "^2.6.0",
     "path-to-regexp-wrap": "0.0.4",
     "pug": "^2.0.0-beta6",
     "response-time": "^2.3.2",

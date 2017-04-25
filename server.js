@@ -7,6 +7,7 @@ const express = require('express');
 // Internal modules
 const config = require('./src/config');
 const router = require('./src/router/index.js');
+const reply = require('./src/reply/index.js');
 const join = require('./src/join/index.js');
 const modern = require('./src/modern');
 const error = require('./src/error');
@@ -79,6 +80,7 @@ const Server = async (...middle) => {
 
 module.exports = Server;
 module.exports.router = router;
+module.exports.reply = reply;
 module.exports.utils = {
   modern: modern
 };

@@ -9,7 +9,7 @@ describe('final', () => {
     expect(err.message).toMatch(/500/);
   });
 
-  it('doesn not reply if the headers are already sent', async () => {
+  it('does not reply if the headers are already sent', async () => {
     const simple = ctx => {
       ctx.res.send('Error 世界');
       throw new Error('Hello');

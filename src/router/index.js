@@ -2,15 +2,21 @@
 const join = require('../join');
 const params = require('path-to-regexp-wrap')();
 
+// Parse the request parameters
+const parse = middle => {
+  const path = typeof middle[0] === 'string' ? middle.shift() : '*';
+  return { path, middle };
+};
+
 // Generic request handler
-const generic = (method, ...middle) => {
+const generic = (method, ...all) => {
 
   // Extracted or otherwise it'd shift once per call; also more performant
-  const path = typeof middle[0] === 'string' ? middle.shift() : '*';
-  const match = params(path);
-  middle = join(middle);
+  const { path, middle } = parse(all);
 
-  return ctx => {
+  const match = params(path);
+
+  return async ctx => {
 
     // A route should be solved only once per request
     if (ctx.req.solved) return;
@@ -23,10 +29,15 @@ const generic = (method, ...middle) => {
     if (!ctx.req.params) return;
 
     // Perform this promise chain
-    return middle(ctx).then(ctx => {
-      ctx.req.solved = true;
-      return ctx;
-    });
+    await join(middle)(ctx);
+
+    ctx.req.solved = true;
+    if (ctx.ret && ctx.ret.res && ctx.ret.req && ctx.ret.options) {
+      console.log('You should NOT return the ctx in middleware!');
+    }
+    if (ctx.ret && !ctx.res.headersSent) {
+      ctx.res.send(ctx.ret || '');
+    }
   };
 };
 
@@ -39,21 +50,24 @@ exports.del  = (...middle) => generic('DELETE', ...middle);
 
 exports.join = join;
 
-exports.error = (...middle) => {
-  const path = typeof middle[0] === 'string' ? middle.shift() : false;
+exports.error = (...all) => {
+  // Extracted or otherwise it'd shift once per call; also more performant
+  const { path, middle } = parse(all);
   const generic = () => {};
-  generic.error = ctx => {
-    // All of them if there's no path
-    if (!path || path === '*') return join(middle)(ctx);
+  generic.error = async ctx => {
 
     // TODO: find a way to fix this
     const frag = ctx.error.path ? ctx.error.path.slice(0, path.length) : '';
-    if (frag === path) return join(middle)(ctx);
-    throw ctx.error;
+
+    // All of them if there's no path
+    if (path === '*' || frag === path) {
+      const ret = await middle[0](ctx);
+      delete ctx.error;
+      ctx.ret = ret || ctx.ret;
+    }
   };
   return generic;
 };
-
 
 exports.join = join;
 

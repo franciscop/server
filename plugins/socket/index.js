@@ -2,9 +2,6 @@
 const socketIO = require('socket.io');
 const extend = require('extend');
 
-const server = require('server');
-const { join } = server.router;
-
 const listeners = {};
 
 module.exports = {

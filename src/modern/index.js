@@ -14,7 +14,7 @@ module.exports = middle => {
     validate.context(ctx);
 
     // It can handle both success or errors. Pass the right ctx
-    const next = err => err ? reject(err) : resolve(ctx);
+    const next = err => err ? reject(err) : resolve();
 
     // Call the old middleware
     middle(ctx.req, ctx.res, next);

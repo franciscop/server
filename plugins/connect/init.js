@@ -40,7 +40,9 @@ module.exports = ctx => {
     connect.before.push(modern(csrf));
 
     // Set the csrf for render(): https://expressjs.com/en/api.html#res.locals
-    connect.before.push(ctx => ctx.res.locals.csrf = ctx.req.csrfToken());
+    connect.before.push(ctx => {
+      ctx.res.locals.csrf = ctx.req.csrfToken();
+    });
   }
 
   // ctx => {

@@ -47,7 +47,7 @@ describe('Default modules', () => {
   // It can *set* cookies from the server()
   // TODO: it can *get* cookies from the server()
   it('cookieParser', () => {
-    const middle = ctx => ctx.res.cookie('place', '世界').send('Hello 世界');
+    const middle = ctx => { ctx.res.cookie('place', '世界').send('Hello 世界'); };
     return poster(middle, { place: '世界' }, nocsrf).then(res => {
       const cookieheader = res.headers['set-cookie'];
       // Should be 2 because of the session
