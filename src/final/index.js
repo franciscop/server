@@ -4,7 +4,7 @@ const handler = async ctx => {
     await ctx.res.send(ctx.ret || '');
   }
   if (!ctx.res.headersSent) {
-    console.log('Something very wrong:', __dirname, process.cwd(), ctx.options);
+    console.log('Something very wrong:', process.cwd(), ctx.options);
     ctx.res.sendStatus(404);
   }
 };
