@@ -8,11 +8,11 @@ Simple and powerful server that just works so **you can focus on your awesome pr
 ```js
 // Include it and extract some methods for convenience
 const server = require('server');
-const { get, post } = server.router;
+const { get } = server.router;
 
 // Launch server with some opts and a couple of routes
 server({ port: 8080, public: './' }, [
-  get('/', ctx => ctx.res.render('index')),
+  get('/', ctx => 'Hello world'),
   post('/', ctx => console.log(ctx.req.body))
 ]);
 ```
@@ -36,7 +36,7 @@ const { get, post } = server.router;
 
 // Handle requests to the url "/" ( http://localhost:3000/ )
 server([
-  get('/', ctx => ctx.res.send('Hello world!'))
+  get('/', ctx => 'Hello world!')
 ]);
 ```
 
@@ -52,13 +52,66 @@ And finally, open your browser on [localhost:3000](http://localhost:3000/) and y
 
 ## Documentation
 
-The library documented is here:
+The library is documented here:
 
 <strong><a class="button" href="https://serverjs.io/documentation/">Full Documentation</a></strong>
 
 > [**Subscribe here**](http://eepurl.com/cGRggH) to receive tutorials when released. Tutorials are *good for learning* while the documentation is good for reference/quick use *once you know the basics*.
 
 You can also download the repository and try the examples by browsing to them and `node app.js` inside each of them in `/examples`.
+
+
+
+## Use cases
+
+The package `server` is great for some situations. Let's see which ones:
+
+
+### Small to medium projects
+
+Everything works out of the box, you get great support for most features and you can easily tap into Express' middleware ecosystem. What's not to love?
+
+Some of the included features: body and file parsers, cookies, sessions, websockets (not yet), Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project.
+
+
+
+### API design
+
+From the flexibility and expressivity of the bundle, designing APIs is a breeze:
+
+```js
+// books/router.js
+const ctrl = require('./controller');
+const { get, post, put, del } = require('server').router;
+
+module.exports = [
+  get('/book', ctrl.list),
+  get('/book/:id', ctrl.item),
+  post('/book', ctrl.create),
+  put('/book/:id', ctrl.update),
+  del('/book/:id', ctrl.delete)
+];
+```
+
+
+
+### Real time
+
+> Upcoming feature
+
+Websockets were never this easy to use! With socket.io on the front-end, you can simply do this in the back-end to handle those events:
+
+```js
+// chat/router.js
+const ctrl = require('./controller');
+const { socket } = require('server').router;
+
+module.exports = [
+  socket('connect', ctrl.join),
+  socket('message', ctrl.message),
+  socket('disconnect', ctrl.leave)
+];
+```
 
 
 

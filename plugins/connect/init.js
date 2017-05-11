@@ -1,3 +1,5 @@
+const path = require('path');
+
 module.exports = ctx => {
 
   const modern = ctx.utils.modern;
@@ -9,6 +11,9 @@ module.exports = ctx => {
 
   // Inherit
   options.public = options.public || ctx.options.public;
+  if (!path.isAbsolute(options.public)) {
+    options.public = path.join(__dirname, options.public);
+  }
 
   // Compress
   if (options.compress) {

@@ -5,11 +5,11 @@
 <p>Simple and powerful server that just works so <strong>you can focus on your awesome project</strong>:</p>
 <pre><code class="lang-js">// Include it and extract some methods for convenience
 const server = require(&#39;server&#39;);
-const { get, post } = server.router;
+const { get } = server.router;
 
 // Launch server with some opts and a couple of routes
 server({ port: 8080, public: &#39;./&#39; }, [
-  get(&#39;/&#39;, ctx =&gt; ctx.res.render(&#39;index&#39;)),
+  get(&#39;/&#39;, ctx =&gt; &#39;Hello world&#39;),
   post(&#39;/&#39;, ctx =&gt; console.log(ctx.req.body))
 ]);
 </code></pre>
@@ -24,7 +24,7 @@ const { get, post } = server.router;
 
 // Handle requests to the url &quot;/&quot; ( http://localhost:3000/ )
 server([
-  get(&#39;/&#39;, ctx =&gt; ctx.res.send(&#39;Hello world!&#39;))
+  get(&#39;/&#39;, ctx =&gt; &#39;Hello world!&#39;)
 ]);
 </code></pre>
 <p>Execute this in the terminal to get the server started:</p>
@@ -32,12 +32,46 @@ server([
 </code></pre>
 <p>And finally, open your browser on <a href="http://localhost:3000/">localhost:3000</a> and you should see your server answered &#39;Hello world!&#39;.</p>
 <h2 id="documentation">Documentation</h2>
-<p>The library documented is here:</p>
+<p>The library is documented here:</p>
 <p><strong><a class="button" href="https://serverjs.io/documentation/">Full Documentation</a></strong></p>
 <blockquote>
 <p><a href="http://eepurl.com/cGRggH"><strong>Subscribe here</strong></a> to receive tutorials when released. Tutorials are <em>good for learning</em> while the documentation is good for reference/quick use <em>once you know the basics</em>.</p>
 </blockquote>
 <p>You can also download the repository and try the examples by browsing to them and <code>node app.js</code> inside each of them in <code>/examples</code>.</p>
+<h2 id="use-cases">Use cases</h2>
+<p>The package <code>server</code> is great for some situations. Let&#39;s see which ones:</p>
+<h3 id="small-to-medium-projects">Small to medium projects</h3>
+<p>Everything works out of the box, you get great support for most features and you can easily tap into Express&#39; middleware ecosystem. What&#39;s not to love?</p>
+<p>Some of the included features: body and file parsers, cookies, sessions, websockets (not yet), Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project.</p>
+<h3 id="api-design">API design</h3>
+<p>From the flexibility and expressivity of the bundle, designing APIs is a breeze:</p>
+<pre><code class="lang-js">// books/router.js
+const ctrl = require(&#39;./controller&#39;);
+const { get, post, put, del } = require(&#39;server&#39;).router;
+
+module.exports = [
+  get(&#39;/book&#39;, ctrl.list),
+  get(&#39;/book/:id&#39;, ctrl.item),
+  post(&#39;/book&#39;, ctrl.create),
+  put(&#39;/book/:id&#39;, ctrl.update),
+  del(&#39;/book/:id&#39;, ctrl.delete)
+];
+</code></pre>
+<h3 id="real-time">Real time</h3>
+<blockquote>
+<p>Upcoming feature</p>
+</blockquote>
+<p>Websockets were never this easy to use! With socket.io on the front-end, you can simply do this in the back-end to handle those events:</p>
+<pre><code class="lang-js">// chat/router.js
+const ctrl = require(&#39;./controller&#39;);
+const { socket } = require(&#39;server&#39;).router;
+
+module.exports = [
+  socket(&#39;connect&#39;, ctrl.join),
+  socket(&#39;message&#39;, ctrl.message),
+  socket(&#39;disconnect&#39;, ctrl.leave)
+];
+</code></pre>
 <h2 id="license">License</h2>
 <p>Licensed under the MIT License. See <a href="https://github.com/franciscop/server/blob/master/LICENSE">LICENSE</a> for the full license.</p>
 <h2 id="author">Author</h2>
