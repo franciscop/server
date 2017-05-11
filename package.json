@@ -49,24 +49,16 @@
     "socket.io": "^1.7.3"
   },
   "devDependencies": {
-    "babelify": "^7.3.0",
-    "chance": "^1.0.4",
     "grunt": "^1.0.1",
-    "grunt-browserify": "^5.0.0",
     "grunt-bytesize": "^0.2.0",
-    "grunt-contrib-concat": "^1.0.1",
     "grunt-contrib-connect": "^1.0.2",
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-pug": "^1.0.0",
     "grunt-contrib-sass": "^1.0.0",
-    "grunt-contrib-uglify": "^2.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-es6-transpiler": "^1.0.2",
     "jest": "^18.1.0",
     "jstransformer-marked": "^1.0.2",
-    "promised-exec": "^1.0.1",
     "request-promises": "^1.0.1",
-    "supertest": "^3.0.0",
-    "uglifyify": "^3.0.4"
+    "supertest": "^3.0.0"
   }
 }

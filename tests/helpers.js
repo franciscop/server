@@ -1,5 +1,4 @@
 const request = require('request-promises');
-const supertest = require('supertest');
 const server = require('../server');
 const port = require('./helpers/port');
 const { get, post, put, del, error } = server.router;

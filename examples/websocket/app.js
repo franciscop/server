@@ -1,8 +1,8 @@
-let server = require('../../server');
-let { socket } = server.router;
+const server = require('../../server');
+const { socket } = server.router;
 
 server(3000,
-  socket('message', (req, res) => {
-    res.socket('Hello there');
+  socket('message', ctx => {
+    ctx.socket.emit('message', 'Hello there');
   });
 );

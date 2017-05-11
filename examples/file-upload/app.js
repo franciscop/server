@@ -2,13 +2,13 @@ let server = require('../../server');
 let { get, post } = server.router;
 
 server(3000,
-  get('/', (req, res) => res.render('index')),
-  post('/upload', (req, res) => {
+  get('/', ctx => ctx.res.render('index')),
+  post('/upload', ctx => {
 
     // Here is your file, "userimage" as in name="userimage" in the form:
-    console.log(req.files.userimage);
-    console.log("Path:", req.files.userimage.path);
+    console.log(ctx.req.files.userimage);
+    console.log("Path:", ctx.req.files.userimage.path);
 
-    res.redirect('/#goodjob');
+    ctx.res.redirect('/#goodjob');
   })
 );

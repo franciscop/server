@@ -1,4 +1,5 @@
-let server = require('../../server');
-let { get, post } = server.router;
+const server = require('../../server');
+const { get, post } = server.router;
+const { render } = server.reply;
 
-server(3000, get('/', (req, res) => res.render('index')));
+server(ctx => render('index'));

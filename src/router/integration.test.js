@@ -3,7 +3,6 @@ const request = require('request-promises');
 const server = require('../../server');
 const { get, post, put, del } = server.router;
 const { hello, err, launch, handler, getter, poster } = require('../../tests/helpers');
-const command = require('promised-exec');
 const routes = [
   get('/', ctx => ctx.res.send('Hello 世界')),
   post('/', ctx => ctx.res.send('Hello ' + ctx.req.body.a)),

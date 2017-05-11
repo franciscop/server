@@ -19,16 +19,6 @@ module.exports = function (grunt) {
       src: ['Gruntfile.js', 'server.js', 'src']
     },
 
-    browserify: {
-      dist: {
-        files: { 'docs/javascript.min.js': 'docs/javascript.js' },
-        options: {
-          transform: [['babelify', { presets: ['es2015'] }], ['uglifyify']],
-          browserifyOptions: { debug: true }
-        }
-      }
-    },
-
     // Launch a small static server
     connect: {
       server: {
@@ -91,12 +81,10 @@ module.exports = function (grunt) {
     }
   });
 
-  grunt.loadNpmTasks('grunt-contrib-concat');
   grunt.loadNpmTasks('grunt-contrib-connect');
   grunt.loadNpmTasks('grunt-contrib-jshint');
   grunt.loadNpmTasks('grunt-contrib-pug');
   grunt.loadNpmTasks('grunt-contrib-watch');
-  grunt.loadNpmTasks('grunt-browserify');
   grunt.loadNpmTasks('grunt-bytesize');
   grunt.loadNpmTasks('grunt-contrib-sass');
 
