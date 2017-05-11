@@ -1,6 +1,10 @@
 # **Server** for Node.js
 
-[![[Subscribe]](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH) [![[Status]](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server) [![[Downloads]](https://img.shields.io/npm/dm/server.svg)](https://www.npmjs.com/package/server) [![[Roadmap]](https://img.shields.io/badge/version-ALPHA-red.svg)](https://github.com/franciscop/server/issues/1)
+  [![[Subscribe]](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH)
+  [![[Status]](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server)
+  [![[Windows Build]](https://img.shields.io/appveyor/ci/franciscop/server.svg?label=windows)](https://ci.appveyor.com/project/franciscop/server)
+  [![[Downloads]](https://img.shields.io/npm/dm/server.svg)](https://www.npmjs.com/package/server)
+  [![[Roadmap]](https://img.shields.io/badge/version-ALPHA-red.svg)](https://github.com/franciscop/server/issues/1)
 
 
 Simple and powerful server that just works so **you can focus on your awesome project**:
