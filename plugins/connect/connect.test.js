@@ -37,6 +37,15 @@ describe('Default modules', () => {
     close();
   });
 
+  it('non-existing static', async () => {
+    const { getter, close } = await launch([], { public: tests }).then(persist);
+    console.log('Before');
+    const res = await getter('/non-existing.png');
+    console.log('After');
+    expect(res.headers['content-type']).toBe('image/png');
+    close();
+  });
+
   it('response-time', async () => {
     const res = await getter(empty);
     expect(typeof res.headers['x-response-time']).toBe('string');

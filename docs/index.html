@@ -9,7 +9,8 @@
 <p>Simple and powerful server that just works so <strong>you can focus on your awesome project</strong>:</p>
 <pre><code class="lang-js">// Include it and extract some methods for convenience
 const server = require(&#39;server&#39;);
-const { get } = server.router;
+const { get, post } = server.router;
+const { render } = server.reply;
 
 // Launch server with some opts and a couple of routes
 server({ port: 8080, public: &#39;./&#39; }, [
@@ -78,9 +79,9 @@ module.exports = [
 </code></pre>
 <h2 id="license">License</h2>
 <p>Licensed under the MIT License. See <a href="https://github.com/franciscop/server/blob/master/LICENSE">LICENSE</a> for the full license.</p>
-<h2 id="author">Author</h2>
+<h2 id="author-support">Author &amp; support</h2>
 <p>This package was created by <a href="http://francisco.io/">Francisco Presencia</a> but hopefully developed and maintained by many others. See the <a href="https://github.com/franciscop/server/graphs/contributors">the list of contributors here</a>.</p>
-<p>I love using my work and I&#39;m available for contractor work. Freelancing helps maintain <code>server</code> and <a href="https://github.com/franciscop/">my other open source projects</a> up to date!</p>
+<p>I love using my work and I&#39;m available for contractor work. Freelancing helps maintain <code>server</code> and <a href="https://github.com/franciscop/">my other open source projects</a> up to date! I am also on <a href="https://www.codementor.io/franciscop">Codementor</a> so if you want to learn more Javascript/Node.js/etc contact me there.</p>
 <p>You can also <a href="https://serverjs.io/sponsor">sponsor the project</a>, get your logo in here and some other perks with tons of ♥</p>
 </article><script>function $(sel) { return document.querySelector(sel); }
 $('button.secret').onclick = function () {
