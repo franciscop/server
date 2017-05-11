@@ -14,6 +14,8 @@ module.exports = ctx => {
   if (!path.isAbsolute(options.public)) {
     options.public = path.join(__dirname, options.public);
   }
+  options.public = path.normalize(options.public);
+  ctx.options.public = options.public;
 
   // Compress
   if (options.compress) {

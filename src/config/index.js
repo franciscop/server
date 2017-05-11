@@ -2,6 +2,7 @@ const extend = require('extend');  // deep clone, not like shallow Object.assign
 const config = require('./defaults');
 const errors = require('./errors');
 const env = require('./env');
+const path = require('path');
 
 module.exports = (user = {}, plugins = []) => {
 

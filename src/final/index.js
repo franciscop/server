@@ -4,12 +4,12 @@ const handler = async ctx => {
     await ctx.res.send(ctx.ret || '');
   }
   if (!ctx.res.headersSent) {
-    console.log('Something very wrong:', ctx.req);
+    console.log('Something very wrong:', ctx.options, ctx.req);
     ctx.res.sendStatus(404);
   }
 };
+
 handler.error = ctx => {
-  console.log('Sent:', ctx.res.headersSent);
   if (ctx.options.verbose) {
     ctx.log("Fatal error:", ctx.error);
   }
