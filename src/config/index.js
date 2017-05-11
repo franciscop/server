@@ -41,17 +41,18 @@ module.exports = (user = {}, plugins = []) => {
 
       // In windows the process.env.public points to 'C:\\Users\\Public'
       if (key === 'public' && /^win/.test(process.platform)) {
+        // Change it in this case where we know it's wrong for sure
+        if (options.public === 'C:\\Users\\Public') {
+          return 'public';
+        }
+
         // Light check with warning
         if (env.public !== 'public') {
           // TODO: change this to a proper warning
           console.log(`
-            Windows might have set the path of public to ${options.public}.
+            Windows might have set the path of public to ${env.public}.
             If you changed the 'public' folder please ignore this message
           `);
-        }
-        // Change it in this case where we know it's wrong for sure
-        if (options.public === 'C:\\Users\\Public') {
-          return 'public';
         }
       }
 
