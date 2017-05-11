@@ -42,7 +42,7 @@ module.exports = (user = {}, plugins = []) => {
       // In windows the process.env.public points to 'C:\\Users\\Public'
       if (key === 'public' && /^win/.test(process.platform)) {
         // Change it in this case where we know it's wrong for sure
-        if (options.public === 'C:\\Users\\Public') {
+        if (env.public === 'C:\\Users\\Public') {
           return 'public';
         }
 
