@@ -9,7 +9,7 @@ const persist = require('../../tests/helpers/persist');
 
 // Local helpers and data
 const empty = ctx => ctx.res.send('Hello 世界');
-const tests = __dirname + '/../../tests';
+const tests = 'tests';
 const favicon = tests + '/logo.png';
 const content = ctx => ctx.req.headers['content-type'];
 
