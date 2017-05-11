@@ -1,4 +1,3 @@
-const request = require('request-promise-native');
 const server = require('../server');
 const { get, post, put, del, error } = server.router;
 const { send } = server.reply;

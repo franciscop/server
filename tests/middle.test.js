@@ -1,9 +1,5 @@
 const server = require('server');
-const req = require('request-promise-native');
-const request = opts => {
-  opts = typeof opts === 'string' ? { uri: opts } : opts;
-  return req(Object.assign({}, opts, { resolveWithFullResponse: true }));
-}
+const request = require('request-promises');
 const { get, error } = server.router;
 const { handler, getter, port } = require('./helpers');
 
