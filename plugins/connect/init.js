@@ -11,7 +11,7 @@ module.exports = ctx => {
 
   // Inherit
   options.public = options.public || ctx.options.public;
-  console.log('Public:', options.public, process.cwd(), path.join(process.cwd(), options.public));
+  console.log('Public:', process.env.PUBLIC, process.env.public, options.public, process.cwd(), path.join(process.cwd(), options.public));
   if (!path.isAbsolute(options.public)) {
     options.public = path.join(process.cwd(), options.public);
   }
