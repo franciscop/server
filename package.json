@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "start": "node server.js",
-    "test": "jest --coverage"
+    "test": "jest --coverage --forceExit"
   },
   "engines": {
     "node": ">=7.6.0"
