@@ -1,6 +1,8 @@
 // Load them from the environment file if any
 require('dotenv').config({ silent: true });
 
+console.log('ENV:', process.env.public, process.env.PUBLIC);
+
 // Parse the different types of files from the env
 const type = require('./type');
 
