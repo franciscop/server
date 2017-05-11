@@ -43,7 +43,7 @@ module.exports = (user = {}, plugins = []) => {
       if (key === 'public' && /^win/.test(process.platform)) {
         // Change it in this case where we know it's wrong for sure
         if (env.public === 'C:\\Users\\Public') {
-          return 'public';
+          return options.public || 'public';
         }
 
         // Light check with warning
