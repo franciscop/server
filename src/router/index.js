@@ -70,6 +70,7 @@ exports.error = (...all) => {
 };
 
 exports.join = join;
+exports.socket = require('../../plugins/socket').router;
 
 // Allow for calling to routers that do not exist yet
 module.exports = new Proxy(exports, {
