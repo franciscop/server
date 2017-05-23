@@ -13,7 +13,6 @@ Simple and powerful server that just works so **you can focus on your awesome pr
 // Include it and extract some methods for convenience
 const server = require('server');
 const { get, post } = server.router;
-const { render } = server.reply;
 
 // Launch server with some opts and a couple of routes
 server({ port: 8080, public: './' }, [
