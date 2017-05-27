@@ -102,8 +102,8 @@ server({
 <pre><code class="lang-js">server({
   port: 3000,
   ssl: {
-    key: &#39;test/fixtures/keys/agent2-key.pem&#39;,
-    cert: &#39;test/fixtures/keys/agent2-cert.cert&#39;
+    key: &#39;./ssl.pem&#39;,
+    cert: &#39;./ssl.cert&#39;
   }
 });
 </code></pre>
@@ -143,18 +143,18 @@ server({ port: 3000 });  // The same as the previous one
 server({ public: &#39;&#39; });
 </code></pre>
 <h3 id="engine">Engine</h3>
-<p>The view engine that you want to use to render your templates. <a href="https://github.com/expressjs/express/wiki#template-engines">See all the available engines</a>. To use an engine you normally have to install it first (except <a href="https://pugjs.org/">pug</a>, which is preinstalled):</p>
-<pre><code>npm install [ejs|nunjucks|handlebars|emblem] --save
+<p>The view engine that you want to use to render your templates. <a href="https://github.com/expressjs/express/wiki#template-engines">See all the available engines</a>. To use an engine you normally have to install it first except for the pre-installed <a href="https://pugjs.org/">pug</a> and handlebars:</p>
+<pre><code>npm install [ejs|nunjucks|emblem] --save
 </code></pre><p>To use that engine you just have to add the extension to the <code>render()</code> method:</p>
 <pre><code class="lang-js">// No need to specify the engine if you are using the extension
-server(ctx =&gt; ctx.res.render(&#39;index.pug&#39;));
-server(ctx =&gt; ctx.res.render(&#39;index.hbs&#39;));
+server(ctx =&gt; render(&#39;index.pug&#39;));
+server(ctx =&gt; render(&#39;index.hbs&#39;));
 // ...
 </code></pre>
 <p>However if you want to use it without extension, you can do so by specifying the engine in <code>.env</code>:</p>
 <pre><code>ENGINE=pug
 </code></pre><p>Or through the corresponding option in javascript:</p>
-<pre><code class="lang-js">server({ engine: &#39;pug&#39; }, ctx =&gt; ctx.res.render(&#39;index&#39;));
+<pre><code class="lang-js">server({ engine: &#39;pug&#39; }, ctx =&gt; render(&#39;index&#39;));
 </code></pre>
 <h2 id="keep-reading">Keep reading</h2><p>Once you master the options there are few topics to keep going on:</p><div class="pages"><a class="button" href="../middleware">Middleware</a><a class="button" href="../router">Router</a><a class="button" href="../advanced">Advanced</a></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
   var email = 'mailto:public' + '@francisco.i' + 'o?subject=server for Node.js';

@@ -12,8 +12,8 @@ server(options, fn1, fn2, fn3, ...);
 <blockquote>
 <p><a href="http://eepurl.com/cGRggH"><strong>Subscribe here</strong></a> to receive tutorials when released. Tutorials are good <em>for learning</em> while the documentation is good for reference/quick use <em>once you know the basics</em>.</p>
 </blockquote>
-<h2 id="options">Options</h2>
-<p>In its most basic form it&#39;s a plain object with several key:values pairs:</p>
+<h2 id="-options-options-"><a href="options">Options</a></h2>
+<p>In its basic form it&#39;s a plain object with several key:values pairs:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 
 // Set the options (shown here with the defaults)
@@ -29,13 +29,13 @@ const options = {
 server(options);
 </code></pre>
 <p><a class="button" href="options"><strong>Options documentation</strong></a></p>
-<h2 id="middleware">Middleware</h2>
+<h2 id="-middleware-middleware-"><a href="middleware">Middleware</a></h2>
 <p>Middleware are functions that accepts a context, does some work and is resolved either synchronous or asynchronous. Mandatory <em>Hello World</em> here:</p>
 <pre><code class="lang-js">// Load the server from the dependencies
 const server = require(&#39;server&#39;);
 
 // Display &quot;Hello 世界&quot; for any request
-const middleware = ctx =&gt; ctx.res.send(&#39;Hello 世界&#39;);
+const middleware = ctx =&gt; &#39;Hello 世界&#39;;
 
 // Launch the server with a single middleware
 server(middleware);
@@ -49,12 +49,10 @@ server(middleware);
 const { get, post, put, del } = server.router;
 
 // Handle requests to http://localhost:3000/
-const home = get(&#39;/&#39;, ctx =&gt; ctx.res.send(&#39;Homepage&#39;));
+const home = get(&#39;/&#39;, ctx =&gt; &#39;Homepage!&#39;);
 
 // Handle requests to http://localhost:3000/SOMETHING
-const page = get(&#39;/:page&#39;, ctx =&gt; {
-  ctx.res.send(`Showing page ${ctx.req.params.page}`);
-});
+const page = get(&#39;/:page&#39;, ctx =&gt; `Page ${ctx.req.params.page}`);
 
 server(home, page);
 </code></pre>

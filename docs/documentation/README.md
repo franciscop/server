@@ -15,9 +15,9 @@ The most important concepts to use server are: [**options**](options), [**middle
 > [**Subscribe here**](http://eepurl.com/cGRggH) to receive tutorials when released. Tutorials are good *for learning* while the documentation is good for reference/quick use *once you know the basics*.
 
 
-## Options
+## [Options](options)
 
-In its most basic form it's a plain object with several key:values pairs:
+In its basic form it's a plain object with several key:values pairs:
 
 ```js
 const server = require('server');
@@ -38,7 +38,7 @@ server(options);
 <a class="button" href="options"><strong>Options documentation</strong></a>
 
 
-## Middleware
+## [Middleware](middleware)
 
 Middleware are functions that accepts a context, does some work and is resolved either synchronous or asynchronous. Mandatory *Hello World* here:
 
@@ -47,7 +47,7 @@ Middleware are functions that accepts a context, does some work and is resolved 
 const server = require('server');
 
 // Display "Hello 世界" for any request
-const middleware = ctx => ctx.res.send('Hello 世界');
+const middleware = ctx => 'Hello 世界';
 
 // Launch the server with a single middleware
 server(middleware);
@@ -69,12 +69,10 @@ const server = require('server');
 const { get, post, put, del } = server.router;
 
 // Handle requests to http://localhost:3000/
-const home = get('/', ctx => ctx.res.send('Homepage'));
+const home = get('/', ctx => 'Homepage!');
 
 // Handle requests to http://localhost:3000/SOMETHING
-const page = get('/:page', ctx => {
-  ctx.res.send(`Showing page ${ctx.req.params.page}`);
-});
+const page = get('/:page', ctx => `Page ${ctx.req.params.page}`);
 
 server(home, page);
 ```
