@@ -4,7 +4,7 @@ const { getter, poster, handler, throws } = require('../../tests/helpers');
 
 describe('log()', () => {
   it('is defined', () => {
-    server(parseInt(Math.random() * 10000)).then(ctx => {
+    server(parseInt(1000 + Math.random() * 10000)).then(ctx => {
       expect(ctx.log).toBeDefined();
       ctx.close();
     });
