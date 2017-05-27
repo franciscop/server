@@ -33,7 +33,7 @@ const generic = (method, ...all) => {
 
     ctx.req.solved = true;
     if (ctx.ret && ctx.ret.res && ctx.ret.req && ctx.ret.options) {
-      console.log('You should NOT return the ctx in middleware!');
+      ctx.log.warning('You should NOT return the ctx in middleware!');
     }
     if (ctx.ret && !ctx.res.headersSent) {
       ctx.res.send(ctx.ret || '');

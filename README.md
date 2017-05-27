@@ -68,14 +68,14 @@ You can also download the repository and try the examples by browsing to them an
 
 ## Use cases
 
-The package `server` is great for some situations. Let's see which ones:
+The package `server` is great for many situations. Let's see some of them:
 
 
 ### Small to medium projects
 
 Everything works out of the box, you get great support for most features and you can easily tap into Express' middleware ecosystem. What's not to love?
 
-Some of the included features: body and file parsers, cookies, sessions, websockets (not yet), Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project.
+Some of the included features: body and file parsers, cookies, sessions, websockets, Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project.
 
 
 

@@ -8,7 +8,6 @@ const { handler, getter } = require('../../tests/helpers');
 const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
   req: { url, path, method },
   res: { send: () => {} },
-  log: (...all) => console.log(...all),
   options: {}
 });
 

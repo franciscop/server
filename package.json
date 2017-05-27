@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.41",
+  "version": "1.0.0-alpha.42",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "scripts": {
@@ -38,6 +38,7 @@
     "hbs": "^4.0.1",
     "human-error": "^0.2.0",
     "loadware": "^2.0.0",
+    "log": "^1.4.0",
     "method-override": "^2.3.7",
     "morgan": "^1.8.1",
     "mz": "^2.6.0",

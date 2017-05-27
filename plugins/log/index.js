@@ -1,10 +1,26 @@
+const Log = require('log');
+
+const valid = [
+  'emergency',
+  'alert',
+  'critical',
+  'error',
+  'warning',
+  'notice',
+  'info',
+  'debug'
+];
+
 // Log plugin
-const morgan = require('morgan');
+const morgan = require('log');
 const plugin = {
   name: 'log',
-  options: { level: 'debug' },
+  options: 'debug',
   init: ctx => {
-    ctx.log = ((...args) => console.log(...args));
+    if (!valid.includes(ctx.options.log)) {
+      throw new Error(`The log level ${ctx.options.log} is not valid. Valid names: ${valid}`);
+    }
+    ctx.log = new Log(ctx.options.log);
   }
 };
 
