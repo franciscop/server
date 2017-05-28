@@ -15,5 +15,5 @@ const lint = src => new Promise((resolve, reject) => {
 describe('linter', () => {
   it('lints the src', async () => {
     return await lint('src');
-  }, 10000);
+  }, 30000);
 });
