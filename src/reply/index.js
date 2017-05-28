@@ -1,6 +1,4 @@
-/* eslint: false */
 const path = require('path');
-// const fs = require('mz/fs');
 
 const Reply = function () {
   this.stack = [];
@@ -34,24 +32,6 @@ Reply.prototype.download = (...args) => {
 
   return reply;
 };
-
-
-// exports.download = (...args) => {
-//
-//   assert(args.length >= 1, 'file() expects a view name');
-//   assert(args.length <= 2, 'file() expects two arguments top');
-//
-//   let [file, name] = args;
-//
-//   if (!path.isAbsolute(file)) {
-//     file = path.resolve(process.cwd(), file);
-//   }
-//
-//   return ctx => new Promise((resolve, reject) => {
-//     const callback = (err, html) => err ? reject(err) : resolve(html);
-//     ctx.res.download(file, name, callback);
-//   });
-// };
 
 Reply.prototype.end = (...args) => {
   reply.stack.push(ctx => {
@@ -168,48 +148,3 @@ Reply.prototype.exec = async function(ctx){
 const reply = new Reply();
 
 module.exports = reply;
-
-
-
-
-
-
-
-
-
-// const assert = require('assert');
-
-// OLD:
-// exports.send = (...args) => ctx => {
-//   ctx.res.send(...args);
-// };
-//
-// exports.render = (...args) => {
-//
-//   assert(args.length >= 1, 'file() expects a view name');
-//   assert(args.length <= 2, 'file() expects two arguments top');
-//
-//   let [file, opts = {}] = args;
-//
-//   return ctx => new Promise((resolve, reject) => {
-//     const callback = (err, html) => err ? reject(err) : resolve(html);
-//     ctx.res.render(file, opts, callback);
-//   });
-// };
-//
-// exports.download = (...args) => {
-//
-//   assert(args.length >= 1, 'file() expects a view name');
-//   assert(args.length <= 2, 'file() expects two arguments top');
-//
-//   let [file, name] = args;
-//
-//   if (!path.isAbsolute(file)) {
-//     file = path.resolve(process.cwd(), file);
-//   }
-//
-//   return ctx => new Promise((resolve, reject) => {
-//     const callback = (err, html) => err ? reject(err) : resolve(html);
-//     ctx.res.download(file, name, callback);
-//   });
-// };
