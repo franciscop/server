@@ -6,7 +6,7 @@ const { get, post, put, del, error } = server.router;
 exports.port = port;
 
 // Just send 'Hello world' from the server side
-exports.hello = ctx => ctx.res.send('Hello 世界');
+exports.hello = ctx => 'Hello 世界';
 
 // Make sure this method is never called
 exports.err = ctx => { throw new Error('This should not be called'); };

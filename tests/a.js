@@ -1,1 +1,1 @@
-module.exports = ctx => ctx.res.send('世界');
+module.exports = ctx => '世界';

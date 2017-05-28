@@ -1,9 +1,6 @@
 // server for Node.js (https://serverjs.io/)
 // A simple and powerful server for Node.js.
 
-// External packages
-const express = require('express');
-
 // Internal modules
 const config = require('./src/config');
 const router = require('./src/router/index.js');

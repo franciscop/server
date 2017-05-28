@@ -1,6 +1,5 @@
 // Perform the routing required
 const join = require('../join');
-const params = require('path-to-regexp-wrap')();
 const generic = require('./generic');
 const parse = require('./parse');
 
@@ -25,9 +24,9 @@ exports.error = (...all) => {
 
     // All of them if there's no path
     if (path === '*' || frag === path) {
-      const ret = await middle[0](ctx);
+      const ret = await join(middle)(ctx);
       delete ctx.error;
-      ctx.ret = ret || ctx.ret;
+      return ret;
     }
   };
   return generic;
@@ -42,9 +41,9 @@ exports.sub = (path, ...middle) => async ctx => {
     if (ctx.ret && ctx.ret.res && ctx.ret.req && ctx.ret.options) {
       ctx.log.warning('You should NOT return the ctx in middleware!');
     }
-    if (ctx.ret && !ctx.res.headersSent) {
-      ctx.res.send(ctx.ret || '');
-    }
+    // if (ctx.ret && !ctx.res.headersSent) {
+    //   ctx.res.send(ctx.ret || '');
+    // }
   }
 };
 

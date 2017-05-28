@@ -26,11 +26,8 @@ module.exports = (method, ...all) => {
     await join(middle)(ctx);
 
     ctx.req.solved = true;
-    if (ctx.ret && ctx.ret.res && ctx.ret.req && ctx.ret.options) {
+    if (ctx.ret && ctx.ret.req) {
       ctx.log.warning('You should NOT return the ctx in middleware!');
-    }
-    if (ctx.ret && !ctx.res.headersSent) {
-      ctx.res.send(ctx.ret || '');
     }
   };
 };

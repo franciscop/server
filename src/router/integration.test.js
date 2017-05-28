@@ -2,10 +2,10 @@
 const request = require('request-promises');
 const server = require('../../server');
 const { get, post, put, del } = server.router;
-const { hello, err, launch, handler, getter, poster } = require('../../tests/helpers');
+const { hello, err, launch, handler } = require('../../tests/helpers');
 const routes = [
-  get('/', ctx => ctx.res.send('Hello 世界')),
-  post('/', ctx => ctx.res.send('Hello ' + ctx.req.body.a)),
+  get('/', () => 'Hello 世界'),
+  post('/', ctx => 'Hello ' + ctx.req.body.a),
 ];
 const nocsrf = { connect: { csrf: false } };
 
@@ -13,7 +13,7 @@ const nocsrf = { connect: { csrf: false } };
 const checker = ({ body = 'Hello 世界', method = 'GET' } = {}) => res => {
   expect(res.request.method).toBe(method);
   expect(res.body).toBe(body);
-}
+};
 
 describe('Basic router types', () => {
   it('can do a GET request', () => {
@@ -63,7 +63,7 @@ describe('Ends where it should end', () => {
   });
 
   it('parses params correctly', async () => {
-    const middle = get('/:id', ctx => ctx.res.send(ctx.req.params.id));
+    const middle = get('/:id', ctx => ctx.req.params.id);
     const res = await handler(middle, { path: '/42?ignored=true' });
     expect(res.body).toBe('42');
   });

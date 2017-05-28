@@ -3,7 +3,7 @@ const extend = require('extend');
 const loadware = require('loadware');
 const join = require('../join');
 const { get, error } = require('./index');
-const { handler, getter } = require('../../tests/helpers');
+const { getter } = require('../../tests/helpers');
 
 const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
   req: { url, path, method },
@@ -17,32 +17,31 @@ describe('barebones router', () => {
 
   it('works', async () => {
     const middles = [
-      ctx => new Promise((resolve) => resolve()),
-      get('/aaa', ctx => { throw new Error(); }),
-      get('/', ctx => 'Hello 世界'),
-      get('/sth', ctx => { throw new Error(); }),
-      get('/', ctx => { throw new Error(); })
+      () => new Promise((resolve) => resolve()),
+      get('/aaa', () => { throw new Error(); }),
+      get('/', () => 'Hello 世界'),
+      get('/sth', () => { throw new Error(); }),
+      get('/', () => { throw new Error(); })
     ];
 
     const ctx = createCtx();
     await join(middles)(ctx);
     expect(ctx.req.solved).toBe(true);
-    expect(ctx.ret).toBe('Hello 世界');
   });
 
   it('works even when wrapped with join() and loadware()', async () => {
     const middles = [
-      ctx => new Promise((resolve) => resolve()),
-      get('/aaa', ctx => { throw new Error(); }),
-      join(loadware(get('/', ctx => 'Hello 世界'))),
-      get('/sth', ctx => { throw new Error(); }),
-      get('/', ctx => { throw new Error(); })
+      () => new Promise((resolve) => resolve()),
+      get('/aaa', () => { throw new Error(); }),
+      join(loadware(get('/', () => 'Hello 世界'))),
+      get('/sth', () => { throw new Error(); }),
+      get('/', () => { throw new Error(); })
     ];
 
     // Returns the promise to be handled async
     const ctx = createCtx();
     await join(middles)(ctx);
-    expect(ctx.ret).toBe('Hello 世界');
+    expect(ctx.req.solved).toBe(true);
   });
 
 
@@ -59,8 +58,8 @@ describe('barebones router', () => {
 
 describe('Error routes', () => {
   it('can catch errors', async () => {
-    const generate = ctx => { throw new Error('Should be caught'); };
-    const handle = error(ctx => 'Error 世界');
+    const generate = () => { throw new Error('Should be caught'); };
+    const handle = error(() => 'Error 世界');
     const res = await getter([generate, handle]);
     expect(res.body).toBe('Error 世界');
   });

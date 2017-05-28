@@ -8,7 +8,7 @@ const { getter, poster, handler, port } = require('../../tests/helpers');
 const persist = require('../../tests/helpers/persist');
 
 // Local helpers and data
-const empty = ctx => ctx.res.send('Hello 世界');
+const empty = ctx => 'Hello 世界';
 const tests = 'tests';
 const favicon = tests + '/logo.png';
 const content = ctx => ctx.req.headers['content-type'];
@@ -52,8 +52,8 @@ describe('Default modules', () => {
   it('can handle sessions', async () => {
     const setSession = ctx => { ctx.req.session.page = 'pageA' };
     const routes = [
-      get('/a', setSession, ctx => ctx.res.send('')),
-      get('/b', ctx => ctx.res.send(ctx.req.session.page)),
+      get('/a', setSession, ctx => { ctx.res.send(''); }),
+      get('/b', ctx => ctx.req.session.page),
     ];
 
     const { getter, poster, close } = await launch(routes).then(persist);
@@ -64,8 +64,8 @@ describe('Default modules', () => {
 
   it('csurf', async () => {
     const routes = [
-      get('/', ctx => ctx.res.send(ctx.res.locals.csrf)),
-      post('/', ctx => ctx.res.send('世界'))
+      get('/', ctx => ctx.res.locals.csrf),
+      post('/', ctx => '世界')
     ];
 
     const { getter, poster, close } = await launch(routes).then(persist);

@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.43",
+  "version": "1.0.0-alpha.44",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "scripts": {
@@ -50,6 +50,8 @@
     "socket.io": "^1.7.3"
   },
   "devDependencies": {
+    "eslint": "^3.19.0",
+    "eslint-plugin-jasmine": "^2.2.0",
     "grunt": "^1.0.1",
     "grunt-bytesize": "^0.2.0",
     "grunt-contrib-connect": "^1.0.2",

@@ -1,54 +1,215 @@
+/* eslint: false */
 const path = require('path');
-const fs = require('mz/fs');
-const assert = require('assert');
+// const fs = require('mz/fs');
 
-exports.send = (...args) => ctx => {
-  ctx.res.send(...args);
+const Reply = function () {
+  this.stack = [];
+  return this;
 };
 
-exports.file = (...args) => {
+Reply.prototype.cookie = (...args) => {
+  reply.stack.push(ctx => {
 
-  assert(args.length >= 1, 'file() expects a path');
-  assert(args.length <= 2, 'file() expects two arguments top');
+  });
+  return reply;
+};
+
+Reply.prototype.download = (...args) => {
+
+  // Guard clauses
+  if (args.length < 1)
+    throw new Error('file() expects a path');
+
+  if (args.length > 2)
+    throw new Error('file() expects a path and options but nothing else');
 
   let [file, opts = {}] = args;
-
   if (!path.isAbsolute(file)) {
     file = path.resolve(process.cwd(), file);
   }
 
-  return ctx => new Promise((resolve, reject) => {
+  reply.stack.push(ctx => new Promise((resolve, reject) => {
+    ctx.res.download(...args, err => err ? reject(err) : resolve());
+  }));
+
+  return reply;
+};
+
+
+// exports.download = (...args) => {
+//
+//   assert(args.length >= 1, 'file() expects a view name');
+//   assert(args.length <= 2, 'file() expects two arguments top');
+//
+//   let [file, name] = args;
+//
+//   if (!path.isAbsolute(file)) {
+//     file = path.resolve(process.cwd(), file);
+//   }
+//
+//   return ctx => new Promise((resolve, reject) => {
+//     const callback = (err, html) => err ? reject(err) : resolve(html);
+//     ctx.res.download(file, name, callback);
+//   });
+// };
+
+Reply.prototype.end = (...args) => {
+  reply.stack.push(ctx => {
+
+  });
+  return reply;
+};
+
+
+
+Reply.prototype.file = (...args) => {
+
+  // Guard clauses
+  if (args.length < 1)
+    throw new Error('file() expects a path');
+
+  if (args.length > 2)
+    throw new Error('file() expects a path and options but nothing else');
+
+  let [file, opts = {}] = args;
+  if (!path.isAbsolute(file)) {
+    file = path.resolve(process.cwd(), file);
+  }
+
+  reply.stack.push(ctx => new Promise((resolve, reject) => {
     ctx.res.sendFile(file, opts, err => err ? reject(err) : resolve());
-  });
+  }));
+
+  return reply;
 };
 
 
-exports.render = (...args) => {
 
-  assert(args.length >= 1, 'file() expects a view name');
-  assert(args.length <= 2, 'file() expects two arguments top');
+Reply.prototype.header = (...args) => {
+  reply.stack.push(ctx => {
+
+  });
+  return reply;
+};
+
+Reply.prototype.json = (...args) => {
+  reply.stack.push(ctx => {
+
+  });
+  return reply;
+};
+
+Reply.prototype.jsonp = (...args) => {
+  reply.stack.push(ctx => {
+
+  });
+  return reply;
+};
+
+Reply.prototype.redirect = (...args) => {
+  reply.stack.push(ctx => {
+
+  });
+  return reply;
+};
+
+Reply.prototype.render = (...args) => {
+
+  // Guard clauses
+  if (args.length < 1)
+    throw new Error('file() expects a path');
+
+  if (args.length > 2)
+    throw new Error('file() expects a path and options but nothing else');
 
   let [file, opts = {}] = args;
 
-  return ctx => new Promise((resolve, reject) => {
-    const callback = (err, html) => err ? reject(err) : resolve(html);
-    ctx.res.render(file, opts, callback);
-  });
+  reply.stack.push(ctx => new Promise((resolve, reject) => {
+    // Note: if callback is provided, it does not send() automatically
+    const cb = (err, html) => err ? reject(err) : resolve(ctx.res.send(html));
+    ctx.res.render(file, opts, cb);
+  }));
+  return reply;
 };
 
-exports.download = (...args) => {
+Reply.prototype.send = (...args) => {
+  reply.stack.push(ctx => {
+    if (args[0].req) {
+      throw new Error('You should not return res()');
+    }
+    ctx.res.send(...args);
+  });
+  return reply;
+};
 
-  assert(args.length >= 1, 'file() expects a view name');
-  assert(args.length <= 2, 'file() expects two arguments top');
+Reply.prototype.status = function (...args) {
+  reply.stack.push(ctx => {
+    // In case there is no response, it'll respond with the status
+    ctx.res.explicitStatus = true;
+    ctx.res.status(...args);
+  });
+  return reply;
+};
 
-  let [file, name] = args;
+Reply.prototype.type = (...args) => {
+  reply.stack.push(ctx => {
 
-  if (!path.isAbsolute(file)) {
-    file = path.resolve(process.cwd(), file);
+  });
+  return reply;
+};
+
+Reply.prototype.exec = async function(ctx){
+  for (let cb of reply.stack) {
+    await cb(ctx);
   }
-
-  return ctx => new Promise((resolve, reject) => {
-    const callback = (err, html) => err ? reject(err) : resolve(html);
-    ctx.res.download(file, name, callback);
-  });
+  reply.stack = [];
 };
+
+const reply = new Reply();
+
+module.exports = reply;
+
+
+
+
+
+
+
+
+
+// const assert = require('assert');
+
+// OLD:
+// exports.send = (...args) => ctx => {
+//   ctx.res.send(...args);
+// };
+//
+// exports.render = (...args) => {
+//
+//   assert(args.length >= 1, 'file() expects a view name');
+//   assert(args.length <= 2, 'file() expects two arguments top');
+//
+//   let [file, opts = {}] = args;
+//
+//   return ctx => new Promise((resolve, reject) => {
+//     const callback = (err, html) => err ? reject(err) : resolve(html);
+//     ctx.res.render(file, opts, callback);
+//   });
+// };
+//
+// exports.download = (...args) => {
+//
+//   assert(args.length >= 1, 'file() expects a view name');
+//   assert(args.length <= 2, 'file() expects two arguments top');
+//
+//   let [file, name] = args;
+//
+//   if (!path.isAbsolute(file)) {
+//     file = path.resolve(process.cwd(), file);
+//   }
+//
+//   return ctx => new Promise((resolve, reject) => {
+//     const callback = (err, html) => err ? reject(err) : resolve(html);
+//     ctx.res.download(file, name, callback);
+//   });
+// };
