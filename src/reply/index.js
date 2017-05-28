@@ -7,7 +7,7 @@ const Reply = function () {
 
 Reply.prototype.cookie = (...args) => {
   reply.stack.push(ctx => {
-
+    ctx.res.cookie(...args);
   });
   return reply;
 };
@@ -27,15 +27,15 @@ Reply.prototype.download = (...args) => {
   }
 
   reply.stack.push(ctx => new Promise((resolve, reject) => {
-    ctx.res.download(...args, err => err ? reject(err) : resolve());
+    ctx.res.download(file, opts, err => err ? reject(err) : resolve());
   }));
 
   return reply;
 };
 
-Reply.prototype.end = (...args) => {
+Reply.prototype.end = () => {
   reply.stack.push(ctx => {
-
+    ctx.res.end();
   });
   return reply;
 };
@@ -67,28 +67,28 @@ Reply.prototype.file = (...args) => {
 
 Reply.prototype.header = (...args) => {
   reply.stack.push(ctx => {
-
+    ctx.res.header(...args);
   });
   return reply;
 };
 
 Reply.prototype.json = (...args) => {
   reply.stack.push(ctx => {
-
+    ctx.res.json(...args);
   });
   return reply;
 };
 
 Reply.prototype.jsonp = (...args) => {
   reply.stack.push(ctx => {
-
+    ctx.res.jsonp(...args);
   });
   return reply;
 };
 
 Reply.prototype.redirect = (...args) => {
   reply.stack.push(ctx => {
-
+    ctx.res.redirect(...args);
   });
   return reply;
 };
@@ -133,7 +133,7 @@ Reply.prototype.status = function (...args) {
 
 Reply.prototype.type = (...args) => {
   reply.stack.push(ctx => {
-
+    ctx.res.type(...args);
   });
   return reply;
 };

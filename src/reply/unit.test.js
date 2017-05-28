@@ -26,7 +26,7 @@ describe('reply', () => {
 
   it('adds a method to the stack', () => {
     expect(reply.stack.length).toEqual(0);
-    reply.file('./index.js')
+    reply.file('./index.js');
     expect(reply.stack.length).toEqual(1);
   });
 });
