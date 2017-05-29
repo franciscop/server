@@ -24,7 +24,7 @@ exports.error = (...all) => {
 
     // All of them if there's no path
     if (path === '*' || frag === path) {
-      const ret = await join(middle)(ctx);
+      const ret = await middle[0](ctx);
       delete ctx.error;
       return ret;
     }

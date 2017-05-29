@@ -21,11 +21,14 @@ module.exports = (...middles) => {
   return async ctx => {
     for (const mid of middle) {
       try {
-        // There was an error, see if this middleware can fix it
-        if (ctx.error && mid.error) {
-          assert(mid.error instanceof Function, 'Error handler should be a function');
-          let ret = await mid.error(ctx);
-          await processReturn(ctx, ret);
+        // DO NOT MERGE; the else is relevant only for ctx.error
+        if (ctx.error) {
+          // See if this middleware can fix it
+          if (mid.error) {
+            assert(mid.error instanceof Function, 'Error handler should be a function');
+            let ret = await mid.error(ctx);
+            await processReturn(ctx, ret);
+          }
         }
         // No error, call next middleware. Skips middleware if there's an error
         else {
