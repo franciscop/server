@@ -19,11 +19,8 @@ exports.error = (...all) => {
   const generic = () => {};
   generic.error = async ctx => {
 
-    // TODO: find a way to fix this
-    const frag = ctx.error.path ? ctx.error.path.slice(0, path.length) : '';
-
     // All of them if there's no path
-    if (path === '*' || frag === path) {
+    if (path === '*' || path === ctx.error.name) {
       const ret = await middle[0](ctx);
       delete ctx.error;
       return ret;
