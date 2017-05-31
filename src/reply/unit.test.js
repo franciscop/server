@@ -26,7 +26,19 @@ describe('reply', () => {
 
   it('adds a method to the stack', () => {
     expect(reply.stack.length).toEqual(0);
-    reply.file('./index.js');
-    expect(reply.stack.length).toEqual(1);
+    const inst = reply.file('./index.js');
+    expect(inst.stack.length).toEqual(1);
+
+    // Do not touch the global
+    expect(reply.stack.length).toEqual(0);
+  });
+
+  it('adds several methods correctly', () => {
+    expect(reply.stack.length).toEqual(0);
+    const inst = reply.file('./index.js').file('./whatever.js');
+    expect(inst.stack.length).toEqual(2);
+
+    // Do not touch the global
+    expect(reply.stack.length).toEqual(0);
   });
 });

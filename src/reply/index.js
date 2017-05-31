@@ -1,18 +1,27 @@
 const path = require('path');
 
+
+
 const Reply = function () {
+  if (!(this instanceof Reply)) {
+    return new Reply();
+  }
   this.stack = [];
   return this;
 };
 
-Reply.prototype.cookie = (...args) => {
-  reply.stack.push(ctx => {
+
+
+Reply.prototype.cookie = function (...args) {
+  this.stack.push(ctx => {
     ctx.res.cookie(...args);
   });
-  return reply;
+  return this;
 };
 
-Reply.prototype.download = (...args) => {
+
+
+Reply.prototype.download = function (...args) {
 
   // Guard clauses
   if (args.length < 1)
@@ -26,23 +35,25 @@ Reply.prototype.download = (...args) => {
     file = path.resolve(process.cwd(), file);
   }
 
-  reply.stack.push(ctx => new Promise((resolve, reject) => {
+  this.stack.push(ctx => new Promise((resolve, reject) => {
     ctx.res.download(file, opts, err => err ? reject(err) : resolve());
   }));
 
-  return reply;
+  return this;
 };
 
-Reply.prototype.end = () => {
-  reply.stack.push(ctx => {
+
+
+Reply.prototype.end = function () {
+  this.stack.push(ctx => {
     ctx.res.end();
   });
-  return reply;
+  return this;
 };
 
 
 
-Reply.prototype.file = (...args) => {
+Reply.prototype.file = function (...args) {
 
   // Guard clauses
   if (args.length < 1)
@@ -56,44 +67,44 @@ Reply.prototype.file = (...args) => {
     file = path.resolve(process.cwd(), file);
   }
 
-  reply.stack.push(ctx => new Promise((resolve, reject) => {
+  this.stack.push(ctx => new Promise((resolve, reject) => {
     ctx.res.sendFile(file, opts, err => err ? reject(err) : resolve());
   }));
 
-  return reply;
+  return this;
 };
 
 
 
-Reply.prototype.header = (...args) => {
-  reply.stack.push(ctx => {
+Reply.prototype.header = function (...args) {
+  this.stack.push(ctx => {
     ctx.res.header(...args);
   });
-  return reply;
+  return this;
 };
 
-Reply.prototype.json = (...args) => {
-  reply.stack.push(ctx => {
+Reply.prototype.json = function (...args) {
+  this.stack.push(ctx => {
     ctx.res.json(...args);
   });
-  return reply;
+  return this;
 };
 
-Reply.prototype.jsonp = (...args) => {
-  reply.stack.push(ctx => {
+Reply.prototype.jsonp = function (...args) {
+  this.stack.push(ctx => {
     ctx.res.jsonp(...args);
   });
-  return reply;
+  return this;
 };
 
-Reply.prototype.redirect = (...args) => {
-  reply.stack.push(ctx => {
+Reply.prototype.redirect = function (...args) {
+  this.stack.push(ctx => {
     ctx.res.redirect(...args);
   });
-  return reply;
+  return this;
 };
 
-Reply.prototype.render = (...args) => {
+Reply.prototype.render = function (...args) {
 
   // Guard clauses
   if (args.length < 1)
@@ -104,47 +115,52 @@ Reply.prototype.render = (...args) => {
 
   let [file, opts = {}] = args;
 
-  reply.stack.push(ctx => new Promise((resolve, reject) => {
+  this.stack.push(ctx => new Promise((resolve, reject) => {
     // Note: if callback is provided, it does not send() automatically
     const cb = (err, html) => err ? reject(err) : resolve(ctx.res.send(html));
     ctx.res.render(file, opts, cb);
   }));
-  return reply;
+  return this;
 };
 
-Reply.prototype.send = (...args) => {
-  reply.stack.push(ctx => {
+Reply.prototype.send = function (...args) {
+  this.stack.push(ctx => {
     if (args[0].req) {
       throw new Error('You should not return res()');
     }
     ctx.res.send(...args);
   });
-  return reply;
+  return this;
 };
 
 Reply.prototype.status = function (...args) {
-  reply.stack.push(ctx => {
+  this.stack.push(ctx => {
     // In case there is no response, it'll respond with the status
     ctx.res.explicitStatus = true;
     ctx.res.status(...args);
   });
-  return reply;
+  return this;
 };
 
-Reply.prototype.type = (...args) => {
-  reply.stack.push(ctx => {
+Reply.prototype.type = function (...args) {
+  this.stack.push(ctx => {
     ctx.res.type(...args);
   });
-  return reply;
+  return this;
 };
 
-Reply.prototype.exec = async function(ctx){
-  for (let cb of reply.stack) {
+Reply.prototype.exec = async function (ctx) {
+  for (let cb of this.stack) {
     await cb(ctx);
   }
-  reply.stack = [];
+  this.stack = [];
 };
 
-const reply = new Reply();
-
-module.exports = reply;
+// This will make that the first time a function is called it starts a new stack
+module.exports = new Proxy(() => new Reply(), {
+  get: (orig, key) => (...args) => {
+    const reply = new Reply();
+    reply[key](...args);
+    return reply;
+  }
+});

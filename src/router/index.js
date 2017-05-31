@@ -19,8 +19,10 @@ exports.error = (...all) => {
   const generic = () => {};
   generic.error = async ctx => {
 
+    const fragment = (ctx.error.name || '').slice(0, path.length);
+
     // All of them if there's no path
-    if (path === '*' || path === ctx.error.name) {
+    if (path === '*' || path === fragment) {
       const ret = await middle[0](ctx);
       delete ctx.error;
       return ret;
@@ -38,9 +40,6 @@ exports.sub = (path, ...middle) => async ctx => {
     if (ctx.ret && ctx.ret.res && ctx.ret.req && ctx.ret.options) {
       ctx.log.warning('You should NOT return the ctx in middleware!');
     }
-    // if (ctx.ret && !ctx.res.headersSent) {
-    //   ctx.res.send(ctx.ret || '');
-    // }
   }
 };
 

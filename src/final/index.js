@@ -6,10 +6,13 @@ const handler = async ctx => {
 };
 
 handler.error = ctx => {
-
-  ctx.log.error(ctx.error);
+  const error = ctx.error;
+  ctx.log.warning('There is an unhandled error:');
+  ctx.log.error(error);
   if (!ctx.res.headersSent) {
-    ctx.res.status(500).send('Server error');
+    const status = error.status || error.code || 500;
+    const message = error.public ? error.message : 'Server error';
+    ctx.res.status(status).send(message);
   }
 };
 

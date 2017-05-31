@@ -6,7 +6,7 @@ const reply = require('../reply');
 const processReturn = async (ctx, ret) => {
   if (!ret) return;
   if (ret !== reply) {
-    reply.send(ret);
+    reply.send(ret).exec(ctx);
   }
   await reply.exec(ctx);
 };
