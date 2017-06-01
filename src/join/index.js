@@ -5,10 +5,14 @@ const reply = require('../reply');
 // Recursively resolve possible function returns and assign the value to .ret
 const processReturn = async (ctx, ret) => {
   if (!ret) return;
-  if (ret !== reply) {
-    reply.send(ret).exec(ctx);
+
+  // Use the returned reply instance
+  if (ret.constructor.name === 'Reply') {
+    return await ret.exec(ctx);
   }
-  await reply.exec(ctx);
+
+  // Create a whole new reply thing
+  return await reply.send(ret).exec(ctx);
 };
 
 // Pass an array of modern middleware and return a single modern middleware
@@ -40,35 +44,4 @@ module.exports = (...middles) => {
       }
     }
   };
-
-  // // Join: ctx = join(() => {}, () => {}, () => {})(ctx)
-  // return async ctx => middle.reduce((prev, next) => {
-  //
-  //   const handler = err => {
-  //
-  //     // Keep throwing it until a middleware tries to catch it
-  //     if (!next.error || !(next.error instanceof Function)) {
-  //       throw err;
-  //     }
-  //
-  //     // Middleware to handle it
-  //     ctx.error = err;
-  //     return next.error(ctx);
-  //   };
-  //
-  //   // Make sure that we pass the original context to the next promise
-  //   // Catched errors should not be passed to the next thing
-  //   return prev.catch(handler).then(ignore => next(ctx)).then(async ret => {
-  //     if (ret instanceof Function) {
-  //       ret = await ret(ctx);
-  //     }
-  //     if (ret instanceof Array
-  //       || ret instanceof Object
-  //       || ['string', 'number'].includes(typeof ret)) {
-  //       ctx.ret = ret;
-  //     }
-  //   });
-  //
-  //   // Get it started with the right context
-  // }, Promise.resolve(ctx));
 };
