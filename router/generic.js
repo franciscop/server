@@ -1,4 +1,4 @@
-const join = require('server/src/join');
+const join = require('../src/join');
 const parse = require('./parse');
 const params = require('path-to-regexp-wrap')();
 

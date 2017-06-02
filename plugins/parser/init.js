@@ -35,7 +35,7 @@ module.exports = ctx => {
   }
 
   // Add a reference from ctx.req.body to the ctx.data
-  parser.before.push(ctx => { ctx.data = ctx.req.body });
+  parser.before.push(ctx => { ctx.data = ctx.req.body; });
 
   // Data parser
   if (options.data) {

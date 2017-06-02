@@ -2,8 +2,7 @@
 const fs = require('fs');
 
 // Internal files
-const server = require('../../server');
-const { getter, poster, handler } = require('../../test');
+const { poster, handler } = require('../../test');
 
 // Local helpers and data
 const data = { hello: '世界' };
@@ -40,7 +39,7 @@ describe('Default modules', () => {
       expect(ctx.req.files.logo.type).toBe('image/png');
       expect(ctx.req.files.logo.size).toBe(10151);
       ctx.res.send('Hello 世界');
-    }
+    };
     return handler(middle, { method: 'POST', formData: { logo } }, nocsrf);
   });
 
@@ -63,7 +62,7 @@ describe('Default modules', () => {
       expect(ctx.req.method).toBe('PUT');
       expect(ctx.req.originalMethod).toBe('POST');
       ctx.res.send('Hello 世界');
-    }
+    };
     const headers = { 'X-HTTP-Method-Override': 'PUT' };
     return handler(middle, { method: 'POST', headers }, nocsrf);
   });

@@ -16,4 +16,8 @@ describe('linter', () => {
   it('lints the src', async () => {
     return await lint('src');
   }, 30000);
+
+  it('lints the plugins', async () => {
+    return await lint('plugins');
+  }, 30000);
 });

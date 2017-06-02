@@ -46,12 +46,24 @@ server([
 <p>The package <code>server</code> is great for many situations. Let&#39;s see some of them:</p>
 <h3 id="small-to-medium-projects">Small to medium projects</h3>
 <p>Everything works out of the box, you get great support for most features and you can easily tap into Express&#39; middleware ecosystem. What&#39;s not to love?</p>
-<p>Some of the included features: body and file parsers, cookies, sessions, websockets, Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project.</p>
+<p>Some of the included features: body and file parsers, cookies, sessions, websockets, Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project. Get a simple form going:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { get, post } = server.router;
+const { render, redirect } = server.reply;
+
+server(
+  get(&#39;/&#39;, () =&gt; render(&#39;index.pug&#39;)),
+  post(&#39;/&#39;, ctx =&gt; {
+    console.log(ctx.data);
+    return redirect(&#39;/&#39;);
+  })
+);
+</code></pre>
 <h3 id="api-design">API design</h3>
 <p>From the flexibility and expressivity of the bundle, designing APIs is a breeze:</p>
 <pre><code class="lang-js">// books/router.js
+const { get, post, put, del } = require(&#39;server/router&#39;);
 const ctrl = require(&#39;./controller&#39;);
-const { get, post, put, del } = require(&#39;server&#39;).router;
 
 module.exports = [
   get(&#39;/book&#39;, ctrl.list),
@@ -67,8 +79,8 @@ module.exports = [
 </blockquote>
 <p>Websockets were never this easy to use! With socket.io on the front-end, you can simply do this in the back-end to handle those events:</p>
 <pre><code class="lang-js">// chat/router.js
+const socket = require(&#39;server/router/socket&#39;);
 const ctrl = require(&#39;./controller&#39;);
-const { socket } = require(&#39;server&#39;).router;
 
 module.exports = [
   socket(&#39;connect&#39;, ctrl.join),

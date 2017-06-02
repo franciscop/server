@@ -1,5 +1,5 @@
 const server = require('../../server');
-const { getter, poster, handler, throws } = require('../../test');
+const { getter, throws } = require('../../test');
 
 
 describe('log()', () => {

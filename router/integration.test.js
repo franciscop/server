@@ -79,5 +79,6 @@ describe('Ends where it should end', () => {
       const res = await request(url);
       expect(res.body).toBe('Hello 世界');
     }
+    ctx.close();
   });
 });

@@ -62,4 +62,4 @@ module.exports = ctx => {
     const favicon = require('serve-favicon')(options.favicon);
     connect.before.push(modern(favicon));
   }
-}
+};

@@ -12,7 +12,6 @@ const valid = [
 ];
 
 // Log plugin
-const morgan = require('log');
 const plugin = {
   name: 'log',
   options: 'debug',

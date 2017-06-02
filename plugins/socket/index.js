@@ -14,7 +14,7 @@ module.exports = {
   launch: ctx => {
     ctx.io = socketIO(ctx.server);
     ctx.io.on('connect', socket => {
-      for (name in listeners) {
+      for (let name in listeners) {
         listeners[name].forEach(cb => {
           socket.on(name, data => {
             cb(extend({}, ctx, { path: name, socket: socket, data: data }));

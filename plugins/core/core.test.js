@@ -1,17 +1,14 @@
-// External libraries used
-const fs = require('fs');
-
 // Internal files
 const server = require('../../server');
-const { get, post, put, del, error } = server.router;
-const { getter, poster, handler, port, launch } = require('server/test');
+const { get, post } = server.router;
+const { send } = server.reply;
+const { getter, handler, port } = require('server/test');
 const persist = require('server/test/persist');
 
 // Local helpers and data
-const empty = ctx => 'Hello 世界';
+const empty = () => 'Hello 世界';
 const tests = 'test';
 const favicon = tests + '/logo.png';
-const content = ctx => ctx.req.headers['content-type'];
 
 
 describe('Default modules', () => {
@@ -31,17 +28,18 @@ describe('Default modules', () => {
   });
 
   it('static', async () => {
-    const { getter, close } = await launch([], { public: tests }).then(persist);
-    const res = await getter('/logo.png');
-    expect(res.headers['content-type']).toBe('image/png');
-    close();
+    return persist(async test => {
+      const res = await test.get('/logo.png');
+      expect(res.statusCode).toBe(200);
+      expect(res.headers['content-type']).toBe('image/png');
+    })(await server({ public: tests, port: port() }));
   });
 
   it('non-existing static', async () => {
-    const { getter, close } = await launch([], { public: tests }).then(persist);
-    const res = await getter('/non-existing.png');
-    close();
-    expect(res.statusCode).toBe(404);
+    return persist(async test => {
+      const res = await test.get('/non-existing.png');
+      expect(res.statusCode).toBe(404);
+    })(await server({ public: tests, port: port() }));
   });
 
   it('response-time', async () => {
@@ -50,42 +48,39 @@ describe('Default modules', () => {
   });
 
   it('can handle sessions', async () => {
-    const setSession = ctx => { ctx.req.session.page = 'pageA' };
-    const routes = [
-      get('/a', setSession, ctx => { ctx.res.send(''); }),
+    const ctx = await server({ public: tests, port: port() }, [
+      get('/a', ctx => { ctx.req.session.page = 'pageA'; }, () => send('')),
       get('/b', ctx => ctx.req.session.page),
-    ];
-
-    const { getter, poster, close } = await launch(routes).then(persist);
-    await getter('/a').then(res => expect(res.body).toBe(''));
-    await getter('/b').then(res => expect(res.body).toBe('pageA'));
-    close();
+    ]);
+    return persist(async test => {
+      await test.get('/a').then(res => expect(res.body).toBe(''));
+      await test.get('/b').then(res => expect(res.body).toBe('pageA'));
+    })(ctx);
   });
 
   it('csurf', async () => {
-    const routes = [
+    const ctx = await server({ public: tests, port: port() }, [
       get('/', ctx => ctx.res.locals.csrf),
-      post('/', ctx => '世界')
-    ];
-
-    const { getter, poster, close } = await launch(routes).then(persist);
-    let res = await getter('/');
-    expect(res.body).toBeDefined();
-    res = await poster('/', { _csrf: res.body });
-    expect(res.statusCode).toBe(200);
-    close();
+      post('/', () => '世界')
+    ]);
+    return persist(async test => {
+      let res = await test.get('/');
+      expect(res.body).toBeDefined();
+      res = await test.post('/', { _csrf: res.body });
+      expect(res.statusCode).toBe(200);
+    })(ctx);
   });
 
-  // SKIP: request() nor supertest() accept gzip
-  it.skip('compress', async () => {
-    const middle = ctx =>
-      ctx.res.send('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
-                   'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
-                   'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
-                   'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
-
-    const ctx = await launch(middle);
-    const res = await supertest(ctx.server).get('/');
-    // ...
-  });
+  // // SKIP: request() nor supertest() read gzip
+  // it.skip('compress', async () => {
+  //   const middle = ctx =>
+  //     ctx.res.send('aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+  //                  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+  //                  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa' +
+  //                  'aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa');
+  //
+  //   const ctx = await launch(middle);
+  //   const res = await supertest(ctx.server).get('/');
+  //   // ...
+  // });
 });

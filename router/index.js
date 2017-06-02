@@ -16,6 +16,6 @@ module.exports = {
   // Special cases
   sub    : require('./sub'),
   error  : require('./error'),
-  join   : require('server/src/join'),
-  socket : require('server/plugins/socket').router
+  join   : require('../src/join'),
+  socket : require('../plugins/socket').router
 };

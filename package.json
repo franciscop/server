@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.0-alpha.48",
+  "version": "1.0.0-alpha.49",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "scripts": {
@@ -30,7 +30,6 @@
     "cookie-parser": "^1.4.3",
     "csurf": "^1.9.0",
     "dotenv": "^2.0.0",
-    "errors": "^0.3.0",
     "express": "^4.14.0",
     "express-data-parser": "^1.2.0",
     "express-session": "^1.14.2",
@@ -40,7 +39,6 @@
     "loadware": "^2.0.0",
     "log": "^1.4.0",
     "method-override": "^2.3.7",
-    "morgan": "^1.8.1",
     "mz": "^2.6.0",
     "path-to-regexp-wrap": "0.0.4",
     "pug": "^2.0.0-beta6",

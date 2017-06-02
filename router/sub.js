@@ -1,4 +1,4 @@
-const join = require('server/src/join');
+const join = require('../src/join');
 
 module.exports = (path, ...middle) => async ctx => {
   const full = ctx.req.subdomains.join('.');
