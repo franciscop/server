@@ -1,4 +1,4 @@
-const { getter, throws } = require('../../tests/helpers');
+const { getter, throws } = require('../../test');
 
 describe('final', () => {
   it('gets called with an unhandled error', async () => {

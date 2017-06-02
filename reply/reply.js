@@ -2,11 +2,14 @@ const path = require('path');
 
 
 
-const Reply = function () {
+const Reply = function (name, ...args) {
   if (!(this instanceof Reply)) {
     return new Reply();
   }
   this.stack = [];
+  if (name) {
+    this[name](...args);
+  }
   return this;
 };
 
@@ -157,10 +160,4 @@ Reply.prototype.exec = async function (ctx) {
 };
 
 // This will make that the first time a function is called it starts a new stack
-module.exports = new Proxy(() => new Reply(), {
-  get: (orig, key) => (...args) => {
-    const reply = new Reply();
-    reply[key](...args);
-    return reply;
-  }
-});
+module.exports = Reply;

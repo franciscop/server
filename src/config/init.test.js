@@ -1,5 +1,5 @@
-const server = require('../server');
-const { port } = require('./helpers');
+const server = require('server');
+const { port } = require('server/test');
 
 describe('Options', () => {
   it('default settings are correct', async () => {

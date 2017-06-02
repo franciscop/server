@@ -4,12 +4,12 @@ const fs = require('fs');
 // Internal files
 const server = require('../../server');
 const { get, post, put, del, error } = server.router;
-const { getter, poster, handler, port } = require('../../tests/helpers');
-const persist = require('../../tests/helpers/persist');
+const { getter, poster, handler, port, launch } = require('server/test');
+const persist = require('server/test/persist');
 
 // Local helpers and data
 const empty = ctx => 'Hello 世界';
-const tests = 'tests';
+const tests = 'test';
 const favicon = tests + '/logo.png';
 const content = ctx => ctx.req.headers['content-type'];
 

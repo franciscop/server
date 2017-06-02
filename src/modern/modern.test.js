@@ -1,6 +1,6 @@
 const join = require('../join');
 const modern = require('./index');
-const { throws } = require('../../tests/helpers');
+const { throws } = require('../../test');
 const middle = (req, res, next) => next();
 const ctx = { req: {}, res: {} };
 

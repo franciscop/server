@@ -1,4 +1,4 @@
-const join = require('../join');
+const join = require('server/src/join');
 const parse = require('./parse');
 const params = require('path-to-regexp-wrap')();
 
@@ -26,8 +26,5 @@ module.exports = (method, ...all) => {
     await join(middle)(ctx);
 
     ctx.req.solved = true;
-    if (ctx.ret && ctx.ret.req) {
-      ctx.log.warning('You should NOT return the ctx in middleware!');
-    }
   };
 };

@@ -1,29 +1,23 @@
-const server = require('../server');
-const { get, post, put, del, error } = server.router;
-const { send } = server.reply;
-const { handler, getter, poster } = require('./helpers');
+const server = require('server');
+const { get } = server.router;
+const { handler, getter, poster } = require('server/test');
 const nocsrf = { connect: { csrf: false } };
-
-const routes = [
-  get('/', ctx => send('Hello 世界')),
-  post('/', ctx => send('Hello ' + ctx.req.body.a)),
-];
 
 describe('Full trip request', () => {
   it('can perform a simple get', () => {
-    return getter(ctx => 'Hello 世界').then(res => {
+    return getter(() => 'Hello 世界').then(res => {
       expect(res.body).toBe('Hello 世界');
     });
   });
 
   it('can perform a simple get', () => {
-    return getter(ctx => 'Hello 世界').then(res => {
+    return getter(() => 'Hello 世界').then(res => {
       expect(res.body).toBe('Hello 世界');
     });
   });
 
   it('loads as an array', async () => {
-    const res = await getter([ctx => 'Hello 世界']);
+    const res = await getter([() => 'Hello 世界']);
     expect(res.body).toBe('Hello 世界');
   });
 

@@ -1,6 +1,6 @@
 const load = require('loadware');
 const assert = require('assert');
-const reply = require('../reply');
+const reply = require('../../reply');
 
 // Recursively resolve possible function returns and assign the value to .ret
 const processReturn = async (ctx, ret) => {

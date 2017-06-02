@@ -1,6 +1,6 @@
 const server = require('server');
-const { send, json } = server.reply;
-const { getter } = require('../../tests/helpers');
+const { send, json } = require('.');
+const { getter } = require('server/test');
 
 describe('reply integration', () => {
 

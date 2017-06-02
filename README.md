@@ -75,7 +75,21 @@ The package `server` is great for many situations. Let's see some of them:
 
 Everything works out of the box, you get great support for most features and you can easily tap into Express' middleware ecosystem. What's not to love?
 
-Some of the included features: body and file parsers, cookies, sessions, websockets, Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project.
+Some of the included features: body and file parsers, cookies, sessions, websockets, Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project. Get a simple form going:
+
+```js
+const server = require('server');
+const { get, post } = server.router;
+const { render, redirect } = server.reply;
+
+server(
+  get('/', () => render('index.pug')),
+  post('/', ctx => {
+    console.log(ctx.data);
+    return redirect('/');
+  })
+);
+```
 
 
 
@@ -85,8 +99,8 @@ From the flexibility and expressivity of the bundle, designing APIs is a breeze:
 
 ```js
 // books/router.js
+const { get, post, put, del } = require('server/router');
 const ctrl = require('./controller');
-const { get, post, put, del } = require('server').router;
 
 module.exports = [
   get('/book', ctrl.list),
@@ -107,8 +121,8 @@ Websockets were never this easy to use! With socket.io on the front-end, you can
 
 ```js
 // chat/router.js
+const socket = require('server/router/socket');
 const ctrl = require('./controller');
-const { socket } = require('server').router;
 
 module.exports = [
   socket('connect', ctrl.join),

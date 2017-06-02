@@ -1,10 +1,12 @@
 // Integration - test the router within the whole server functionality
 const request = require('request-promises');
-const server = require('../../server');
+const server = require('server');
 const { get, post, put, del } = server.router;
-const { hello, err, launch, handler } = require('../../tests/helpers');
+const { err, launch, handler } = require('server/test');
+const hello = () => 'Hello 世界';
+
 const routes = [
-  get('/', () => 'Hello 世界'),
+  get('/', hello),
   post('/', ctx => 'Hello ' + ctx.req.body.a),
 ];
 const nocsrf = { connect: { csrf: false } };

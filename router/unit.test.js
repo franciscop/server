@@ -1,9 +1,9 @@
 // Unit - test the router on its own
 const extend = require('extend');
 const loadware = require('loadware');
-const join = require('../join');
-const { get, error } = require('./index');
-const { getter } = require('../../tests/helpers');
+const join = require('server/src/join');
+const { get, error } = require('server/router');
+const { getter } = require('server/test');
 
 const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
   req: { url, path, method },
@@ -12,9 +12,37 @@ const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
 });
 
 
+const router = require('.');
 
-describe('barebones router', () => {
 
+describe('server/router definition', () => {
+  it('loads the main router', () => {
+    expect(router).toEqual(require('server').router);
+    expect(router).toBe(require('server/router'));
+  });
+
+  it('has the right methods defined', () => {
+    expect(router.get  ).toEqual(jasmine.any(Function));
+    expect(router.get  ).toEqual(jasmine.any(Function));
+    expect(router.post ).toEqual(jasmine.any(Function));
+    expect(router.put  ).toEqual(jasmine.any(Function));
+    expect(router.del  ).toEqual(jasmine.any(Function));
+    expect(router.sub  ).toEqual(jasmine.any(Function));
+    expect(router.error).toEqual(jasmine.any(Function));
+  });
+
+  it('can load all the methods manually', () => {
+    expect(require('server/router/get'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/get'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/post' )).toEqual(jasmine.any(Function));
+    expect(require('server/router/put'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/del'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/sub'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/error')).toEqual(jasmine.any(Function));
+  });
+});
+
+describe('server/router works', () => {
   it('works', async () => {
     const middles = [
       () => new Promise((resolve) => resolve()),

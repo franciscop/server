@@ -3,11 +3,11 @@ const fs = require('fs');
 
 // Internal files
 const server = require('../../server');
-const { getter, poster, handler } = require('../../tests/helpers');
+const { getter, poster, handler } = require('../../test');
 
 // Local helpers and data
 const data = { hello: '世界' };
-const logo = fs.createReadStream(__dirname + '/../../tests/logo.png');
+const logo = fs.createReadStream(__dirname + '/../../test/logo.png');
 const content = ctx => ctx.req.headers['content-type'];
 const nocsrf = { connect: { csrf: false } };
 
