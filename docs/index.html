@@ -11,8 +11,8 @@
 const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 
-// Launch server with some opts and a couple of routes
-server({ port: 8080, public: &#39;./&#39; }, [
+// Launch server with options and a couple of routes
+server({ port: 8080 }, [
   get(&#39;/&#39;, ctx =&gt; &#39;Hello world&#39;),
   post(&#39;/&#39;, ctx =&gt; console.log(ctx.data))
 ]);
