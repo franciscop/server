@@ -25,8 +25,8 @@ module.exports = {
       }
       if (listeners['connect']) {
         listeners['connect'].forEach(cb => {
-          cb(extend({}, ctx, { socket: socket }));
-        })
+          cb(extend({}, ctx, { path: 'connect', socket: socket }));
+        });
       }
     });
   }
