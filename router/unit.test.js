@@ -1,49 +1,75 @@
 // Unit - test the router on its own
 const extend = require('extend');
 const loadware = require('loadware');
-const join = require('../join');
-const { get, error } = require('./index');
-const { handler, getter } = require('../../tests/helpers');
+const join = require('server/src/join');
+const { get, error } = require('server/router');
+const { getter } = require('server/test');
 
 const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
   req: { url, path, method },
   res: { send: () => {} },
-  log: (...all) => console.log(...all),
   options: {}
 });
 
 
+const router = require('.');
 
-describe('barebones router', () => {
 
+describe('server/router definition', () => {
+  it('loads the main router', () => {
+    expect(router).toEqual(require('server').router);
+    expect(router).toBe(require('server/router'));
+  });
+
+  it('has the right methods defined', () => {
+    expect(router.get  ).toEqual(jasmine.any(Function));
+    expect(router.get  ).toEqual(jasmine.any(Function));
+    expect(router.post ).toEqual(jasmine.any(Function));
+    expect(router.put  ).toEqual(jasmine.any(Function));
+    expect(router.del  ).toEqual(jasmine.any(Function));
+    expect(router.sub  ).toEqual(jasmine.any(Function));
+    expect(router.error).toEqual(jasmine.any(Function));
+  });
+
+  it('can load all the methods manually', () => {
+    expect(require('server/router/get'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/get'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/post' )).toEqual(jasmine.any(Function));
+    expect(require('server/router/put'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/del'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/sub'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/error')).toEqual(jasmine.any(Function));
+  });
+});
+
+describe('server/router works', () => {
   it('works', async () => {
     const middles = [
-      ctx => new Promise((resolve) => resolve()),
-      get('/aaa', ctx => { throw new Error(); }),
-      get('/', ctx => 'Hello 世界'),
-      get('/sth', ctx => { throw new Error(); }),
-      get('/', ctx => { throw new Error(); })
+      () => new Promise((resolve) => resolve()),
+      get('/aaa', () => { throw new Error(); }),
+      get('/', () => 'Hello 世界'),
+      get('/sth', () => { throw new Error(); }),
+      get('/', () => { throw new Error(); })
     ];
 
     const ctx = createCtx();
     await join(middles)(ctx);
     expect(ctx.req.solved).toBe(true);
-    expect(ctx.ret).toBe('Hello 世界');
   });
 
   it('works even when wrapped with join() and loadware()', async () => {
     const middles = [
-      ctx => new Promise((resolve) => resolve()),
-      get('/aaa', ctx => { throw new Error(); }),
-      join(loadware(get('/', ctx => 'Hello 世界'))),
-      get('/sth', ctx => { throw new Error(); }),
-      get('/', ctx => { throw new Error(); })
+      () => new Promise((resolve) => resolve()),
+      get('/aaa', () => { throw new Error(); }),
+      join(loadware(get('/', () => 'Hello 世界'))),
+      get('/sth', () => { throw new Error(); }),
+      get('/', () => { throw new Error(); })
     ];
 
     // Returns the promise to be handled async
     const ctx = createCtx();
     await join(middles)(ctx);
-    expect(ctx.ret).toBe('Hello 世界');
+    expect(ctx.req.solved).toBe(true);
   });
 
 
@@ -60,8 +86,8 @@ describe('barebones router', () => {
 
 describe('Error routes', () => {
   it('can catch errors', async () => {
-    const generate = ctx => { throw new Error('Should be caught'); };
-    const handle = error(ctx => 'Error 世界');
+    const generate = () => { throw new Error('Should be caught'); };
+    const handle = error(() => 'Error 世界');
     const res = await getter([generate, handle]);
     expect(res.body).toBe('Error 世界');
   });

@@ -1,4 +1,4 @@
-const join = require('./index.js');
+// const join = require('./index.js');
 
 describe('Performance', () => {
   it('dummy', () => {});

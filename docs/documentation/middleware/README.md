@@ -1,10 +1,10 @@
 # Middleware
 
-A *server middleware* is a function that will be called on each request. It accepts [a context object](#context) and [returns a promise](#asynchronous-return) for asynchronous methods or [anything else](#synchronous-return) for synchronous methods. A couple of examples:
+A *server middleware* is a function that will be called on each request. It accepts [a context object](#context) and [returns a promise](#asynchronous-return) for asynchronous methods or [something else](#synchronous-return) for synchronous methods. A couple of examples:
 
 ```js
-const setname = ctx => ctx.req.user = 'Francisco';
-const sendname = ctx => ctx.res.send(ctx.req.user);
+const setname = ctx => { ctx.req.user = 'Francisco'; };
+const sendname = ctx => ctx.req.user;
 server(setname, sendname);
 ```
 
@@ -17,7 +17,7 @@ We are using the latest version of Javascript (ES7) that provides many useful op
 
 ## Context
 
-Context is the only parameter that middleware receives and we'll call it `ctx`. It represents all the information known at this point. It can appear at several points, but the most important one is as a middleware parameter.
+Context is the only parameter that middleware receives and we'll call it `ctx`. **It represents all the information known at this point**. It can appear at several points, but the most important one is as a middleware parameter.
 
 In this situation it has, among others, the properties `req`, `res` (from express) and `options`:
 
@@ -34,7 +34,7 @@ If you are developing a library or just want more advanced features, you should 
 ```js
 let middleware = ctx => {
   ctx.app;        // Current express instance
-  ctx.server;   // The http-server instance
+  ctx.server;     // The http-server instance
 };
 ```
 
@@ -51,23 +51,25 @@ Most code is actually synchronous so let's see some examples:
 
 ```js
 // Some simple logging
-const middle1 = () => console.log('Hello 世界');
+const middle1 = () => {
+  console.log('Hello 世界');
+};
 
-// Asign a user to the request user
+// Asign a user to the context
 const middle2 = ctx => {
-  ctx.req.user = { name: 'Francisco', available: true };
+  ctx.user = { name: 'Francisco', available: true };
 };
 
 // Make sure that there is a user
 const middle3 = ctx => {
-  if (!ctx.req.user) {
+  if (!ctx.user) {
     throw new Error('No user detected!');
   }
 };
 
 // Send some info to the browser
 const middle4 = ctx => {
-  ctx.res.send(`Some info for ${ctx.req.user.name}`);
+  return `Some info for ${ctx.user.name}`;
 };
 ```
 
@@ -76,7 +78,7 @@ const middle4 = ctx => {
 
 
 ```js
-// Asynchronous
+// Asynchronous, find user with Mongoose (MongoDB)
 const middle2 = async () => {
   const user = await user.find({ name: 'Francisco' }).exec();
   console.log(user);
@@ -87,7 +89,9 @@ And how to use them:
 
 ```js
 // Synchronous
-server(() => console.log('Hello 世界'));
+server(() => {
+  console.log('Hello 世界');
+});
 
 // Asynchronous
 server(async () => {
@@ -98,79 +102,49 @@ server(async () => {
 
 
 
-
-
-
-
-
-
-
-
-#### Destructuring
-
-You can and probably should use [ES7 destructuring](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment) right in the function call:
-
-```js
-let setname = ({ req }) => req.user = 'Francisco';
-let sendname = ({ req, res }) => res.send(req.user);
-```
-
-All of the included plugins will also be available in this way:
-
-```js
-let middleware = ({ res, socket, db }) => {
-  db.findAll({ name: 'Francisco' }).then(user => res.json(user));
-}
-```
-
-
 ### Return value
 
-If your middleware is going to be synchronous, you can just return nothing:
+If your middleware is going to be synchronous, you can just return the value to be sent to the browser:
 
 ```js
-let middle = ({ req }) => {
-  req.body = 'Hello world';
-}
+// Send a string
+const middle = ctx => 'Hello 世界';
+
+// Send a JSON
+const middle = ctx => ['hello', '世界'];
+const middle = ctx => ({ hello: '世界' });
+// Note: extra parenthesis not to be confused with arrow fn
+
+// Send a status code
+const middle = ctx => 404;
 ```
 
 In sync mode you can throw anything to trigger an error:
 
 ```js
+const { error } = server.router;
+
 let middle = ({ req }) => {
   if (!req.body) {
     throw new Error('No body provided');
   }
 }
-server(middle).catch(err => {
-  console.log("Expecting body:", err);
-});
+
+server(middle, error(ctx => {
+  console.log(ctx.error);
+}));
 ```
 
 When you want to handle code asynchronously you should return a promise. Then it will continue the middleware chain as it is resolved, or skip it as it is rejected:
 
 ```js
-let middle = ({ req }) => new Promise((resolve, reject) => {
-  if (req.body) {
-    resolve();
-  } else {
-    reject(new Error('No body provided'));
+const middle = async ctx => {
+  if (!req.body) {
+    throw new Error('No body provided');
   }
 });
 ```
 
-Both the resolve value and the return value get ignored and the same server instance will be passed around. If you want to modify it on your middleware, do it as shown above:
-
-```js
-let addsecret = s => {
-  // This will set it by reference
-  s.options.secret = 'your-random-string-here';
-}
-let addsecret = ({ options }) => {
-  // This will also set it by reference
-  options.secret = 'your-random-string-here';
-}
-```
 
 
 ## Modern
@@ -183,6 +157,7 @@ const { modern } = server.utils;
 const oldCookieParser = require('cookie-parser')({ ... });
 const cookieParser = server.modern(oldCookieParser);
 
+// TODO: cancel the old cookieparser
 server(cookieParser, ...);
 ```
 

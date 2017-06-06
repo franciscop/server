@@ -2,16 +2,16 @@
 
 These are the available options, their defaults, types and how to specify them in `.env`:
 
-|name                |default         |[.env](#environment)    |type           |
-|--------------------|----------------|------------------------|---------------|
-|[`port`](#port)     |`3000`          |`PORT=3000`             |Number         |
-|[`secret`](#secret) |`'secret-XXXX'` |`SECRET=secret-XXXX`    |String         |
-|[`public`](#public) |`'public'`      |`PUBLIC=public`         |String         |
-|[`engine`](#engine) |`'pug'`         |`ENGINE=pug`            |String, Object |
-|[`views`](#views)\* |`'./views'`     |`VIEWS=./views`         |String         |
+|name                |default         |[.env](#environment)         |main type |
+|--------------------|----------------|-----------------------------|----------|
+|[`port`](#port)     |`3000`          |`PORT=3000`                  |Number    |
+|[`secret`](#secret) |`'secret-XXXX'` |`SECRET=secret-XXXX`         |String    |
+|[`public`](#public) |`'public'`      |`PUBLIC=public`              |String    |
+|[`engine`](#engine) |`'pug'`         |`ENGINE=pug`                 |String    |
+|[`views`](#views)\* |`'views'`       |`VIEWS=views`                |String    |
 |[`env`](#env)\*     |`'development'` |**`NODE_ENV=development`**   |String    |
-|[`ssl`](#ssl)\*     |`false`         |`???`                   |Object         |
-|[`log`](#log)\*     |`all`           |`LOG=all`               |String         |
+|[`ssl`](#ssl)\*     |`false`         |`???`                        |Object    |
+|[`log`](#log)\*     |`all`           |`LOG=all`                    |String    |
 
 \*not yet documented ([help us editing this?](https://github.com/franciscop/server/tree/master/docs/documentation/options))
 
@@ -76,8 +76,8 @@ As a general rule, an option that is an object becomes a `_` separated string in
 server({
   port: 3000,
   ssl: {
-    key: 'test/fixtures/keys/agent2-key.pem',
-    cert: 'test/fixtures/keys/agent2-cert.cert'
+    key: './ssl.pem',
+    cert: './ssl.cert'
   }
 });
 ```
@@ -161,18 +161,18 @@ server({ public: '' });
 
 ### Engine
 
-The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines). To use an engine you normally have to install it first (except [pug](https://pugjs.org/), which is preinstalled):
+The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines). To use an engine you normally have to install it first except for the pre-installed [pug](https://pugjs.org/) and handlebars:
 
 ```
-npm install [ejs|nunjucks|handlebars|emblem] --save
+npm install [ejs|nunjucks|emblem] --save
 ```
 
 To use that engine you just have to add the extension to the `render()` method:
 
 ```js
 // No need to specify the engine if you are using the extension
-server(ctx => ctx.res.render('index.pug'));
-server(ctx => ctx.res.render('index.hbs'));
+server(ctx => render('index.pug'));
+server(ctx => render('index.hbs'));
 // ...
 ```
 
@@ -185,5 +185,5 @@ ENGINE=pug
 Or through the corresponding option in javascript:
 
 ```js
-server({ engine: 'pug' }, ctx => ctx.res.render('index'));
+server({ engine: 'pug' }, ctx => render('index'));
 ```

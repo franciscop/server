@@ -11,7 +11,7 @@ module.exports = errors => (name, opts) => {
       errors[name]
     ) : new Error(name);
 
-  err.path = name;
+  err.name = name;
   throw err;
 };
 
@@ -23,7 +23,7 @@ module.exports.throw = errors => (name, opts) => {
       errors[name]
     ) : new Error(name);
 
-  err.path = name;
+  err.name = name;
   throw err;
 };
 

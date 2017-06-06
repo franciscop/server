@@ -1,13 +1,10 @@
 // server for Node.js (https://serverjs.io/)
 // A simple and powerful server for Node.js.
 
-// External packages
-const express = require('express');
-
 // Internal modules
 const config = require('./src/config');
-const router = require('./src/router/index.js');
-const reply = require('./src/reply/index.js');
+const router = require('./router');
+const reply = require('./reply');
 const join = require('./src/join/index.js');
 const modern = require('./src/modern');
 const error = require('./src/error');
@@ -85,9 +82,9 @@ module.exports.utils = {
   modern: modern
 };
 module.exports.plugins = [
+  require('./plugins/log'),
   require('./plugins/express'),
   require('./plugins/parser'),
-  require('./plugins/connect'),
-  require('./plugins/log'),
+  require('./plugins/core'),
   require('./plugins/socket'),
 ];

@@ -9,6 +9,7 @@ module.exports = {
   engine: 'pug',
   public: 'public',
   secret: 'secret-' + token,
+  log: 'debug',
 
 
   // Dev variables - not part of the official API

@@ -41,3 +41,6 @@ jspm_packages
 
 # SASS
 .sass-cache
+
+
+package-lock.json

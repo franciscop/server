@@ -1,0 +1,21 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 8
+  },
+  "plugins": ["jasmine"],
+  "env": {
+    "browser": true,
+    "commonjs": true,
+    "es6": true,
+    "jasmine": true,
+    "node": true
+  },
+  "extends": "eslint:recommended",
+  "rules": {
+    "indent": ["error",2],
+    "linebreak-style": ["error", "unix"],
+    "quotes": ["error", "single"],
+    "semi": ["error", "always"],
+    "no-console": "off"
+  }
+}

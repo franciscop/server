@@ -33,7 +33,7 @@ const server = require('server');
 const { get, post, put, del } = server.router;
 ```
 
-> TODO: create a tutorial as I couldn't find any decent one for this:
+> TODO: split this into a tutorial as I couldn't find any decent one for this:
 
 They all [accept a path in a similar way to Express.js](http://expressjs.com/en/4x/api.html#router) as ID, which will be parametrized:
 

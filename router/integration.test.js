@@ -1,11 +1,13 @@
 // Integration - test the router within the whole server functionality
 const request = require('request-promises');
-const server = require('../../server');
+const server = require('server');
 const { get, post, put, del } = server.router;
-const { hello, err, launch, handler, getter, poster } = require('../../tests/helpers');
+const { err, launch, handler } = require('server/test');
+const hello = () => 'Hello 世界';
+
 const routes = [
-  get('/', ctx => ctx.res.send('Hello 世界')),
-  post('/', ctx => ctx.res.send('Hello ' + ctx.req.body.a)),
+  get('/', hello),
+  post('/', ctx => 'Hello ' + ctx.req.body.a),
 ];
 const nocsrf = { connect: { csrf: false } };
 
@@ -13,7 +15,7 @@ const nocsrf = { connect: { csrf: false } };
 const checker = ({ body = 'Hello 世界', method = 'GET' } = {}) => res => {
   expect(res.request.method).toBe(method);
   expect(res.body).toBe(body);
-}
+};
 
 describe('Basic router types', () => {
   it('can do a GET request', () => {
@@ -63,7 +65,7 @@ describe('Ends where it should end', () => {
   });
 
   it('parses params correctly', async () => {
-    const middle = get('/:id', ctx => ctx.res.send(ctx.req.params.id));
+    const middle = get('/:id', ctx => ctx.req.params.id);
     const res = await handler(middle, { path: '/42?ignored=true' });
     expect(res.body).toBe('42');
   });
@@ -77,5 +79,6 @@ describe('Ends where it should end', () => {
       const res = await request(url);
       expect(res.body).toBe('Hello 世界');
     }
+    ctx.close();
   });
 });

@@ -19,12 +19,12 @@ let { socket } = server.router;
 server({}, [
 
   // These come from user-events
-  socket('join', (data, socket, io) => io.emit('join', data)),
-  socket('message', (data, socket, io) => io.emit('message', data)),
+  socket('join', ctx => ctx.io.emit('join', ctx.data)),
+  socket('message', ctx => ctx.io.emit('message', ctx.data)),
 
   // These are from the native events
-  socket('connect', (socket, io) => { /* ... */ }),
-  socket('disconnect', (socket, io) => { /* ... */ })
+  socket('connect', ctx => { /* ... */ }),
+  socket('disconnect', ctx => { /* ... */ })
 ]);
 ```
 
@@ -40,12 +40,12 @@ Retrieve the old functionality of Express to make it easy to launch a server in 
 
 Todo:
 
-- Include all of the libraries
 - Testing testing and more testing
 - Good documentation and [tutorials in Libre University](https://en.libre.university/subject/4kitSFzUe)
 
 Done:
 
+- Include all of the libraries
 - Created the base
 - Implemented some of the libraries
 - Use it in real-world projects

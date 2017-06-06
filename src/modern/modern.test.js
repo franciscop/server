@@ -1,6 +1,6 @@
 const join = require('../join');
 const modern = require('./index');
-const { throws } = require('../../tests/helpers');
+const { throws } = require('../../test');
 const middle = (req, res, next) => next();
 const ctx = { req: {}, res: {} };
 
@@ -60,12 +60,13 @@ describe('Middleware handles the promise', () => {
   });
 
   it('cannot handle error middleware', async () => {
+    // eslint-disable-next-line no-unused-vars
     await throws(() => modern((err, req, res, next) => {}));
   });
 
   it('keeps the context', async () => {
     const ctx = { req: 1, res: 2 };
-    const ret = await modern((req, res, next) => next())(ctx);
+    await modern((req, res, next) => next())(ctx);
     expect(ctx.req).toBe(1);
     expect(ctx.res).toBe(2);
   });
@@ -163,12 +164,12 @@ describe('Middleware handles the promise', () => {
   });
 
   it('does not resolve nor reject if next is not called', async () => {
-    modern((req, res, next) => {})(ctx).then(ctx => {
+    modern(() => {})(ctx).then(() => {
       expect('It was resolved').toBe(false);
-    }).catch(err => {
+    }).catch(() => {
       expect('It was rejected').toBe(false);
     });
-    return new Promise((resolve, reject) => {
+    return new Promise(resolve => {
       setTimeout(() => resolve(), 1000);
     });
   });

@@ -1,20 +1,18 @@
 // Final error handler
 const handler = async ctx => {
-  if (ctx.ret && !ctx.res.headersSent) {
-    await ctx.res.send(ctx.ret || '');
-  }
   if (!ctx.res.headersSent) {
-    ctx.res.sendStatus(404);
+    ctx.res.sendStatus(ctx.res.explicitStatus ? ctx.res.statusCode : 404);
   }
 };
 
 handler.error = ctx => {
-  if (ctx.options.verbose) {
-    ctx.log("Fatal error:", ctx.error);
-  }
-
+  const error = ctx.error;
+  ctx.log.warning('There is an unhandled error:');
+  ctx.log.error(error);
   if (!ctx.res.headersSent) {
-    ctx.res.status(500).send('Server error');
+    const status = error.status || error.code || 500;
+    const message = error.public ? error.message : 'Server error';
+    ctx.res.status(status).send(message);
   }
 };
 

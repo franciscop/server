@@ -1,9 +1,9 @@
-<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin:1.5em 0 .5em;width:100%}article table th{background:none;color:#333}article table tr:nth-child(2n){background:none}article table th,article table td{border:2px solid #ddd}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}#keep-reading{margin-top:1em}article .pages{text-align:left}
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:60%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin:1.5em 0 .5em;width:100%}article table th{background:none;color:#333}article table tr:nth-child(2n){background:none}article table th,article table td{border:2px solid #ddd}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{display:inline-block;padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}#keep-reading{margin-top:1em}article .pages{text-align:left}
 /*# sourceMappingURL=style.min.css.map */
-</style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="S"><span class="text">Server</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Middleware</strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
-<p>A <em>server middleware</em> is a function that will be called on each request. It accepts <a href="#context">a context object</a> and <a href="#asynchronous-return">returns a promise</a> for asynchronous methods or <a href="#synchronous-return">anything else</a> for synchronous methods. A couple of examples:</p>
-<pre><code class="lang-js">const setname = ctx =&gt; ctx.req.user = &#39;Francisco&#39;;
-const sendname = ctx =&gt; ctx.res.send(ctx.req.user);
+</style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="Main logo for server.js"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Middleware</strong></h1><a class="button docs" href="/documentation"><span class="arrow left">〈</span>All documentation</a></div></div><article>
+<p>A <em>server middleware</em> is a function that will be called on each request. It accepts <a href="#context">a context object</a> and <a href="#asynchronous-return">returns a promise</a> for asynchronous methods or <a href="#synchronous-return">something else</a> for synchronous methods. A couple of examples:</p>
+<pre><code class="lang-js">const setname = ctx =&gt; { ctx.req.user = &#39;Francisco&#39;; };
+const sendname = ctx =&gt; ctx.req.user;
 server(setname, sendname);
 </code></pre>
 <p>We are using the latest version of Javascript (ES7) that provides many useful options.</p>
@@ -11,7 +11,7 @@ server(setname, sendname);
 <p>Note: if you resolve it with a function, this will be called with <code>ctx</code>. This is not so useful for normal devs, but it is for server contributions. See <a href="../advanced/">advanced configuration</a>.</p>
 </blockquote>
 <h2 id="context">Context</h2>
-<p>Context is the only parameter that middleware receives and we&#39;ll call it <code>ctx</code>. It represents all the information known at this point. It can appear at several points, but the most important one is as a middleware parameter.</p>
+<p>Context is the only parameter that middleware receives and we&#39;ll call it <code>ctx</code>. <strong>It represents all the information known at this point</strong>. It can appear at several points, but the most important one is as a middleware parameter.</p>
 <p>In this situation it has, among others, the properties <code>req</code>, <code>res</code> (from express) and <code>options</code>:</p>
 <pre><code class="lang-js">const middleware = ctx =&gt; {
   ctx.req;      // Request parameter, similar to `(req, res)` in express
@@ -22,7 +22,7 @@ server(setname, sendname);
 <p>If you are developing a library or just want more advanced features, you should also have access to these:</p>
 <pre><code class="lang-js">let middleware = ctx =&gt; {
   ctx.app;        // Current express instance
-  ctx.server;   // The http-server instance
+  ctx.server;     // The http-server instance
 };
 </code></pre>
 <p>TODO: explain more about <code>req</code>, <code>res</code> and <code>options</code> (explanation for each and their methods and a link to express docs).</p>
@@ -30,27 +30,29 @@ server(setname, sendname);
 <p>A synchronous function is one that executes one line after another. To make your function synchronous you just have <a href="#asynchronous-return">not to make it asynchronous</a>, which means <em>do not return a promise</em>.</p>
 <p>Most code is actually synchronous so let&#39;s see some examples:</p>
 <pre><code class="lang-js">// Some simple logging
-const middle1 = () =&gt; console.log(&#39;Hello 世界&#39;);
+const middle1 = () =&gt; {
+  console.log(&#39;Hello 世界&#39;);
+};
 
-// Asign a user to the request user
+// Asign a user to the context
 const middle2 = ctx =&gt; {
-  ctx.req.user = { name: &#39;Francisco&#39;, available: true };
+  ctx.user = { name: &#39;Francisco&#39;, available: true };
 };
 
 // Make sure that there is a user
 const middle3 = ctx =&gt; {
-  if (!ctx.req.user) {
+  if (!ctx.user) {
     throw new Error(&#39;No user detected!&#39;);
   }
 };
 
 // Send some info to the browser
 const middle4 = ctx =&gt; {
-  ctx.res.send(`Some info for ${ctx.req.user.name}`);
+  return `Some info for ${ctx.user.name}`;
 };
 </code></pre>
 <h2 id="asynchronous-return">Asynchronous return</h2>
-<pre><code class="lang-js">// Asynchronous
+<pre><code class="lang-js">// Asynchronous, find user with Mongoose (MongoDB)
 const middle2 = async () =&gt; {
   const user = await user.find({ name: &#39;Francisco&#39; }).exec();
   console.log(user);
@@ -58,7 +60,9 @@ const middle2 = async () =&gt; {
 </code></pre>
 <p>And how to use them:</p>
 <pre><code class="lang-js">// Synchronous
-server(() =&gt; console.log(&#39;Hello 世界&#39;));
+server(() =&gt; {
+  console.log(&#39;Hello 世界&#39;);
+});
 
 // Asynchronous
 server(async () =&gt; {
@@ -66,50 +70,38 @@ server(async () =&gt; {
   console.log(user);
 });
 </code></pre>
-<h4 id="destructuring">Destructuring</h4>
-<p>You can and probably should use <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment">ES7 destructuring</a> right in the function call:</p>
-<pre><code class="lang-js">let setname = ({ req }) =&gt; req.user = &#39;Francisco&#39;;
-let sendname = ({ req, res }) =&gt; res.send(req.user);
-</code></pre>
-<p>All of the included plugins will also be available in this way:</p>
-<pre><code class="lang-js">let middleware = ({ res, socket, db }) =&gt; {
-  db.findAll({ name: &#39;Francisco&#39; }).then(user =&gt; res.json(user));
-}
-</code></pre>
 <h3 id="return-value">Return value</h3>
-<p>If your middleware is going to be synchronous, you can just return nothing:</p>
-<pre><code class="lang-js">let middle = ({ req }) =&gt; {
-  req.body = &#39;Hello world&#39;;
-}
+<p>If your middleware is going to be synchronous, you can just return the value to be sent to the browser:</p>
+<pre><code class="lang-js">// Send a string
+const middle = ctx =&gt; &#39;Hello 世界&#39;;
+
+// Send a JSON
+const middle = ctx =&gt; [&#39;hello&#39;, &#39;世界&#39;];
+const middle = ctx =&gt; ({ hello: &#39;世界&#39; });
+// Note: extra parenthesis not to be confused with arrow fn
+
+// Send a status code
+const middle = ctx =&gt; 404;
 </code></pre>
 <p>In sync mode you can throw anything to trigger an error:</p>
-<pre><code class="lang-js">let middle = ({ req }) =&gt; {
+<pre><code class="lang-js">const { error } = server.router;
+
+let middle = ({ req }) =&gt; {
   if (!req.body) {
     throw new Error(&#39;No body provided&#39;);
   }
 }
-server(middle).catch(err =&gt; {
-  console.log(&quot;Expecting body:&quot;, err);
-});
+
+server(middle, error(ctx =&gt; {
+  console.log(ctx.error);
+}));
 </code></pre>
 <p>When you want to handle code asynchronously you should return a promise. Then it will continue the middleware chain as it is resolved, or skip it as it is rejected:</p>
-<pre><code class="lang-js">let middle = ({ req }) =&gt; new Promise((resolve, reject) =&gt; {
-  if (req.body) {
-    resolve();
-  } else {
-    reject(new Error(&#39;No body provided&#39;));
+<pre><code class="lang-js">const middle = async ctx =&gt; {
+  if (!req.body) {
+    throw new Error(&#39;No body provided&#39;);
   }
 });
-</code></pre>
-<p>Both the resolve value and the return value get ignored and the same server instance will be passed around. If you want to modify it on your middleware, do it as shown above:</p>
-<pre><code class="lang-js">let addsecret = s =&gt; {
-  // This will set it by reference
-  s.options.secret = &#39;your-random-string-here&#39;;
-}
-let addsecret = ({ options }) =&gt; {
-  // This will also set it by reference
-  options.secret = &#39;your-random-string-here&#39;;
-}
 </code></pre>
 <h2 id="modern">Modern</h2>
 <p>Modern is a small utility that allows you to use express middleware within <code>server</code>. The proper way of using <code>modern</code> is:</p>
@@ -118,6 +110,7 @@ const { modern } = server.utils;
 const oldCookieParser = require(&#39;cookie-parser&#39;)({ ... });
 const cookieParser = server.modern(oldCookieParser);
 
+// TODO: cancel the old cookieparser
 server(cookieParser, ...);
 </code></pre>
 <!-- // DEPRECATED:
