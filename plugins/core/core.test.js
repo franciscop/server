@@ -28,18 +28,20 @@ describe('Default modules', () => {
   });
 
   it('accepts several definitions of public correctly', async () => {
+    const test = path.join(process.cwd(), 'test');
+
     await server({ public: test, port: port() }).then(ctx => {
-      expect(ctx.options.public).toBe(process.cwd() + '/test');
+      expect(ctx.options.public).toBe(test);
       ctx.close();
     });
 
     await server({ public: './' + test, port: port() }).then(ctx => {
-      expect(ctx.options.public).toBe(process.cwd() + '/test');
+      expect(ctx.options.public).toBe(test);
       ctx.close();
     });
 
     await server({ public: __dirname + '/../../' + test, port: port() }).then(ctx => {
-      expect(ctx.options.public).toBe(process.cwd() + '/test');
+      expect(ctx.options.public).toBe(test);
       ctx.close();
     });
   });
