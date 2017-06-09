@@ -1,7 +1,7 @@
 // Middleware plugin
 // Restore some of the old Express functionality
-const plugin = {
-  name: 'connect',
+module.exports = {
+  name: 'core',
   options: {
     compress: {},
     session: {
@@ -18,5 +18,3 @@ const plugin = {
   init: require('./init'),
   before: []   // It is populated in "init()"
 };
-
-module.exports = plugin;

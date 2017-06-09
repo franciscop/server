@@ -9,7 +9,7 @@ const routes = [
   get('/', hello),
   post('/', ctx => 'Hello ' + ctx.req.body.a),
 ];
-const nocsrf = { connect: { csrf: false } };
+const core = { csrf: false };
 
 // Check that a response is performed and it's a simple one
 const checker = ({ body = 'Hello 世界', method = 'GET' } = {}) => res => {
@@ -24,17 +24,17 @@ describe('Basic router types', () => {
 
   it('can do a POST request', () => {
     const method = 'POST';
-    return handler(post('/', hello), { method }, nocsrf).then(checker({ method }));
+    return handler(post('/', hello), { method }, { core }).then(checker({ method }));
   });
 
   it('can do a PUT request', () => {
     const method = 'PUT';
-    return handler(put('/', hello), { method }, nocsrf).then(checker({ method }));
+    return handler(put('/', hello), { method }, { core }).then(checker({ method }));
   });
 
   it('can do a DELETE request', () => {
     const method = 'DELETE';
-    return handler(del('/', hello), { method }, nocsrf).then(checker({ method }));
+    return handler(del('/', hello), { method }, { core }).then(checker({ method }));
   });
 });
 

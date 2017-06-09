@@ -1,4 +1,4 @@
-const launch = require('./launch');
+const launch = require('server/test/launch');
 const request = require('request-promises');
 
 module.exports = async (middle, opts = {}, servOpts) => {

@@ -7,8 +7,8 @@ const persist = require('server/test/persist');
 
 // Local helpers and data
 const empty = () => 'Hello 世界';
-const tests = 'test';
-const favicon = tests + '/logo.png';
+const test = 'test';
+const favicon = test + '/logo.png';
 
 
 describe('Default modules', () => {
@@ -16,15 +16,61 @@ describe('Default modules', () => {
   it('compress?', async () => {
     const portN = port();
     const url = `http://localhost:${portN}/favicon.ico`;
-    const res = await handler(empty, { url }, { port: portN, connect: { favicon } });
+    const res = await handler(empty, { url }, { port: portN, core: { favicon } });
     expect(res.headers['content-encoding']).toBe('gzip');
   });
 
   it('favicon', async () => {
     const portN = port();
     const url = `http://localhost:${portN}/favicon.ico`;
-    const res = await handler(empty, { url }, { port: portN, connect: { favicon } });
+    const res = await handler(empty, { url }, { port: portN, core: { favicon } });
     expect(res.headers['content-type']).toBe('image/x-icon');
+  });
+
+  it('accepts several definitions of public correctly', async () => {
+    await server({ public: test, port: port() }).then(ctx => {
+      expect(ctx.options.public).toBe(process.cwd() + '/test');
+      ctx.close();
+    });
+
+    await server({ public: './' + test, port: port() }).then(ctx => {
+      expect(ctx.options.public).toBe(process.cwd() + '/test');
+      ctx.close();
+    });
+
+    await server({ public: __dirname + '/../../' + test, port: port() }).then(ctx => {
+      expect(ctx.options.public).toBe(process.cwd() + '/test');
+      ctx.close();
+    });
+  });
+
+
+  // Different instances of the same thing should have different plugins/options
+  // This test is to make sure so
+  it.skip('has independent instances', async () => {
+    const portN = port();
+    const url = `http://localhost:${portN}/favicon.ico`;
+
+    // This should have all 6 middleware
+    const req1 = handler([
+      ctx => new Promise(resolve => {
+        setTimeout(() => {
+          resolve('' + ctx.plugins.filter(p => p.name === 'core')[0].before.length);
+        }, 500);
+      })
+    ], { url }, { port: portN });
+
+    // This should have 4 middleware but not modify the previous
+    const res2 = await handler([
+      ctx => ctx.plugins.filter(p => p.name === 'core')[0].before.length
+    ], { url }, { port: port(), core: { csrf: false } });
+
+    // This is correct even if buggy
+    expect(res2.body).toBe('4');
+
+    // This would show a bug where the plugins and/or options are shared
+    const res1 = await req1;
+    expect(res1.body).toBe('6');
   });
 
   it('static', async () => {
@@ -32,14 +78,14 @@ describe('Default modules', () => {
       const res = await test.get('/logo.png');
       expect(res.statusCode).toBe(200);
       expect(res.headers['content-type']).toBe('image/png');
-    })(await server({ public: tests, port: port() }));
+    })(await server({ public: test, port: port() }));
   });
 
   it('non-existing static', async () => {
     return persist(async test => {
       const res = await test.get('/non-existing.png');
       expect(res.statusCode).toBe(404);
-    })(await server({ public: tests, port: port() }));
+    })(await server({ public: test, port: port() }));
   });
 
   it('response-time', async () => {
@@ -48,7 +94,7 @@ describe('Default modules', () => {
   });
 
   it('can handle sessions', async () => {
-    const ctx = await server({ public: tests, port: port() }, [
+    const ctx = await server({ public: test, port: port() }, [
       get('/a', ctx => { ctx.req.session.page = 'pageA'; }, () => send('')),
       get('/b', ctx => ctx.req.session.page),
     ]);
@@ -59,7 +105,7 @@ describe('Default modules', () => {
   });
 
   it('csurf', async () => {
-    const ctx = await server({ public: tests, port: port() }, [
+    const ctx = await server({ public: test, port: port() }, [
       get('/', ctx => ctx.res.locals.csrf),
       post('/', () => '世界')
     ]);

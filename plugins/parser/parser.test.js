@@ -8,7 +8,7 @@ const { poster, handler } = require('../../test');
 const data = { hello: '世界' };
 const logo = fs.createReadStream(__dirname + '/../../test/logo.png');
 const content = ctx => ctx.req.headers['content-type'];
-const nocsrf = { connect: { csrf: false } };
+const core = { csrf: false };
 
 
 describe('Default modules', () => {
@@ -20,7 +20,7 @@ describe('Default modules', () => {
       expect(content(ctx)).toBe('application/x-www-form-urlencoded');
       ctx.res.send('Hello 世界');
     };
-    return poster(middle, data, nocsrf);
+    return poster(middle, data, { core });
   });
 
   it('jsonParser', () => {
@@ -40,14 +40,14 @@ describe('Default modules', () => {
       expect(ctx.req.files.logo.size).toBe(10151);
       ctx.res.send('Hello 世界');
     };
-    return handler(middle, { method: 'POST', formData: { logo } }, nocsrf);
+    return handler(middle, { method: 'POST', formData: { logo } }, { core });
   });
 
   // It can *set* cookies from the server()
   // TODO: it can *get* cookies from the server()
   it('cookieParser', () => {
     const middle = ctx => { ctx.res.cookie('place', '世界').send('Hello 世界'); };
-    return poster(middle, { place: '世界' }, nocsrf).then(res => {
+    return poster(middle, { place: '世界' }, { core }).then(res => {
       const cookieheader = res.headers['set-cookie'];
       // Should be 2 because of the session
       expect(cookieheader.join().includes('place=%E4%B8%96%E7%95%8C')).toBe(true);
@@ -64,7 +64,7 @@ describe('Default modules', () => {
       ctx.res.send('Hello 世界');
     };
     const headers = { 'X-HTTP-Method-Override': 'PUT' };
-    return handler(middle, { method: 'POST', headers }, nocsrf);
+    return handler(middle, { method: 'POST', headers }, { core });
   });
 
   // TODO: check more options
@@ -80,7 +80,7 @@ describe('Cancel parts through options', () => {
       expect(ctx.req.headers['content-type']).toBe('application/x-www-form-urlencoded');
       ctx.res.send('Hello 世界');
     };
-    return poster(middle, data, { parser: { body: false }, connect: { csrf: false } });
+    return poster(middle, data, { parser: { body: false }, core });
   });
 
   // TODO: check all others can be cancelled
@@ -91,6 +91,6 @@ describe('Cancel parts through options', () => {
       expect(ctx.req.body).toBe(undefined);
       ctx.res.send('Hello 世界');
     };
-    return poster(middle, data, { parser: false, connect: { csrf: false } });
+    return poster(middle, data, { parser: false, core });
   });
 });

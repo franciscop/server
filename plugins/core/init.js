@@ -3,63 +3,67 @@ const path = require('path');
 module.exports = ctx => {
 
   const modern = ctx.utils.modern;
-  const options = ctx.options.connect;
-  const connect = ctx.plugins.filter(p => p.name === 'connect')[0];
+  const opts = ctx.options.core;
 
   // TODO: fix it so this is not needed
-  connect.before = [];
+  const core = require('.');
+  core.before = [];
 
-  // Inherit
-  options.public = options.public || ctx.options.public;
-  if (!path.isAbsolute(options.public)) {
-    options.public = path.join(process.cwd(), options.public);
+  // const core = ctx.plugins.filter(p => p.name === 'core')[0];
+  // console.log(core.options);
+
+  opts.public = opts.public || ctx.options.public;
+
+  // Normalize the "public" folder
+  if (!path.isAbsolute(opts.public)) {
+    opts.public = path.join(process.cwd(), opts.public);
   }
-  options.public = path.normalize(options.public);
-  ctx.options.public = options.public;
+  opts.public = path.normalize(opts.public);
+  ctx.options.public = opts.public;
 
   // Compress
-  if (options.compress) {
-    const compress = require('compression')(options.compress);
-    connect.before.push(modern(compress));
+  if (opts.compress) {
+    const compress = require('compression')(opts.compress);
+    core.before.push(modern(compress));
   }
 
   // Public folder
-  if (options.public) {
-    connect.before.push(modern(ctx.express.static(options.public)));
+  if (opts.public) {
+    core.before.push(modern(ctx.express.static(opts.public)));
   }
 
-  if (options.session) {
-    options.session.secret = options.session.secret || ctx.options.secret;
-    const session = require('express-session')(options.session);
-    connect.before.push(modern(session));
+  if (opts.session) {
+    opts.session.secret = opts.session.secret || ctx.options.secret;
+    const session = require('express-session')(opts.session);
+    core.before.push(modern(session));
   }
 
-  if (options.responseTime) {
-    const responseTime = require('response-time')(options.responseTime);
-    connect.before.push(modern(responseTime));
+  if (opts.responseTime) {
+    const responseTime = require('response-time')(opts.responseTime);
+    core.before.push(modern(responseTime));
   }
 
-  // // TODO: vhost: require('vhost')
-  // // - DO IT WITH A ROUTER
+  // TODO: vhost: require('vhost')
+  // - DO IT WITH A ROUTER
 
-  if (options.csrf) {
-    const csrf = require('csurf')(options.csrf);
-    connect.before.push(modern(csrf));
+  if (opts.csrf) {
+    const csrf = require('csurf')(opts.csrf);
+    core.before.push(modern(csrf));
 
     // Set the csrf for render(): https://expressjs.com/en/api.html#res.locals
-    connect.before.push(ctx => {
+    core.before.push(ctx => {
       ctx.res.locals.csrf = ctx.req.csrfToken();
     });
   }
 
   // ctx => {
-  //   if (!ctx.options.middle) return;
+  //   if (!opts.middle) return;
   //   ?TODO: serveIndex: (opt, all) => require('serve-index')(all.public)
   // },
 
-  // console.log(ctx.options.connect, ctx.options.connect.favicon);
-  if (options.favicon) {
-    const favicon = require('serve-favicon')(options.favicon);
-    connect.before.push(modern(favicon));
+
+  if (opts.favicon) {
+    const favicon = require('serve-favicon')(opts.favicon);
+    core.before.push(modern(favicon));
   }
 };

@@ -1,7 +1,7 @@
 const server = require('server');
 const { get } = server.router;
 const { handler, getter, poster } = require('server/test');
-const nocsrf = { connect: { csrf: false } };
+const nocsrf = { core: { csrf: false } };
 
 describe('join', () => {
 
