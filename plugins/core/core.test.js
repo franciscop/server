@@ -4,6 +4,7 @@ const { get, post } = server.router;
 const { send } = server.reply;
 const { getter, handler, port } = require('server/test');
 const persist = require('server/test/persist');
+const path = require('path');
 
 // Local helpers and data
 const empty = () => 'Hello 世界';
@@ -28,20 +29,20 @@ describe('Default modules', () => {
   });
 
   it('accepts several definitions of public correctly', async () => {
-    const test = path.join(process.cwd(), 'test');
+    const fulltest = path.join(process.cwd(), 'test');
 
     await server({ public: test, port: port() }).then(ctx => {
-      expect(ctx.options.public).toBe(test);
+      expect(ctx.options.public).toBe(fulltest);
       ctx.close();
     });
 
     await server({ public: './' + test, port: port() }).then(ctx => {
-      expect(ctx.options.public).toBe(test);
+      expect(ctx.options.public).toBe(fulltest);
       ctx.close();
     });
 
     await server({ public: __dirname + '/../../' + test, port: port() }).then(ctx => {
-      expect(ctx.options.public).toBe(test);
+      expect(ctx.options.public).toBe(fulltest);
       ctx.close();
     });
   });
