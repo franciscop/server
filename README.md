@@ -4,7 +4,7 @@
   [![[Status]](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server)
   [![[Windows Build]](https://img.shields.io/appveyor/ci/franciscop/server.svg?label=windows)](https://ci.appveyor.com/project/franciscop/server)
   [![[Downloads]](https://img.shields.io/npm/dm/server.svg)](https://npm-stat.com/charts.html?package=server)
-  [![[Roadmap]](https://img.shields.io/badge/version-ALPHA-red.svg)](https://github.com/franciscop/server/issues/1)
+  [![[Roadmap]](https://img.shields.io/badge/version-BETA-yellow.svg)](https://medium.com/server-for-node-js/server-js-beta-1-released-d53d01468ac5)
 
 
 Powerful server for Node.js that just works so **you can focus on your awesome project**:
