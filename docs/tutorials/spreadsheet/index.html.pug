@@ -1,0 +1,27 @@
+extends ../../_layout/index
+
+block content
+  .hero
+    .content
+      h1 
+        strong Spreadsheets data
+      a.button.docs(href='/tutorials')
+        span.arrow.left 〈
+        | Tutorials
+      = ' '
+      a.button.warning.docs(href='https://github.com/franciscop/server-tutorial-spreadsheet')
+        | Source code
+
+  article
+    include:marked:noheader ./README.md
+
+
+
+    h2#keep-reading Keep reading
+
+    p Once you master the options there are few topics to keep going on:
+
+    div.pages
+      a.button(href="../middleware") Middleware
+      a.button(href="../router") Router
+      a.button(href="../advanced") Advanced

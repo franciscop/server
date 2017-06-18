@@ -1,0 +1,131 @@
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?3"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css" rel="stylesheet"><style>.from-h3 .button::before{content:"- "}nav{padding-left:calc(50% - 450px);padding-right:calc(50% - 450px);margin:0 auto}nav .brand{padding:0 .5em}nav .burger{margin-right:.5em}nav .brand .logo{margin-right:1em}body{background:#58a2df}.hero{position:relative;width:100%;height:55%;min-height:300px;margin:0;text-align:center;color:#fff;padding:1px 0;transition:min-height 999999s, height 999999s}.hero .content{padding:10px;width:100%;position:absolute;top:50%;left:50%;transform:translateY(-50%) translateX(-50%);margin:0 auto}.hero .arrow{font-size:.7em;font-weight:100000;transform:scaleX(1.3);display:inline-block;margin:0 10px}.hero .button .arrow{transform:scaleX(1.3) translateY(-1px)}.hero .arrow.left{margin:0 10px 0 0}.hero .arrow.right{margin:0 0 0 10px}article{margin-top:0;margin-bottom:30vh;padding:3em}article table{margin:1.5em 0 .5em;width:100%}article table th{background:none;color:#333}article table tr:nth-child(2n){background:none}article table th,article table td{border:2px solid #ddd}.hero h1{font-weight:normal;padding:0;margin:0}.sub{margin:0}pre.sub{display:inline-block;padding:5px 15px;text-align:left;font-size:1.4em;font-family:monospace;font-weight:300;border-radius:0;background:rgba(255,255,255,0.1)}@media all and (min-width: 500px){.hero .content{width:330px;max-width:100%}}@media print{body{padding:0}nav{display:none}.hero,.hero .content{position:static;height:auto;min-height:0;top:auto;left:auto;transform:none}.hero .button{display:none}pre{border:2px solid #ddd}#keep-reading,#keep-reading ~ *{display:none}h1::after{content:"Tutorial for server.js: https://serverjs.io/";display:block;font-size:1rem}}pre[class*="language-"]{position:relative;overflow:visible;margin-top:30px}pre[class*="language-"]::before{content:attr(data-language);position:absolute;top:0;right:0;font-size:.6em;padding:1px 5px;border:2px solid #ddd;border-radius:0 .4em;border-width:0 0 2px 2px}button.secret{display:none}@media all and (min-width: 800px){body{font-size:1.1em}.hero{background:#58a2df url("/img/kite.jpg") no-repeat center center scroll;background-size:cover}.hero .content{width:auto;max-width:100%}.hero h1{font-size:2.5em}.hero .sub{font-size:1.6em}button.secret{display:block;background:none;color:rgba(255,255,255,0.05);margin:0 auto -50px;cursor:inherit}button.secret:focus{box-shadow:none;color:rgba(255,255,255,0.05)}button.secret:hover{box-shadow:none;background:rgba(255,255,255,0.5);color:rgba(0,0,0,0.5);transition:all .3s ease .3s}body.liftoff{background:#000 url("/img/lanterns.jpg") no-repeat center center scroll;background-size:cover;transition:all 1s ease}body.liftoff .hero{background:none}}.button{background:#f55}.hero .button{font-weight:bold;margin-top:20px;background:#f55}.docs{padding:.6em 1.2em}article>p:first-child{margin-top:0}article h1,article h2,article h3{margin:-40px 0 0}article h1+*,article h2+*,article h3+*{margin-top:.6em}@media all and (max-width: 900px){article{padding:20px;width:100%;border-radius:0}}.pages{text-align:center;margin:10px auto 0}.pages .button{margin-right:.3em}#keep-reading{margin-top:1em}article .pages{text-align:left}
+/*# sourceMappingURL=style.min.css.map */
+</style></head><body><nav><a class="brand" href="/"><img class="logo" src="/img/split.svg" alt="Main logo for server.js"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/about">About</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Spreadsheets data</strong></h1><a class="button docs" href="/tutorials"><span class="arrow left">〈</span>Tutorials</a> <a class="button warning docs" href="https://github.com/franciscop/server-tutorial-spreadsheet">Source code</a></div></div><article>
+<p>In this tutorial you&#39;ll learn how to take a Google Spreadsheet and convert it into a read-only database for Node.js. We will see some possible front-end applications such as data analysis and geolocation in a map.</p>
+<p>This is useful for simple and small datasets that might be modified by non-technical people since everyone knows how to edit spreadsheets. The data will then be available on the site as it is modified by several people simultaneously on Google Drive.</p>
+<p>Some possible uses:</p>
+<ul>
+<li>Publish a graph with monthly revenue or users info that you are already using internally.</li>
+<li>Startup employee list is in a Spreadsheet for internal use and visible on the website.</li>
+<li>Keep track of your trips similar to <a href="https://wherethefuckismartin.com/">how Martin does it</a> (note: not related to server.js).</li>
+</ul>
+<h2 id="installation">Installation</h2>
+<p>After <a href="">getting your project started</a> we&#39;ll be using <code>server</code> and the package <a href="https://www.npmjs.com/package/drive-db"><code>drive-db</code></a>:</p>
+<pre><code class="lang-bash">npm install server drive-db
+</code></pre>
+<h2 id="create-a-spreadsheet">Create a spreadsheet</h2>
+<p>For this step we&#39;ll have to go to <a href="https://docs.google.com/spreadsheets/">Google Spreadsheets</a> and create a new Blank spreadsheet:</p>
+<p><img src="img/spreadsheet.png" alt="Create new spreadsheet in Google Spreadsheets"></p>
+<p>The spreadsheet has to have a specific structure, where the first row has the names of the columns and the rest has the content:</p>
+<p><img src="img/userlist.png" alt="Random userlist example"></p>
+<p>Now we have to publish the spreadsheet so that we can read it from our back-end. Press <code>File</code> &gt; <code>Publish to the web</code> &gt; <code>Publish</code>:</p>
+<p><img src="img/publish.png" alt="Publish the spreadsheet to the web"></p>
+<p>Finally make a note of the current spreadsheet URL. It will be something like this: <a href="https://docs.google.com/spreadsheets/d/1FeG6UsUC_BKlJBiy3j_c4uctMcQlnmv9iyfkDjuWXpg/edit">https://docs.google.com/spreadsheets/d/1FeG6UsUC_BKlJBiy3j_c4uctMcQlnmv9iyfkDjuWXpg/edit</a></p>
+<h2 id="back-end-with-server-js">Back-end with server.js</h2>
+<p>Let&#39;s get to program. Create our file <code>index.js</code>:</p>
+<pre><code class="lang-js">// Load the dependencies
+const server = require(&#39;server&#39;);
+const { get } = server.router;
+const { render } = server.reply;
+
+// The URL fragment between &quot;spreadsheets/d/&quot; and &quot;/edit&quot;
+const id = &#39;1FeG6UsUC_BKlJBiy3j_c4uctMcQlnmv9iyfkDjuWXpg&#39;;
+const drive = require(&#39;drive-db&#39;)(id);
+
+// Load the user list (if cache is expired) and render the index
+const homeRoute = get(&#39;/&#39;, async () =&gt; {
+  const db = await drive.load();
+  return render(&#39;index.hbs&#39;, { users: db.find() });
+});
+
+// Launch the server in port 3000
+server(homeRoute);
+</code></pre>
+<h2 id="front-end">Front-end</h2>
+<p>Now let&#39;s do some fun stuff with the front-end. Create the file <code>views/index.hbs</code> with this:</p>
+<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;link rel=&quot;stylesheet&quot; href=&quot;https://unpkg.com/picnic@6&quot;&gt;
+  &lt;style&gt;
+    main {
+      width: 90%;
+      max-width: 600px;
+      margin: 30px auto;
+      padding: 10px 30px 30px;
+      border: 1px solid #ccc;
+      border-radius: .3em;
+    }
+  &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+
+  &lt;main&gt;
+    &lt;h1&gt;Users&lt;/h1&gt;
+    ...
+  &lt;/main&gt;
+
+&lt;/body&gt;
+</code></pre>
+<p>We added <a href="https://picnicss.com/">Picnic CSS</a> to make it easier to develop, however you can use any front-end CSS library that you prefer. We will see several ways of representing our data.</p>
+<h3 id="simple-list">Simple list</h3>
+<p>The easy way, just create a list with the first name and last name:</p>
+<pre><code class="lang-html">&lt;main&gt;
+  &lt;h1&gt;Users&lt;/h1&gt;
+  &lt;ul&gt;
+    {{#each users}}
+      &lt;li&gt;{{this.firstname}} {{this.lastname}}&lt;/li&gt;
+    {{/each}}
+  &lt;/ul&gt;
+&lt;/main&gt;
+</code></pre>
+<p>This will render an HTML list like this:</p>
+<p><img src="img/list_simple.png" alt="Simple user list"></p>
+<h3 id="table">Table</h3>
+<p>Let&#39;s show them in a table as they appear in the Spreadsheets:</p>
+<pre><code class="lang-html">&lt;table&gt;
+  &lt;tr&gt;
+    &lt;th&gt;Firstname&lt;/th&gt; &lt;th&gt;Lastname&lt;/th&gt; &lt;th&gt;Age&lt;/th&gt; &lt;th&gt;City&lt;/th&gt;
+  &lt;/tr&gt;
+  {{#each users}}
+    &lt;tr&gt;
+      &lt;td&gt;{{this.firstname}}&lt;/td&gt;
+      &lt;td&gt;{{this.lastname}}&lt;/td&gt;
+      &lt;td&gt;{{this.age}}&lt;/td&gt;
+      &lt;td&gt;{{this.city}}&lt;/td&gt;
+    &lt;/tr&gt;
+  {{/each}}
+&lt;/table&gt;
+</code></pre>
+<p><img src="img/list_table.png" alt="Table list"></p>
+<h3 id="cards">Cards</h3>
+<p><img src="img/list_cards.png" alt="Card list"></p>
+<h3 id="demographics-by-age">Demographics by age</h3>
+<p><img src="img/demographics_chart.png" alt="Demographics chart"></p>
+<h3 id="demographics-by-location">Demographics by location</h3>
+<p><img src="img/demographics_map.png" alt="Demographics map"></p>
+<h2 id="keep-reading">Keep reading</h2><p>Once you master the options there are few topics to keep going on:</p><div class="pages"><a class="button" href="../middleware">Middleware</a><a class="button" href="../router">Router</a><a class="button" href="../advanced">Advanced</a></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server for Node.js';
+  var el = document.querySelector('a.email');
+  if (el) el.setAttribute('href', email);
+}, 2000);
+
+[].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
+  return /lang(uage)?\-/.test(pre.className);
+}).forEach(function(pre){
+  var name = pre.className.split(/\s+/).filter(function(name){
+    return /lang(uage)?\-/.test(name);
+  })[0].replace(/lang(uage)?\-/, '');
+  var map = { js: 'javascript', jade: 'pug' };
+  if (name in map) name = map[name];
+  pre.parentNode.setAttribute('data-language', name);
+});
+
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63739359-2', 'auto');
+ga('send', 'pageview');
+</script></body></html>
