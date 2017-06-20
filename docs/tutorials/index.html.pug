@@ -1,0 +1,32 @@
+extends ../_layout/index
+
+block title
+  title server.js Tutorials - server.js
+
+block description
+  meta(name='description' content='Discover a world of tutorials for server.js with many Node.js exercises.')
+
+block content
+  .hero
+    .content
+      h1 
+        strong Tutorials
+      .sub Learn server.js with examples
+
+  article
+    p Tutorials for the back-end and front-end with Node.js and server.js:
+    div.card
+      header
+        h2 Getting started
+      footer
+        p Get started by creating a Node.js project from scratch and get started.
+        a.button(href="/tutorials/getting-started") Read tutorial
+    div.card
+      header
+        h2 Spreadsheets data
+      footer
+        p Take a Google Spreadsheet and convert it into a read-only database for Node.js.
+        a.button(href="/tutorials/spreadsheet") Read tutorial
+        |  
+        a.button(href="https://github.com/franciscop/server-tutorial-spreadsheet") Source code
+      

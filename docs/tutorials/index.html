@@ -1,0 +1,47 @@
+<!DOCTYPE html><html class="initial"><head><title>server.js Tutorials - server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Discover a world of tutorials for server.js with many Node.js exercises."><link rel="shortcut icon" type="image/png" href="/img/favicon.png?4"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="/style.min.css" rel="stylesheet"></head><body><nav class="instant"><a class="brand" href="/"><img class="logo" src="/img/s.svg" alt="Main logo for server.js"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Tutorials</strong></h1><div class="sub">Learn server.js with examples</div></div></div><article><p>Tutorials for the back-end and front-end with Node.js and server.js:</p><div class="card"><header><h2>Getting started</h2></header><footer><p>Get started by creating a Node.js project from scratch and get started.</p><a class="button" href="/tutorials/getting-started">Read tutorial</a></footer></div><div class="card"><header><h2>Spreadsheets data</h2></header><footer><p>Take a Google Spreadsheet and convert it into a read-only database for Node.js.</p><a class="button" href="/tutorials/spreadsheet">Read tutorial</a> <a class="button" href="https://github.com/franciscop/server-tutorial-spreadsheet">Source code</a></footer></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
+setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
+  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
+    el.setAttribute('href', email);
+  });
+}, 2000);
+
+// Add language tag to the code for print
+[].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
+  return /lang(uage)?\-/.test(pre.className);
+}).forEach(function(pre){
+  var name = pre.className.split(/\s+/).filter(function(name){
+    return /lang(uage)?\-/.test(name);
+  })[0].replace(/lang(uage)?\-/, '');
+  var map = { js: 'javascript', jade: 'pug' };
+  if (name in map) name = map[name];
+  pre.parentNode.setAttribute('data-language', name);
+});
+
+
+var nav = u('nav');
+function transparency(){
+  var top = document.documentElement.scrollTop || document.body.scrollTop;
+  if (top > 80) {
+    if (nav.hasClass('transparent')) {
+      nav.removeClass('transparent');
+    }
+  } else {
+    if (!nav.hasClass('transparent')) {
+      nav.addClass('transparent');
+    }
+  }
+}
+u(document).on('scroll', transparency);
+transparency();
+setTimeout(function(){ nav.removeClass('instant'); }, 200);
+
+// Google analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63739359-2', 'auto');
+ga('send', 'pageview');
+</script></body></html>

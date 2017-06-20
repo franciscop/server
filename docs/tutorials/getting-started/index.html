@@ -1,0 +1,112 @@
+<!DOCTYPE html><html class="initial"><head><title>Getting started - server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Learn how to use a Google Spreadsheet as a database for web applications. Perfect for the confluence of business and web."><link rel="shortcut icon" type="image/png" href="/img/favicon.png?4"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="/style.min.css" rel="stylesheet"></head><body><nav class="instant"><a class="brand" href="/"><img class="logo" src="/img/s.svg" alt="Main logo for server.js"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Node.js guide</strong></h1><a class="button docs" href="/tutorials"><span class="arrow left">〈</span>Tutorials</a></div></div><article><p>In this tutorial you will learn how to get started with Node.js development and create a project from scratch. While there are many ways of doing it, this guide is focused first on making it easy and second on using common tools.</p>
+<p>You will need some basic tools like having a git and a code editor (<a href="https://atom.io/">we recommend Atom</a>) as well as some basic knowledge around your operative system and the terminal/command line.</p>
+<p>These are the steps we will be following:</p>
+<ol>
+<li>Install Node.js</li>
+<li>Create and load your project</li>
+<li>Initialize Git and npm</li>
+<li>Make awesome things!</li>
+</ol>
+<h2 id="install-node-js">Install Node.js</h2>
+<p>This will largely depend on your platform and while you can <a href="https://nodejs.org/en/">just download the binary program from the official page</a> I would recommend using Node Version Manager for mac or Linux:</p>
+<pre><code class="lang-bash">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+</code></pre>
+<p>After this, we have to <strong>close and open the terminal</strong> for it to work properly. Then we use NVM to install a current Node.js&#39; version in the terminal:</p>
+<pre><code class="lang-bash">nvm install node
+nvm use node
+nvm alias default node
+</code></pre>
+<p>Great, now we should have Node.js installed and working. To test it&#39;s properly installed, execute this on the terminal:</p>
+<pre><code class="lang-bash">node --version    # Should show the version number over 8.x
+npm --version     # verify this is installed as well over 5.x
+</code></pre>
+<h2 id="create-your-project">Create your project</h2>
+<p>Now that we have Node.js installed, let&#39;s get started with one project. Create a folder in your computer and then access it from the terminal. To access it use <code>cd</code>:</p>
+<pre><code class="lang-bash">cd &quot;./projects/My Cool Project&quot;
+</code></pre>
+<p>From now on, all the operations from the terminal <strong>must</strong> be executed while inside your project in said terminal.</p>
+<p>Then open the project from Atom or your code editor: File &gt; Add project folder... &gt; My Cool Project.</p>
+<h2 id="initialize-git-and-npm">Initialize Git and npm</h2>
+<p>Git will be used for handling your code, deploying it and working collaboratively. To get your git started execute this in your terminal:</p>
+<pre><code class="lang-bash">git init
+</code></pre>
+<p>It will create a folder called <code>.git</code> with all the version history in there. We highly recommend to create a <strong>file</strong> called <strong><code>.gitignore</code></strong> (yes, a point and the name with no extension) where we add at least the following:</p>
+<pre><code>*.log
+npm-debug.log*
+node_modules
+.env
+</code></pre><p>This is because we want these files and places to only be accessible from our computer, but we don&#39;t want to deploy them along the rest of the code.</p>
+<p>Finally we will start our npm package by doing init in the terminal:</p>
+<pre><code class="lang-bash">npm init
+</code></pre>
+<p>It will ask some questions, just answer them or press &quot;enter&quot; to accept the default (set the &quot;main&quot; to &quot;index.js&quot;). After answering everything you should have a <code>package.json</code> file, so now you can edit the part where it says &quot;scripts&quot; to add this:</p>
+<pre><code class="lang-json">  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node index.js&quot;,
+    &quot;test&quot;: &quot;jest --coverage --forceExit&quot;
+  },
+</code></pre>
+<h2 id="make-awesome-things-">Make awesome things!</h2>
+<p>That is great! Now you can install the packages that you want like server.js:</p>
+<pre><code class="lang-bash">npm install server
+</code></pre>
+<p>And then create a file called <code>index.js</code> with the demo code to see how it works:</p>
+<pre><code class="lang-js">// Import the library
+const server = require(&#39;server&#39;);
+
+// Launch the server to always answer &quot;Hello world&quot;
+server(() =&gt; &#39;Hello world!&#39;);
+</code></pre>
+<p>To execute it <strong>after saving it</strong>, run from the terminal:</p>
+<pre><code class="lang-bash">npm start
+</code></pre>
+<p>And finally open <a href="http://localhost:3000/">http://localhost:3000/</a> to see it in action!</p>
+<blockquote>
+<p>Note: this guide was published originally on <a href="https://en.libre.university/lesson/V1f6Btf8g/Getting%20started">Libre University - Getting started</a> but has since been adapted better only for Node.js.</p>
+</blockquote>
+<h2 id="keep-reading">Keep reading</h2><p>After getting server.js ready you can follow on the rest of the tutorials:</p><a class="button" href="/tutorials">Tutorials</a></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
+setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
+  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
+    el.setAttribute('href', email);
+  });
+}, 2000);
+
+// Add language tag to the code for print
+[].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
+  return /lang(uage)?\-/.test(pre.className);
+}).forEach(function(pre){
+  var name = pre.className.split(/\s+/).filter(function(name){
+    return /lang(uage)?\-/.test(name);
+  })[0].replace(/lang(uage)?\-/, '');
+  var map = { js: 'javascript', jade: 'pug' };
+  if (name in map) name = map[name];
+  pre.parentNode.setAttribute('data-language', name);
+});
+
+
+var nav = u('nav');
+function transparency(){
+  var top = document.documentElement.scrollTop || document.body.scrollTop;
+  if (top > 80) {
+    if (nav.hasClass('transparent')) {
+      nav.removeClass('transparent');
+    }
+  } else {
+    if (!nav.hasClass('transparent')) {
+      nav.addClass('transparent');
+    }
+  }
+}
+u(document).on('scroll', transparency);
+transparency();
+setTimeout(function(){ nav.removeClass('instant'); }, 200);
+
+// Google analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63739359-2', 'auto');
+ga('send', 'pageview');
+</script></body></html>

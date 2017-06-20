@@ -25,13 +25,13 @@ server({ port: 8080 }, [
 
 ## Getting started
 
-After [getting Node.js 8+ ready](https://en.libre.university/lesson/V1f6Btf8g/Getting started#Install-the-server) and doing `npm init` in your project folder, **install server** and keep it as a dependency in modern Node.js versions:
+There's a [whole tutorial on getting started for beginners](https://serverjs.io/tutorials/getting-started/) but the quick version is to first install `server` as a dependency:
 
 ```bash
 npm install server
 ```
 
-Then you can create a file called `index.js` and set the following:
+Then you can create a file called `index.js` with this code:
 
 ```js
 // Include the server in your file
@@ -50,7 +50,7 @@ Execute this in the terminal to get the server started:
 node .
 ```
 
-And finally, open your browser on [localhost:3000](http://localhost:3000/) and you should see your server answered 'Hello world!'.
+And finally, open your browser on [localhost:3000](http://localhost:3000/) and you should see your server answering 'Hello world!'.
 
 
 

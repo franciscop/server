@@ -1,7 +1,7 @@
 extends ../../_layout/index
 
 block title
-  title Spreadsheet tutorial - server.js
+  title Getting started - server.js
 
 block description
   meta(name='description' content='Learn how to use a Google Spreadsheet as a database for web applications. Perfect for the confluence of business and web.')
@@ -10,21 +10,17 @@ block content
   .hero
     .content
       h1 
-        strong Spreadsheets data
+        strong Node.js guide
       a.button.docs(href='/tutorials')
         span.arrow.left 〈
         | Tutorials
-      = ' '
-      a.button.warning.docs(href='https://github.com/franciscop/server-tutorial-spreadsheet')
-        | Source code
 
   article
     include:marked:noheader ./README.md
 
-
-
     h2#keep-reading Keep reading
 
-    p We are preparing a second part for the tutorial. Subscribe to our Mailchimp list to receive it and other tutorials when released:
+    p After getting server.js ready you can follow on the rest of the tutorials:
+    a.button(href="/tutorials") Tutorials
     
       

@@ -6,17 +6,13 @@ html.initial
     meta(charset='utf-8')
     meta(name='viewport' content='width=device-width, initial-scale=1')
     meta(name='keywords' content='server, javascript, js, node.js, library, html, html5, express')
-    meta(name='description' content='Flexible and powerful server for Node.js')
-    link(rel='shortcut icon' type='image/png' href='/img/favicon.png?3')
+    block description
+      meta(name='description' content='Flexible and powerful server for Node.js')
+    link(rel='shortcut icon' type='image/png' href='/img/favicon.png?4')
     meta(property='og:url' content='http://serverjs.io/')
     meta(property='og:title' content='Server.js')
     meta(property='og:description' content='Flexible and powerful server for Node.js')
-    link(href='https://unpkg.com/paperdocs@1.0.9/paperdocs.min.css' rel='stylesheet')
-
-    //- Since the size is minimal, inline it
-    style
-      include ../style.min.css
-
+    link(href='/style.min.css' rel='stylesheet')
 
   body
     include nav

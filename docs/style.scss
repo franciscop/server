@@ -1,3 +1,31 @@
+$picnic-radius: 0;
+$picnic-breakpoint: 600px;
+
+@import "../node_modules/picnic/src/picnic.scss";
+@import "./prism";
+
+
+
+pre,
+pre[class*="language-"] {
+  margin-top: 0;
+  padding: .5em .8em;
+  font-size: 1.2em;
+  line-height: 1.3;
+}
+
+.language-css .token.string,
+.style .token.string,
+.token.entity,
+.token.operator,
+.token.url {
+  background: none;
+}
+
+
+
+
+
 .from-h3 .button::before {
   content: "- ";
 }
@@ -6,6 +34,26 @@ nav {
   padding-left: calc(50% - 450px);
   padding-right: calc(50% - 450px);
   margin: 0 auto;
+}
+
+nav.transparent {
+  background: none;
+  box-shadow: none;
+
+  a, a.pseudo, .burger {
+    color: #fff;
+  }
+}
+
+@media all and (max-width: $picnic-breakpoint) {
+  nav.transparent .menu a.pseudo {
+    color: #333;
+  }
+}
+
+nav.instant,
+nav.instant > * {
+  transition: all 0s!important;
 }
 
 nav .brand {
@@ -21,13 +69,48 @@ nav .brand .logo {
 }
 
 body {
-  background: #58a2df;
+  background-image: linear-gradient(135deg, #81c, #18c);
+  background-size: cover;
+  background-attachment: fixed;
+  padding-top: 2em;
+}
+
+// TOO TRIPPY:
+// body::before {
+//   content: '';
+//   position: fixed;
+//   top: 0;
+//   left: 0;
+//   bottom: 0;
+//   right: 0;
+//   background-image: linear-gradient(135deg, #18c, #81c);
+//   background-size: cover;
+//   background-attachment: fixed;
+//   animation: 10s opacity 0s infinite;
+//   animation-direction: alternate;
+//   z-index: -1;
+// }
+//
+// @keyframes opacity {
+//   0% { opacity: 0; }
+//   100% { opacity: 1; }
+// }
+
+article {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  background: #fff;
+}
+
+article img {
+  max-width: 100%;
 }
 
 .hero {
   position: relative;
   width: 100%;
-  height: 60%;
+  height: 50%;
   min-height: 300px;
   margin: 0;
   text-align: center;
@@ -51,16 +134,13 @@ body {
   font-weight: 100000;
   transform: scaleX(1.3);
   display: inline-block;
-  margin: 0 10px;
+  margin: 0 0 0 10px;
 }
 .hero .button .arrow {
   transform: scaleX(1.3) translateY(-1px);
 }
 .hero .arrow.left {
   margin: 0 10px 0 0;
-}
-.hero .arrow.right {
-  margin: 0 0 0 10px;
 }
 
 article {
@@ -109,12 +189,58 @@ pre.sub {
   background: rgba(255, 255, 255, .1);
 }
 
-@media all and (min-width: 500px) {
-  .hero .content {
-    width: 330px;
-    max-width: 100%;
+@media print {
+  body {
+    padding: 0;
+  }
+  nav {
+    display: none;
+  }
+  .hero, .hero .content {
+    position: static;
+    height: auto;
+    min-height: 0;
+    top: auto;
+    left: auto;
+    transform: none;
+  }
+  .hero .button {
+    display: none;
+  }
+  pre {
+    border: 2px solid #ddd;
+  }
+
+  #keep-reading,
+  #keep-reading ~ * {
+    display: none;
+  }
+
+  h1::after {
+    content: "Tutorial for server.js: https://serverjs.io/";
+    display: block;
+    font-size: 1rem;
+  }
+
+  pre[class*="language-"] {
+    position: relative;
+    overflow: visible;
+    margin-top: 30px;
+  }
+
+  pre[class*="language-"]::before {
+    content: attr(data-language);
+    position: absolute;
+    top: 0;
+    right: 0;
+    font-size: .6em;
+    padding: 1px 5px;
+    border: 2px solid #ddd;
+    border-radius: 0 .4em;
+    border-width: 0 0 2px 2px;
   }
 }
+
 
 
 button.secret {
@@ -123,12 +249,7 @@ button.secret {
 
 @media all and (min-width: 800px) {
   body {
-    font-size: 1.1em;
-  }
-
-  .hero {
-    background: #58a2df url("/img/kite.jpg") no-repeat center center scroll;
-    background-size: cover;
+    font-size: 1.15em;
   }
 
   .hero .content {
@@ -136,16 +257,18 @@ button.secret {
     max-width: 100%;
   }
   .hero h1 {
-    font-size: 2.5em;
+    font-size: 2.3em;
   }
-  .hero .sub {
-    font-size: 1.6em;
+  .hero p,
+  .sub {
+    font-size: 1.2em;
+    margin: 5px 0;
   }
 
   button.secret {
     display: block;
     background: none;
-    color: rgba(255, 255, 255, .05);
+    color: rgba(255, 255, 255, .03);
     margin: 0 auto -50px;
     cursor: inherit;
   }
@@ -172,6 +295,10 @@ button.secret {
   body.liftoff .hero {
     background: none;
   }
+
+  .docs {
+    padding: .4em 1em;
+  }
 }
 
 .button {
@@ -180,12 +307,8 @@ button.secret {
 
 .hero .button {
   font-weight: bold;
-  margin-top: 20px;
+  margin: 0 5px 5px 0;
   background: #f55;
-}
-
-.docs {
-  padding: .6em 1.2em;
 }
 
 /* p only if it's the first elementc */
@@ -198,6 +321,7 @@ article h1,
 article h2,
 article h3 {
   margin: -40px 0 0;
+  padding-top: 60px;
 }
 
 article h1 + *,

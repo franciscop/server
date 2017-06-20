@@ -1,7 +1,19 @@
 const filters = require('./docs/filters.js');
+const files = require('./docs/files.js');
+
+// Generate the documentation final:origin pairs
+const transform = dir => files(__dirname + '/' + dir)
+  .filter(str => /\.html\.pug$/.test(str))
+  .reduce((docs, one) => {
+    docs[one.replace(/\.pug$/, '')] = one;
+    return docs;
+  }, {});
 
 // This builds the library itself
 module.exports = function (grunt) {
+
+
+
   // Configuration
   grunt.initConfig({
 
@@ -46,17 +58,7 @@ module.exports = function (grunt) {
           data: {},
           filters: filters
         },
-        files: {
-          'docs/index.html': 'docs/index.html.pug',
-          'docs/about/index.html': 'docs/about/index.html.pug',
-          'docs/errors/index.html': 'docs/errors/index.html.pug',
-          'docs/sponsor/index.html': 'docs/sponsor/index.html.pug',
-          'docs/documentation/index.html': 'docs/documentation/index.html.pug',
-          'docs/documentation/options/index.html': 'docs/documentation/options/index.html.pug',
-          'docs/documentation/middleware/index.html': 'docs/documentation/middleware/index.html.pug',
-          'docs/documentation/router/index.html': 'docs/documentation/router/index.html.pug',
-          'docs/documentation/advanced/index.html': 'docs/documentation/advanced/index.html.pug'
-        }
+        files: transform('docs')
       }
     },
 

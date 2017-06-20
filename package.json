@@ -4,7 +4,8 @@
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js",
+    "start": "node .",
+    "dev": "grunt watch",
     "test": "jest --coverage --forceExit"
   },
   "engines": {
@@ -59,6 +60,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "jest": "^18.1.0",
     "jstransformer-marked": "^1.0.2",
+    "picnic": "^6.4.0",
     "request-promises": "^1.0.1",
     "supertest": "^3.0.0"
   }

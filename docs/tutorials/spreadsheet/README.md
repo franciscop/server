@@ -11,19 +11,10 @@ Some possible uses:
 - Keep track of your trips similar to [how Martin does it](https://wherethefuckismartin.com/) (note: not related to server.js).
 
 
-## Installation
-
-After [getting your project started]() we'll be using `server` and the package [`drive-db`](https://www.npmjs.com/package/drive-db):
-
-```bash
-npm install server drive-db
-```
-
-
 
 ## Create a spreadsheet
 
-For this step we'll have to go to [Google Spreadsheets](https://docs.google.com/spreadsheets/) and create a new Blank spreadsheet:
+First we'll have to go to [Google Spreadsheets](https://docs.google.com/spreadsheets/) and create a new Blank spreadsheet:
 
 ![Create new spreadsheet in Google Spreadsheets](img/spreadsheet.png)
 
@@ -39,6 +30,16 @@ Finally make a note of the current spreadsheet URL. It will be something like th
 
 
 
+## Installation
+
+After [getting your project started](https://en.libre.university/lesson/V1f6Btf8g/Getting started), we'll be using the packages `server` and [`drive-db`](https://www.npmjs.com/package/drive-db):
+
+```bash
+npm install server drive-db
+```
+
+
+
 ## Back-end with server.js
 
 Let's get to program. Create our file `index.js`:
@@ -46,22 +47,24 @@ Let's get to program. Create our file `index.js`:
 ```js
 // Load the dependencies
 const server = require('server');
-const { get } = server.router;
 const { render } = server.reply;
 
 // The URL fragment between "spreadsheets/d/" and "/edit"
 const id = '1FeG6UsUC_BKlJBiy3j_c4uctMcQlnmv9iyfkDjuWXpg';
 const drive = require('drive-db')(id);
 
-// Load the user list (if cache is expired) and render the index
-const homeRoute = get('/', async () => {
+// Launch the server in port 3000
+server(async () => {
+
+  // Local or remote (depends on the cache expiration)
   const db = await drive.load();
+
+  // Render the index with the user data
   return render('index.hbs', { users: db.find() });
 });
-
-// Launch the server in port 3000
-server(homeRoute);
 ```
+
+That is it, everything you will need for the back-end. Load the libraries, set up a route and launch the server.
 
 
 
@@ -75,23 +78,20 @@ Now let's do some fun stuff with the front-end. Create the file `views/index.hbs
 <head>
   <link rel="stylesheet" href="https://unpkg.com/picnic@6">
   <style>
-    main {
-      width: 90%;
-      max-width: 600px;
-      margin: 30px auto;
-      padding: 10px 30px 30px;
-      border: 1px solid #ccc;
-      border-radius: .3em;
-    }
+    main { width: 90%; max-width: 800px; margin: 30px auto; }
+    table, canvas, img { width: 100%; }
+    h2 { padding-bottom: 20px; }
+    .card { margin: 0; }
+    #map { height: 400px; }
   </style>
 </head>
 <body>
-
   <main>
     <h1>Users</h1>
-    ...
-  </main>
 
+    ...
+
+  </main>
 </body>
 ```
 
