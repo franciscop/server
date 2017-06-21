@@ -1,0 +1,62 @@
+<!DOCTYPE html><html class="initial"><head><title>TO-DO tutorial - server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Simple TO-DO website using jQuery for the AJAX"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?4"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="/assets/style.min.css" rel="stylesheet"></head><body><nav class="instant"><a class="brand" href="/"><img class="logo" src="/img/s.svg" alt="Main logo for server.js"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>TO-DO data</strong></h1><a class="button docs" href="/tutorials"><span class="arrow left">〈</span>Tutorials</a> <a class="button warning docs" href="https://github.com/franciscop/server-tutorial-spreadsheet">Source code</a></div></div><article>
+<p>In this tutorial you will learn to design a basic API to create a list of items. We will store those in a MongoDB database using Mongoose and it will be for a single person.</p>
+<p>Some possible uses:</p>
+<ul>
+<li>An actual TO-DO list. Some times you just need a simple list.</li>
+<li>The beginning of Hacker News, Reddit, or similar. Those are basically four glorified CRUDs: users, stories, comments, votes.</li>
+</ul>
+<h2 id="install-dependencies">Install dependencies</h2>
+<p>After <a href="/tutorials/getting-started">getting your project ready</a> you&#39;ll have to make sure that you have MongoDB installed following <a href="https://docs.mongodb.com/manual/administration/install-community/">the official guide</a> and runn it (will depend on your installation process). For Ubuntu I can simply do:</p>
+<pre><code class="lang-bash">mongod --version   # Should display a number
+mongod
+</code></pre>
+<p>Then and within our project folder, we install the two libraries that we will be using:</p>
+<pre><code class="lang-bash">npm install server mongoose
+</code></pre>
+<h2 id="keep-reading">Keep reading</h2><p>We are preparing a second part for the tutorial. Subscribe to our Mailchimp list to receive it and other tutorials when released:</p></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
+setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
+  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
+    el.setAttribute('href', email);
+  });
+}, 2000);
+
+// Add language tag to the code for print
+[].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
+  return /lang(uage)?\-/.test(pre.className);
+}).forEach(function(pre){
+  var name = pre.className.split(/\s+/).filter(function(name){
+    return /lang(uage)?\-/.test(name);
+  })[0].replace(/lang(uage)?\-/, '');
+  var map = { js: 'javascript', jade: 'pug' };
+  if (name in map) name = map[name];
+  pre.parentNode.setAttribute('data-language', name);
+});
+
+
+var nav = u('nav');
+function transparency(){
+  var top = document.documentElement.scrollTop || document.body.scrollTop;
+  if (top > 80) {
+    if (nav.hasClass('transparent')) {
+      nav.removeClass('transparent');
+    }
+  } else {
+    if (!nav.hasClass('transparent')) {
+      nav.addClass('transparent');
+    }
+  }
+}
+u(document).on('scroll', transparency);
+transparency();
+setTimeout(function(){ nav.removeClass('instant'); }, 200);
+
+// Google analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63739359-2', 'auto');
+ga('send', 'pageview');
+</script></body></html>

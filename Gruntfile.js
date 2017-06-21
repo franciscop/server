@@ -20,8 +20,8 @@ module.exports = function (grunt) {
     bytesize: {
       all: {
         src: [
-          'docs/style.min.css',
-          'docs/javascript.js'
+          'docs/assets/style.min.css',
+          'docs/assets/javascript.js'
         ]
       }
     },
@@ -47,7 +47,7 @@ module.exports = function (grunt) {
     sass: {
       dist: {
         options: { style: 'compressed' },
-        files: { 'docs/style.min.css': 'docs/style.scss' }
+        files: { 'docs/assets/style.min.css': 'docs/assets/style.scss' }
       }
     },
 
