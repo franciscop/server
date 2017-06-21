@@ -1,0 +1,23 @@
+# TO-DO
+
+In this tutorial you will learn to design a basic API to create a list of items. We will store those in a MongoDB database using Mongoose and it will be for a single person.
+
+Some possible uses:
+
+- An actual TO-DO list. Some times you just need a simple list.
+- The beginning of Hacker News, Reddit, or similar. Those are basically four glorified CRUDs: users, stories, comments, votes.
+
+## Install dependencies
+
+After [getting your project ready](/tutorials/getting-started) you'll have to make sure that you have MongoDB installed following [the official guide](https://docs.mongodb.com/manual/administration/install-community/) and runn it (will depend on your installation process). For Ubuntu I can simply do:
+
+```bash
+mongod --version   # Should display a number
+mongod
+```
+
+Then and within our project folder, we install the two libraries that we will be using:
+
+```bash
+npm install server mongoose
+```
