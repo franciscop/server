@@ -10,7 +10,7 @@ This project is maintained by Francisco Presencia and is part of Francisco IO LT
 |  $2,000+     | live coding help of 10h        | logo (normal) + link         |
 | $10,000+     | in-person workshop of 20h      | logo (large) + link          |
 
-<a class="button email" href="#">Get in touch</a>
+<a class="button email">Get in touch</a>
 
 
 
@@ -24,4 +24,4 @@ I reserve the right to reject anything if I don't find it suitable, including bu
 
 Everything in this page is negotiable and will be specified when getting in touch:
 
-<a class="button email" href="#">Get in touch</a>
+<a class="button email">Get in touch</a>
