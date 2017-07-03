@@ -1,0 +1,23 @@
+extends ../../_layout/index
+
+block title
+  title Session in production - server.js
+
+block description
+  meta(name='description' content='Learn how to set-up the session for production')
+
+block content
+  .hero
+    .content
+      h1 
+        strong Session in production
+      a.button.docs(href='/tutorials')
+        span.arrow.left 〈
+        | Tutorials
+
+  article
+    include:marked:noheader ./README.md
+
+    h2#keep-reading Keep reading
+
+    a(href="/tutorials/todo") Now let's do a TODO simple app!
