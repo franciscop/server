@@ -52,7 +52,7 @@ nav.transparent {
 }
 
 nav.instant,
-nav.instant > * {
+nav.instant * {
   transition: all 0s!important;
 }
 
@@ -322,6 +322,7 @@ article h2,
 article h3 {
   margin: -40px 0 0;
   padding-top: 60px;
+  padding-bottom: 0;
 }
 
 article h1 + *,
