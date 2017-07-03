@@ -1,10 +1,10 @@
 extends ../_layout/index
 
 block title
-  title server.js Tutorials - server.js
+  +title('Tutorials')
 
 block description
-  meta(name='description' content='Discover a world of tutorials for server.js with many Node.js exercises.')
+  +description('Discover a world of tutorials for server.js with many Node.js exercises.')
 
 block content
   .hero
@@ -35,14 +35,14 @@ block content
         p Learn how to set-up the session for production using Redis or other available datastores so there's persistence even after a server restart.
         a.button(href="/tutorials/sessions-production/") Read tutorial
 
-    div.card
-      header
-        h2 TO-DO list
-      footer
-        p Define a REST API to create, read, update and delete items from a MongoDB  database.
-        a.button(href="/tutorials/todo/") Read tutorial
-        |  
-        a.button(href="https://github.com/franciscop/server-tutorial-todo") Source code
+    //- div.card
+    //-   header
+    //-     h2 TO-DO list
+    //-   footer
+    //-     p Simple TO-DO website using jQuery for the AJAX. Define an API to create, read, update and delete items from a MongoDB database.
+    //-     a.button(href="/tutorials/todo/") Read tutorial
+    //-     |  
+    //-     a.button(href="https://github.com/franciscop/server-tutorial-todo") Source code
 
     div.card
       header

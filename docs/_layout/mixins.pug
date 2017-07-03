@@ -1,6 +1,6 @@
 mixin title(text)
-  title= text || 'Server.js'
-  meta(property='og:title' content=text || 'Server.js')
+  title= text ? text + ' - server.js' : 'Server.js'
+  meta(property='og:title' content=text ? text + ' - server.js' : 'Server.js')
 
 mixin description(text)
   meta(name='description' content=text || 'Flexible and powerful server for Node.js')
