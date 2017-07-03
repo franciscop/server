@@ -10,9 +10,7 @@ const server = require('server');
 server(options, fn1, fn2, fn3, ...);
 ```
 
-The most important concepts to use server are: [**options**](options), [**middleware**](middleware) and [**router**](router).
-
-> [**Subscribe here**](http://eepurl.com/cGRggH) to receive tutorials when released. Tutorials are good *for learning* while the documentation is good for reference/quick use *once you know the basics*.
+The most important concepts to use server are: [**options**](options), [**middleware**](middleware) and [**router**](router). You might also want to learn by doing [**real-world examples in the tutorials**](/tutorials).
 
 
 ## [Options](options)

@@ -12,6 +12,11 @@ block content
       h1 
         strong Tutorials
       .sub Learn server.js with examples
+      a.button.docs(href='/')
+        span.arrow.left 〈
+        | Homepage
+      a.button.docs(href='/documentation/')
+        | Documentation
 
   article
     p Tutorials for the back-end and front-end with Node.js and server.js:
@@ -21,21 +26,21 @@ block content
         h2 Getting started
       footer
         p Get started by creating a Node.js project from scratch and get started.
-        a.button(href="/tutorials/getting-started") Read tutorial
+        a.button(href="/tutorials/getting-started/") Read tutorial
 
     div.card
       header
         h2 Sessions in production
       footer
         p Learn how to set-up the session for production using Redis or other available datastores so there's persistence even after a server restart.
-        a.button(href="/tutorials/sessions-production") Read tutorial
+        a.button(href="/tutorials/sessions-production/") Read tutorial
 
     div.card
       header
         h2 TO-DO list
       footer
         p Define a REST API to create, read, update and delete items from a MongoDB  database.
-        a.button(href="/tutorials/todo") Read tutorial
+        a.button(href="/tutorials/todo/") Read tutorial
         |  
         a.button(href="https://github.com/franciscop/server-tutorial-todo") Source code
 
@@ -44,7 +49,7 @@ block content
         h2 Spreadsheets data
       footer
         p Take a Google Spreadsheet and convert it into a read-only database for Node.js.
-        a.button(href="/tutorials/spreadsheet") Read tutorial
+        a.button(href="/tutorials/spreadsheet/") Read tutorial
         |  
         a.button(href="https://github.com/franciscop/server-tutorial-spreadsheet") Source code
       
