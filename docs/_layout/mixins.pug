@@ -1,0 +1,7 @@
+mixin title(text)
+  title= text || 'Server.js'
+  meta(property='og:title' content=text || 'Server.js')
+
+mixin description(text)
+  meta(name='description' content=text || 'Flexible and powerful server for Node.js')
+  meta(property='og:description' content=text || 'Flexible and powerful server for Node.js')
