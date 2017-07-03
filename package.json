@@ -28,6 +28,7 @@
   "dependencies": {
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
+    "connect-redis": "^3.3.0",
     "cookie-parser": "^1.4.3",
     "csurf": "^1.9.0",
     "dotenv": "^2.0.0",
