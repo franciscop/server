@@ -1,0 +1,85 @@
+<!DOCTYPE html><html class="initial"><head><title>Session in production - server.js</title><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Learn how to set-up the session for production"><link rel="shortcut icon" type="image/png" href="/img/favicon.png?4"><meta property="og:url" content="http://serverjs.io/"><meta property="og:title" content="Server.js"><meta property="og:description" content="Flexible and powerful server for Node.js"><link href="/assets/style.min.css" rel="stylesheet"></head><body><nav class="instant"><a class="brand" href="/"><img class="logo" src="/img/s.svg" alt="Main logo for server.js"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Session in production</strong></h1><a class="button docs" href="/tutorials"><span class="arrow left">〈</span>Tutorials</a></div></div><article><p>Sessions work out of the box for developing, but they need a bit of extra work to be ready for production.</p>
+<h2 id="secret">Secret</h2>
+<p>The first thing to change is adding a <a href="https://martinfowler.com/articles/session-secret.html">session secret</a> as an environment variable in <code>.env</code> for your machine:</p>
+<pre><code>SECRET=your-random-string-here
+</code></pre><p>This will be used to secure the cookies as well as for other plugins that need a secret. Make it unique, long and random. Then <strong>don&#39;t forget to add a different one for the production server</strong> and other stages in your deploy pipeline if any.</p>
+<h2 id="storage">Storage</h2>
+<p><strong>By default</strong> <a href="https://github.com/expressjs/session">sessions work in-memory with <em>server</em></a> so they are <a href="https://github.com/expressjs/session/pull/220"><strong>not ready for production</strong></a>:</p>
+<pre><code class="lang-js">// Simple visit counter for the main page
+const server = require(&#39;server&#39;);
+const counter = server.router.get(&#39;/&#39;, ctx =&gt; {
+  const session = ctx.req.session;
+  session.views = (session.views || 0) + 1;
+  ctx.res.send(session.views);
+});
+server(counter);
+</code></pre>
+<p>This works great for testing; for quick demos and for short sessions, but <strong>all session data will die when the server is restarted</strong> since they are stored in the RAM.</p>
+<p>To make them persistent we recommend <a href="https://github.com/expressjs/session#compatible-session-stores">using a compatible session storage</a>. We bundle Redis for Node.js by default, so you just have to install it (*nix systems have it easily available) and edit your <code>.env</code> to include <code>REDIS_URL</code>:</p>
+<pre><code>SECRET=your-random-string-here
+REDIS_URL=redis://:password@hostname:port/db_number
+</code></pre><blockquote>
+<p>Note: for Heroku this variable is created automatically when adding <a href="https://devcenter.heroku.com/articles/heroku-redis">the appropriate add-on</a>. For other hosting companies please consult their documentation.</p>
+<p>Note2: as in the beta 1 Redis is not yet ready</p>
+</blockquote>
+<p>Otherwise add your preferred storage to the session through the options:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+// Your own file for the config:
+const storage = require(&#39;./session-storage.js&#39;);
+server({ session: { storage } }, [
+  // Routes here
+]);
+</code></pre>
+<h2 id="alternatives">Alternatives</h2>
+<p>Why not just use cookie-session? <a href="http://stackoverflow.com/a/15745086/938236">Here is an explanation of the alternative</a>, but it boils down to:</p>
+<ul>
+<li>They are more insecure, since all the session data (including sensitive data) is passed forward and backward from the browser to the server in each request.</li>
+<li>If the session data is large then that means adding an unnecessary load to both the server and the browser.</li>
+</ul>
+<h2 id="keep-reading">Keep reading</h2><a href="/tutorials/todo">Now let's do a TODO simple app!</a></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
+setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
+  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
+    el.setAttribute('href', email);
+  });
+}, 2000);
+
+// Add language tag to the code for print
+[].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
+  return /lang(uage)?\-/.test(pre.className);
+}).forEach(function(pre){
+  var name = pre.className.split(/\s+/).filter(function(name){
+    return /lang(uage)?\-/.test(name);
+  })[0].replace(/lang(uage)?\-/, '');
+  var map = { js: 'javascript', jade: 'pug' };
+  if (name in map) name = map[name];
+  pre.parentNode.setAttribute('data-language', name);
+});
+
+
+var nav = u('nav');
+function transparency(){
+  var top = document.documentElement.scrollTop || document.body.scrollTop;
+  if (top > 80) {
+    if (nav.hasClass('transparent')) {
+      nav.removeClass('transparent');
+    }
+  } else {
+    if (!nav.hasClass('transparent')) {
+      nav.addClass('transparent');
+    }
+  }
+}
+u(document).on('scroll', transparency);
+transparency();
+setTimeout(function(){ nav.removeClass('instant'); }, 200);
+
+// Google analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63739359-2', 'auto');
+ga('send', 'pageview');
+</script></body></html>
