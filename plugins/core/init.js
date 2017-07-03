@@ -34,8 +34,12 @@ module.exports = ctx => {
 
   if (opts.session) {
     opts.session.secret = opts.session.secret || ctx.options.secret;
-    const session = require('express-session')(opts.session);
-    core.before.push(modern(session));
+    const session = require('express-session');
+    if (ctx.options.redis_url) {
+      let RedisStore = require('connect-redis')(session);
+      opts.session.store = new RedisStore({ url: ctx.options.redis_url });
+    }
+    core.before.push(modern(session(opts.session)));
   }
 
   if (opts.responseTime) {
