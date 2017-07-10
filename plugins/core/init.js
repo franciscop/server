@@ -1,6 +1,6 @@
 const path = require('path');
 
-module.exports = ctx => {
+module.exports = async ctx => {
 
   const modern = ctx.utils.modern;
   const opts = ctx.options.core;
@@ -69,5 +69,15 @@ module.exports = ctx => {
   if (opts.favicon) {
     const favicon = require('serve-favicon')(opts.favicon);
     core.before.push(modern(favicon));
+  }
+
+
+  if (opts.partials) {
+    await new Promise((resolve, reject) => {
+      const hbs = require('hbs');
+      hbs.registerPartials(opts.partials, (err, done) => {
+        return err ? reject(err) : resolve(done);
+      });
+    });
   }
 };

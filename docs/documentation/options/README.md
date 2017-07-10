@@ -2,19 +2,18 @@
 
 These are the available options, their defaults, types and how to specify them in `.env`:
 
-|name                |default         |[.env](#environment)         |main type |
-|--------------------|----------------|-----------------------------|----------|
-|[`port`](#port)     |`3000`          |`PORT=3000`                  |Number    |
-|[`secret`](#secret) |`'secret-XXXX'` |`SECRET=secret-XXXX`         |String    |
-|[`public`](#public) |`'public'`      |`PUBLIC=public`              |String    |
-|[`engine`](#engine) |`'pug'`         |`ENGINE=pug`                 |String    |
-|[`views`](#views)\* |`'views'`       |`VIEWS=views`                |String    |
-|[`env`](#env)\*     |`'development'` |**`NODE_ENV=development`**   |String    |
-|[`ssl`](#ssl)\*     |`false`         |`???`                        |Object    |
-|[`log`](#log)\*     |`all`           |`LOG=all`                    |String    |
+|name                 |default         |[.env](#environment)       |main type |
+|---------------------|----------------|---------------------------|----------|
+|[`port`](#port)      |`3000`          |`PORT=3000`                |Number    |
+|[`secret`](#secret)  |`'secret-XXXX'` |`SECRET=secret-XXXX`       |String    |
+|[`public`](#public)  |`'public'`      |`PUBLIC=public`            |String    |
+|[`views`](#views)    |`'views'`       |`VIEWS=views`              |String    |
+|[`engine`](#engine)  |`'pug'`         |`ENGINE=pug`               |String    |
+|[`env`](#env)        |`'development'` |**`NODE_ENV=development`** |String    |
+|[`log`](#log)        |`'info'`        |`LOG=info`                 |String    |
+|[`core`](#core)      |[[info]](#core) |[[info]](#core)            |Object    |
 
-\*not yet documented ([help us editing this?](https://github.com/franciscop/server/tree/master/docs/documentation/options))
-
+And many more! [Help us editing this](https://github.com/franciscop/server/tree/master/docs/documentation/options).
 
 The options preference order is this, from more important to less:
 
@@ -35,7 +34,7 @@ server(ctx => console.log(ctx.options));
 
 Environment variables are *not commited in your version control* but instead they are provided by the machine or Node.js process. In this way these options can be different in your machine and in testing, production or other type of servers.
 
-They are uppercase and they can be set through a file called `.env` in your computer:
+They are uppercase and they can be set through a file called literally `.env` in your root folder:
 
 ```
 PORT=3000
@@ -159,15 +158,42 @@ server({ public: '' });
 
 
 
+### Views
+
+The folder where your views and templates are. These are the files used by the `render()` function. You can set it to any folder within your project.
+
+To set the views folder in the environment add this to [your `.env`](#environment):
+
+```
+VIEWS=./views
+```
+
+Through the initialization parameter:
+
+```js
+server({ views: './views' });
+```
+
+To set the root folder specify it as `'./'`:
+
+```js
+server({ views: './' });
+```
+
+It defaults to `views`; however if you don't have any view file you don't have to create the folder. The files within `views` should all have an extension such as `.hbs`, `.pug`, etc. To see how to install and use those keep reading.
+
+
+
+
 ### Engine
 
-The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines). To use an engine you normally have to install it first except for the pre-installed [pug](https://pugjs.org/) and handlebars:
+The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines). To use an engine you normally have to install it first except for the pre-installed ones [pug](https://pugjs.org/) and [handlebars](http://handlebarsjs.com/):
 
 ```
 npm install [ejs|nunjucks|emblem] --save
 ```
 
-To use that engine you just have to add the extension to the `render()` method:
+Then to use that engine you just have to add the extension to the `render()` method:
 
 ```js
 // No need to specify the engine if you are using the extension
@@ -187,3 +213,80 @@ Or through the corresponding option in javascript:
 ```js
 server({ engine: 'pug' }, ctx => render('index'));
 ```
+
+
+
+
+### Env
+
+Define the context in which the server is running. The most common and accepted cases are `'development'`, `'test'` and `'production'`. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc.
+
+> Note! The environment variable is called **NODE_ENV** while the option as a parameter is **env**.
+
+This variable does not really make sense as a parameter to the main function, so we'll normally use this within our `.env` file. See it here with the *default `development`*:
+
+```
+NODE_ENV=development
+```
+
+Then in your hosting environment you'd set it to production (some hosts like Heroku do so automatically):
+
+```
+NODE_ENV=production
+```
+
+
+
+### Log
+
+Display some data that might be of value for the developers. This includes from just some information up to really important bugs and errors notifications.
+
+You can set [several log levels](https://www.npmjs.com/package/log#log-levels) and it **defaults to 'info'**:
+
+- `emergency`: system is unusable
+- `alert`: action must be taken immediately
+- `critical`: the system is in critical condition
+- `error`: error condition
+- `warning`: warning condition
+- `notice`: a normal but significant condition
+- `info`: a purely informational message
+- `debug`: messages to debug an application
+
+Do it either in [your `.env`](#environment):
+
+```
+LOG=info
+```
+
+Or as a parameter to the main function:
+
+```js
+server({ log: 'info' });
+```
+
+
+
+### Core
+
+> Experimental
+
+This is actually part of an internal plugin, so [the specification of them is still experimental](https://github.com/franciscop/server/issues/1). However the options *will* be accepted like this: an object with the key the same as the plugin name and the options as an object like this:
+
+```js
+server({
+  core: {
+    csrf: {
+      ignoreMethods: ['GET', 'HEAD', 'OPTIONS'],
+      value: req => req.body.csnowflakerf
+    }
+  }
+});
+```
+
+The name for the `.env` file is still undecided, but the standard will probably be `PLUGINNAME_OPTION=value`. For the example above:
+
+```
+CORE_CSR=false
+```
+
+You can modify many of the middleware in this way
