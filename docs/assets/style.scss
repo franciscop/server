@@ -5,6 +5,33 @@ $picnic-breakpoint: 700px;
 @import "./prism";
 
 
+nav .menu > * {
+  margin: 0;
+}
+
+@media all and (min-width: #{$picnic-breakpoint}) {
+  nav .menu {
+    padding-right: .6em;
+  }
+}
+
+.external {
+  box-shadow: none;
+  padding-left: 35px;
+  margin-top: 35px;
+  position: relative;
+}
+
+.external::before {
+  content: '“';
+  font-size: 3.5em;
+  font-family: serif;
+  line-height: 20px;
+  height: 20px;
+  position: absolute;
+  top: 10px;
+  left: 0;
+}
 
 pre,
 pre[class*="language-"] {
