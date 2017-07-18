@@ -1,4 +1,4 @@
-extends ../../_layout/index
+extends ../documentation
 
 block title
   +title('Advanced documentation')
@@ -6,22 +6,14 @@ block title
 block description
   +description('The inner workings and dev documentation for server.js.')
 
-block extra
-  div.extra.docs
+block article
+  include:marked ./README.md
 
-block content
-  article.documentation
-    div.flex.one.three-700.four-1000
-      div.full.third-700.fourth-1000
-        include ../toc.pug
-      div.full.two-third-700.three-fourth-1000
-        include:marked ./README.md
+  h2#keep-reading Keep reading
 
-        h2#keep-reading Keep reading
+  p There are other topics that you might have missed:
 
-        p There are other topics that you might have missed:
-
-        div.pages
-          a.button(href="../options") Options
-          a.button(href="../middleware") Middleware
-          a.button(href="../router") Router
+  div.pages
+    a.button(href="../options") Options
+    a.button(href="../middleware") Middleware
+    a.button(href="../router") Router

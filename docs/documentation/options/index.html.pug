@@ -1,4 +1,4 @@
-extends ../../_layout/index
+extends ../documentation
 
 block title
   +title('Options documentation')
@@ -6,22 +6,14 @@ block title
 block description
   +description('The different options and how to use them to make Node.js development easier.')
 
-block extra
-  div.extra.docs
+block article
+  include:marked ./README.md
 
-block content
-  article.documentation
-    div.flex.one.three-700.four-1000
-      div.full.third-700.fourth-1000
-        include ../toc.pug
-      div.full.two-third-700.three-fourth-1000
-        include:marked ./README.md
+  h2#keep-reading Keep reading
 
-        h2#keep-reading Keep reading
+  p Once you master the options there are few topics to keep going on:
 
-        p Once you master the options there are few topics to keep going on:
-
-        div.pages
-          a.button(href="../middleware") Middleware
-          a.button(href="../router") Router
-          a.button(href="../advanced") Advanced
+  div.pages
+    a.button(href="../middleware") Middleware
+    a.button(href="../router") Router
+    a.button(href="../advanced") Advanced
