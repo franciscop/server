@@ -91,10 +91,12 @@ u('.toc .more').handle('click', e => {
 });
 
 u('.toc a').on('click', e => {
-  const href = u(e.target).attr('href').split('#')[1];
-  if (href && u('#' + href).length) {
+  const href = u(e.currentTarget).attr('href');
+  if (!href) return;
+  const hash = href.split('#')[1];
+  if (href && u('#' + hash).length) {
     e.preventDefault();
-    u('#' + href).scroll();
+    u('#' + hash).scroll();
   }
 });
 
