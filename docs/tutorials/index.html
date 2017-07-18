@@ -22,17 +22,30 @@ setTimeout(function() {
 var nav = u('nav');
 var toc = u('.toc');
 let offset = 10;
+const breakpoint = 900;
 var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
-if (toc.length && window.innerWidth > 900) {
-  u('.toc [href]').filter(el => {
-    return u(el).attr('href').split('#')[0] === window.location.pathname;
-  }).parent().addClass('active');
-  var articlepaddingtop = parseFloat(getComputedStyle(u('article.documentation').first()).getPropertyValue('padding-top'));
-  var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
-  u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
-  u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset + 20) + 'px)';
-  u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'))) + 'px';
-} else { toc = ''; }
+const resize = () => {
+  if (!toc.length) return;
+
+  if (window.innerWidth > breakpoint) {
+    u('.toc [href]').filter(el => {
+      return u(el).attr('href').split('#')[0] === window.location.pathname;
+    }).parent().addClass('active');
+    var articlepaddingtop = parseFloat(getComputedStyle(u('article.documentation').first()).getPropertyValue('padding-top'));
+    var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
+    u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
+    u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset + 20) + 'px)';
+    u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 20) + 'px';
+    console.log(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'));
+  } else {
+    toc.removeClass('fixed');
+    u('.toc').first().style.top = 'auto';
+    u('.toc').first().style.maxHeight = '1000px';
+    u('.toc').first().style.width = 'auto';
+  }
+};
+resize();
+window.onresize = resize;
 
 function transparency(){
   var top = document.documentElement.scrollTop || document.body.scrollTop;
@@ -41,7 +54,7 @@ function transparency(){
     : document.documentElement.offsetHeight;
 
   if (toc.length) {
-    toc.toggleClass('fixed', u('article.documentation').size().top < navheight - offset);
+    toc.toggleClass('fixed', u('article.documentation').size().top < navheight - offset && window.innerWidth > breakpoint);
   }
 
   if (u('article.documentation').length) {
@@ -68,12 +81,15 @@ setTimeout(function(){ nav.removeClass('instant'); }, 200);
 
 // Remove an incorrect "get" that there was highlighted
 Prism.hooks.add('after-highlight', function(env){
-  u('span.token.keyword').filter(el => el.innerHTML === 'get').replace('get');
+  u('span.token.keyword').each(el => {
+    if (el.innerHTML === 'get') u(el).replace('get');
+    if (el.innerHTML === 'public') u(el).replace('public');
+  });
 });
 
 u('.toc .more').handle('click', e => {
   const container = u(e.currentTarget).closest('li');
-	const child = container.find('ul').nodes[0];
+  const child = container.find('ul').nodes[0];
   const height = container.hasClass('active') ? 0 : child.scrollHeight;
   child.style.maxHeight = height + 'px';
   container.toggleClass('active');
@@ -83,7 +99,8 @@ u('.toc a').on('click', e => {
   const href = u(e.currentTarget).attr('href');
   if (!href) return;
   const [url, hash] = href.split('#');
-  if (url === window.location.path && href && u('#' + hash).length) {
+  console.log(url, window.location.pathname, u('#' + hash));
+  if (url === window.location.pathname && u('#' + hash).length) {
     e.preventDefault();
     u('#' + hash).scroll();
   }

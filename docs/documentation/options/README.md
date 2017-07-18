@@ -2,16 +2,16 @@
 
 These are the available options, their defaults, types and how to specify them in `.env`:
 
-|name                 |default         |[.env](#environment)       |main type |
-|---------------------|----------------|---------------------------|----------|
-|[`port`](#port)      |`3000`          |`PORT=3000`                |Number    |
-|[`secret`](#secret)  |`'secret-XXXX'` |`SECRET=secret-XXXX`       |String    |
-|[`public`](#public)  |`'public'`      |`PUBLIC=public`            |String    |
-|[`views`](#views)    |`'views'`       |`VIEWS=views`              |String    |
-|[`engine`](#engine)  |`'pug'`         |`ENGINE=pug`               |String    |
-|[`env`](#env)        |`'development'` |**`NODE_ENV=development`** |String    |
-|[`log`](#log)        |`'info'`        |`LOG=info`                 |String    |
-|[`core`](#core)      |[[info]](#core) |[[info]](#core)            |Object    |
+|name                 |default          |[.env](#environment)        |type    |
+|---------------------|-----------------|----------------------------|--------|
+|[`port`](#port)      |`3000`           |`PORT=3000`                 |Number  |
+|[`secret`](#secret)  |`'secret-XXXX'`  |`SECRET=secret-XXXX`        |String  |
+|[`public`](#public)  |`'public'`       |`PUBLIC=public`             |String  |
+|[`views`](#views)    |`'views'`        |`VIEWS=views`               |String  |
+|[`engine`](#engine)  |`'pug'`          |`ENGINE=pug`                |String  |
+|[`env`](#env)        |`'development'`  |**`NODE_ENV=development`**  |String  |
+|[`log`](#log)        |`'info'`         |`LOG=info`                  |String  |
+|[`core`](#core)      |[[info]](#core)  |[[info]](#core)             |Object  |
 
 And many more! [Help us editing this](https://github.com/franciscop/server/tree/master/docs/documentation/options).
 
