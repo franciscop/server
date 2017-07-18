@@ -286,7 +286,6 @@ u('.toc a').on('click', e => {
   if (!href) return;
   const hash = href.split('#')[1];
   if (href && u('#' + hash).length) {
-    e.preventDefault();
     u('#' + hash).scroll();
   }
 });
