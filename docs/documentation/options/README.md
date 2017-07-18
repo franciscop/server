@@ -1,6 +1,6 @@
 # Options
 
-These are the available options, their defaults, types and how to specify them in `.env`:
+These are the available options, defaults, types and how to specify them in `.env`:
 
 |name                 |default          |[.env](#environment)        |type    |
 |---------------------|-----------------|----------------------------|--------|
