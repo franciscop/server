@@ -22,10 +22,10 @@ const server = require('server');
 
 // Set the options (shown here with the defaults)
 const options = {
-  port: 3000
-  secret: 'secret-XXXX'
-  public: 'public'
-  engine: 'pug'
+  port: 3000,
+  secret: 'secret-XXXX',
+  public: 'public',
+  engine: 'pug',
   env: 'development'
 };
 
