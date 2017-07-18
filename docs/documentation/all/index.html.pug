@@ -1,0 +1,146 @@
+extends ../../_layout/index
+
+block title
+  +title('Full documentation')
+
+block description
+  +description('Full documentation for server.js')
+
+block content
+  .hero
+    .content
+      h1 
+        strong Documentation
+        
+        
+  article.documentation
+    div.flex.one.three-700.four-1000
+      div.full.third-700.fourth-1000
+        section.toc
+          a(href="/documentation/all/")
+            h2 Documentation
+          ul
+            li
+              label.more ›
+              a(href="/documentation/all/#options") Options
+              ul
+                li
+                  a(href="/documentation/all/#port")
+                    code port
+                li
+                  a(href="/documentation/all/#secret")
+                    code secret
+                li
+                  a(href="/documentation/all/#public")
+                    code public
+                li
+                  a(href="/documentation/all/#views")
+                    code views
+                li
+                  a(href="/documentation/all/#engine")
+                    code engine
+                li
+                  a(href="/documentation/all/#env")
+                    code env
+                li
+                  a(href="/documentation/all/#log")
+                    code log
+                li
+                  a(href="/documentation/all/#core")
+                    code core
+            li
+              label.more ›
+              a(href="/documentation/all/#middleware") Middleware
+              ul
+                li 
+                  a(href="/documentation/all/#parameters") Parameters [TBD]
+                li 
+                  a(href="/documentation/all/#context") Context
+                li 
+                  a(href="/documentation/all/#synchronous") Synchronous
+                li 
+                  a(href="/documentation/all/#asynchronous") Asynchronous
+                li 
+                  a(href="/documentation/all/#express-middleware") From express.js
+            li
+              label.more ›
+              a(href="/documentation/all/#router") Router
+              ul.size-100
+                li
+                  a(href="/documentation/all/#rest") get()
+                li
+                  a(href="/documentation/all/#rest") post()
+                li
+                  a(href="/documentation/all/#rest") put()
+                li
+                  a(href="/documentation/all/#rest") del()
+                li
+                  a(href="/documentation/all/#error") error()
+                li
+                  a(href="/documentation/all/#websockets") socket()
+                li
+                  a(href="/documentation/all/#") sub() [TBD]
+            li
+              label.more ›
+              a(href="#") Reply [TBD]
+              ul
+                li
+                  a(href="#") cookie() [TBD]
+                li
+                  a(href="#") download() [TBD]
+                li
+                  a(href="#") end() [TBD]
+                li
+                  a(href="#") file() [TBD]
+                li
+                  a(href="#") header() [TBD]
+                li
+                  a(href="#") json() [TBD]
+                li
+                  a(href="#") jsonp() [TBD]
+                li
+                  a(href="#") redirect() [TBD]
+                li
+                  a(href="#") render() [TBD]
+                li
+                  a(href="#") send() [TBD]
+                li
+                  a(href="#") status() [TBD]
+                li
+                  a(href="#") type() [TBD]
+            li
+              label.more ›
+              a(href="#") Errors [TBD]
+              ul
+                li
+                  a(href="#") PortAlreadyUsed [TBD]
+                li
+                  a(href="#") MissingMiddleware [TBD]
+                li
+                  a(href="#") InvalidMiddleware [TBD]
+            li
+              label.more ›
+              a(href="/documentation/all/#advanced") Advanced
+              ul
+                li
+                  a(href="/documentation/all/#creating-middleware") Write middleware
+                li
+                  a(href="/documentation/all/#") Write plugins [TBD]
+                li
+                  a(href="/documentation/all/#") Contributing [TBD]
+
+      div.full.two-third-700.three-fourth-1000
+        include:marked:noheader ../README.md
+
+        h2#options Options
+        include:marked:noheader ../options/README.md
+
+        h2#middleware Middleware
+        include:marked:noheader ../middleware/README.md
+
+        h2#router Router
+        include:marked:noheader ../router/README.md
+
+        h2#advanced Advanced
+        include:marked:noheader ../advanced/README.md
+        
