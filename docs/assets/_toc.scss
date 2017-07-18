@@ -1,0 +1,81 @@
+.toc {
+  padding: 0;
+  background: #fff;
+  overflow-y: auto;
+  margin-top: 10px;
+  // margin-left: -1em;
+}
+
+.toc.fixed {
+  position: fixed;
+}
+
+.toc h2 {
+  padding-left: 10px;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.toc a {
+  color: inherit;
+}
+
+.toc a:hover {
+  color: #0074d9;
+}
+
+.toc ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+  position: relative;
+}
+
+.toc li {
+  padding: 0 30px;
+  line-height: 2;
+  margin: 0;
+  position: relative;
+}
+
+.toc li li {
+  margin-left: -15px;
+}
+
+.toc .more {
+  position: absolute;
+  left: 5px;
+  top: 5px;
+  transition: all .3s ease;
+  font-size: 26px;
+  line-height: 22px;
+  height: 24px;
+  text-align: center;
+  width: 24px;
+  cursor: pointer;
+  border-radius: 50%;
+  transform-origin: 50% 50% 0;
+
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.toc .more:hover {
+  color: #0074d9;
+}
+
+.toc .active > .more {
+  transform: rotateZ(90deg);
+}
+
+.toc .more ~ ul {
+  max-height: 0;
+  overflow: hidden;
+  transition: all .3s ease;
+}
+
+.toc .active > .more ~ ul {
+  max-height: 1000px;
+}

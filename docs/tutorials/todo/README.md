@@ -7,6 +7,8 @@ Some possible uses:
 - An actual TO-DO list. Some times you just need a simple list.
 - The beginning of Hacker News, Reddit, or similar. Those are basically four glorified CRUDs: users, stories, comments, votes.
 
+
+
 ## Install dependencies
 
 After [getting your project ready](/tutorials/getting-started) you'll have to make sure that you have MongoDB installed following [the official guide](https://docs.mongodb.com/manual/administration/install-community/) and runn it (will depend on your installation process). For Ubuntu I can simply do:
@@ -20,4 +22,42 @@ Then and within our project folder, we install the two libraries that we will be
 
 ```bash
 npm install server mongoose
+```
+
+
+
+## REST API
+
+Let's first of all define our API. Let's keep it simple! Within index.js we write:
+
+```js
+const server = require('server');
+const { get, post, put, del } = server.router;
+
+server([
+  get('/', /*TODO*/),
+  post('/', /*TODO*/),
+  put('/:id', /*TODO*/),
+  del('/:id', /*TODO*/)
+]);
+```
+
+
+
+## Database
+
+We are using Mongosse (a layer on top of MongoDB) to implement
+
+
+
+## Functionality
+
+Now let's implement each of the parts. We will do it first in the same file, then (as it might happen in real life) we will split that code into a separate file to keep things clean and concerns separated.
+
+First the get; we won't be doing a strict REST API since the GET will be rendering the HTML, but quite similar:
+
+```js
+get('/', ctx => {
+
+})
 ```

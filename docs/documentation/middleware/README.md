@@ -43,7 +43,7 @@ TODO: explain more about `req`, `res` and `options` (explanation for each and th
 
 
 
-## Synchronous return
+## Synchronous
 
 A synchronous function is one that executes one line after another. To make your function synchronous you just have [not to make it asynchronous](#asynchronous-return), which means *do not return a promise*.
 
@@ -74,7 +74,7 @@ const middle4 = ctx => {
 ```
 
 
-## Asynchronous return
+## Asynchronous
 
 
 ```js
@@ -147,7 +147,7 @@ const middle = async ctx => {
 
 
 
-## Modern
+## Express middleware
 
 Modern is a small utility that allows you to use express middleware within `server`. The proper way of using `modern` is:
 
