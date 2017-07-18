@@ -1,0 +1,12 @@
+extends ../_layout/index
+
+block extra
+  div.extra.docs
+
+block content
+  article.documentation
+    div.flex.one.three-800.four-1000
+      div.full.third-800.fourth-1000
+        include ./toc.pug
+      div.full.two-third-800.three-fourth-1000
+        block article
