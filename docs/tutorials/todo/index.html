@@ -67,6 +67,7 @@ if (toc.length && window.innerWidth > 900) {
   u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + 10) + 'px)';
   u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 20) + 'px';
 } else { toc = ''; }
+
 function transparency(){
   var top = document.documentElement.scrollTop || document.body.scrollTop;
   var height = "innerHeight" in window
@@ -103,6 +104,14 @@ u('.toc .more').handle('click', e => {
   const height = container.hasClass('active') ? 0 : child.scrollHeight;
   child.style.maxHeight = height + 'px';
   container.toggleClass('active');
+});
+
+u('.toc a').on('click', e => {
+  const href = u(e.target).attr('href').split('#')[1];
+  if (href && u('#' + href).length) {
+    e.preventDefault();
+    u('#' + href).scroll();
+  }
 });
 
 
