@@ -55,7 +55,7 @@ const resize = () => {
     var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
     u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
     u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset + 20) + 'px)';
-    u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 20) + 'px';
+    u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 10) + 'px';
     console.log(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'));
   } else {
     toc.removeClass('fixed');
