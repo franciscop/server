@@ -9,17 +9,19 @@ block content
         span.arrow.left 〈
         | All documentation
 
-  article
-    include:marked:noheader ./README.md
 
+  article.documentation
+    div.flex.one.three-700.four-1000
+      div.full.third-700.fourth-1000
+        include ../toc.pug
+      div.full.two-third-700.three-fourth-1000
+        include:marked:noheader ./README.md
 
+        h2#keep-reading Keep reading
 
+        p There are other topics that you might have missed:
 
-    h2#keep-reading Keep reading
-
-    p There are other topics that you might have missed:
-
-    div.pages
-      a.button(href="../options") Options
-      a.button(href="../middleware") Middleware
-      a.button(href="../router") Router
+        div.pages
+          a.button(href="../options") Options
+          a.button(href="../middleware") Middleware
+          a.button(href="../router") Router

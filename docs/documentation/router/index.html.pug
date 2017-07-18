@@ -8,17 +8,19 @@ block content
       a.button.docs(href='/documentation')
         span.arrow.left 〈
         | All documentation
+        
+  article.documentation
+    div.flex.one.three-700.four-1000
+      div.full.third-700.fourth-1000
+        include ../toc.pug
+      div.full.two-third-700.three-fourth-1000
+        include:marked:noheader ./README.md
 
-  article
-    include:marked:noheader ./README.md
+        h2#keep-reading Keep reading
 
+        p Once you master the router there are few topics to keep going on:
 
-
-    h2#keep-reading Keep reading
-
-    p Once you master the router there are few topics to keep going on:
-
-    div.pages
-      a.button(href="../options") Options
-      a.button(href="../middleware") Middleware
-      a.button(href="../advanced") Advanced
+        div.pages
+          a.button(href="../options") Options
+          a.button(href="../middleware") Middleware
+          a.button(href="../advanced") Advanced

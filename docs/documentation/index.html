@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Server.js - server.js</title><meta property="og:title" content="Server.js - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"/><meta property="og:description" content="Flexible and powerful server for Node.js"/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Documentation</strong></h1><pre class="sub">npm install server</pre><div class="pages"><a class="button" href="options">Options</a><a class="button" href="middleware">Middleware</a><a class="button" href="router">Router</a><a class="button" href="advanced">Advanced</a></div></div></div><article>
+<!DOCTYPE html><html class="initial"><head><title>Server.js - server.js</title><meta property="og:title" content="Server.js - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"/><meta property="og:description" content="Flexible and powerful server for Node.js"/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Documentation</strong></h1><pre class="sub">npm install server</pre><div class="pages"><a class="button" href="/tutorials">Tutorials<span class="arrow"> 〉</span></a></div></div></div><article class="documentation"><div class="flex one three-700 four-1000"><div class="full third-700 fourth-1000"><section class="toc"><a href="/documentation"><h2>Documentation</h2></a><ul><li><label class="more">›</label><a href="/documentation/options/">Options</a><ul><li><a href="/documentation/options/#port"><code>port</code></a></li><li><a href="/documentation/options/#secret"><code>secret</code></a></li><li><a href="/documentation/options/#public"><code>public</code></a></li><li><a href="/documentation/options/#views"><code>views</code></a></li><li><a href="/documentation/options/#engine"><code>engine</code></a></li><li><a href="/documentation/options/#env"><code>env</code></a></li><li><a href="/documentation/options/#log"><code>log</code></a></li><li><a href="/documentation/options/#core"><code>core</code></a></li></ul></li><li><label class="more">›</label><a href="/documentation/middleware/">Middleware</a><ul><li> <a href="/documentation/middleware/#parameters">Parameters [TBD]</a></li><li> <a href="/documentation/middleware/#context">Context</a></li><li> <a href="/documentation/middleware/#synchronous">Synchronous</a></li><li> <a href="/documentation/middleware/#asynchronous">Asynchronous</a></li><li> <a href="/documentation/middleware/#express-middleware">From express.js</a></li></ul></li><li><label class="more">›</label><a href="/documentation/router/">Router</a><ul class="size-100"><li><a href="/documentation/router/#rest">get()</a></li><li><a href="/documentation/router/#rest">post()</a></li><li><a href="/documentation/router/#rest">put()</a></li><li><a href="/documentation/router/#rest">del()</a></li><li><a href="/documentation/router/#error">error()</a></li><li><a href="/documentation/router/#websockets">socket()</a></li><li><a href="/documentation/router/#">sub() [TBD]</a></li></ul></li><li><label class="more">›</label><a href="#">Reply [TBD]</a><ul><li><a href="#">cookie() [TBD]</a></li><li><a href="#">download() [TBD]</a></li><li><a href="#">end() [TBD]</a></li><li><a href="#">file() [TBD]</a></li><li><a href="#">header() [TBD]</a></li><li><a href="#">json() [TBD]</a></li><li><a href="#">jsonp() [TBD]</a></li><li><a href="#">redirect() [TBD]</a></li><li><a href="#">render() [TBD]</a></li><li><a href="#">send() [TBD]</a></li><li><a href="#">status() [TBD]</a></li><li><a href="#">type() [TBD]</a></li></ul></li><li><label class="more">›</label><a href="#">Errors [TBD]</a><ul><li><a href="#">PortAlreadyUsed [TBD]</a></li><li><a href="#">MissingMiddleware [TBD]</a></li><li><a href="#">InvalidMiddleware [TBD]</a></li></ul></li><li><label class="more">›</label><a href="/documentation/advanced/">Advanced</a><ul><li><a href="/documentation/advanced/#creating-middleware">Write middleware</a></li><li><a href="/documentation/advanced/#">Write plugins [TBD]</a></li><li><a href="/documentation/advanced/#">Contributing [TBD]</a></li></ul></li></ul></section></div><div class="full two-third-700 three-fourth-1000">
 <p>Conceptually <strong>server</strong> is a function that accepts options and other functions. The heavy lifting is already implemented <strong>so you can focus on your project</strong>:</p>
 <pre><code class="lang-js">// Import the variable into the file
 const server = require(&#39;server&#39;);
@@ -55,7 +55,7 @@ server(home, page);
 <h2 id="-advanced-advanced-"><a href="advanced">Advanced</a></h2>
 <p>Some recommendations on using and debugging server. A peak into the technology inside for understanding it better. Explanation on some of the design constrains for server.</p>
 <p><a class="button" href="advanced"><strong>Advanced documentation</strong></a></p>
-</article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
+</div></div></article><script>document.querySelector('nav').classList.add('wide');</script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
 setTimeout(function() {
   var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
   [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
@@ -77,8 +77,23 @@ setTimeout(function() {
 
 
 var nav = u('nav');
+var toc = u('.toc');
+var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
+if (toc.length && window.innerWidth > 900) {
+  u('nav').addClass('wide');
+  u('[href="' + window.location.pathname + '"]').parent().addClass('active');
+  var articlepaddingtop = parseFloat(getComputedStyle(u('article.documentation').first()).getPropertyValue('padding-top'));
+  var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
+  u('.toc').first().style.top = (articlepaddingtop + navheight - 20) + 'px';
+  u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + 10) + 'px)';
+  u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 20) + 'px';
+} else { toc = ''; }
 function transparency(){
   var top = document.documentElement.scrollTop || document.body.scrollTop;
+  var height = "innerHeight" in window
+    ? window.innerHeight
+    : document.documentElement.offsetHeight;
+
   if (top > 80) {
     if (nav.hasClass('transparent')) {
       nav.removeClass('transparent');
@@ -88,10 +103,30 @@ function transparency(){
       nav.addClass('transparent');
     }
   }
+
+  if (toc.length) {
+    toc.toggleClass('fixed', u('article.documentation').size().top < navheight - 20);
+  }
 }
 u(document).on('scroll', transparency);
 transparency();
 setTimeout(function(){ nav.removeClass('instant'); }, 200);
+
+
+// Remove an incorrect "get" that there was highlighted
+Prism.hooks.add('after-highlight', function(env){
+  u('span.token.keyword').filter(el => el.innerHTML === 'get').replace('get');
+});
+
+u('.toc .more').handle('click', e => {
+  const container = u(e.currentTarget).closest('li');
+	const child = container.find('ul').nodes[0];
+  const height = container.hasClass('active') ? 0 : child.scrollHeight;
+  child.style.maxHeight = height + 'px';
+  container.toggleClass('active');
+});
+
+
 
 // Google analytics
 (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){

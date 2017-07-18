@@ -4,6 +4,8 @@ $picnic-breakpoint: 700px;
 @import "../../node_modules/picnic/src/picnic.scss";
 @import "./prism";
 
+@import "./toc";
+
 
 nav .menu > * {
   margin: 0;
@@ -61,6 +63,11 @@ nav {
   padding-left: calc(50% - 450px);
   padding-right: calc(50% - 450px);
   margin: 0 auto;
+}
+
+nav.wide {
+  padding-left: calc(50% - 600px);
+  padding-right: calc(50% - 600px);
 }
 
 nav.transparent {
@@ -130,6 +137,10 @@ article {
   background: #fff;
 }
 
+article.documentation {
+  max-width: 1200px;
+}
+
 article img {
   max-width: 100%;
 }
@@ -172,8 +183,8 @@ article img {
 
 article {
   margin-top: 0;
-  margin-bottom: 30vh;
-  padding: 3em;
+  padding: 2em;
+  padding-bottom: 30vh;
 }
 
 article table {
@@ -347,8 +358,8 @@ article > p:first-child {
 article h1,
 article h2,
 article h3 {
-  margin: -40px 0 0;
-  padding-top: 60px;
+  margin: -60px 0 0;
+  padding-top: 80px;
   padding-bottom: 0;
 }
 
