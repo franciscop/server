@@ -6,22 +6,16 @@ block title
 block description
   +description('The inner workings and dev documentation for server.js.')
 
+block extra
+  div.extra.docs
+
 block content
-  .hero
-    .content
-      h1 
-        strong Advanced
-      a.button.docs(href='/documentation')
-        span.arrow.left 〈
-        | All documentation
-
-
   article.documentation
     div.flex.one.three-700.four-1000
       div.full.third-700.fourth-1000
         include ../toc.pug
       div.full.two-third-700.three-fourth-1000
-        include:marked:noheader ./README.md
+        include:marked ./README.md
 
         h2#keep-reading Keep reading
 

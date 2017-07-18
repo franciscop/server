@@ -2,8 +2,9 @@
   padding: 0;
   background: #fff;
   overflow-y: auto;
-  margin-top: 10px;
-  // margin-left: -1em;
+  padding-top: 0;
+  margin-left: -.5em;
+  // position: fixed;
 }
 
 .toc.fixed {
@@ -11,17 +12,22 @@
 }
 
 .toc h2 {
-  padding-left: 10px;
+  margin-left: 0;
   padding-top: 0;
   margin-top: 0;
 }
 
 .toc a {
+  display: block;
   color: inherit;
+  padding: 0 10px;
+  width: calc(100% - 20px);
+  // border-bottom: 1px dashed #333;
 }
 
 .toc a:hover {
   color: #0074d9;
+  background: #eee;
 }
 
 .toc ul {
@@ -32,7 +38,7 @@
 }
 
 .toc li {
-  padding: 0 30px;
+  padding: 0 0 0 30px;
   line-height: 2;
   margin: 0;
   position: relative;
@@ -44,14 +50,14 @@
 
 .toc .more {
   position: absolute;
-  left: 5px;
+  left: 0;
   top: 5px;
   transition: all .3s ease;
-  font-size: 26px;
-  line-height: 22px;
-  height: 24px;
+  font-size: 30px;
+  line-height: 24px;
+  height: 30px;
   text-align: center;
-  width: 24px;
+  width: 30px;
   cursor: pointer;
   border-radius: 50%;
   transform-origin: 50% 50% 0;
@@ -64,6 +70,7 @@
 
 .toc .more:hover {
   color: #0074d9;
+  background: #eee;
 }
 
 .toc .active > .more {

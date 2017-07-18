@@ -15,7 +15,9 @@ html.initial
     meta(property='og:image' content='https://serverjs.io/img/logo.png')
     link(href='/assets/style.min.css' rel='stylesheet')
 
-  body
+  body#top
+    block extra
+    
     include nav
   
     block content

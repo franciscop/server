@@ -70,13 +70,18 @@ nav.wide {
   padding-right: calc(50% - 600px);
 }
 
-nav.transparent {
+:not(.extra.docs) ~ nav.transparent {
   background: none;
   box-shadow: none;
 
   a, a.pseudo, .burger {
     color: #fff;
   }
+}
+
+.extra.docs ~ nav {
+  padding-left: calc(50% - 600px);
+  padding-right: calc(50% - 600px);
 }
 
 @media all and (max-width: $picnic-breakpoint) {
@@ -106,29 +111,8 @@ body {
   background-image: linear-gradient(135deg, #81c, #18c);
   background-size: cover;
   background-attachment: fixed;
-  padding-top: 2em;
+  padding-top: 3em;
 }
-
-// TOO TRIPPY:
-// body::before {
-//   content: '';
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   bottom: 0;
-//   right: 0;
-//   background-image: linear-gradient(135deg, #18c, #81c);
-//   background-size: cover;
-//   background-attachment: fixed;
-//   animation: 10s opacity 0s infinite;
-//   animation-direction: alternate;
-//   z-index: -1;
-// }
-//
-// @keyframes opacity {
-//   0% { opacity: 0; }
-//   100% { opacity: 1; }
-// }
 
 article {
   width: 100%;
@@ -139,6 +123,8 @@ article {
 
 article.documentation {
   max-width: 1200px;
+  margin-top: 20px;
+  margin-bottom: 20px;
 }
 
 article img {
@@ -361,6 +347,12 @@ article h3 {
   margin: -60px 0 0;
   padding-top: 80px;
   padding-bottom: 0;
+}
+
+.documentation h1 {
+  margin-top: -101px;
+  padding-top: 100px;
+  line-height: 1;
 }
 
 article h1 + *,
