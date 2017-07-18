@@ -101,7 +101,7 @@ module.exports = [
 </article><script>function $(sel) { return document.querySelector(sel); }
 $('button.secret').onclick = function () {
   $('body').classList.toggle('liftoff');
-}</script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
+}</script><script src="https://unpkg.com/smoothscroll-polyfill@0"></script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
 setTimeout(function() {
   var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
   [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
