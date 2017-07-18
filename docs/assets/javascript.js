@@ -21,14 +21,16 @@ setTimeout(function() {
 
 var nav = u('nav');
 var toc = u('.toc');
+let offset = 10;
 var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
 if (toc.length && window.innerWidth > 900) {
-  u('nav').addClass('wide');
-  u('[href="' + window.location.pathname + '"]').parent().addClass('active');
+  u('.toc [href]').filter(el => {
+    return u(el).attr('href').split('#')[0] === window.location.pathname;
+  }).parent().addClass('active');
   var articlepaddingtop = parseFloat(getComputedStyle(u('article.documentation').first()).getPropertyValue('padding-top'));
   var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
-  u('.toc').first().style.top = (articlepaddingtop + navheight - 20) + 'px';
-  u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + 10) + 'px)';
+  u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
+  u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset + 20) + 'px)';
   u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 20) + 'px';
 } else { toc = ''; }
 
@@ -38,6 +40,17 @@ function transparency(){
     ? window.innerHeight
     : document.documentElement.offsetHeight;
 
+  if (toc.length) {
+    toc.toggleClass('fixed', u('article.documentation').size().top < navheight - offset);
+  }
+
+  if (u('article.documentation').length) {
+    if (u('nav.transparent').length) {
+      u('nav').removeClass('transparent');
+    }
+    return;
+  }
+
   if (top > 80) {
     if (nav.hasClass('transparent')) {
       nav.removeClass('transparent');
@@ -46,10 +59,6 @@ function transparency(){
     if (!nav.hasClass('transparent')) {
       nav.addClass('transparent');
     }
-  }
-
-  if (toc.length) {
-    toc.toggleClass('fixed', u('article.documentation').size().top < navheight - 20);
   }
 }
 u(document).on('scroll', transparency);
@@ -73,8 +82,8 @@ u('.toc .more').handle('click', e => {
 u('.toc a').on('click', e => {
   const href = u(e.currentTarget).attr('href');
   if (!href) return;
-  const hash = href.split('#')[1];
-  if (href && u('#' + hash).length) {
+  const [url, hash] = href.split('#');
+  if (url === window.location.path && href && u('#' + hash).length) {
     e.preventDefault();
     u('#' + hash).scroll();
   }

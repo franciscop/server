@@ -6,23 +6,15 @@ block title
 block description
   +description('Full documentation of server.js API and methodologies.')
 
-block content
-  .hero
-    .content
-      h1 
-        strong Documentation
-      pre.sub npm install server
-      div.pages
-        a.button(href="/tutorials")
-          | Tutorials
-          span.arrow  〉
+block extra
+  div.extra.docs
 
+block content
   article.documentation
     div.flex.one.three-700.four-1000
       div.full.third-700.fourth-1000
         include ./toc.pug
       div.full.two-third-700.three-fourth-1000
+        h1 
+          strong Documentation
         include:marked:noheader ./README.md
-
-  script.
-    document.querySelector('nav').classList.add('wide');

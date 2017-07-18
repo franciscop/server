@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Getting started - server.js</title><meta property="og:title" content="Getting started - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Install and setup a Node.js project from scratch to get started."/><meta property="og:description" content="Install and setup a Node.js project from scratch to get started."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Node.js guide</strong></h1><a class="button docs" href="/tutorials"><span class="arrow left">〈</span>Tutorials</a></div></div><article><p>In this tutorial you will learn how to get started with Node.js development and create a project from scratch. While there are many ways of doing it, this guide is focused first on making it easy and second on using common tools.</p>
+<!DOCTYPE html><html class="initial"><head><title>Getting started - server.js</title><meta property="og:title" content="Getting started - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Install and setup a Node.js project from scratch to get started."/><meta property="og:description" content="Install and setup a Node.js project from scratch to get started."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1> <strong>Node.js guide</strong></h1><a class="button docs" href="/tutorials"><span class="arrow left">〈</span>Tutorials</a></div></div><article><p>In this tutorial you will learn how to get started with Node.js development and create a project from scratch. While there are many ways of doing it, this guide is focused first on making it easy and second on using common tools.</p>
 <p>You will need some basic tools like having a git and a code editor (<a href="https://atom.io/">we recommend Atom</a>) as well as some basic knowledge around your operative system and the terminal/command line.</p>
 <p>These are the steps we will be following:</p>
 <ol>
@@ -86,14 +86,16 @@ setTimeout(function() {
 
 var nav = u('nav');
 var toc = u('.toc');
+let offset = 10;
 var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
 if (toc.length && window.innerWidth > 900) {
-  u('nav').addClass('wide');
-  u('[href="' + window.location.pathname + '"]').parent().addClass('active');
+  u('.toc [href]').filter(el => {
+    return u(el).attr('href').split('#')[0] === window.location.pathname;
+  }).parent().addClass('active');
   var articlepaddingtop = parseFloat(getComputedStyle(u('article.documentation').first()).getPropertyValue('padding-top'));
   var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
-  u('.toc').first().style.top = (articlepaddingtop + navheight - 20) + 'px';
-  u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + 10) + 'px)';
+  u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
+  u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset + 20) + 'px)';
   u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 20) + 'px';
 } else { toc = ''; }
 
@@ -103,6 +105,17 @@ function transparency(){
     ? window.innerHeight
     : document.documentElement.offsetHeight;
 
+  if (toc.length) {
+    toc.toggleClass('fixed', u('article.documentation').size().top < navheight - offset);
+  }
+
+  if (u('article.documentation').length) {
+    if (u('nav.transparent').length) {
+      u('nav').removeClass('transparent');
+    }
+    return;
+  }
+
   if (top > 80) {
     if (nav.hasClass('transparent')) {
       nav.removeClass('transparent');
@@ -111,10 +124,6 @@ function transparency(){
     if (!nav.hasClass('transparent')) {
       nav.addClass('transparent');
     }
-  }
-
-  if (toc.length) {
-    toc.toggleClass('fixed', u('article.documentation').size().top < navheight - 20);
   }
 }
 u(document).on('scroll', transparency);
@@ -138,8 +147,8 @@ u('.toc .more').handle('click', e => {
 u('.toc a').on('click', e => {
   const href = u(e.currentTarget).attr('href');
   if (!href) return;
-  const hash = href.split('#')[1];
-  if (href && u('#' + hash).length) {
+  const [url, hash] = href.split('#');
+  if (url === window.location.path && href && u('#' + hash).length) {
     e.preventDefault();
     u('#' + hash).scroll();
   }
