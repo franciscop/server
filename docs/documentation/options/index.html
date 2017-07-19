@@ -121,17 +121,16 @@ server({ port: 3000 });  // The same as the previous one
 <p>Some hosts such as Heroku will define an environment variable called <code>PORT</code>, so it will work smoothly there. You can also set it instead in your <code>.env</code> if you prefer it:</p>
 <pre><code>PORT=3000
 </code></pre><h3 id="secret">Secret</h3>
-<p>It is <a href="https://github.com/franciscop/server/issues/3"><strong>highly recommended</strong></a> that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It will be used by several middleware for storing secrets and keeping cookies/sessions:</p>
+<p>It is <a href="https://serverjs.io/tutorials/sessions-production/"><strong>highly recommended</strong></a> that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It can be used by middleware for storing secrets and keeping cookies/sessions:</p>
 <pre><code>SECRET=your-random-string-here
-</code></pre><blockquote>
-<p>Note: the <em>default</em> provided is weak as it will be different each time the server is launched.</p>
-</blockquote>
+</code></pre><p>The <em>default</em> provided will be different each time the server is launched. This is not suitable for production, since you want persistent sessions even with server restarts. See the <a href="https://serverjs.io/tutorials/sessions-production/">session in production tutorial</a> to set it up properly (includes some extras such as Redis sessions).</p>
+<p>Please <strong>do not</strong> set this as a variable <strike><code>server({ secret: &#39;whatever&#39; });</code></strike>.</p>
 <h3 id="public">Public</h3>
-<p>The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through <code>example.com/myfile.pdf</code> should be in this folder. You can set it to any folder within your project.</p>
+<p>The folder where your static assets are and defaults to <code>public</code>. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through the browser such as <code>example.com/myfile.pdf</code> should be in this folder. You can set it to any folder within your project.</p>
 <p>To set the public folder in the environment add this to <a href="#environment">your <code>.env</code></a>:</p>
-<pre><code>PUBLIC=./public
+<pre><code>PUBLIC=public
 </code></pre><p>Through the initialization parameter:</p>
-<pre><code class="lang-js">server({ public: &#39;./public&#39; });
+<pre><code class="lang-js">server({ public: &#39;public&#39; });
 </code></pre>
 <p>To set the root folder specify it as <code>&#39;./&#39;</code>:</p>
 <pre><code class="lang-js">server({ public: &#39;./&#39; });
@@ -141,17 +140,20 @@ server({ port: 3000 });  // The same as the previous one
 server({ public: &#39;&#39; });
 </code></pre>
 <h3 id="views">Views</h3>
-<p>The folder where your views and templates are. These are the files used by the <code>render()</code> function. You can set it to any folder within your project.</p>
+<p>The folder where your views and templates are, defaulting to <code>views</code>. These are the files used by the <code>render()</code> function. You can set it to any folder within your project.</p>
 <p>To set the views folder in the environment add this to <a href="#environment">your <code>.env</code></a>:</p>
-<pre><code>VIEWS=./views
+<pre><code>VIEWS=views
 </code></pre><p>Through the initialization parameter:</p>
-<pre><code class="lang-js">server({ views: &#39;./views&#39; });
+<pre><code class="lang-js">server({ views: &#39;views&#39; });
 </code></pre>
 <p>To set the root folder specify it as <code>&#39;./&#39;</code>:</p>
 <pre><code class="lang-js">server({ views: &#39;./&#39; });
 </code></pre>
-<p>It defaults to <code>views</code>; however if you don&#39;t have any view file you don&#39;t have to create the folder. The files within <code>views</code> should all have an extension such as <code>.hbs</code>, <code>.pug</code>, etc. To see how to install and use those keep reading.</p>
+<p>If you don&#39;t have any view file you don&#39;t have to create the folder. The files within <code>views</code> should all have an extension such as <code>.hbs</code>, <code>.pug</code>, etc. To see how to install and use those keep reading.</p>
 <h3 id="engine">Engine</h3>
+<blockquote>
+<p>Note: this option can be ignored and server.js will work with both <code>.pug</code> and <code>.hbs</code> (Handlebars) file types.</p>
+</blockquote>
 <p>The view engine that you want to use to render your templates. <a href="https://github.com/expressjs/express/wiki#template-engines">See all the available engines</a>. To use an engine you normally have to install it first except for the pre-installed ones <a href="https://pugjs.org/">pug</a> and <a href="http://handlebarsjs.com/">handlebars</a>:</p>
 <pre><code>npm install [ejs|nunjucks|emblem] --save
 </code></pre><p>Then to use that engine you just have to add the extension to the <code>render()</code> method:</p>
@@ -168,13 +170,23 @@ server(ctx =&gt; render(&#39;index.hbs&#39;));
 <h3 id="env">Env</h3>
 <p>Define the context in which the server is running. The most common and accepted cases are <code>&#39;development&#39;</code>, <code>&#39;test&#39;</code> and <code>&#39;production&#39;</code>. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc.</p>
 <blockquote>
-<p>Note! The environment variable is called <strong>NODE_ENV</strong> while the option as a parameter is <strong>env</strong>.</p>
+<p>Note: The environment variable is called <strong>NODE_ENV</strong> while the option as a parameter is <strong>env</strong>.</p>
 </blockquote>
-<p>This variable does not really make sense as a parameter to the main function, so we&#39;ll normally use this within our <code>.env</code> file. See it here with the <em>default <code>development</code></em>:</p>
+<p>This variable does not make sense as a parameter to the main function, so we&#39;ll normally use this within our <code>.env</code> file. See it here with the <em>default <code>development</code></em>:</p>
 <pre><code>NODE_ENV=development
 </code></pre><p>Then in your hosting environment you&#39;d set it to production (some hosts like Heroku do so automatically):</p>
 <pre><code>NODE_ENV=production
-</code></pre><h3 id="log">Log</h3>
+</code></pre><p>These are the most common and recommended types for NODE_ENV:</p>
+<pre><code class="lang-js">development
+test
+production
+</code></pre>
+<p>You can check those within your code like:</p>
+<pre><code class="lang-js">server(ctx =&gt; {
+  console.log(ctx.options.env);
+});
+</code></pre>
+<h3 id="log">Log</h3>
 <p>Display some data that might be of value for the developers. This includes from just some information up to really important bugs and errors notifications.</p>
 <p>You can set <a href="https://www.npmjs.com/package/log#log-levels">several log levels</a> and it <strong>defaults to &#39;info&#39;</strong>:</p>
 <ul>
@@ -192,6 +204,18 @@ server(ctx =&gt; render(&#39;index.hbs&#39;));
 </code></pre><p>Or as a parameter to the main function:</p>
 <pre><code class="lang-js">server({ log: &#39;info&#39; });
 </code></pre>
+<h3 id="advanced-logging">Advanced logging</h3>
+<p>You can also pass a <code>report</code> variable, in which case the level should be specify as <code>level</code>:</p>
+<pre><code class="lang-js">server({
+  log: {
+    level: &#39;info&#39;,
+    report: (content, type) =&gt; {
+      console.log(content);
+    }
+  }
+});
+</code></pre>
+<p>This allows you for instance to handle some specific errors in a different way.</p>
 <h3 id="core">Core</h3>
 <blockquote>
 <p>Experimental</p>

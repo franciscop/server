@@ -72,8 +72,8 @@ nav {
 }
 
 nav.wide {
-  padding-left: calc(50% - 500px);
-  padding-right: calc(50% - 500px);
+  padding-left: calc(50% - 600px);
+  padding-right: calc(50% - 600px);
 }
 
 :not(.extra.docs) ~ nav.transparent {
@@ -86,8 +86,8 @@ nav.wide {
 }
 
 .extra.docs ~ nav {
-  padding-left: calc(50% - 500px);
-  padding-right: calc(50% - 500px);
+  padding-left: calc(50% - 600px);
+  padding-right: calc(50% - 600px);
 }
 
 @media all and (max-width: $picnic-breakpoint) {
@@ -128,7 +128,7 @@ article {
 }
 
 article.documentation {
-  max-width: 1000px;
+  max-width: 1200px;
   margin-top: 20px;
   margin-bottom: 20px;
 }
