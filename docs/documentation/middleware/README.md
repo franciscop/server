@@ -17,7 +17,7 @@ We are using the latest version of Javascript (ES7) that provides many useful op
 
 ## Context
 
-Context is the only parameter that middleware receives and we'll call it `ctx`. **It represents all the information known at this point**. It can appear at several points, but the most important one is as a middleware parameter.
+Context is the **only parameter that middleware receives** and we'll call it `ctx`. **It represents all the information known at this point**. It can appear at several points, but the most important one is as a middleware parameter.
 
 In this situation it has, among others, the properties `req`, `res` (from express) and `options`:
 
@@ -39,7 +39,7 @@ let middleware = ctx => {
 ```
 
 
-TODO: explain more about `req`, `res` and `options` (explanation for each and their methods and a link to express docs).
+> TODO: explain more about `req`, `res` and `options` (explanation for each and their methods and a link to express docs). Explain that ctx is where to store data.
 
 
 
@@ -76,33 +76,33 @@ const middle4 = ctx => {
 
 ## Asynchronous
 
+While code is synchronous by default, we highly recommend just setting your code to asynchronous. To do this, add the keyword `async` before the middleware function:
 
 ```js
 // Asynchronous, find user with Mongoose (MongoDB)
-const middle2 = async () => {
+const middle = async ctx => {
   const user = await user.find({ name: 'Francisco' }).exec();
   console.log(user);
 };
 ```
 
-And how to use them:
+If you find an error in an async function you can throw it. It will be catched and a 500 error will be displayed to the user:
 
 ```js
-// Synchronous
-server(() => {
-  console.log('Hello 世界');
-});
-
-// Asynchronous
-server(async () => {
-  const user = await user.find({ name: 'Francisco' }).exec();
-  console.log(user);
-});
+const middle = async ctx => {
+  if (!ctx.user) {
+    throw new Error('No user :(');
+  }
+};
 ```
 
+Please **try to avoid** using callback-based functions, since error propagations is problematic.
+
+> TODO: explain how callbacks should be converted
 
 
-### Return value
+
+## Return value
 
 If your middleware is going to be synchronous, you can just return the value to be sent to the browser:
 
@@ -145,6 +145,8 @@ const middle = async ctx => {
 });
 ```
 
+> TODO: explain about `reply`.
+
 
 
 ## Express middleware
@@ -161,92 +163,4 @@ const cookieParser = server.modern(oldCookieParser);
 server(cookieParser, ...);
 ```
 
-
-
-
-
-
-
-
-
-
-<!-- // DEPRECATED:
-
-
-
-
-
-One of the most powerful things from express and thus from `server` is the Middleware. We extended it by setting some default, useful middleware, but we wanted to also give you the flexibility to edit this.
-
-> We recommend adding your own middleware to a folder in your project called `/middle`, and all examples below will make this assumption.
-
-There are four ways of loading middleware with `server`: as a string, as a function, as an array or as an object. They are all explained below. The most important difference is named (object) vs unnamed (others) middleware, as only named middleware will overwrite the defaults.
-
-### String
-
-This is the simplest way to add middleware, it will just require() that string. This is not so useful with some packages since they require an additional function call (such as `require('body-parser')()`), however it's perfect for your own middleware:
-
-```js
-// Load the middleware 'body-parser' from the folder '/middle'
-server(3000, './middle/body-parser.js');
-```
-
-Then inside that `./middle/body-parser.js`:
-
-```js
-module.exports = function(req, res, next) {
-
-  // do your thing here
-
-  next();
-}
-```
-
-### Function
-
-Middleware *is* a function that accepts `(req, res, next)` (or `(err, req, res, next)` parameters, so all other methods are ultimately converted to this one. Read more just by googling' "express middleware" or "write middleware express".
-
-As a simple example, there are many pre-packaged modules, so let's see one example where we imagine that `body-parser` is not loaded by default:
-
-```js
-// Include bodyparser in your file
-let bodyparser = require('body-parser')({ extended: true });
-
-// Load it as middleware
-server(3000, bodyparser);
-```
-
-### Array
-
-This will be converted to a series of functions, and inside the array there can be any of the other types. It is useful to bundle them by category:
-
-```js
-let parsers = [
-  // ...
-];
-
-let { get, post } = server.router;
-let routes = [
-  get('/', (req, res) => { /* ... */ }),
-  post('/', (req, res) => { /* ... */ })
-];
-
-server(3000, parsers, routes);
-```
-
-### Object
-
-You can name them, and they will **replace one of the default middlewares if the name matches it**. Let's go with the simple example of `body-parser`:
-
-```js
-const server = require('server');
-
-// Uses body-parser
-server(3000);
-
-// Don't use body-parser
-server(3000, { bodyparser: false });
-
-// Use a different body-parser
-server(3000, { bodyparser: coolerBodyParser() });
-``` -->
+> TODO: add more examples, clear things up

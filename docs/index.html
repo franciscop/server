@@ -3,7 +3,7 @@
   <a href="https://circleci.com/gh/franciscop/server"><img src="https://circleci.com/gh/franciscop/server.svg?style=shield" alt="[Status]"></a>
   <a href="https://ci.appveyor.com/project/franciscop/server"><img src="https://img.shields.io/appveyor/ci/franciscop/server.svg?label=windows" alt="[Windows Build]"></a>
   <a href="https://npm-stat.com/charts.html?package=server"><img src="https://img.shields.io/npm/dm/server.svg" alt="[Downloads]"></a>
-  <a href="https://medium.com/server-for-node-js/server-js-beta-1-released-d53d01468ac5"><img src="https://img.shields.io/badge/version-BETA-yellow.svg" alt="[Roadmap]"></a></p>
+  <a href="https://medium.com/server-for-node-js/server-js-beta-1-released-d53d01468ac5"><img src="https://img.shields.io/badge/version-BETA-yellow.svg" alt="[Roadmap]"></a> <a href="https://www.paypal.me/franciscopresencia/"><img src="https://img.shields.io/badge/%20donate%20-%20paypal%20-blue.svg" alt="[Donate]"></a></p>
 <p>Powerful server for Node.js that just works so <strong>you can focus on your awesome project</strong>:</p>
 <pre><code class="lang-js">// Include it and extract some methods for convenience
 const server = require(&#39;server&#39;);
@@ -185,7 +185,18 @@ setTimeout(function(){ nav.removeClass('instant'); }, 200);
 // Remove an incorrect "get" that there was highlighted
 Prism.hooks.add('after-highlight', function(env){
   u('span.token.keyword').each(el => {
-    if (el.innerHTML === 'get') u(el).replace('get');
+    if (el.innerHTML === 'get') {
+      if (el.nextElementSibling && el.nextElementSibling.innerHTML === '(') {
+        u(el).replace('<span class="token function">get</span>');
+      } else {
+        u(el).replace('get');
+      }
+    }
+    if (el.innerHTML === 'delete') {
+      if (el.previousElementSibling && el.previousElementSibling.innerHTML === '.') {
+        u(el).replace('delete');
+      }
+    }
     if (el.innerHTML === 'public') u(el).replace('public');
   });
 });

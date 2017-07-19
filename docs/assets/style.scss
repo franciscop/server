@@ -1,10 +1,16 @@
 $picnic-radius: 0;
 $picnic-breakpoint: 700px;
 
+$primary-color: #f55;
+
 @import "../../node_modules/picnic/src/picnic.scss";
 @import "./prism";
 
 @import "./toc";
+
+td, th {
+  padding: .3em .6em;
+}
 
 
 nav .menu > * {
@@ -326,13 +332,13 @@ button.secret {
 }
 
 .button {
-  background: #f55;
+  background: $primary-color;
 }
 
 .hero .button {
   font-weight: bold;
   margin: 0 5px 5px 0;
-  background: #f55;
+  background: $primary-color;
 }
 
 /* p only if it's the first elementc */

@@ -120,7 +120,18 @@ setTimeout(function(){ nav.removeClass('instant'); }, 200);
 // Remove an incorrect "get" that there was highlighted
 Prism.hooks.add('after-highlight', function(env){
   u('span.token.keyword').each(el => {
-    if (el.innerHTML === 'get') u(el).replace('get');
+    if (el.innerHTML === 'get') {
+      if (el.nextElementSibling && el.nextElementSibling.innerHTML === '(') {
+        u(el).replace('<span class="token function">get</span>');
+      } else {
+        u(el).replace('get');
+      }
+    }
+    if (el.innerHTML === 'delete') {
+      if (el.previousElementSibling && el.previousElementSibling.innerHTML === '.') {
+        u(el).replace('delete');
+      }
+    }
     if (el.innerHTML === 'public') u(el).replace('public');
   });
 });
