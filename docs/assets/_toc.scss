@@ -26,6 +26,45 @@
   width: calc(100% - 5px);
 }
 
+.toc .label {
+  float: right;
+  margin-top: 9px;
+  margin-right: 2px;
+}
+
+.toc a {
+  clear: both;
+}
+
+.toc a.good::after,
+.toc a.mid::after,
+.toc a.bad::after {
+  content: '';
+  background: $picnic-success;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  float: right;
+  margin: 14px 6px 0 0;
+  opacity: 0.4;
+  position: absolute;
+  right: 10px;
+}
+
+.toc li ul a.good::after,
+.toc li ul a.mid::after,
+.toc li ul a.bad::after {
+  opacity: 0.2;
+}
+
+.toc a.mid::after {
+  background: $picnic-warning;
+}
+
+.toc a.bad::after {
+  background: $primary-color;
+}
+
 .toc a:hover {
   color: #0074d9;
   background: #eee;

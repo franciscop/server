@@ -1,10 +1,79 @@
-<!DOCTYPE html><html class="initial"><head><title>Router documentation - server.js</title><meta property="og:title" content="Router documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><meta property="og:description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="extra docs"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex one three-800 four-1000"><div class="full third-800 fourth-1000"><section class="toc"><h2><a href="/documentation/#top">Documentation</a></h2><ul><li><label class="more">›</label><a href="/documentation/options/#top">Options</a><ul><li><a href="/documentation/options/#port"><code>port</code></a></li><li><a href="/documentation/options/#secret"><code>secret</code></a></li><li><a href="/documentation/options/#public"><code>public</code></a></li><li><a href="/documentation/options/#views"><code>views</code></a></li><li><a href="/documentation/options/#engine"><code>engine</code></a></li><li><a href="/documentation/options/#env"><code>env</code></a></li><li><a href="/documentation/options/#log"><code>log</code></a></li><li><a href="/documentation/options/#core"><code>core</code></a></li></ul></li><li><label class="more">›</label><a href="/documentation/middleware/#top">Middleware</a><ul><li> <a href="/documentation/middleware/#parameters">Parameters [TBD]</a></li><li> <a href="/documentation/middleware/#context">Context</a></li><li> <a href="/documentation/middleware/#synchronous">Synchronous</a></li><li> <a href="/documentation/middleware/#asynchronous">Asynchronous</a></li><li> <a href="/documentation/middleware/#express-middleware">From express.js</a></li></ul></li><li><label class="more">›</label><a href="/documentation/router/#top">Router</a><ul class="size-100"><li><a href="/documentation/router/#rest">get()</a></li><li><a href="/documentation/router/#rest">post()</a></li><li><a href="/documentation/router/#rest">put()</a></li><li><a href="/documentation/router/#rest">del()</a></li><li><a href="/documentation/router/#error">error()</a></li><li><a href="/documentation/router/#websockets">socket()</a></li><li><a href="/documentation/router/#">sub() [TBD]</a></li></ul></li><li><label class="more">›</label><a href="#">Reply [TBD]</a><ul><li><a href="#">cookie() [TBD]</a></li><li><a href="#">download() [TBD]</a></li><li><a href="#">end() [TBD]</a></li><li><a href="#">file() [TBD]</a></li><li><a href="#">header() [TBD]</a></li><li><a href="#">json() [TBD]</a></li><li><a href="#">jsonp() [TBD]</a></li><li><a href="#">redirect() [TBD]</a></li><li><a href="#">render() [TBD]</a></li><li><a href="#">send() [TBD]</a></li><li><a href="#">status() [TBD]</a></li><li><a href="#">type() [TBD]</a></li></ul></li><li><label class="more">›</label><a href="#">Errors [TBD]</a><ul><li><a href="#">PortAlreadyUsed [TBD]</a></li><li><a href="#">MissingMiddleware [TBD]</a></li><li><a href="#">InvalidMiddleware [TBD]</a></li></ul></li><li><label class="more">›</label><a href="/documentation/advanced/#top">Advanced</a><ul><li><a href="/documentation/advanced/#creating-middleware">Write middleware</a></li><li><a href="/documentation/advanced/#">Write plugins [TBD]</a></li><li><a href="/documentation/advanced/#">Contributing [TBD]</a></li></ul></li></ul></section></div><div class="full two-third-800 three-fourth-1000"><h1 id="router">Router</h1>
-<p>A router is a function that creates <em>route(s)</em>, which in turns tell the server how to handle each request. They are a specific kind of middleware that wraps your logic and acts as a gateway to it:</p>
-<pre><code class="lang-js">// Plain middleware for ANY request (NOT a router)
-const all = ctx =&gt; { /* ... */ };
+<!DOCTYPE html><html class="initial"><head><title>Router documentation - server.js</title><meta property="og:title" content="Router documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><meta property="og:description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="extra docs"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex one three-800 four-1000"><div class="full third-800 fourth-1000"><section class="toc"><h2><a href="/documentation/#top">Documentation</a></h2><ul><li><label class="more">›</label><a class="good" href="/documentation/options/#top">Options</a><ul><li><a class="good" href="/documentation/options/#port"><code>port</code></a></li><li><a class="good" href="/documentation/options/#secret"><code>secret</code></a></li><li><a class="good" href="/documentation/options/#public"><code>public</code></a></li><li><a class="good" href="/documentation/options/#views"><code>views</code></a></li><li><a class="good" href="/documentation/options/#engine"><code>engine</code></a></li><li><a class="good" href="/documentation/options/#env"><code>env</code></a></li><li><a class="good" href="/documentation/options/#log"><code>log</code></a></li><li><a class="mid" href="/documentation/options/#core"><code>core</code></a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/middleware/#top">Middleware</a><ul><li> <a class="mid" href="/documentation/middleware/#context">Context</a></li><li> <a class="good" href="/documentation/middleware/#synchronous">Synchronous</a></li><li> <a class="mid" href="/documentation/middleware/#asynchronous">Asynchronous</a></li><li> <a class="mid" href="/documentation/middleware/#asynchronous">Return value</a></li><li> <a class="mid" href="/documentation/middleware/#express-middleware">From express.js</a></li></ul></li><li><label class="more">›</label><a class="bad" href="/documentation/router/#top">Router</a><ul class="size-100"><li><a class="bad" href="/documentation/router/#rest">get()</a></li><li><a class="bad" href="/documentation/router/#rest">post()</a></li><li><a class="bad" href="/documentation/router/#rest">put()</a></li><li><a class="bad" href="/documentation/router/#rest">del()</a></li><li><a class="mid" href="/documentation/router/#error">error()</a></li><li><a class="mid" href="/documentation/router/#websockets">socket()</a></li><li><a class="mid" href="/documentation/router/#subdomain">sub()</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Reply</a><ul><li><a class="bad" href="#">cookie()</a></li><li><a class="bad" href="#">download()</a></li><li><a class="bad" href="#">end()</a></li><li><a class="bad" href="#">file()</a></li><li><a class="bad" href="#">header()</a></li><li><a class="bad" href="#">json()</a></li><li><a class="bad" href="#">jsonp()</a></li><li><a class="bad" href="#">redirect()</a></li><li><a class="bad" href="#">render()</a></li><li><a class="bad" href="#">send()</a></li><li><a class="bad" href="#">status()</a></li><li><a class="bad" href="#">type()</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Errors</a><ul><li><a class="bad" href="#">PortAlreadyUsed</a></li><li><a class="bad" href="#">MissingMiddleware</a></li><li><a class="bad" href="#">InvalidMiddleware</a></li></ul></li><li><label class="more">›</label><a class="bad" href="/documentation/advanced/#top">Advanced</a><ul><li><a class="mid" href="/documentation/advanced/#creating-middleware">Write middleware</a></li><li><a class="bad" href="/documentation/advanced/#">Write plugins</a></li><li><a class="bad" href="/documentation/advanced/#">Contributing</a></li></ul></li></ul></section></div><div class="full two-third-800 three-fourth-1000"><h1 id="router">Router</h1>
+<p>These are the available routers and their parameters:</p>
+<table>
+<thead>
+<tr>
+<th>route name</th>
+<th>example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#get"><code>get(PATH, FN1, FN2, ...)</code></a></td>
+<td><code>get(&#39;/&#39;, ctx =&gt; { ... })</code></td>
+</tr>
+<tr>
+<td><a href="#post"><code>post(PATH, FN1, FN2, ...)</code></a></td>
+<td><code>post(&#39;/&#39;, ctx =&gt; { ... })</code></td>
+</tr>
+<tr>
+<td><a href="#put"><code>put(PATH, FN1, FN2, ...)</code></a></td>
+<td><code>put(&#39;/&#39;, ctx =&gt; { ... })</code></td>
+</tr>
+<tr>
+<td><a href="#del"><code>del(PATH, FN1, FN2, ...)</code></a></td>
+<td><code>del(&#39;/&#39;, ctx =&gt; { ... })</code></td>
+</tr>
+<tr>
+<td><a href="#error"><code>error(NAME, FN1, FN2, ...)</code></a></td>
+<td><code>error(&#39;NotSoSecret&#39;, ctx =&gt; { ... })</code></td>
+</tr>
+<tr>
+<td><a href="#socket"><code>socket(NAME, FN1, FN2, ...)</code></a></td>
+<td><code>socket(&#39;/&#39;, ctx =&gt; { ... })</code></td>
+</tr>
+<tr>
+<td><a href="#sub"><code>sub(SUBDOMAIN, FN1, FN2, ...)</code></a></td>
+<td><code>sub(&#39;es&#39;, ctx =&gt; { ... })</code></td>
+</tr>
+</tbody>
+</table>
+<p>A router is a function that tells the server how to handle each request. They are a specific kind of middleware that wraps your logic and acts as a gateway:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
 
-// Create a GET route for the users page
-const users = get(&#39;/users&#39;, ctx =&gt; { /* ... */ })
+// Import methods &#39;get&#39; and &#39;post&#39; from the router
+const { get, post } = server.router;
+
+server([
+  get(&#39;/&#39;, ctx =&gt; { /* ... */ }),      // Render homepage
+  get(&#39;/users&#39;, ctx =&gt; { /* ... */ }), // GET requests to /users
+  post(&#39;/users&#39;, ctx =&gt; { /* ... */ }) // POST requests to /users
+]);
+</code></pre>
+<blockquote>
+<p>The <code>ctx</code> argument is explained <a href="../middleware/#context">in middleware&#39;s Context</a>.</p>
+</blockquote>
+<h3 id="complex-routers">Complex routers</h3>
+<p>If you are going to have many routes, we recommend splitting them into separated files, either in the root of the project as <code>routes.js</code> or in a different place:</p>
+<pre><code class="lang-js">// app.js
+const server = require(&#39;server&#39;);
+const routes = require(&#39;./routes&#39;);
+
+server(routes);
+</code></pre>
+<pre><code class="lang-js">// routes.js
+const { get, post } = require(&#39;server/router&#39;);
+const ctrl = require(&#39;auto-load&#39;)(&#39;controllers&#39;);
+
+// You can simply export an array of routes
+module.exports = [
+  get(&#39;/&#39;, ctrl.home.index),
+  get(&#39;/users&#39;, ctrl.users.index),
+  post(&#39;/users&#39;, ctrl.users.add),
+  get(&#39;/photos&#39;, ctrl.photos.index),
+  post(&#39;/photos&#39;, ctrl.photos.add),
+  ...
+];
 </code></pre>
 <p>The <code>ctx</code> variable is <a href="https://serverjs.io/documentation/middleware/#context">explained in the middleware documentation</a>. One important difference between the routes and middleware is that <a href="#routes-are-final"><strong>all routes are final</strong></a>. This means that <strong>each request will use one route at most</strong>.</p>
 <p>All of the routers reside within the <code>server.router</code> and follow this structure:</p>
@@ -34,55 +103,43 @@ get(&#39;/users&#39;, ctx =&gt; { /* ... */ });
 // Any page such as /contact, /users, /125, etc
 get(&#39;/:page&#39;, ctx =&gt; { /* ... */ });
 </code></pre>
-<h3 id="simple-router">Simple router</h3>
-<p>To define a simple router, you could do:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
-
-// Import methods &#39;get&#39; and &#39;post&#39; from the router
-const { get, post } = server.router;
-
-server(
-  get(&#39;/users&#39;, ctx =&gt; { /* ... */ }),
-  post(&#39;/users&#39;, ctx =&gt; { /* ... */ })
+<h2 id="error">Error</h2>
+<p>It handles previously thrown errors:</p>
+<pre><code class="lang-js">server(
+  ctx =&gt; { throw new Error(&#39;Whatever&#39;); },
+  error(ctx =&gt; {
+    // ...
+  })
 );
 </code></pre>
-<h3 id="complex-router">Complex router</h3>
-<p>If you are going to have many routes, we recommend splitting it into a separated file, either in the root of the project as <code>routes.js</code> or in a different place:</p>
-<pre><code class="lang-js">// app.js
-const server = require(&#39;server&#39;);
-const routes = require(&#39;./routes&#39;);
-
-server(routes);
-</code></pre>
-<pre><code class="lang-js">// routes.js
-const { get, post } = require(&#39;server&#39;).router;
-const ctrl = require(&#39;auto-load&#39;)(&#39;controllers&#39;);
-
-// You can simply export an array of routes
-module.exports = [
-  get(&#39;/&#39;, ctrl.home.index),
-  get(&#39;/users&#39;, ctrl.users.index),
-  post(&#39;/users&#39;, ctrl.users.add),
-  get(&#39;/photos&#39;, ctrl.photos.index),
-  post(&#39;/photos&#39;, ctrl.photos.add),
-  ...
-];
-</code></pre>
-<h2 id="error">Error</h2>
 <blockquote>
-<p>Explain about the router error: <code>const { error } = server.router;</code> and how it handles the errors thrown: <code>throw new Error()</code> || <code>ctx.throw(&#39;test:a&#39;)?</code></p>
+<p>TODO: Explain about the router error: <code>const { error } = server.router;</code> and how it handles the errors thrown: <code>throw new Error()</code> || <code>ctx.throw(&#39;test:a&#39;)?</code></p>
 </blockquote>
 <h2 id="websockets">Websockets</h2>
 <blockquote>
-<p><em>Not yet available, coming in version 1.1</em></p>
+<p><em>Experimental now, coming stable in version 1.1</em></p>
 </blockquote>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
-let { get, socket } = server.router;
+const { get, socket } = server.router;
 
 server({}, [
   get(&#39;/&#39;, (req, res) =&gt; res.sendFile(__dirname + &#39;/public/index.html&#39;)),
   socket(&#39;message&#39;, (data, socket, io) =&gt; {
     io.emit(data);
+  })
+]);
+</code></pre>
+<blockquote>
+<p>TODO: add a lot of information</p>
+</blockquote>
+<h2 id="subdomain">Subdomain</h2>
+<p>Handle a subdomain call:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { sub } = server.router;
+
+server([
+  sub(&#39;es&#39;, ctx =&gt; {
+    console.log(&#39;Call to subdomain!&#39;);
   })
 ]);
 </code></pre>
@@ -178,7 +235,18 @@ setTimeout(function(){ nav.removeClass('instant'); }, 200);
 // Remove an incorrect "get" that there was highlighted
 Prism.hooks.add('after-highlight', function(env){
   u('span.token.keyword').each(el => {
-    if (el.innerHTML === 'get') u(el).replace('get');
+    if (el.innerHTML === 'get') {
+      if (el.nextElementSibling && el.nextElementSibling.innerHTML === '(') {
+        u(el).replace('<span class="token function">get</span>');
+      } else {
+        u(el).replace('get');
+      }
+    }
+    if (el.innerHTML === 'delete') {
+      if (el.previousElementSibling && el.previousElementSibling.innerHTML === '.') {
+        u(el).replace('delete');
+      }
+    }
     if (el.innerHTML === 'public') u(el).replace('public');
   });
 });
