@@ -117,30 +117,33 @@ PORT=3000
 
 ### Secret
 
-It is [**highly recommended**](https://github.com/franciscop/server/issues/3) that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It will be used by several middleware for storing secrets and keeping cookies/sessions:
+It is [**highly recommended**](https://serverjs.io/tutorials/sessions-production/) that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It can be used by middleware for storing secrets and keeping cookies/sessions:
 
 ```
 SECRET=your-random-string-here
 ```
 
-> Note: the *default* provided is weak as it will be different each time the server is launched.
+The *default* provided will be different each time the server is launched. This is not suitable for production, since you want persistent sessions even with server restarts. See the [session in production tutorial](https://serverjs.io/tutorials/sessions-production/) to set it up properly (includes some extras such as Redis sessions).
+
+Please **do not** set this as a variable <strike>`server({ secret: 'whatever' });`</strike>.
+
 
 
 
 ### Public
 
-The folder where your static assets are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through `example.com/myfile.pdf` should be in this folder. You can set it to any folder within your project.
+The folder where your static assets are and defaults to `public`. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through the browser such as `example.com/myfile.pdf` should be in this folder. You can set it to any folder within your project.
 
 To set the public folder in the environment add this to [your `.env`](#environment):
 
 ```
-PUBLIC=./public
+PUBLIC=public
 ```
 
 Through the initialization parameter:
 
 ```js
-server({ public: './public' });
+server({ public: 'public' });
 ```
 
 To set the root folder specify it as `'./'`:
@@ -160,18 +163,18 @@ server({ public: '' });
 
 ### Views
 
-The folder where your views and templates are. These are the files used by the `render()` function. You can set it to any folder within your project.
+The folder where your views and templates are, defaulting to `views`. These are the files used by the `render()` function. You can set it to any folder within your project.
 
 To set the views folder in the environment add this to [your `.env`](#environment):
 
 ```
-VIEWS=./views
+VIEWS=views
 ```
 
 Through the initialization parameter:
 
 ```js
-server({ views: './views' });
+server({ views: 'views' });
 ```
 
 To set the root folder specify it as `'./'`:
@@ -180,12 +183,14 @@ To set the root folder specify it as `'./'`:
 server({ views: './' });
 ```
 
-It defaults to `views`; however if you don't have any view file you don't have to create the folder. The files within `views` should all have an extension such as `.hbs`, `.pug`, etc. To see how to install and use those keep reading.
+If you don't have any view file you don't have to create the folder. The files within `views` should all have an extension such as `.hbs`, `.pug`, etc. To see how to install and use those keep reading.
 
 
 
 
 ### Engine
+
+> Note: this option can be ignored and server.js will work with both `.pug` and `.hbs` (Handlebars) file types.
 
 The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines). To use an engine you normally have to install it first except for the pre-installed ones [pug](https://pugjs.org/) and [handlebars](http://handlebarsjs.com/):
 
@@ -221,9 +226,9 @@ server({ engine: 'pug' }, ctx => render('index'));
 
 Define the context in which the server is running. The most common and accepted cases are `'development'`, `'test'` and `'production'`. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc.
 
-> Note! The environment variable is called **NODE_ENV** while the option as a parameter is **env**.
+> Note: The environment variable is called **NODE_ENV** while the option as a parameter is **env**.
 
-This variable does not really make sense as a parameter to the main function, so we'll normally use this within our `.env` file. See it here with the *default `development`*:
+This variable does not make sense as a parameter to the main function, so we'll normally use this within our `.env` file. See it here with the *default `development`*:
 
 ```
 NODE_ENV=development
@@ -233,6 +238,22 @@ Then in your hosting environment you'd set it to production (some hosts like Her
 
 ```
 NODE_ENV=production
+```
+
+These are the most common and recommended types for NODE_ENV:
+
+```js
+development
+test
+production
+```
+
+You can check those within your code like:
+
+```js
+server(ctx => {
+  console.log(ctx.options.env);
+});
 ```
 
 
@@ -263,6 +284,23 @@ Or as a parameter to the main function:
 ```js
 server({ log: 'info' });
 ```
+
+### Advanced logging
+
+You can also pass a `report` variable, in which case the level should be specify as `level`:
+
+```js
+server({
+  log: {
+    level: 'info',
+    report: (content, type) => {
+      console.log(content);
+    }
+  }
+});
+```
+
+This allows you for instance to handle some specific errors in a different way.
 
 
 
