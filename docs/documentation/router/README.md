@@ -82,7 +82,7 @@ server(doSomething);
 
 ### CSRF token
 
-For POST, PUT and DELETE requests a valid [**CSRF** token](https://github.com/expressjs/csurf) with the field name of `_csrf` must be sent as well. The local variable is set by server.js so there's no need to generate it manually:
+For POST, PUT and DELETE requests a valid [**CSRF** token](https://github.com/expressjs/csurf) with the field name of `_csrf` must be sent as well. The local variable is set by server.js so you can include it like this:
 
 ```html
 <form action="/" method="POST">
