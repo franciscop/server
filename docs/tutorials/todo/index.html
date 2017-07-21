@@ -150,6 +150,12 @@ u('a').on('click', e => {
   if ((!url || url === window.location.pathname) && u('#' + hash).length) {
     e.preventDefault();
     u('#' + hash).scroll();
+    if(history.pushState) {
+      history.replaceState(null, null, '#' + hash);
+    }
+    else {
+      location.hash = '#' + hash;
+    }
   }
 });
 

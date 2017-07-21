@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Router documentation - server.js</title><meta property="og:title" content="Router documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><meta property="og:description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="extra docs"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex one three-800 four-1000"><div class="full third-800 fourth-1000"><section class="toc"><h2><a href="/documentation/#top">Documentation</a></h2><ul><li><label class="more">›</label><a class="good" href="/documentation/options/#top">Options</a><ul><li><a class="good" href="/documentation/options/#port"><code>port</code></a></li><li><a class="good" href="/documentation/options/#secret"><code>secret</code></a></li><li><a class="good" href="/documentation/options/#public"><code>public</code></a></li><li><a class="good" href="/documentation/options/#views"><code>views</code></a></li><li><a class="good" href="/documentation/options/#engine"><code>engine</code></a></li><li><a class="good" href="/documentation/options/#env"><code>env</code></a></li><li><a class="good" href="/documentation/options/#log"><code>log</code></a></li><li><a class="mid" href="/documentation/options/#core"><code>core</code></a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/middleware/#top">Middleware</a><ul><li> <a class="mid" href="/documentation/middleware/#context">Context</a></li><li> <a class="good" href="/documentation/middleware/#synchronous">Synchronous</a></li><li> <a class="mid" href="/documentation/middleware/#asynchronous">Asynchronous</a></li><li> <a class="mid" href="/documentation/middleware/#asynchronous">Return value</a></li><li> <a class="mid" href="/documentation/middleware/#express-middleware">From express</a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/router/#top">Router</a><ul class="size-100"><li><a class="good" href="/documentation/router/#get-">get()</a></li><li><a class="good" href="/documentation/router/#post-">post()</a></li><li><a class="bad" href="/documentation/router/#put-">put()</a></li><li><a class="bad" href="/documentation/router/#del-">del()</a></li><li><a class="mid" href="/documentation/router/#error">error()</a></li><li><a class="mid" href="/documentation/router/#websockets">socket()</a></li><li><a class="mid" href="/documentation/router/#subdomain">sub()</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Reply</a><ul><li><a class="bad" href="#">cookie()</a></li><li><a class="bad" href="#">download()</a></li><li><a class="bad" href="#">end()</a></li><li><a class="bad" href="#">file()</a></li><li><a class="bad" href="#">header()</a></li><li><a class="bad" href="#">json()</a></li><li><a class="bad" href="#">jsonp()</a></li><li><a class="bad" href="#">redirect()</a></li><li><a class="bad" href="#">render()</a></li><li><a class="bad" href="#">send()</a></li><li><a class="bad" href="#">status()</a></li><li><a class="bad" href="#">type()</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Testing<ul><li><a class="bad" href="#">Setup</a></li><li><a class="bad" href="#">Unit</a></li><li><a class="bad" href="#">Integration</a></li><li>...</li></ul></a></li><li><label class="more">›</label><a class="bad" href="#">Errors</a><ul><li><a class="bad" href="#">PortAlreadyUsed</a></li><li><a class="bad" href="#">MissingMiddleware</a></li><li><a class="bad" href="#">InvalidMiddleware</a></li></ul></li><li><label class="more">›</label><a class="bad" href="/documentation/advanced/#top">Advanced</a><ul><li><a class="mid" href="/documentation/advanced/#creating-middleware">Write middleware</a></li><li><a class="bad" href="/documentation/advanced/#">Write plugins</a></li><li><a class="bad" href="/documentation/advanced/#">Contributing</a></li></ul></li></ul></section></div><div class="full two-third-800 three-fourth-1000"><h1 id="router">Router</h1>
+<!DOCTYPE html><html class="initial"><head><title>Router documentation - server.js</title><meta property="og:title" content="Router documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><meta property="og:description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="extra docs"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex one three-800 four-1000"><div class="full third-800 fourth-1000"><section class="toc"><h2><a href="/documentation/#top">Documentation</a></h2><ul><li><label class="more">›</label><a class="good" href="/documentation/options/#top">Options</a><ul><li><a class="good" href="/documentation/options/#port"><code>port</code></a></li><li><a class="good" href="/documentation/options/#secret"><code>secret</code></a></li><li><a class="good" href="/documentation/options/#public"><code>public</code></a></li><li><a class="good" href="/documentation/options/#views"><code>views</code></a></li><li><a class="good" href="/documentation/options/#engine"><code>engine</code></a></li><li><a class="good" href="/documentation/options/#env"><code>env</code></a></li><li><a class="good" href="/documentation/options/#log"><code>log</code></a></li><li><a class="mid" href="/documentation/options/#core"><code>core</code></a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/middleware/#top">Middleware</a><ul><li> <a class="mid" href="/documentation/middleware/#context">Context</a></li><li> <a class="good" href="/documentation/middleware/#synchronous">Synchronous</a></li><li> <a class="mid" href="/documentation/middleware/#asynchronous">Asynchronous</a></li><li> <a class="mid" href="/documentation/middleware/#asynchronous">Return value</a></li><li> <a class="mid" href="/documentation/middleware/#express-middleware">From express</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/router/#top">Router</a><ul class="size-100"><li><a class="good" href="/documentation/router/#get-">get()</a></li><li><a class="good" href="/documentation/router/#post-">post()</a></li><li><a class="good" href="/documentation/router/#put-">put()</a></li><li><a class="good" href="/documentation/router/#del-">del()</a></li><li><a class="good" href="/documentation/router/#error-">error()</a></li><li><a class="good" href="/documentation/router/#sub-">sub()</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Reply</a><ul><li><a class="bad" href="#">cookie()</a></li><li><a class="bad" href="#">download()</a></li><li><a class="bad" href="#">end()</a></li><li><a class="bad" href="#">file()</a></li><li><a class="bad" href="#">header()</a></li><li><a class="bad" href="#">json()</a></li><li><a class="bad" href="#">jsonp()</a></li><li><a class="bad" href="#">redirect()</a></li><li><a class="bad" href="#">render()</a></li><li><a class="bad" href="#">send()</a></li><li><a class="bad" href="#">status()</a></li><li><a class="bad" href="#">type()</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Testing<ul><li><a class="bad" href="#">Setup</a></li><li><a class="bad" href="#">Unit</a></li><li><a class="bad" href="#">Integration</a></li><li>...</li></ul></a></li><li><label class="more">›</label><a class="bad" href="#">Errors</a><ul><li><a class="bad" href="#">PortAlreadyUsed</a></li><li><a class="bad" href="#">MissingMiddleware</a></li><li><a class="bad" href="#">InvalidMiddleware</a></li></ul></li><li><label class="more">›</label><a class="bad" href="/documentation/advanced/#top">Advanced</a><ul><li><a class="mid" href="/documentation/advanced/#creating-middleware">Write middleware</a></li><li><a class="bad" href="/documentation/advanced/#">Write plugins</a></li><li><a class="bad" href="/documentation/advanced/#">Contributing</a></li></ul></li></ul></section></div><div class="full two-third-800 three-fourth-1000"><h1 id="router">Router</h1>
 <p>Available methods and their parameters for <code>server.router</code>:</p>
 <table>
 <thead>
@@ -26,7 +26,7 @@
 </tr>
 <tr>
 <td><a href="#error-"><code>error(NAME, FN1, FN2, ...)</code></a></td>
-<td><code>error(&#39;NotSoSecret&#39;, ctx =&gt; { ... })</code></td>
+<td><code>error(&#39;user&#39;, ctx =&gt; { ... })</code></td>
 </tr>
 <tr>
 <td><a href="#socket-"><code>socket(NAME, FN1, FN2, ...)</code></a></td>
@@ -111,25 +111,28 @@ fetch(&#39;/&#39;, {
 <pre><code class="lang-js">server({ security: { csrf: false } }, ...);
 </code></pre>
 <h2 id="get-">get()</h2>
-<p>Handle requests of the type <code>GET</code>:</p>
+<p>Handle requests of the type <code>GET</code> (loading a webpage):</p>
 <pre><code class="lang-js">// Create a single route for GET /
 const route = get(&#39;/&#39;, ctx =&gt; &#39;Hello 世界&#39;);
 
-// Testing that it actually works (see /testing/code )
+// Testing that it actually works
 run(route).get(&#39;/&#39;).then(res =&gt; {
   expect(res.body).toBe(&#39;Hello 世界&#39;);
 });
 </code></pre>
+<blockquote>
+<p>Note: Read more about the <a href="/testing/code">tests in code examples</a> or just ignore them.</p>
+</blockquote>
 <p>You can specify a query and param to be set:</p>
 <pre><code class="lang-js">const route = get(&#39;/:page&#39;, ctx =&gt; {
-  expect(ctx.params.page).toBe(&#39;hello&#39;);
-  expect(ctx.query.name).toBe(&#39;Francisco&#39;);
-  return 200;
+  console.log(ctx.params.page);  // hello
+  console.log(ctx.query.name);   // Francisco
+  return { page: ctx.params.page, name: ctx.query.name };
 });
 
 // Test it
 run(route).get(&#39;/hello?name=Francisco&#39;).then(res =&gt; {
-  expect(res.statusCode).toBe(200);
+  expect(res.body).toEqual({ page: &#39;hello&#39;, name: &#39;Francisco&#39; });
 });
 </code></pre>
 <h2 id="post-">post()</h2>
@@ -168,40 +171,118 @@ server(
   &lt;input type=&quot;submit&quot; name=&quot;Contact us&quot;&gt;
 &lt;/form&gt;
 </code></pre>
-<h2 id="rest">REST</h2>
-<p>The <a href="http://stackoverflow.com/q/671118/938236">basic REST routers</a> are present: <code>get</code>, <code>post</code>, <code>put</code>, <code>del</code>. Delete is called <code>del</code> since &#39;delete&#39; is a reserved word in Javascript. This is the recommended way of importing the routers with destructuring:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
-const { get, post, put, del } = server.router;
+<p>Example 2: JSON API. To POST with JSON you can follow this:</p>
+<pre><code class="lang-js">fetch(&#39;/42&#39;, {
+  method: &#39;PUT&#39;,
+  body: JSON.stringify({ a: &#39;b&#39;, c: &#39;d&#39; }),
+  credentials: &#39;include&#39;, // !important for the CSRF
+  headers: {
+    &#39;csrf-token&#39;: csrf,
+    &#39;Content-Type&#39;: &#39;application/json&#39;
+  }
+}).then(res =&gt; res.json()).then(item =&gt; {
+  console.log(item);
+});
 </code></pre>
-<blockquote>
-<p>TODO: split this into a tutorial as I couldn&#39;t find any decent one for this:</p>
-</blockquote>
-<p>They all <a href="http://expressjs.com/en/4x/api.html#router">accept a path in a similar way to Express.js</a> as ID, which will be parametrized:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
-const { get } = server.router;
+<h2 id="put-">put()</h2>
+<p>Handle requests of the type &quot;PUT&quot;. It needs <a href="#csrf-token">a csrf token</a> to be provided:</p>
+<pre><code class="lang-js">// Create a single route for PUT /ID
+const route = put(&#39;/:id&#39;, ctx =&gt; {
+  console.log(ctx.params.id, ctx.data);
+});
 
-// Homepage
-get(&#39;/&#39;, ctx =&gt; { /* ... */ });
-
-// A specific page
-get(&#39;/users&#39;, ctx =&gt; { /* ... */ });
-
-// Any page such as /contact, /users, /125, etc
-get(&#39;/:page&#39;, ctx =&gt; { /* ... */ });
+// Test our route. Note: csrf disabled for testing purposes
+run(noCsrf, route).put(&#39;/42&#39;, { body: &#39;Hello 世界&#39; });
 </code></pre>
-<h2 id="error">Error</h2>
-<p>It handles previously thrown errors:</p>
-<pre><code class="lang-js">server(
-  ctx =&gt; { throw new Error(&#39;Whatever&#39;); },
-  error(ctx =&gt; {
-    // ...
+<p>The HTML <code>&lt;form&gt;</code> does not support <code>method=&quot;PUT&quot;</code>, however we can overcome this by adding a special field called <code>_method</code> to the query:</p>
+<pre><code class="lang-html">&lt;form method=&quot;POST&quot; action=&quot;/42?_method=PUT&quot;&gt;
+  ...
+&lt;/form&gt;
+</code></pre>
+<p>For Javascript you can just set it to <code>method</code>, for example using the new API <code>fetch()</code>:</p>
+<pre><code class="lang-js">fetch(&#39;/42&#39;, {
+  method: &#39;PUT&#39;,
+  body: &#39;whatever&#39;,
+  credentials: &#39;include&#39;, // !important for the CSRF
+  headers: { &#39;csrt-token&#39;: csrf }
+});
+</code></pre>
+<h2 id="del-">del()</h2>
+<p>Handle requests of the type &quot;DELETE&quot;. It needs <a href="#csrf-token">a csrf token</a> to be provided:</p>
+<pre><code class="lang-js">// Create a single route for DELETE /ID
+const route = del(&#39;/:id&#39;, ctx =&gt; {
+  console.log(ctx.params.id);
+});
+
+// Test our route. Note: csrf disabled for testing purposes
+run(noCsrf, route).del(&#39;/42&#39;);
+</code></pre>
+<p>The HTML <code>&lt;form&gt;</code> does not support <code>method=&quot;DELETE&quot;</code>, however we can overcome this by adding a special field called <code>_method</code> to the query:</p>
+<pre><code class="lang-html">&lt;form method=&quot;POST&quot; action=&quot;/42?_method=DELETE&quot;&gt;
+  ...
+&lt;/form&gt;
+</code></pre>
+<p>For Javascript you can just set it to <code>method</code>, for example using the new API <code>fetch()</code>:</p>
+<pre><code class="lang-js">fetch(&#39;/42&#39;, {
+  method: &#39;DELETE&#39;,
+  credentials: &#39;include&#39;, // !important for the CSRF
+  headers: { &#39;csrt-token&#39;: csrf }
+});
+</code></pre>
+<h2 id="error-">error()</h2>
+<p>It handles an error thrown by a previous middleware:</p>
+<pre><code class="lang-js">const handle = error(&#39;special&#39;, ctx =&gt; {
+  console.log(ctx.error);
+});
+
+// Test it. First let&#39;s define our error in a middleware:
+const throwsError = ctx =&gt; {
+  const err = new Error(&#39;This is a test error&#39;);
+  err.name = &#39;special&#39;;
+  throw err;
+};
+
+// Then test it faking a request
+run(throwsError, handle).get(&#39;/&#39;);
+</code></pre>
+<p>It accepts an optional name and then middleware. If there&#39;s no name, it will catch all of the previously thrown errors. The name will match the <strong>beginning</strong> of the string name, so you can split your errors by domain:</p>
+<pre><code class="lang-js">// This will be caught since &#39;user&#39; === &#39;user&#39;
+const mid1 = ctx =&gt; {
+  const err = new Error(&#39;No username detected&#39;);
+  err.name = &#39;user.noname&#39;;
+  throw err;
+};
+
+// This will be caught since &#39;user.noname&#39; begins by &#39;user&#39;
+const mid2 = ctx =&gt; {
+  const err = new Error(&#39;No username detected&#39;);
+  err.name = &#39;user.noname&#39;;
+  throw err;
+};
+
+const handleUser = error(&#39;user&#39;, ctx =&gt; {
+  console.log(ctx.error);
+});
+
+server(mid1, mid2, handleUser);
+</code></pre>
+<h2 id="sub-">sub()</h2>
+<p>Handle subdomain calls:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { sub } = server.router;
+
+server([
+  sub(&#39;es&#39;, ctx =&gt; {
+    console.log(&#39;Call to subdomain &quot;es&quot;!&#39;);
   })
-);
+]);
 </code></pre>
-<blockquote>
-<p>TODO: Explain about the router error: <code>const { error } = server.router;</code> and how it handles the errors thrown: <code>throw new Error()</code> || <code>ctx.throw(&#39;test:a&#39;)?</code></p>
-</blockquote>
-<h2 id="websockets">Websockets</h2>
+<p>It can be a string or a Regex:</p>
+<pre><code class="lang-js">const language = sub(/(en|es|jp)/, ctx =&gt; {
+  console.log(&#39;Wikipedia &lt;3&#39;);
+});
+</code></pre>
+<h2 id="socket-">socket()</h2>
 <blockquote>
 <p><em>Experimental now, coming stable in version 1.1</em></p>
 </blockquote>
@@ -212,20 +293,6 @@ server({}, [
   get(&#39;/&#39;, (req, res) =&gt; res.sendFile(__dirname + &#39;/public/index.html&#39;)),
   socket(&#39;message&#39;, (data, socket, io) =&gt; {
     io.emit(data);
-  })
-]);
-</code></pre>
-<blockquote>
-<p>TODO: add a lot of information</p>
-</blockquote>
-<h2 id="subdomain">Subdomain</h2>
-<p>Handle a subdomain call:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
-const { sub } = server.router;
-
-server([
-  sub(&#39;es&#39;, ctx =&gt; {
-    console.log(&#39;Call to subdomain!&#39;);
   })
 ]);
 </code></pre>
@@ -353,6 +420,12 @@ u('a').on('click', e => {
   if ((!url || url === window.location.pathname) && u('#' + hash).length) {
     e.preventDefault();
     u('#' + hash).scroll();
+    if(history.pushState) {
+      history.replaceState(null, null, '#' + hash);
+    }
+    else {
+      location.hash = '#' + hash;
+    }
   }
 });
 
