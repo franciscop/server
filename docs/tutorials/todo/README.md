@@ -1,4 +1,4 @@
-# TO-DO
+# TO-DO list
 
 In this tutorial you will learn to design a basic API to create a list of items. We will store those in a MongoDB database using Mongoose and it will be for a single person.
 

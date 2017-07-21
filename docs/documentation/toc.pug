@@ -1,3 +1,19 @@
+//-section.toc
+//-  h2
+//-    a(href="/documentation/#top") Documentation
+//-  ul
+//-    each tutorial, frag in documentation
+//-      li
+//-        if (tutorial.sections.length)
+//-          label.more ›
+//-        a(href="/documentation/" + frag + "/#top")= tutorial.title
+//-        if (tutorial.sections.length)
+//-          ul
+//-            each name in tutorial.sections
+//-              li
+//-                a(href="/documentation/" + frag + "/#" + slug(name))= name
+//-
+ 
 section.toc
   h2
     a(href="/documentation/#top") Documentation
@@ -43,19 +59,19 @@ section.toc
         li 
           a.mid(href="/documentation/middleware/#asynchronous") Return value
         li 
-          a.mid(href="/documentation/middleware/#express-middleware") From express.js
+          a.mid(href="/documentation/middleware/#express-middleware") From express
     li
       label.more ›
-      a.bad(href="/documentation/router/#top") Router
+      a.mid(href="/documentation/router/#top") Router
       ul.size-100
         li
-          a.bad(href="/documentation/router/#rest") get()
+          a.good(href="/documentation/router/#get-") get()
         li
-          a.bad(href="/documentation/router/#rest") post()
+          a.good(href="/documentation/router/#post-") post()
         li
-          a.bad(href="/documentation/router/#rest") put()
+          a.bad(href="/documentation/router/#put-") put()
         li
-          a.bad(href="/documentation/router/#rest") del()
+          a.bad(href="/documentation/router/#del-") del()
         li
           a.mid(href="/documentation/router/#error") error()
         li
@@ -90,6 +106,17 @@ section.toc
           a.bad(href="#") status()
         li
           a.bad(href="#") type()
+    li
+      label.more ›
+      a.bad(href="#") Testing
+        ul
+          li
+            a.bad(href="#") Setup
+          li
+            a.bad(href="#") Unit
+          li
+            a.bad(href="#") Integration
+          li ...
     li
       label.more ›
       a.bad(href="#") Errors

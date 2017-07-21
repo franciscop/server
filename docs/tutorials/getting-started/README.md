@@ -1,3 +1,5 @@
+# Getting started
+
 In this tutorial you will learn how to get started with Node.js development and create a project from scratch. While there are many ways of doing it, this guide is focused first on making it easy and second on using common tools.
 
 You will need some basic tools like having a git and a code editor ([we recommend Atom](https://atom.io/)) as well as some basic knowledge around your operative system and the terminal/command line.

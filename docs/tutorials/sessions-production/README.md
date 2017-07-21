@@ -1,3 +1,5 @@
+# Session in production
+
 Sessions work out of the box for developing, but they need a bit of extra work to be ready for production.
 
 ## Secret

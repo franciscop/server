@@ -10,7 +10,7 @@ const server = require('server');
 server(options, fn1, fn2, fn3, ...);
 ```
 
-The most important concepts to use server are: [**options**](options), [**middleware**](middleware) and [**router**](router). You might also want to learn by doing [**real-world examples in the tutorials**](/tutorials).
+First [read the **getting started** guide](/tutorials/getting-started/). The most important concepts to use server are: [**options**](options), [**middleware**](middleware) and [**router**](router). You might also want to learn by doing [**real-world examples in the tutorials**](/tutorials).
 
 
 ## [Options](options)
@@ -23,7 +23,6 @@ const server = require('server');
 // Set the options (shown here with the defaults)
 const options = {
   port: 3000,
-  secret: 'secret-XXXX',
   public: 'public',
   engine: 'pug',
   env: 'development'

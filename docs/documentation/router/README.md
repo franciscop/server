@@ -1,24 +1,22 @@
 # Router
 
-These are the available routers and their parameters:
+Available methods and their parameters for `server.router`:
 
-|route name                              |example                               |
-|----------------------------------------|--------------------------------------|
-|[`get(PATH, FN1, FN2, ...)`](#get)      |`get('/', ctx => { ... })`            |
-|[`post(PATH, FN1, FN2, ...)`](#post)    |`post('/', ctx => { ... })`           |
-|[`put(PATH, FN1, FN2, ...)`](#put)      |`put('/', ctx => { ... })`            |
-|[`del(PATH, FN1, FN2, ...)`](#del)      |`del('/', ctx => { ... })`            |
-|[`error(NAME, FN1, FN2, ...)`](#error)  |`error('NotSoSecret', ctx => { ... })`|
-|[`socket(NAME, FN1, FN2, ...)`](#socket)|`socket('/', ctx => { ... })`         |
-|[`sub(SUBDOMAIN, FN1, FN2, ...)`](#sub) |`sub('es', ctx => { ... })`           |
+|route name                               |example                               |
+|-----------------------------------------|--------------------------------------|
+|[`get(PATH, FN1, FN2, ...)`](#get-)      |`get('/', ctx => { ... })`            |
+|[`post(PATH, FN1, FN2, ...)`](#post-)    |`post('/', ctx => { ... })`           |
+|[`put(PATH, FN1, FN2, ...)`](#put-)      |`put('/', ctx => { ... })`            |
+|[`del(PATH, FN1, FN2, ...)`](#del-)      |`del('/', ctx => { ... })`            |
+|[`error(NAME, FN1, FN2, ...)`](#error-)  |`error('NotSoSecret', ctx => { ... })`|
+|[`socket(NAME, FN1, FN2, ...)`](#socket-)|`socket('/', ctx => { ... })`         |
+|[`sub(SUBDOMAIN, FN1, FN2, ...)`](#sub-) |`sub('es', ctx => { ... })`           |
 
 A router is a function that tells the server how to handle each request. They are a specific kind of middleware that wraps your logic and acts as a gateway:
 
 ```js
-const server = require('server');
-
 // Import methods 'get' and 'post' from the router
-const { get, post } = server.router;
+const { get, post } = require('server/router');
 
 server([
   get('/', ctx => { /* ... */ }),      // Render homepage
@@ -27,7 +25,17 @@ server([
 ]);
 ```
 
-> The `ctx` argument is explained [in middleware's Context](../middleware/#context).
+The `ctx` argument is [explained in middleware's Context](../middleware/#context). The router methods can be imported in several ways:
+
+```js
+// For whenever you have previously defined `server`
+const { get, post } = server.router;
+
+// For standalone files:
+const { get, post } = require('server/router');
+```
+
+There are many more ways of importing the router methods, but those above are the recommended ones.
 
 
 
@@ -65,10 +73,134 @@ All of the routers reside within the `server.router` and follow this structure:
 
 ```js
 const server = require('server');
-const { NAME } = server.router;
-const doSomething = NAME(ID, fn1, [fn2], [fn3]);
+const { TYPE } = server.router;
+const doSomething = TYPE(ID, fn1, [fn2], [fn3]);
 server(doSomething);
 ```
+
+
+
+### CSRF token
+
+For POST, PUT and DELETE requests a valid [**CSRF** token](https://github.com/expressjs/csurf) with the field name of `_csrf` must be sent as well. The local variable is set by server.js so there's no need to generate it manually:
+
+```html
+<form action="/" method="POST">
+ <input name="firstname">
+ <input type="submit" value="Contact us">
+ <input type="hidden" name="_csrf" value="{{csrf}}">
+</form>
+```
+
+If you are using an API from Javascript, such as the new `fetch()` you can handle it this way:
+
+```html
+<!-- within your main template -->
+<script>
+  window.csrf = '{{csrf}}';
+</script>
+```
+
+```js
+// Within your javascript.js/bundle.js/app.js
+fetch('/', {
+  method: 'POST',
+  body: 'hello world',
+  credentials: 'include',  // Important! to maintain the session
+  headers: { 'csrf-token': csrf }  // From 'window'
+}).then(...);
+```
+
+
+Or you could also just disable it if you know what you are doing:
+
+```js
+server({ security: { csrf: false } }, ...);
+```
+
+
+
+## get()
+
+Handle requests of the type `GET`:
+
+```js
+// Create a single route for GET /
+const route = get('/', ctx => 'Hello 世界');
+
+// Testing that it actually works (see /testing/code )
+run(route).get('/').then(res => {
+  expect(res.body).toBe('Hello 世界');
+});
+```
+
+You can specify a query and param to be set:
+
+```js
+const route = get('/:page', ctx => {
+  expect(ctx.params.page).toBe('hello');
+  expect(ctx.query.name).toBe('Francisco');
+  return 200;
+});
+
+// Test it
+run(route).get('/hello?name=Francisco').then(res => {
+  expect(res.statusCode).toBe(200);
+});
+```
+
+
+
+
+## post()
+
+Handle requests of the type `POST`. It needs [a csrf token](#csrf-token) to be provided:
+
+```js
+// Create a single route for POST /
+const route = post('/', ctx => {
+  console.log(ctx.data);
+});
+
+// Test our route. Note: csrf disabled for testing purposes
+run(noCsrf, route).post('/', { body: 'Hello 世界' });
+```
+
+The [`data` property](/documentation/middleware/#data) can be a string or a simple object of `{name: value}` pairs.
+
+Example:
+
+```js
+// index.js
+const server = require('server');
+const { get, post } = server.router;
+const { file, redirect } = server.reply;
+
+server(
+  get('/', ctx => file('index.hbs')),
+  post('/', ctx => {
+    // Show the submitted data on the console:
+    console.log(ctx.data);
+    return redirect('/');
+  })
+);
+```
+
+```html
+<!-- views/index.hbs (omitting <head>, <body>, etc) -->
+<form method="POST" action="/">
+  <h2>Contact us</h1>
+  <label><p>Name:</p> <input type="text" name="fullname"></label>
+  <label><p>Message:</p> <textarea name="message"></textarea></label>
+
+  <input type="hidden" name="_csrf" value="{{csrf}}">
+  <input type="submit" name="Contact us">
+</form>
+```
+
+
+
+
 
 
 
