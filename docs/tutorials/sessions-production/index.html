@@ -149,16 +149,19 @@ u('a').on('click', e => {
   const href = u(e.currentTarget).attr('href');
   if (!href) return;
   const [url, hash] = href.split('#');
+
+  if (url === window.location.pathname && !hash) {
+    e.preventDefault();
+    u('body').scroll();
+    history.replaceState(null, null, window.location.pathname);
+    return;
+  }
+
   // console.log(url, window.location.pathname, u('#' + hash));
   if ((!url || url === window.location.pathname) && u('#' + hash).length) {
     e.preventDefault();
     u('#' + hash).scroll();
-    if(history.pushState) {
-      history.replaceState(null, null, '#' + hash);
-    }
-    else {
-      location.hash = '#' + hash;
-    }
+    history.replaceState(null, null, '#' + hash);
   }
 });
 

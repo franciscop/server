@@ -1,12 +1,12 @@
 //-section.toc
 //-  h2
-//-    a(href="/documentation/#top") Documentation
+//-    a(href="/documentation/") Documentation
 //-  ul
 //-    each tutorial, frag in documentation
 //-      li
 //-        if (tutorial.sections.length)
 //-          label.more ›
-//-        a(href="/documentation/" + frag + "/#top")= tutorial.title
+//-        a(href="/documentation/" + frag + "/")= tutorial.title
 //-        if (tutorial.sections.length)
 //-          ul
 //-            each name in tutorial.sections
@@ -16,11 +16,11 @@
  
 section.toc
   h2
-    a(href="/documentation/#top") Documentation
+    a(href="/documentation/") Documentation
   ul
     li
       label.more ›
-      a.good(href="/documentation/options/#top") Options
+      a.good(href="/documentation/options/") Options
       ul
         li
           a.good(href="/documentation/options/#port")
@@ -48,7 +48,7 @@ section.toc
             code core
     li
       label.more ›
-      a.mid(href="/documentation/middleware/#top") Middleware
+      a.mid(href="/documentation/middleware/") Middleware
       ul
         li 
           a.mid(href="/documentation/middleware/#context") Context
@@ -62,7 +62,7 @@ section.toc
           a.mid(href="/documentation/middleware/#express-middleware") From express
     li
       label.more ›
-      a.good(href="/documentation/router/#top") Router
+      a.good(href="/documentation/router/") Router
       ul.size-100
         li
           a.good(href="/documentation/router/#get-") get()
@@ -129,7 +129,7 @@ section.toc
           a.bad(href="#") InvalidMiddleware
     li
       label.more ›
-      a.bad(href="/documentation/advanced/#top") Advanced
+      a.bad(href="/documentation/advanced/") Advanced
       ul
         li
           a.mid(href="/documentation/advanced/#creating-middleware") Write middleware
