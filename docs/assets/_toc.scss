@@ -24,6 +24,9 @@
   color: inherit;
   padding: 0 5px 0 10px;
   width: calc(100% - 5px);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
 }
 
 .toc .label {

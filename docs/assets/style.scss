@@ -12,7 +12,6 @@ td, th {
   padding: .3em .6em;
 }
 
-
 nav .menu > * {
   margin: 0;
 }
@@ -71,11 +70,6 @@ nav {
   margin: 0 auto;
 }
 
-nav.wide {
-  padding-left: calc(50% - 600px);
-  padding-right: calc(50% - 600px);
-}
-
 :not(.extra.docs) ~ nav.transparent {
   background: none;
   box-shadow: none;
@@ -86,6 +80,11 @@ nav.wide {
 }
 
 .extra.docs ~ nav {
+  padding-left: calc(50% - 500px);
+  padding-right: calc(50% - 500px);
+}
+
+.extra.tuts ~ nav {
   padding-left: calc(50% - 600px);
   padding-right: calc(50% - 600px);
 }
@@ -127,10 +126,15 @@ article {
   background: #fff;
 }
 
-article.documentation {
-  max-width: 1200px;
+article.documentation,
+article.tutorial {
+  max-width: 1000px;
   margin-top: 20px;
   margin-bottom: 20px;
+}
+
+article.tutorial {
+  max-width: 1200px;
 }
 
 article img {
@@ -355,7 +359,8 @@ article h3 {
   padding-bottom: 0;
 }
 
-.documentation h1 {
+.documentation h1,
+.tutorial h1 {
   margin-top: -106px;
   padding-top: 100px;
   line-height: 1;

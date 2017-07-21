@@ -1,4 +1,4 @@
-# Spreadsheet
+# Spreadsheet database
 
 In this tutorial you'll learn how to take a Google Spreadsheet and convert it into a read-only database for Node.js. We will see some possible front-end applications such as data analysis and geolocation in a map.
 

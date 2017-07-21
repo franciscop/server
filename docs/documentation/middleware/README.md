@@ -1,6 +1,6 @@
 # Middleware
 
-A *server middleware* is a function that will be called on each request. It accepts [a context object](#context) and [returns a promise](#asynchronous-return) for asynchronous methods or [something else](#synchronous-return) for synchronous methods. A couple of examples:
+A *middleware* is plain function that will be called on each request. It accepts [a context object](#context) and [returns a promise](#asynchronous-return) for asynchronous methods or [something else](#synchronous-return) for synchronous methods with the reply for the browser. It can also not return anything if it just modifies the state. A couple of examples:
 
 ```js
 const setname = ctx => { ctx.req.user = 'Francisco'; };
@@ -8,16 +8,41 @@ const sendname = ctx => ctx.req.user;
 server(setname, sendname);
 ```
 
-We are using the latest version of Javascript (ES7) that provides many useful options.
-
-> Note: if you resolve it with a function, this will be called with `ctx`. This is not so useful for normal devs, but it is for server contributions. See [advanced configuration](../advanced/).
-
-
 
 
 ## Context
 
-Context is the **only parameter that middleware receives** and we'll call it `ctx`. **It represents all the information known at this point**. It can appear at several points, but the most important one is as a middleware parameter.
+Context is the **only** parameter that middleware receives and we'll call it `ctx`. It represents the information available at this point of the request. It can appear at several points, but the most important one is as a middleware parameter:
+
+```js
+const middle = ctx => {
+  // ctx is available here
+};
+```
+
+
+
+### Inherit from express
+
+Many of these properties are just inherited from express right now. The properties described here are part of the stable API but express on itself is not, so you should *not* use `ctx.req` for your code.
+
+
+
+### Data
+
+This is aliased as `body` as in other libraries. It is the data sent with the request. It can be part of a POST or PUT request, but it can also be set by others such as websockets:
+
+```js
+const middle = ctx => {
+  expect(ctx.data).toBe('Hello 世界');
+};
+
+// Test it (csrf set to false for testing purposes)
+run(noCsrf, middle).post('/', { body: 'Hello 世界' });
+```
+
+
+
 
 In this situation it has, among others, the properties `req`, `res` (from express) and `options`:
 

@@ -1,6 +1,6 @@
 # Options
 
-These are the available options, their defaults, types and names in `.env`:
+Available options, their defaults, types and names in `.env`:
 
 |name                 |default          |[.env](#environment)        |type    |
 |---------------------|-----------------|----------------------------|--------|
@@ -30,7 +30,11 @@ server(ctx => console.log(ctx.options));
 
 
 
-## Environment
+## Configuration
+
+First we will explain how and where to set up the different options for server.js, as it can set both on the environment and as an argument to the main function.
+
+### Environment
 
 Environment variables are *not commited in your version control* but instead they are provided by the machine or Node.js process. In this way these options can be different in your machine and in testing, production or other type of servers.
 
@@ -50,9 +54,9 @@ To set them in remote server it will depend on the hosting that you use ([see He
 
 
 
-## Parameter
+### Argument
 
-The alternative to the environment variables is to pass them **as the first parameter** when calling `server()`. Each option is a combination of key/value in the object and they all go in lowercase. See some options with their defaults:
+The alternative to the environment variables is to pass them **as the first argument** when calling `server()`. Each option is a combination of key/value in the object and they all go in lowercase. See some options with their defaults:
 
 ```js
 const server = require('server');
@@ -67,7 +71,7 @@ server({
 ```
 
 
-## Special cases
+### Special cases
 
 As a general rule, an option that is an object becomes a `_` separated string in uppercase for the `.env` file. For example, for the SSL we have to pass an object such as:
 
@@ -93,11 +97,9 @@ The converse is not true; a `_` separated string in the `.env` does not necessar
 
 
 
-## Available options
 
-Description of all the available options, their defaults and how to use them.
 
-### Port
+## Port
 
 The port where you want to launch the server. Defaults to `3000` and it's the only option that can be specified as a single option:
 
@@ -115,7 +117,7 @@ PORT=3000
 
 
 
-### Secret
+## Secret
 
 It is [**highly recommended**](https://serverjs.io/tutorials/sessions-production/) that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It can be used by middleware for storing secrets and keeping cookies/sessions:
 
@@ -130,7 +132,7 @@ Please **do not** set this as a variable <strike>`server({ secret: 'whatever' })
 
 
 
-### Public
+## Public
 
 The folder where your static assets are and defaults to `public`. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through the browser such as `example.com/myfile.pdf` should be in this folder. You can set it to any folder within your project.
 
@@ -161,7 +163,7 @@ server({ public: '' });
 
 
 
-### Views
+## Views
 
 The folder where your views and templates are, defaulting to `views`. These are the files used by the `render()` function. You can set it to any folder within your project.
 
@@ -188,7 +190,7 @@ If you don't have any view file you don't have to create the folder. The files w
 
 
 
-### Engine
+## Engine
 
 > Note: this option can be ignored and server.js will work with both `.pug` and `.hbs` (Handlebars) file types.
 
@@ -222,7 +224,7 @@ server({ engine: 'pug' }, ctx => render('index'));
 
 
 
-### Env
+## Env
 
 Define the context in which the server is running. The most common and accepted cases are `'development'`, `'test'` and `'production'`. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc.
 
@@ -258,7 +260,7 @@ server(ctx => {
 
 
 
-### Log
+## Log
 
 Display some data that might be of value for the developers. This includes from just some information up to really important bugs and errors notifications.
 
@@ -285,6 +287,8 @@ Or as a parameter to the main function:
 server({ log: 'info' });
 ```
 
+
+
 ### Advanced logging
 
 You can also pass a `report` variable, in which case the level should be specify as `level`:
@@ -304,7 +308,7 @@ This allows you for instance to handle some specific errors in a different way.
 
 
 
-### Core
+## Core
 
 > Experimental
 
