@@ -86,7 +86,7 @@ const doSomething = TYPE(ID, fn1, [fn2], [fn3]);
 server(doSomething);
 </code></pre>
 <h3 id="csrf-token">CSRF token</h3>
-<p>For POST, PUT and DELETE requests a valid <a href="https://github.com/expressjs/csurf"><strong>CSRF</strong> token</a> with the field name of <code>_csrf</code> must be sent as well. The local variable is set by server.js so there&#39;s no need to generate it manually:</p>
+<p>For POST, PUT and DELETE requests a valid <a href="https://github.com/expressjs/csurf"><strong>CSRF</strong> token</a> with the field name of <code>_csrf</code> must be sent as well. The local variable is set by server.js so you can include it like this:</p>
 <pre><code class="lang-html">&lt;form action=&quot;/&quot; method=&quot;POST&quot;&gt;
  &lt;input name=&quot;firstname&quot;&gt;
  &lt;input type=&quot;submit&quot; value=&quot;Contact us&quot;&gt;
