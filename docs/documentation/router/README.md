@@ -2,15 +2,15 @@
 
 Available methods and their parameters for `server.router`:
 
-|route name                               |example                               |
-|-----------------------------------------|--------------------------------------|
-|[`get(PATH, FN1, FN2, ...)`](#get-)      |`get('/', ctx => { ... })`            |
-|[`post(PATH, FN1, FN2, ...)`](#post-)    |`post('/', ctx => { ... })`           |
-|[`put(PATH, FN1, FN2, ...)`](#put-)      |`put('/', ctx => { ... })`            |
-|[`del(PATH, FN1, FN2, ...)`](#del-)      |`del('/', ctx => { ... })`            |
-|[`error(NAME, FN1, FN2, ...)`](#error-)  |`error('NotSoSecret', ctx => { ... })`|
-|[`socket(NAME, FN1, FN2, ...)`](#socket-)|`socket('/', ctx => { ... })`         |
-|[`sub(SUBDOMAIN, FN1, FN2, ...)`](#sub-) |`sub('es', ctx => { ... })`           |
+|route name                                 |example                          |
+|-------------------------------------------|---------------------------------|
+|[`get(PATH, FN1, FN2, ...)`](#get-)        |`get('/', ctx => { ... })`       |
+|[`post(PATH, FN1, FN2, ...)`](#post-)      |`post('/', ctx => { ... })`      |
+|[`put(PATH, FN1, FN2, ...)`](#put-)        |`put('/', ctx => { ... })`       |
+|[`del(PATH, FN1, FN2, ...)`](#del-)        |`del('/', ctx => { ... })`       |
+|[`error(NAME, FN1, FN2, ...)`](#error-)    |`error('user', ctx => { ... })`  |
+|[`socket(NAME, FN1, FN2, ...)`](#socket-)  |`socket('/', ctx => { ... })`    |
+|[`sub(SUBDOMAIN, FN1, FN2, ...)`](#sub-)   |`sub('es', ctx => { ... })`      |
 
 A router is a function that tells the server how to handle each request. They are a specific kind of middleware that wraps your logic and acts as a gateway:
 
@@ -122,30 +122,32 @@ server({ security: { csrf: false } }, ...);
 
 ## get()
 
-Handle requests of the type `GET`:
+Handle requests of the type `GET` (loading a webpage):
 
 ```js
 // Create a single route for GET /
 const route = get('/', ctx => 'Hello 世界');
 
-// Testing that it actually works (see /testing/code )
+// Testing that it actually works
 run(route).get('/').then(res => {
   expect(res.body).toBe('Hello 世界');
 });
 ```
 
+> Note: Read more about the [tests in code examples](/testing/code) or just ignore them.
+
 You can specify a query and param to be set:
 
 ```js
 const route = get('/:page', ctx => {
-  expect(ctx.params.page).toBe('hello');
-  expect(ctx.query.name).toBe('Francisco');
-  return 200;
+  console.log(ctx.params.page);  // hello
+  console.log(ctx.query.name);   // Francisco
+  return { page: ctx.params.page, name: ctx.query.name };
 });
 
 // Test it
 run(route).get('/hello?name=Francisco').then(res => {
-  expect(res.statusCode).toBe(200);
+  expect(res.body).toEqual({ page: 'hello', name: 'Francisco' });
 });
 ```
 
@@ -198,59 +200,165 @@ server(
 </form>
 ```
 
-
-
-
-
-
-
-
-## REST
-
-The [basic REST routers](http://stackoverflow.com/q/671118/938236) are present: `get`, `post`, `put`, `del`. Delete is called `del` since 'delete' is a reserved word in Javascript. This is the recommended way of importing the routers with destructuring:
+Example 2: JSON API. To POST with JSON you can follow this:
 
 ```js
-const server = require('server');
-const { get, post, put, del } = server.router;
-```
-
-> TODO: split this into a tutorial as I couldn't find any decent one for this:
-
-They all [accept a path in a similar way to Express.js](http://expressjs.com/en/4x/api.html#router) as ID, which will be parametrized:
-
-```js
-const server = require('server');
-const { get } = server.router;
-
-// Homepage
-get('/', ctx => { /* ... */ });
-
-// A specific page
-get('/users', ctx => { /* ... */ });
-
-// Any page such as /contact, /users, /125, etc
-get('/:page', ctx => { /* ... */ });
+fetch('/42', {
+  method: 'PUT',
+  body: JSON.stringify({ a: 'b', c: 'd' }),
+  credentials: 'include', // !important for the CSRF
+  headers: {
+    'csrf-token': csrf,
+    'Content-Type': 'application/json'
+  }
+}).then(res => res.json()).then(item => {
+  console.log(item);
+});
 ```
 
 
-## Error
 
-It handles previously thrown errors:
+## put()
+
+Handle requests of the type "PUT". It needs [a csrf token](#csrf-token) to be provided:
 
 ```js
-server(
-  ctx => { throw new Error('Whatever'); },
-  error(ctx => {
-    // ...
+// Create a single route for PUT /ID
+const route = put('/:id', ctx => {
+  console.log(ctx.params.id, ctx.data);
+});
+
+// Test our route. Note: csrf disabled for testing purposes
+run(noCsrf, route).put('/42', { body: 'Hello 世界' });
+```
+
+The HTML `<form>` does not support `method="PUT"`, however we can overcome this by adding a special field called `_method` to the query:
+
+```html
+<form method="POST" action="/42?_method=PUT">
+  ...
+</form>
+```
+
+For Javascript you can just set it to `method`, for example using the new API `fetch()`:
+
+```js
+fetch('/42', {
+  method: 'PUT',
+  body: 'whatever',
+  credentials: 'include', // !important for the CSRF
+  headers: { 'csrt-token': csrf }
+});
+```
+
+
+
+## del()
+
+Handle requests of the type "DELETE". It needs [a csrf token](#csrf-token) to be provided:
+
+```js
+// Create a single route for DELETE /ID
+const route = del('/:id', ctx => {
+  console.log(ctx.params.id);
+});
+
+// Test our route. Note: csrf disabled for testing purposes
+run(noCsrf, route).del('/42');
+```
+
+The HTML `<form>` does not support `method="DELETE"`, however we can overcome this by adding a special field called `_method` to the query:
+
+```html
+<form method="POST" action="/42?_method=DELETE">
+  ...
+</form>
+```
+
+For Javascript you can just set it to `method`, for example using the new API `fetch()`:
+
+```js
+fetch('/42', {
+  method: 'DELETE',
+  credentials: 'include', // !important for the CSRF
+  headers: { 'csrt-token': csrf }
+});
+```
+
+
+
+## error()
+
+It handles an error thrown by a previous middleware:
+
+```js
+const handle = error('special', ctx => {
+  console.log(ctx.error);
+});
+
+// Test it. First let's define our error in a middleware:
+const throwsError = ctx => {
+  const err = new Error('This is a test error');
+  err.name = 'special';
+  throw err;
+};
+
+// Then test it faking a request
+run(throwsError, handle).get('/');
+```
+
+It accepts an optional name and then middleware. If there's no name, it will catch all of the previously thrown errors. The name will match the **beginning** of the string name, so you can split your errors by domain:
+
+```js
+// This will be caught since 'user' === 'user'
+const mid1 = ctx => {
+  const err = new Error('No username detected');
+  err.name = 'user.noname';
+  throw err;
+};
+
+// This will be caught since 'user.noname' begins by 'user'
+const mid2 = ctx => {
+  const err = new Error('No username detected');
+  err.name = 'user.noname';
+  throw err;
+};
+
+const handleUser = error('user', ctx => {
+  console.log(ctx.error);
+});
+
+server(mid1, mid2, handleUser);
+```
+
+
+
+## sub()
+
+Handle subdomain calls:
+
+```js
+const server = require('server');
+const { sub } = server.router;
+
+server([
+  sub('es', ctx => {
+    console.log('Call to subdomain "es"!');
   })
-);
+]);
 ```
 
-> TODO: Explain about the router error: `const { error } = server.router;` and how it handles the errors thrown: `throw new Error()` || `ctx.throw('test:a')?`
+It can be a string or a Regex:
+
+```js
+const language = sub(/(en|es|jp)/, ctx => {
+  console.log('Wikipedia <3');
+});
+```
 
 
 
-## Websockets
+## socket()
 
 > *Experimental now, coming stable in version 1.1*
 
@@ -262,25 +370,6 @@ server({}, [
   get('/', (req, res) => res.sendFile(__dirname + '/public/index.html')),
   socket('message', (data, socket, io) => {
     io.emit(data);
-  })
-]);
-```
-
-> TODO: add a lot of information
-
-
-
-## Subdomain
-
-Handle a subdomain call:
-
-```js
-const server = require('server');
-const { sub } = server.router;
-
-server([
-  sub('es', ctx => {
-    console.log('Call to subdomain!');
   })
 ]);
 ```
