@@ -10,7 +10,34 @@ const server = require('server');
 server(options, fn1, fn2, fn3, ...);
 ```
 
-First [read the **getting started** guide](/tutorials/getting-started/). The most important concepts to use server are: [**options**](options), [**middleware**](middleware) and [**router**](router). You might also want to learn by doing [**real-world examples in the tutorials**](/tutorials).
+> You can also learn Node.js development by [following the tutorials](/tutorials).
+
+## Getting started
+
+Here's [a getting started tutorial for total beginners](/tutorials/getting-started/). If you know your way around Node.js, first install server:
+
+```bash
+npm install server
+```
+
+Then create some demo code in your `index.js`:
+
+```js
+// Import the library
+const server = require('server');
+
+// Launch it with a middleware that answers anything
+server(ctx => 'Hello world');
+```
+
+Run it from the terminal:
+
+```bash
+node .
+```
+
+And open your browser on [localhost:3000](http://localhost:3000/) to see it in action.
+
 
 
 ## [Options](options)

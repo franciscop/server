@@ -27,6 +27,7 @@ nav .menu > * {
   padding-left: 35px;
   margin-top: 35px;
   position: relative;
+  background: none;
 }
 
 .external::before {
@@ -79,15 +80,18 @@ nav {
   }
 }
 
-.extra.docs ~ nav {
-  padding-left: calc(50% - 500px);
-  padding-right: calc(50% - 500px);
+@each $size in (500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500) {
+  .width-#{$size} ~ nav {
+    padding-left: calc(50% - #{$size / 2}px);
+    padding-right: calc(50% - #{$size / 2}px);
+  }
+
+  .width-#{$size} ~ article {
+    max-width: #{$size}px;
+  }
 }
 
-.extra.tuts ~ nav {
-  padding-left: calc(50% - 600px);
-  padding-right: calc(50% - 600px);
-}
+
 
 @media all and (max-width: $picnic-breakpoint) {
   nav.transparent .menu a.pseudo {
@@ -117,28 +121,6 @@ body {
   background-size: cover;
   background-attachment: fixed;
   padding-top: 3em;
-}
-
-article {
-  width: 100%;
-  max-width: 900px;
-  margin: 0 auto;
-  background: #fff;
-}
-
-article.documentation,
-article.tutorial {
-  max-width: 1000px;
-  margin-top: 20px;
-  margin-bottom: 20px;
-}
-
-article.tutorial {
-  max-width: 1200px;
-}
-
-article img {
-  max-width: 100%;
 }
 
 .hero {
@@ -177,10 +159,18 @@ article img {
   margin: 0 10px 0 0;
 }
 
+
 article {
-  margin-top: 0;
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+  background: #fff;
   padding: 2em;
   padding-bottom: 30vh;
+}
+
+article img {
+  max-width: 100%;
 }
 
 article table {
@@ -273,6 +263,37 @@ pre.sub {
     border-radius: 0 .4em;
     border-width: 0 0 2px 2px;
   }
+}
+
+
+blockquote {
+  padding: 0.3em .3em .3em 1em;
+  margin: 1em 0;
+  box-shadow: inset 5px 0 rgba(191, 166, 0, 0.3);
+  background: #fdfbc8;
+}
+
+blockquote.success {
+  background: rgba($picnic-success, 0.15);
+  box-shadow: inset 5px 0 rgba($picnic-success, 0.3);
+}
+
+blockquote.warning {
+  background: rgba($picnic-warning, 0.15);
+  box-shadow: inset 5px 0 rgba($picnic-warning, 0.3);
+}
+
+blockquote.error {
+  background: rgba($picnic-error, 0.15);
+  box-shadow: inset 5px 0 rgba($picnic-error, 0.3);
+}
+
+blockquote *:first-child {
+  margin-top: 0;
+}
+
+blockquote *:last-child {
+  margin-bottom: 0;
 }
 
 

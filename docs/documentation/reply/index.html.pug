@@ -1,0 +1,19 @@
+extends ../documentation
+
+block title
+  +title('Router documentation')
+
+block description
+  +description('Handle different types of requests, including making a REST API, websockets and subdomain management.')
+
+block article
+  include:marked ./README.md
+
+  h2#keep-reading Keep reading
+
+  p Once you master the router there are few topics to keep going on:
+
+  div.pages
+    a.button(href="../options") Options
+    a.button(href="../middleware") Middleware
+    a.button(href="../advanced") Advanced
