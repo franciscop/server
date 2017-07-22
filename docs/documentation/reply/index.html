@@ -1,0 +1,439 @@
+<!DOCTYPE html><html class="initial"><head><title>Router documentation - server.js</title><meta property="og:title" content="Router documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><meta property="og:description" content="Handle different types of requests, including making a REST API, websockets and subdomain management."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1000"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex one three-800 four-1000"><div class="full third-800 fourth-1000"><section class="toc"><h2><a href="/documentation/">Documentation</a></h2><ul><li><label class="more">›</label><a class="good" href="/documentation/options/">Options</a><ul><li><a class="good" href="/documentation/options/#port"><code>port</code></a></li><li><a class="good" href="/documentation/options/#secret"><code>secret</code></a></li><li><a class="good" href="/documentation/options/#public"><code>public</code></a></li><li><a class="good" href="/documentation/options/#views"><code>views</code></a></li><li><a class="good" href="/documentation/options/#engine"><code>engine</code></a></li><li><a class="good" href="/documentation/options/#env"><code>env</code></a></li><li><a class="good" href="/documentation/options/#log"><code>log</code></a></li><li><a class="mid" href="/documentation/options/#core"><code>core</code></a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/middleware/">Middleware</a><ul><li> <a class="mid" href="/documentation/middleware/#context">Context</a></li><li> <a class="good" href="/documentation/middleware/#synchronous">Synchronous</a></li><li> <a class="mid" href="/documentation/middleware/#asynchronous">Asynchronous</a></li><li> <a class="mid" href="/documentation/middleware/#asynchronous">Return value</a></li><li> <a class="mid" href="/documentation/middleware/#express-middleware">From express</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/router/">Router</a><ul class="size-100"><li><a class="good" href="/documentation/router/#get-">get()</a></li><li><a class="good" href="/documentation/router/#post-">post()</a></li><li><a class="good" href="/documentation/router/#put-">put()</a></li><li><a class="good" href="/documentation/router/#del-">del()</a></li><li><a class="good" href="/documentation/router/#error-">error()</a></li><li><a class="good" href="/documentation/router/#sub-">sub()</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/reply/">Reply</a><ul><li><a class="good" href="/documentation/reply/#cookie-">cookie()</a></li><li><a class="good" href="/documentation/reply/#download-">download()</a></li><li><a class="good" href="/documentation/reply/#header-">header()</a></li><li><a class="good" href="/documentation/reply/#json-">json()</a></li><li><a class="good" href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a class="good" href="/documentation/reply/#redirect-">redirect()</a></li><li><a class="good" href="/documentation/reply/#render-">render()</a></li><li><a class="good" href="/documentation/reply/#send-">send()</a></li><li><a class="good" href="/documentation/reply/#status-">status()</a></li><li><a class="good" href="/documentation/reply/#type-">type()</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Testing<ul><li><a class="bad" href="#">Setup</a></li><li><a class="bad" href="#">Unit</a></li><li><a class="bad" href="#">Integration</a></li><li>...</li></ul></a></li><li><label class="more">›</label><a class="bad" href="#">Errors</a><ul><li><a class="bad" href="#">PortAlreadyUsed</a></li><li><a class="bad" href="#">MissingMiddleware</a></li><li><a class="bad" href="#">InvalidMiddleware</a></li></ul></li><li><label class="more">›</label><a class="bad" href="/documentation/advanced/">Advanced</a><ul><li><a class="mid" href="/documentation/advanced/#creating-middleware">Write middleware</a></li><li><a class="bad" href="/documentation/advanced/#">Write plugins</a></li><li><a class="bad" href="/documentation/advanced/#">Contributing</a></li></ul></li></ul></section></div><div class="full two-third-800 three-fourth-1000"><h1 id="reply">Reply</h1>
+<p>A reply is a method <strong>returned from a middleware</strong> that creates the response. These are the available methods and their parameters for <code>server.reply</code>:</p>
+<table>
+<thead>
+<tr>
+<th>reply name</th>
+<th>example</th>
+<th>final</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><a href="#cookie-"><code>cookie(name, value, opts)</code></a></td>
+<td>cookie(&#39;name&#39;, &#39;Francisco&#39;)</td>
+<td>false</td>
+</tr>
+<tr>
+<td><a href="#download-"><code>download(path[, filename])</code></a></td>
+<td>download(&#39;resume.pdf&#39;)</td>
+<td>true</td>
+</tr>
+<tr>
+<td><a href="#file-"><code>file(path)</code></a></td>
+<td>file(&#39;data.html&#39;)</td>
+<td>true</td>
+</tr>
+<tr>
+<td><a href="#header-"><code>header(field[, value])</code></a></td>
+<td>header(&#39;ETag&#39;: &#39;12345&#39;)</td>
+<td>false</td>
+</tr>
+<tr>
+<td><a href="#json-"><code>json([data])</code></a></td>
+<td>json({ hello: &#39;world&#39; })</td>
+<td>true</td>
+</tr>
+<tr>
+<td><a href="#jsonp-"><code>jsonp([data])</code></a></td>
+<td>jsonp({ hello: &#39;world&#39; })</td>
+<td>true</td>
+</tr>
+<tr>
+<td><a href="#redirect-"><code>redirect([status,] path)</code></a></td>
+<td>redirect(302, &#39;/&#39;)</td>
+<td>true</td>
+</tr>
+<tr>
+<td><a href="#render-"><code>render(view[, locals])</code></a></td>
+<td>render(&#39;index.hbs&#39;)</td>
+<td>true</td>
+</tr>
+<tr>
+<td><a href="#send-"><code>send([body])</code></a></td>
+<td>send(&#39;Hello there&#39;)</td>
+<td>true</td>
+</tr>
+<tr>
+<td><a href="#status-"><code>status(code)</code></a></td>
+<td>status(200)</td>
+<td>false</td>
+</tr>
+<tr>
+<td><a href="#type-"><code>type(type)</code></a></td>
+<td>type(&#39;html&#39;)</td>
+<td>false</td>
+</tr>
+</tbody>
+</table>
+<p>Examples:</p>
+<pre><code class="lang-js">const { get, post } = require(&#39;server/router&#39;);
+const { render, redirect, status, json } = require(&#39;server/reply&#39;);
+
+module.exports = [
+  get(&#39;/&#39;, ctx =&gt; render(&#39;index.hbs&#39;)),
+  post(&#39;/&#39;, processRequest, ctx =&gt; redirect(&#39;/&#39;)),
+  get(&#39;/robots.txt&#39;, file(&#39;config/robots.txt&#39;))
+];
+</code></pre>
+<blockquote class="warning">
+  Make sure to <strong>return</strong> the reply that you want to use. It won&#39;t work otherwise.
+</blockquote>
+
+
+
+<p>The <code>ctx</code> argument is <a href="../middleware/#context">explained in middleware&#39;s Context</a>. The reply methods can be imported in several ways:</p>
+<pre><code class="lang-js">// For whenever you have previously defined `server`
+const { send, json } = server.reply;
+
+// For standalone files:
+const { send, json } = require(&#39;server/reply&#39;);
+</code></pre>
+<p>There are many more ways of importing the reply methods, but those above are the recommended ones.</p>
+<h3 id="chainable">Chainable</h3>
+<p>You can chain different response types. Most of the replies send a full response, but these can be chained since they only add something to be sent to the ongoing response:</p>
+<ul>
+<li>cookie(): add cookie headers</li>
+<li>header(): add any headers</li>
+<li>status(): set the status of the response</li>
+<li>type(): adds the header &#39;Content-Type&#39;</li>
+</ul>
+<p>You can chain those among themselves and any of those with a final method that sends. If no final method is called in any place the request will be finished with a 404 response.</p>
+<h3 id="raw-returns">Raw returns</h3>
+<p>There are some cases where returning some raw data will be handled to a response. For instance, returning a String will be sent as a text or as HTML:</p>
+<pre><code class="lang-js">server(ctx =&gt; &#39;Hello world&#39;);
+</code></pre>
+<p>Returning an array or an object will stringify them as JSON:</p>
+<pre><code class="lang-js">server(ctx =&gt; [&#39;life&#39;, 42]);
+// Note: extra parenthesis needed by the arrow function to return an object
+server(ctx =&gt; ({ life: 42 }));
+</code></pre>
+<p>Finally, a single number will be interpreted as a status code and the corresponding body for that status will be returned:</p>
+<pre><code class="lang-js">server(get(&#39;/nonexisting&#39;, =&gt; 404));
+</code></pre>
+<h3 id="multiple-replies">Multiple replies</h3>
+<p>Another important thing is that the first reply used is the one that will be used. However, you should try to avoid this and we might make it more strict in the future:</p>
+<pre><code class="lang-js">// I hope you speak Spanish
+server([
+  ctx =&gt; &#39;Hola mundo&#39;,
+  ctx =&gt; &#39;Hello world&#39;,
+  ctx =&gt; &#39;こんにちは、世界&#39;
+]);
+</code></pre>
+<h2 id="cookie-">cookie()</h2>
+<p>Set a cookie on the browser. It will send the Set-Cookie headers:</p>
+<pre><code class="lang-js">const { cookie } = server.reply;
+const setCookie = ctx =&gt; cookie(&#39;foo&#39;, &#39;bar&#39;).send();
+
+// Test
+run(setCookie).get(&#39;/&#39;).then(res =&gt; {
+  expect(res.headers[&#39;Set-Cookie:&#39;]).toMatch(/foo\=bar/);
+});
+</code></pre>
+<table>
+<thead>
+<tr>
+<th>Key</th>
+<th>Default</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>domain</code></td>
+<td>Current domain</td>
+<td>String</td>
+</tr>
+<tr>
+<td><code>encode</code></td>
+<td><code>encodeURIComponent</code></td>
+<td>Function</td>
+</tr>
+<tr>
+<td><code>expires</code></td>
+<td><code>undefined</code> (session)</td>
+<td>Date</td>
+</tr>
+<tr>
+<td><code>httpOnly</code></td>
+<td><code>false</code></td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td><code>maxAge</code></td>
+<td><code>undefined</code> (session)</td>
+<td>Number</td>
+</tr>
+<tr>
+<td><code>path</code></td>
+<td><code>&quot;/&quot;</code></td>
+<td>String</td>
+</tr>
+<tr>
+<td><code>secure</code></td>
+<td><code>false</code></td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td><code>signed</code></td>
+<td><code>false</code></td>
+<td>Boolean</td>
+</tr>
+<tr>
+<td><code>sameSite</code></td>
+<td><code>false</code></td>
+<td>Boolean or String</td>
+</tr>
+</tbody>
+</table>
+<p>See a better explanation of each one of those in <a href="https://expressjs.com/en/4x/api.html#res.cookie">express&#39; documentation</a>.</p>
+<h2 id="download-">download()</h2>
+<p>An async function that takes a local path and an optional filename. It will return the local file with the filename name for the browser to download.</p>
+<pre><code class="lang-js">server(ctx =&gt; download(&#39;user-file-5674354.pdf&#39;));
+server(ctx =&gt; download(&#39;user-file-5674354.pdf&#39;, &#39;report.pdf&#39;));
+</code></pre>
+<p>You can handle errors for this method downstream:</p>
+<pre><code class="lang-js">server([
+  ctx =&gt; download(&#39;user-file-5674354.pdf&#39;),
+  error(ctx =&gt; { console.log(ctx.error); })
+]);
+</code></pre>
+<h2 id="header-">header()</h2>
+<p>Set a header to be sent with the response. It accepts two strings as key and value or an object to set multiple headers:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; header(&#39;Content-Type&#39;, &#39;text/plain&#39;);
+const mid2 = ctx =&gt; header(&#39;Content-Length&#39;, &#39;123&#39;);
+
+// Same as above
+const mid = ctx =&gt; header({
+  &#39;Content-Type&#39;: &#39;text/plain&#39;,
+  &#39;Content-Length&#39;: &#39;123&#39;
+});
+</code></pre>
+<h2 id="json-">json()</h2>
+<p>Sends a JSON response. It accepts a plain object or an array that will be stringified with <code>JSON.stringify</code>. Sets the correct <code>Content-Type</code> headers as well:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; json({ foo: &#39;bar&#39; });
+
+// Test it
+run(mid).get(&#39;/&#39;).then(res =&gt; {
+  expect(res.body).toEqual(`{&quot;foo&quot;:&quot;bar&quot;}`);
+});
+</code></pre>
+<h2 id="jsonp-">jsonp()</h2>
+<p>Same as <a href="#json">json()</a> but wrapped with a callback. <a href="https://en.wikipedia.org/wiki/JSONP">Read more about JSONP</a>:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; json({ foo: &#39;bar&#39; });
+
+// Test it
+run(mid).get(&#39;/&#39;).then(res =&gt; {
+  expect(res.body).toEqual(`callback({foo:&quot;bar&quot;})`);
+});
+</code></pre>
+<p>It is useful for loading data Cross-Domain. Add a <code>?callback=foo</code> query to the request to change the callback name:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; json({ foo: &#39;bar&#39; });
+
+// Test it
+run(mid).get(&#39;/?callback=foo&#39;).then(res =&gt; {
+  expect(res.body).toEqual(`foo({foo:&quot;bar&quot;})`);
+});
+</code></pre>
+<h2 id="redirect-">redirect()</h2>
+<p>Redirects to the url specified. It can be either internal (just a path) or an external URL:</p>
+<pre><code class="lang-js">res.redirect(&#39;/foo&#39;);
+res.redirect(&#39;../user&#39;);
+res.redirect(&#39;https://google.com&#39;);
+res.redirect(301, &#39;https://google.com&#39;);
+</code></pre>
+<h2 id="render-">render()</h2>
+<p>This is the most complex method and yet the most useful one. It takes a filename and some data and renders it:</p>
+<pre><code class="lang-js">const mid1 = ctx =&gt; render(&#39;index.hbs&#39;);
+const mid2 = ctx =&gt; render(&#39;index.hbs&#39;, { user: &#39;Francisco&#39; });
+</code></pre>
+<p>The filename is relative to the <a href="/documentation/options/#-views-">views option</a>  (defaults to <code>&#39;views&#39;</code>):</p>
+<pre><code class="lang-js">// Renders PROJECT/somefolder/index.hbs
+server({ views: &#39;somefolder&#39; }, ctx =&gt; render(&#39;index.hbs&#39;));
+</code></pre>
+<p>The extension of this filename is optional. It accepts by default <code>.hbs</code>, <code>.pug</code> and <code>.html</code> (html not yet) and can accept more types <a href="/documentation/options/#-engine-">installing other engines</a>:</p>
+<pre><code class="lang-js">const mid1 = ctx =&gt; render(&#39;index.pug&#39;);
+const mid2 = ctx =&gt; render(&#39;index.hbs&#39;);
+const mid3 = ctx =&gt; render(&#39;index.html&#39;);  // not yet
+</code></pre>
+<p>The data will be passed to the template engine. Note that some plugins might pass additional data as well.</p>
+<h2 id="send-">send()</h2>
+<p>Send the data to the front-end. It is the method used by default with <a href="#raw-return">the raw returns</a>:</p>
+<pre><code class="lang-js">const mid1 = ctx =&gt; send(&#39;Hello 世界&#39;);
+const mid2 = ctx =&gt; &#39;Hello 世界&#39;;
+</code></pre>
+<p>However it supports many more data types: String, object, Array or Buffer:</p>
+<pre><code class="lang-js">const mid1 = ctx =&gt; send(&#39;Hello 世界&#39;);
+const mid2 = ctx =&gt; send(&#39;&lt;p&gt;Hello 世界&lt;/p&gt;&#39;);
+const mid4 = ctx =&gt; send({ foo: &#39;bar&#39; });
+const mid3 = ctx =&gt; send(new Buffer(&#39;whatever&#39;));
+</code></pre>
+<p>It also has the advantage that it can be chained, unlike just returning the string:</p>
+<pre><code class="lang-js">const mid1 = ctx =&gt; status(201).send({ resource: &#39;foobar&#39; });
+const mid2 = ctx =&gt; status(404).send(&#39;Not found&#39;);
+const mid3 = ctx =&gt; status(500).send({ error: &#39;our fault&#39; });
+</code></pre>
+<h2 id="status-">status()</h2>
+<p>Sets the status of the response. If no reply is done, it will become final and send that response message as the body:</p>
+<pre><code class="lang-js">const mid1 = ctx =&gt; status(404);  // The same as:
+const mid2 = ctx =&gt; status(404).send(&#39;Not found&#39;);
+</code></pre>
+<h2 id="type-">type()</h2>
+<p>Set the <code>Content-Type</code> header for the response. It can be a explicit MIME type like these:</p>
+<pre><code class="lang-js">const mid1 = ctx =&gt; type(&#39;text/html&#39;).send(&#39;&lt;p&gt;Hello&lt;/p&gt;&#39;);
+const mid2 = ctx =&gt; type(&#39;application/json&#39;).send(JSON.stringify({ foo: &#39;bar&#39; }));
+const mid3 = ctx =&gt; type(&#39;image/png&#39;).send(...);
+</code></pre>
+<p>Or you can also write their more friendly names for an equivalent result:</p>
+<pre><code class="lang-js">const mid1 = ctx =&gt; type(&#39;.html&#39;);
+const mid2 = ctx =&gt; type(&#39;html&#39;);
+const mid3 = ctx =&gt; type(&#39;json&#39;);
+const mid4 = ctx =&gt; type(&#39;application/json&#39;);
+const mid5 = ctx =&gt; type(&#39;png&#39;);
+</code></pre>
+<h2 id="keep-reading">Keep reading</h2><p>Once you master the router there are few topics to keep going on:</p><div class="pages"><a class="button" href="../options">Options</a><a class="button" href="../middleware">Middleware</a><a class="button" href="../advanced">Advanced</a></div></div></div></article><script src="https://unpkg.com/smoothscroll-polyfill@0"></script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
+setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
+  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
+    el.setAttribute('href', email);
+  });
+}, 2000);
+
+// Add language tag to the code for print
+[].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
+  return /lang(uage)?\-/.test(pre.className);
+}).forEach(function(pre){
+  var name = pre.className.split(/\s+/).filter(function(name){
+    return /lang(uage)?\-/.test(name);
+  })[0].replace(/lang(uage)?\-/, '');
+  var map = { js: 'javascript', jade: 'pug' };
+  if (name in map) name = map[name];
+  pre.parentNode.setAttribute('data-language', name);
+});
+
+
+var nav = u('nav');
+var toc = u('.toc');
+let offset = 10;
+const breakpoint = 900;
+var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
+const resize = () => {
+  if (!toc.length) return;
+
+  if (window.innerWidth > breakpoint) {
+    u('.toc [href]').filter(el => {
+      return u(el).attr('href').split('#')[0] === window.location.pathname;
+    }).parent().addClass('active');
+    var articlepaddingtop = parseFloat(getComputedStyle(u('article').first()).getPropertyValue('padding-top'));
+    var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
+    u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
+    u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset + 20) + 'px)';
+    u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 10) + 'px';
+    // console.log(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'));
+  } else {
+    toc.removeClass('fixed');
+    u('.toc').first().style.top = 'auto';
+    u('.toc').first().style.maxHeight = '1000px';
+    u('.toc').first().style.width = 'auto';
+  }
+};
+resize();
+window.onresize = resize;
+
+function transparency(){
+  var top = document.documentElement.scrollTop || document.body.scrollTop;
+  var height = "innerHeight" in window
+    ? window.innerHeight
+    : document.documentElement.offsetHeight;
+
+  if (toc.length) {
+    toc.toggleClass('fixed', u('article').size().top < navheight - offset && window.innerWidth > breakpoint);
+  }
+
+  if (u('article.documentation').length) {
+    if (u('nav.transparent').length) {
+      u('nav').removeClass('transparent');
+    }
+    return;
+  }
+
+  if (top > 80) {
+    if (nav.hasClass('transparent')) {
+      nav.removeClass('transparent');
+    }
+  } else {
+    if (!nav.hasClass('transparent')) {
+      nav.addClass('transparent');
+    }
+  }
+}
+u(document).on('scroll', transparency);
+transparency();
+setTimeout(function(){ nav.removeClass('instant'); }, 200);
+
+
+// Remove an incorrect "get" that there was highlighted
+Prism.hooks.add('after-highlight', function(env){
+  u('span.token.keyword').each(el => {
+    if (el.innerHTML === 'get') {
+      if (el.nextElementSibling && el.nextElementSibling.innerHTML === '(') {
+        u(el).replace('<span class="token function">get</span>');
+      } else {
+        u(el).replace('get');
+      }
+    }
+    if (el.innerHTML === 'delete') {
+      if (el.previousElementSibling && el.previousElementSibling.innerHTML === '.') {
+        u(el).replace('delete');
+      }
+    }
+    if (el.innerHTML === 'public') u(el).replace('public');
+  });
+
+  // Syntax highlighting changes vertical align. This makes it to scroll back
+  // to the current hash (if any) after page load+highlight
+  const hash = window.location.hash;
+  if (hash && u(hash).length) {
+    u(hash).scroll();
+  }
+});
+
+u('.toc .more').handle('click', e => {
+  const container = u(e.currentTarget).closest('li');
+  const child = container.find('ul').nodes[0];
+  const height = container.hasClass('active') ? 0 : child.scrollHeight;
+  child.style.maxHeight = height + 'px';
+  container.toggleClass('active');
+});
+
+u('a').on('click', e => {
+  const href = u(e.currentTarget).attr('href');
+  if (!href) return;
+  const [url, hash] = href.split('#');
+
+  if (url === window.location.pathname && !hash) {
+    e.preventDefault();
+    u('body').scroll();
+    history.replaceState(null, null, window.location.pathname);
+    return;
+  }
+
+  // console.log(url, window.location.pathname, u('#' + hash));
+  if ((!url || url === window.location.pathname) && u('#' + hash).length) {
+    e.preventDefault();
+    u('#' + hash).scroll();
+    history.replaceState(null, null, '#' + hash);
+  }
+});
+
+
+
+// Google analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63739359-2', 'auto');
+ga('send', 'pageview');
+</script></body></html>

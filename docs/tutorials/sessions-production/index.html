@@ -135,6 +135,13 @@ Prism.hooks.add('after-highlight', function(env){
     }
     if (el.innerHTML === 'public') u(el).replace('public');
   });
+
+  // Syntax highlighting changes vertical align. This makes it to scroll back
+  // to the current hash (if any) after page load+highlight
+  const hash = window.location.hash;
+  if (hash && u(hash).length) {
+    u(hash).scroll();
+  }
 });
 
 u('.toc .more').handle('click', e => {
