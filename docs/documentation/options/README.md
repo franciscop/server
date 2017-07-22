@@ -165,7 +165,7 @@ server({ public: '' });
 
 ## Views
 
-The folder where your views and templates are, defaulting to `views`. These are the files used by the `render()` function. You can set it to any folder within your project.
+The folder where your views and templates are, defaulting to `views`. These are the files used by the [`render()` method](/documentation/reply/#render-). You can set it to any folder within your project.
 
 To set the views folder in the environment add this to [your `.env`](#environment):
 
@@ -200,7 +200,7 @@ The view engine that you want to use to render your templates. [See all the avai
 npm install [ejs|nunjucks|emblem] --save
 ```
 
-Then to use that engine you just have to add the extension to the `render()` method:
+Then to use that engine you just have to add the extension to the [`render()` method](/documentation/reply/#render-):
 
 ```js
 // No need to specify the engine if you are using the extension

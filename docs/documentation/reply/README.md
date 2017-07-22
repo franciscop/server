@@ -212,10 +212,10 @@ run(mid).get('/?callback=foo').then(res => {
 Redirects to the url specified. It can be either internal (just a path) or an external URL:
 
 ```js
-res.redirect('/foo');
-res.redirect('../user');
-res.redirect('https://google.com');
-res.redirect(301, 'https://google.com');
+const mid1 = ctx => redirect('/foo');
+const mid2 = ctx => redirect('../user');
+const mid3 = ctx => redirect('https://google.com');
+const mid4 = ctx => redirect(301, 'https://google.com');
 ```
 
 
