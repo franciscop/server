@@ -1,4 +1,4 @@
-extends ../../_layout/index
+extends ../tutorial
 
 block title
   +title('Getting started')
@@ -6,21 +6,12 @@ block title
 block description
   +description('Install and setup a Node.js project from scratch to get started.')
 
-block content
-  .hero
-    .content
-      h1 
-        strong Node.js guide
-      a.button.docs(href='/tutorials')
-        span.arrow.left 〈
-        | Tutorials
+block article
+  include:marked ./README.md
 
-  article
-    include:marked:noheader ./README.md
+  h2#keep-reading Keep reading
 
-    h2#keep-reading Keep reading
-
-    p After getting server.js ready you can follow on the rest of the tutorials:
-    a.button(href="/tutorials") Tutorials
+  p After getting server.js ready you can follow on the rest of the tutorials:
+  a.button(href="/tutorials") Tutorials
+  
     
-      

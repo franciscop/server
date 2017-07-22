@@ -1,4 +1,4 @@
-extends ../../_layout/index
+extends ../tutorial
 
 block title
   +title('Session in production')
@@ -6,20 +6,11 @@ block title
 block description
   +description('Learn how to set-up the session for production.')
 
-block content
-  .hero
-    .content
-      h1 
-        strong Session in production
-      a.button.docs(href='/tutorials')
-        span.arrow.left 〈
-        | Tutorials
+block article
+  include:marked ./README.md
 
-  article
-    include:marked:noheader ./README.md
+  h2#keep-reading Keep reading
 
-    h2#keep-reading Keep reading
+  p Awesome, now that we are ready for production keep it going:
 
-    p Awesome, now that we are ready for production keep it going:
-
-    a.button(href="/tutorials/todo") Now let's do a TODO simple app!
+  a.button(href="/tutorials/todo") Now let's do a TODO simple app!
