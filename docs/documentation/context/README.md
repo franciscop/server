@@ -1,16 +1,4 @@
-# Middleware
-
-A *middleware* is plain function that will be called on each request. It accepts [a context object](#context) and [returns a promise](#asynchronous-return) for asynchronous methods or [something else](#synchronous-return) for synchronous methods with the reply for the browser. It can also not return anything if it just modifies the state. A couple of examples:
-
-```js
-const setname = ctx => { ctx.req.user = 'Francisco'; };
-const sendname = ctx => ctx.req.user;
-server(setname, sendname);
-```
-
-
-
-## Context
+# Context
 
 Context is the **only** parameter that middleware receives and we'll call it `ctx`. It represents the information available at this point of the request. It can appear at several points, but the most important one is as a middleware parameter:
 
@@ -18,6 +6,19 @@ Context is the **only** parameter that middleware receives and we'll call it `ct
 const middle = ctx => {
   // ctx is available here
 };
+
+server(middle);
+```
+
+
+## Middleware
+
+A *middleware* is plain function that will be called on each request. It accepts [a context object](#context) and [returns a promise](#asynchronous-return) for asynchronous methods or [something else](#synchronous-return) for synchronous methods with the reply for the browser. It can also not return anything if it just modifies the state. A couple of examples:
+
+```js
+const setname = ctx => { ctx.req.user = 'Francisco'; };
+const sendname = ctx => ctx.req.user;
+server(setname, sendname);
 ```
 
 

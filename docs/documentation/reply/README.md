@@ -13,14 +13,14 @@ A reply is a method **returned from a middleware** that creates the response. Th
 |[`redirect([status,] path)`](#redirect-)   |redirect(302, '/')          |true |
 |[`render(view[, locals])`](#render-)       |render('index.hbs')         |true |
 |[`send([body])`](#send-)                   |send('Hello there')         |true |
-|[`status(code)`](#status-)                 |status(200)                 |false|
+|[`status(code)`](#status-)                 |status(200)                 |mixed|
 |[`type(type)`](#type-)                     |type('html')                |false|
 
 Examples:
 
 ```js
 const { get, post } = require('server/router');
-const { render, redirect, status, json } = require('server/reply');
+const { render, redirect, file } = require('server/reply');
 
 module.exports = [
   get('/', ctx => render('index.hbs')),
@@ -35,7 +35,7 @@ module.exports = [
 
 
 
-The `ctx` argument is [explained in middleware's Context](../middleware/#context). The reply methods can be imported in several ways:
+The `ctx` argument is [explained in middleware's Context](/documentation/context). The reply methods can be imported in several ways:
 
 ```js
 // For whenever you have previously defined `server`
@@ -50,14 +50,16 @@ There are many more ways of importing the reply methods, but those above are the
 
 ### Chainable
 
-You can chain different response types. Most of the replies send a full response, but these can be chained since they only add something to be sent to the ongoing response:
+While most of the replies are final and they should be invoked only once, there are a handful of others that can be chained. These add something to the ongoing response:
 
-- cookie(): add cookie headers
-- header(): add any headers
-- status(): set the status of the response
-- type(): adds the header 'Content-Type'
+- [cookie()](#cookie-): add cookie headers
+- [header()](#header-): add any headers you want
+- [status()](#status-): set the status of the response
+- [type()](#type-): adds the header 'Content-Type'
 
 You can chain those among themselves and any of those with a final method that sends. If no final method is called in any place the request will be finished with a 404 response.
+
+The `status()` reply can be used as final or as chainable if something else is added.
 
 
 
@@ -97,6 +99,19 @@ server([
   ctx => 'こんにちは、世界'
 ]);
 ```
+
+To avoid this, just specify the url for each request in a [router](/documentation/router):
+
+```js
+// I hope you speak Spanish
+server([
+  get('/es', ctx => 'Hola mundo'),
+  get('/en', ctx => 'Hello world'),
+  get('/jp', ctx => 'こんにちは、世界')
+]);
+```
+
+Then each of those URLs will use a different language.
 
 
 

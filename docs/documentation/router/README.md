@@ -25,7 +25,7 @@ server([
 ]);
 ```
 
-The `ctx` argument is [explained in middleware's Context](../middleware/#context). The router methods can be imported in several ways:
+The `ctx` argument is [explained in middleware's Context](/documentation/context). The router methods can be imported in several ways:
 
 ```js
 // For whenever you have previously defined `server`
@@ -67,7 +67,7 @@ module.exports = [
 ];
 ```
 
-The `ctx` variable is [explained in the middleware documentation](https://serverjs.io/documentation/middleware/#context). One important difference between the routes and middleware is that [**all routes are final**](#routes-are-final). This means that **each request will use one route at most**.
+The `ctx` variable is [the context (documentation here)](https://serverjs.io/documentation/context). One important difference between the routes and middleware is that [**all routes are final**](#routes-are-final). This means that **each request will use one route at most**.
 
 All of the routers reside within the `server.router` and follow this structure:
 
@@ -168,7 +168,7 @@ const route = post('/', ctx => {
 run(noCsrf, route).post('/', { body: 'Hello 世界' });
 ```
 
-The [`data` property](/documentation/middleware/#data) can be a string or a simple object of `{name: value}` pairs.
+The [`data` property](/documentation/context/#data) can be a string or a simple object of `{name: value}` pairs.
 
 Example:
 
