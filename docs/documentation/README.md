@@ -62,23 +62,26 @@ server(options);
 <a class="button" href="options"><strong>Options documentation</strong></a>
 
 
-## [Middleware](middleware)
+## [Context](context)
 
-Middleware are functions that accepts a context, does some work and is resolved either synchronous or asynchronous. Mandatory *Hello World* here:
+The context is the first and only parameter passed to the [middleware](/documentation/context/#middleware):
 
 ```js
 // Load the server from the dependencies
 const server = require('server');
 
 // Display "Hello 世界" for any request
-const middleware = ctx => 'Hello 世界';
+const middleware = ctx => {
+  // ...
+  return 'Hello 世界';
+};
 
 // Launch the server with a single middleware
 server(middleware);
 ```
 
 
-<a class="button" href="middleware"><strong>Middleware documentation</strong></a>
+<a class="button" href="/documentation/context"><strong>Context documentation</strong></a>
 
 
 
