@@ -40,18 +40,21 @@ const options = {
 server(options);
 </code></pre>
 <p><a class="button" href="options"><strong>Options documentation</strong></a></p>
-<h2 id="-middleware-middleware-"><a href="middleware">Middleware</a></h2>
-<p>Middleware are functions that accepts a context, does some work and is resolved either synchronous or asynchronous. Mandatory <em>Hello World</em> here:</p>
+<h2 id="-context-context-"><a href="context">Context</a></h2>
+<p>The context is the first and only parameter passed to the <a href="/documentation/context/#middleware">middleware</a>:</p>
 <pre><code class="lang-js">// Load the server from the dependencies
 const server = require(&#39;server&#39;);
 
 // Display &quot;Hello 世界&quot; for any request
-const middleware = ctx =&gt; &#39;Hello 世界&#39;;
+const middleware = ctx =&gt; {
+  // ...
+  return &#39;Hello 世界&#39;;
+};
 
 // Launch the server with a single middleware
 server(middleware);
 </code></pre>
-<p><a class="button" href="middleware"><strong>Middleware documentation</strong></a></p>
+<p><a class="button" href="/documentation/context"><strong>Context documentation</strong></a></p>
 <h2 id="-router-router-"><a href="router">Router</a></h2>
 <p>The last but maybe most important part is the router that is used to create routes. A route is really a middleware and is used for handling user requests to specific places:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);

@@ -134,7 +134,7 @@ run(route).get('/').then(res => {
 });
 ```
 
-> Note: Read more about the [tests in code examples](/testing/code) or just ignore them.
+> Note: Read more about the [tests in code examples](/documentation/testing/#code) or just ignore them.
 
 You can specify a query and param to be set:
 
