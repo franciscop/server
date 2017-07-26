@@ -1,0 +1,232 @@
+<!DOCTYPE html><html class="initial"><head><title>Server.js - server.js</title><meta property="og:title" content="Server.js - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"/><meta property="og:description" content="Flexible and powerful server for Node.js"/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1000"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex one three-800 four-1000"><div class="full third-800 fourth-1000"><section class="toc"><h2><a href="/documentation/">Documentation</a></h2><ul><li><label class="more">›</label><a class="good" href="/documentation/options/">Options</a><ul><li><a class="good" href="/documentation/options/#port">port</a></li><li><a class="good" href="/documentation/options/#secret">secret</a></li><li><a class="good" href="/documentation/options/#public">public</a></li><li><a class="good" href="/documentation/options/#views">views</a></li><li><a class="good" href="/documentation/options/#engine">engine</a></li><li><a class="good" href="/documentation/options/#env">env</a></li><li><a class="good" href="/documentation/options/#log">log</a></li><li><a class="mid" href="/documentation/options/#core">core</a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/context/">Context</a><ul><li> <a class="mid" href="/documentation/context/#middleware">Middleware</a></li><li><a class="mid" href="/documentation/context/#options"></a></li><li><a class="mid" href="/documentation/context/#data"></a></li><li><a class="mid" href="/documentation/context/#params"></a></li><li><a class="mid" href="/documentation/context/#query"></a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/router/">Router</a><ul class="size-100"><li><a class="good" href="/documentation/router/#get-">get()</a></li><li><a class="good" href="/documentation/router/#post-">post()</a></li><li><a class="good" href="/documentation/router/#put-">put()</a></li><li><a class="good" href="/documentation/router/#del-">del()</a></li><li><a class="good" href="/documentation/router/#error-">error()</a></li><li><a class="good" href="/documentation/router/#sub-">sub()</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/reply/">Reply</a><ul><li><a class="good" href="/documentation/reply/#cookie-">cookie()</a></li><li><a class="good" href="/documentation/reply/#download-">download()</a></li><li><a class="good" href="/documentation/reply/#header-">header()</a></li><li><a class="good" href="/documentation/reply/#json-">json()</a></li><li><a class="good" href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a class="good" href="/documentation/reply/#redirect-">redirect()</a></li><li><a class="good" href="/documentation/reply/#render-">render()</a></li><li><a class="good" href="/documentation/reply/#send-">send()</a></li><li><a class="good" href="/documentation/reply/#status-">status()</a></li><li><a class="good" href="/documentation/reply/#type-">type()</a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/errors/">Errors</a><ul><li><a class="bad" href="/documentation/errors/#handling">Handling</a></li><li><a class="bad" href="/documentation/errors/#native">Native</a></li><li><a class="bad" href="/documentation/errors/#options">Options</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Testing<ul><li><a class="bad" href="#">Setup</a></li><li><a class="bad" href="#">Unit</a></li><li><a class="bad" href="#">Integration</a></li><li>...</li></ul></a></li><li><label class="more">›</label><a class="mid" href="/documentation/advanced/">Advanced</a><ul><li><a class="mid" href="/documentation/advanced/#creating-middleware">Write middleware</a></li><li><a class="bad" href="/documentation/advanced/#">Write plugins</a></li><li><a class="bad" href="/documentation/advanced/#">Contributing</a></li></ul></li></ul></section></div><div class="full two-third-800 three-fourth-1000"><h1 id="errors">Errors</h1>
+<p>There are many type of errors that can occur with server.js and here we try to explain them and how to fix them. They are divided by category: where/why they are originated.</p>
+<p>We also overview here how to handle errors. You have to <a href="#define-an-error">first define it</a>, then <a href="#throw-the-error">throw the error</a> and finally <a href="#error-handling">handle the error</a>.</p>
+<h3 id="define-an-error">Define an error</h3>
+<p>To define an error in your code the best way to do it is to use the package <code>human-error</code> (by the author of server), since it&#39;s made to combine perfectly with server.js. In the future we might integrate it, but so far they are kept separated.</p>
+<p>To define an error, create a different file that will contain all or part of your errors, here called <code>errors.js</code> for our site <code>mycat.com</code>:</p>
+<pre><code class="lang-js">// errors.js
+const errors = require(&#39;human-error&#39;)();  // &lt;-- notice this
+
+errors[&#39;/mycat/nogithubsecret&#39;] = `
+  There is no github secret set up. Make sure you have saved it in your &#39;.env&#39;,
+  and if you don&#39;t have access go see Tom and he&#39;ll explain what to do next.
+  https://mycat.com/guide/setup/#github
+`;
+
+module.exports = errors;
+</code></pre>
+<h3 id="throw-the-error">Throw the error</h3>
+<p>Now let&#39;s use it, to do so we&#39;ll just need to import this file and throw the corresponding error:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const HumanError = require(&#39;./errors&#39;);
+
+server(ctx =&gt; {
+  if (!ctx.options.githubsecret) {
+    throw new HumanError(&#39;/mycat/nogithubsecret&#39;);
+  }
+});
+</code></pre>
+<p>Try it! Run the code with <code>node .</code> and try accessing <a href="http://localhost:3000">http://localhost:3000/</a>. You should see a <code>server error</code> on the front-end and the proper description in the back-end.</p>
+<h3 id="error-handling">Error handling</h3>
+<p>Now this was an error for the developers where we want to be explicit and show the error clearly. For users thought things change a bit and are greatly improved by server&#39;s error handling.</p>
+<p>First let&#39;s deal with super type checking:</p>
+<pre><code class="lang-js">const route = get(&#39;/post/:id&#39;, ctx =&gt; {
+  if (!/^\d+$/.test(ctx.params.id)) {
+    throw new HumanError(&#39;/mycat/type/invalid&#39;, { base: &#39;/post&#39; });
+  }
+});
+
+// Handle a wrong id error and redirect to a 404
+const handle = error(&#39;/mycat/type/invalid&#39;, async ctx =&gt; {
+  return redirect(`/${ctx.error.base || &#39;&#39;}?message=notfound`);
+});
+
+// Handle all type errors in the namespace &quot;mycat&quot;
+const handleType = error(&#39;/mycat/type&#39;, () =&gt; {
+  return redirect(`/${ctx.error.base || &#39;&#39;}?message=notfound`);
+});
+
+// Handle all kind of unhandled errors in the namespace &quot;mycat&quot;
+const handleAll = error(&#39;/mycat&#39;, () =&gt; {
+  return status(500);
+});
+</code></pre>
+<p>Let&#39;s say that someone is trying to access something they don&#39;t have access to. Like deleting a comment that is not theirs:</p>
+<pre><code class="lang-js">// comments.js
+module.exports = [
+  ...
+  del(&#39;/comment/:id&#39;, async ctx =&gt; {
+    const comment = await db.comment.findOne({ _id: ctx.params.id });
+    if (!comment.author.equals(ctx.user._id)) {
+      throw new HumanError(&#39;/mycat/auth/unauthorized&#39;, { user: ctx.user._id });
+    }
+  })
+];
+</code></pre>
+<p>Later on you can handle this specific error, we could log these specific kind of errors, etc.</p>
+<h2 id="native">Native</h2>
+<h3 id="-server-native-portused">/server/native/portused</h3>
+<p>This happens when you try to launch <code>server</code> in a port that is already being used by another process. It can be another server process or a totally independent process. To fix it you can do:</p>
+<ul>
+<li>Check that there are no other terminals running this process already.</li>
+<li>Change the port for the server such as <code>server({ port: 5000 });</code>.</li>
+<li>Find out what process is already using the port and stop it. In Linux: <code>fuser -k -n tcp 3000</code>.</li>
+</ul>
+<h2 id="missingmiddleware">MissingMiddleware</h2>
+<p>This will normally happen if you are trying to create a <code>server</code> middleware from an <code>express</code> middleware but forget to actually pass express&#39; middleware.</p>
+<p>This error happens when you call <code>modern()</code> with an empty or falsy value:</p>
+<pre><code class="lang-js">const { modern } = server.utils;
+const middle = modern();  // Error
+</code></pre>
+<h2 id="invalidmiddleware">InvalidMiddleware</h2>
+<p>This happens when you try to call <code>modern()</code> with an argument that is not an old-style middleware. The first and only argument for <code>modern()</code> is a function with <code>express</code>&#39; middleware signature.</p>
+<p>This error should also tell you dynamically which type of argument you passed.</p>
+<pre><code class="lang-js">const { modern } = server.utils;
+const middle = modern(&#39;hello&#39;);
+</code></pre>
+<h2 id="keep-reading">Keep reading</h2><p>Once you master the errors you should be testing your code:</p><div class="pages"><a class="button" href="../testing">Testing</a></div></div></div></article><script src="https://unpkg.com/smoothscroll-polyfill@0"></script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
+setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
+  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
+    el.setAttribute('href', email);
+  });
+}, 2000);
+
+// Add language tag to the code for print
+[].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
+  return /lang(uage)?\-/.test(pre.className);
+}).forEach(function(pre){
+  var name = pre.className.split(/\s+/).filter(function(name){
+    return /lang(uage)?\-/.test(name);
+  })[0].replace(/lang(uage)?\-/, '');
+  var map = { js: 'javascript', jade: 'pug' };
+  if (name in map) name = map[name];
+  pre.parentNode.setAttribute('data-language', name);
+});
+
+
+var nav = u('nav');
+var toc = u('.toc');
+let offset = 10;
+const breakpoint = 900;
+var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
+const resize = () => {
+  if (!toc.length) return;
+
+  if (window.innerWidth > breakpoint) {
+    u('.toc [href]').filter(el => {
+      return u(el).attr('href').split('#')[0] === window.location.pathname;
+    }).parent().addClass('active');
+    var articlepaddingtop = parseFloat(getComputedStyle(u('article').first()).getPropertyValue('padding-top'));
+    var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
+    u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
+    u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset + 20) + 'px)';
+    u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 10) + 'px';
+    // console.log(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'));
+  } else {
+    toc.removeClass('fixed');
+    u('.toc').first().style.top = 'auto';
+    u('.toc').first().style.maxHeight = '1000px';
+    u('.toc').first().style.width = 'auto';
+  }
+};
+resize();
+window.onresize = resize;
+
+function transparency(){
+  var top = document.documentElement.scrollTop || document.body.scrollTop;
+  var height = "innerHeight" in window
+    ? window.innerHeight
+    : document.documentElement.offsetHeight;
+
+  if (toc.length) {
+    toc.toggleClass('fixed', u('article').size().top < navheight - offset && window.innerWidth > breakpoint);
+  }
+
+  if (u('article.documentation').length) {
+    if (u('nav.transparent').length) {
+      u('nav').removeClass('transparent');
+    }
+    return;
+  }
+
+  if (top > 80) {
+    if (nav.hasClass('transparent')) {
+      nav.removeClass('transparent');
+    }
+  } else {
+    if (!nav.hasClass('transparent')) {
+      nav.addClass('transparent');
+    }
+  }
+}
+u(document).on('scroll', transparency);
+transparency();
+setTimeout(function(){ nav.removeClass('instant'); }, 200);
+
+
+// Remove an incorrect "get" that there was highlighted
+Prism.hooks.add('after-highlight', function(env){
+  u('span.token.keyword').each(el => {
+    if (el.innerHTML === 'get') {
+      if (el.nextElementSibling && el.nextElementSibling.innerHTML === '(') {
+        u(el).replace('<span class="token function">get</span>');
+      } else {
+        u(el).replace('get');
+      }
+    }
+    if (el.innerHTML === 'delete') {
+      if (el.previousElementSibling && el.previousElementSibling.innerHTML === '.') {
+        u(el).replace('delete');
+      }
+    }
+    if (el.innerHTML === 'public') u(el).replace('public');
+  });
+
+  // Syntax highlighting changes vertical align. This makes it to scroll back
+  // to the current hash (if any) after page load+highlight
+  const hash = window.location.hash;
+  if (hash && u(hash).length) {
+    u(hash).scroll();
+  }
+});
+
+u('.toc .more').handle('click', e => {
+  const container = u(e.currentTarget).closest('li');
+  const child = container.find('ul').nodes[0];
+  const height = container.hasClass('active') ? 0 : child.scrollHeight;
+  child.style.maxHeight = height + 'px';
+  container.toggleClass('active');
+});
+
+u('a').on('click', e => {
+  const href = u(e.currentTarget).attr('href');
+  if (!href) return;
+  const [url, hash] = href.split('#');
+
+  if (url === window.location.pathname && !hash) {
+    e.preventDefault();
+    u('body').scroll();
+    history.replaceState(null, null, window.location.pathname);
+    return;
+  }
+
+  // console.log(url, window.location.pathname, u('#' + hash));
+  if ((!url || url === window.location.pathname) && u('#' + hash).length) {
+    e.preventDefault();
+    u('#' + hash).scroll();
+    history.replaceState(null, null, '#' + hash);
+  }
+});
+
+
+
+// Google analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63739359-2', 'auto');
+ga('send', 'pageview');
+</script></body></html>

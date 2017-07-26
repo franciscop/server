@@ -21,7 +21,7 @@ The options preference order is this, from more important to less:
 2. `server({ OPTION: 3000 })`: the variable [set as a parameter](#parameter) when launching the server.
 3. *defaults*: defaults will be used as can be seen below
 
-They are accessible for your dev needs through `ctx.options` ([read more in Middleware](../middleware)):
+They are accessible for your dev needs through `ctx.options` ([read more in context options](/documentation/context/#options)):
 
 ```js
 server(ctx => console.log(ctx.options));

@@ -1,6 +1,6 @@
 [
   "options",
-  "middleware",
+  "context",
   "router",
   "advanced"
 ]
