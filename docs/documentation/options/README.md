@@ -13,7 +13,18 @@ Available options, their defaults, types and names in `.env`:
 |[`log`](#log)        |`'info'`         |`LOG=info`                  |String  |
 |[`core`](#core)      |[[info]](#core)  |[[info]](#core)             |Object  |
 
-And many more! [Help us editing this](https://github.com/franciscop/server/tree/master/docs/documentation/options).
+You can set those through the first argument in `server()` function:
+
+```js
+// Import the main library
+const server = require('server');
+
+// Launch the server with the options
+server({
+  port: 3000,
+  public: 'public',
+});
+```
 
 The options preference order is this, from more important to less:
 
@@ -29,10 +40,6 @@ server(ctx => console.log(ctx.options));
 ```
 
 
-
-## Configuration
-
-First we will explain how and where to set up the different options for server.js, as it can set both on the environment and as an argument to the main function.
 
 ### Environment
 

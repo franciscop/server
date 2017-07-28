@@ -1,155 +1,76 @@
 # Context
 
-Context is the **only** parameter that middleware receives and we'll call it `ctx`. It represents the information available at this point of the request. It can appear at several points, but the most important one is as a middleware parameter:
+Context is the **only** parameter that middleware receives and contains all the information available at this point of the request:
+
+
+|name                  |example                                       |type    |
+|----------------------|----------------------------------------------|--------|
+|[.options](#-options) | `{ port: 3000, public: 'public' }`           |Object  |
+|[.data](#-data)       | `{ firstName: 'Francisco '}`                 |Object  |
+|[.params](#-params)   | `{ id: 42 }`                                 |Object  |
+|[.query](#-query)     | `{ search: '42' }`                           |Object  |
+|[.session](#-session) | `{ user: { firstName: 'Francisco' } }`       |Object  |
+|[.headers](#-headers) | `{ 'Content-Type': 'application/json' }`     |Object  |
+|[.cookie](#-cookie)   | `{ acceptCookieLaw: true }`                  |Object  |
+|[.files](#-files)     | `{ profilepic: { ... } }`                    |Object  |
+|[.ip](#-ip)           | `'192.168.1.1'`                              |String  |
+|[.url](#-url)         | `'/cats/?type=cute'`                         |String  |
+|[.method](#-method)   | `'GET'`                                      |String  |
+|[.path](#-path)       | `'/cats/'`                                   |String  |
+|[.secure](#-secure)   | `true`                                       |Boolean |
+|[.xhr](#-xhr)         | `false`                                      |Boolean |
+
+It can appear at several points, but the most important one is as a middleware parameter:
 
 ```js
-const middle = ctx => {
-  // ctx is available here
-};
-
-server(middle);
-```
-
-
-## Middleware
-
-A *middleware* is plain function that will be called on each request. It accepts [a context object](#context) and [returns a promise](#asynchronous-return) for asynchronous methods or [something else](#synchronous-return) for synchronous methods with the reply for the browser. It can also not return anything if it just modifies the state. A couple of examples:
-
-```js
-const setname = ctx => { ctx.req.user = 'Francisco'; };
-const sendname = ctx => ctx.req.user;
-server(setname, sendname);
-```
-
-
-
-### Synchronous
-
-A synchronous function is one that executes one line after another. To make your function synchronous you just have [not to make it asynchronous](#asynchronous-return), which means *do not return a promise*.
-
-Most code is actually synchronous so let's see some examples:
-
-```js
-// Some simple logging
-const middle1 = () => {
-  console.log('Hello 世界');
-};
-
-// Asign a user to the context
-const middle2 = ctx => {
-  ctx.user = { name: 'Francisco', available: true };
-};
-
-// Make sure that there is a user
-const middle3 = ctx => {
-  if (!ctx.user) {
-    throw new Error('No user detected!');
-  }
-};
-
-// Send some info to the browser
-const middle4 = ctx => {
-  return `Some info for ${ctx.user.name}`;
-};
-```
-
-
-### Asynchronous
-
-While code is synchronous by default, we highly recommend just setting your code to asynchronous. To do this, add the keyword `async` before the middleware function:
-
-```js
-// Asynchronous, find user with Mongoose (MongoDB)
-const middle = async ctx => {
-  const user = await user.find({ name: 'Francisco' }).exec();
-  console.log(user);
-};
-```
-
-If you find an error in an async function you can throw it. It will be catched and a 500 error will be displayed to the user:
-
-```js
-const middle = async ctx => {
-  if (!ctx.user) {
-    throw new Error('No user :(');
-  }
-};
-```
-
-Please **try to avoid** using callback-based functions, since error propagations is problematic.
-
-> TODO: explain how callbacks should be converted
-
-
-
-### Return value
-
-If your middleware is going to be synchronous, you can just return the value to be sent to the browser:
-
-```js
-// Send a string
-const middle = ctx => 'Hello 世界';
-
-// Send a JSON
-const middle = ctx => ['hello', '世界'];
-const middle = ctx => ({ hello: '世界' });
-// Note: extra parenthesis not to be confused with arrow fn
-
-// Send a status code
-const middle = ctx => 404;
-```
-
-In sync mode you can throw anything to trigger an error:
-
-```js
-const { error } = server.router;
-
-let middle = ({ req }) => {
-  if (!req.body) {
-    throw new Error('No body provided');
-  }
-}
-
-server(middle, error(ctx => {
-  console.log(ctx.error);
-}));
-```
-
-When you want to handle code asynchronously you should return a promise. Then it will continue the middleware chain as it is resolved, or skip it as it is rejected:
-
-```js
-const middle = async ctx => {
-  if (!req.body) {
-    throw new Error('No body provided');
-  }
-});
-```
-
-> TODO: explain about `reply`.
-
-
-
-### Express middleware
-
-Modern is a small utility that allows you to use express middleware within `server`. The proper way of using `modern` is:
-
-```js
+// Load the server from the dependencies
 const server = require('server');
-const { modern } = server.utils;
-const oldCookieParser = require('cookie-parser')({ ... });
-const cookieParser = server.modern(oldCookieParser);
 
-// TODO: cancel the old cookieparser
-server(cookieParser, ...);
+// Display "Hello 世界" for any request
+const middleware = ctx => {
+  // ... (ctx is available here)
+  return 'Hello 世界';
+};
+
+// Launch the server with a single middleware
+server(middleware);
 ```
 
-> TODO: add more examples, clear things up
+
+
+## .options
+
+An object containing [all of the parsed options](/documentation/options/) used by server.js. It combines environment variables and explicit options from `server({ a: 'b' });`:
+
+```js
+const mid = ctx => {
+  expect(ctx.options.port).toBe(3012);
+};
+
+// Test it
+run({ port: 3012 }, mid).get('/');
+```
+
+If we have a variable set in the `.env` or through some other environment variables, it'll use that instead as [environment options take preference](/documentation/options/):
+
+```bash
+# .env
+PORT=80
+```
+
+```js
+const mid = ctx => {
+  expect(ctx.options.port).toBe(80);
+};
+
+// Test it
+run({ port: 3000 }, mid).get('/');
+```
 
 
 
 
-
-## Data
+## .data
 
 This is aliased as `body` as in other libraries. It is the data sent with the request. It can be part of a POST or PUT request, but it can also be set by others such as websockets:
 
@@ -160,5 +81,97 @@ const middle = ctx => {
 
 // Test it (csrf set to false for testing purposes)
 run(noCsrf, middle).post('/', { body: 'Hello 世界' });
-run(noCsrf, middle).emit('message', { body: 'Hello 世界' });
+run(middle).emit('message', 'Hello 世界');
 ```
+
+
+
+## .params
+
+Parameters from the URL as specified [in the route](/documentation/router/):
+
+```js
+const mid = get('/:type/:id', ctx => {
+  expect(ctx.params.type).toBe('dog');
+  expect(ctx.params.id).toBe('42');
+});
+
+// Test it
+run(mid).get('/dog/42');
+```
+
+They come from parsing [the `ctx.path`](#-path) with the [package `path-to-regexp`](https://www.npmjs.com/package/path-to-regexp). Go there to see more information about it.
+
+
+
+## .query
+
+The parameters from the query when making a request. These come from the url fragment `?answer=42&...`:
+
+```js
+const mid = ctx => {
+  expect(ctx.query.answer).toBe('42');
+  expect(ctx.query.name).toBe('Francisco');
+};
+
+// Test it
+run(mid).get('/question?answer=42&name=Francisco');
+```
+
+
+
+## .session
+
+
+
+
+
+## .headers
+
+
+
+
+
+## .cookie
+
+
+
+
+
+## .files
+
+
+
+
+
+## .ip
+
+
+
+
+
+## .url
+
+
+
+
+
+## .method
+
+
+
+
+
+## .path
+
+
+
+
+
+## .secure
+
+
+
+
+
+## .xhr

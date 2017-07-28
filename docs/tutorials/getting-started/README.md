@@ -4,13 +4,6 @@ In this tutorial you will learn how to get started with Node.js development and 
 
 You will need some basic tools like having a git and a code editor ([we recommend Atom](https://atom.io/)) as well as some basic knowledge around your operative system and the terminal/command line.
 
-These are the steps we will be following:
-
-1. Install Node.js
-1. Create and load your project
-1. Initialize Git and npm
-1. Make awesome things!
-
 
 
 ## Install Node.js
