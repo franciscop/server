@@ -23,53 +23,7 @@ server(setname, sendname);
 
 
 
-### Inherit from express
-
-Many of these properties are just inherited from express right now. The properties described here are part of the stable API but express on itself is not, so you should *not* use `ctx.req` for your code.
-
-
-
-### Data
-
-This is aliased as `body` as in other libraries. It is the data sent with the request. It can be part of a POST or PUT request, but it can also be set by others such as websockets:
-
-```js
-const middle = ctx => {
-  expect(ctx.data).toBe('Hello 世界');
-};
-
-// Test it (csrf set to false for testing purposes)
-run(noCsrf, middle).post('/', { body: 'Hello 世界' });
-```
-
-
-
-
-In this situation it has, among others, the properties `req`, `res` (from express) and `options`:
-
-```js
-const middleware = ctx => {
-  ctx.req;      // Request parameter, similar to `(req, res)` in express
-  ctx.res;      // Response parameter, similar to `(req, res)` in express
-  ctx.options;  // The options for the server instance
-}
-```
-
-If you are developing a library or just want more advanced features, you should also have access to these:
-
-```js
-let middleware = ctx => {
-  ctx.app;        // Current express instance
-  ctx.server;     // The http-server instance
-};
-```
-
-
-> TODO: explain more about `req`, `res` and `options` (explanation for each and their methods and a link to express docs). Explain that ctx is where to store data.
-
-
-
-## Synchronous
+### Synchronous
 
 A synchronous function is one that executes one line after another. To make your function synchronous you just have [not to make it asynchronous](#asynchronous-return), which means *do not return a promise*.
 
@@ -100,7 +54,7 @@ const middle4 = ctx => {
 ```
 
 
-## Asynchronous
+### Asynchronous
 
 While code is synchronous by default, we highly recommend just setting your code to asynchronous. To do this, add the keyword `async` before the middleware function:
 
@@ -128,7 +82,7 @@ Please **try to avoid** using callback-based functions, since error propagations
 
 
 
-## Return value
+### Return value
 
 If your middleware is going to be synchronous, you can just return the value to be sent to the browser:
 
@@ -175,7 +129,7 @@ const middle = async ctx => {
 
 
 
-## Express middleware
+### Express middleware
 
 Modern is a small utility that allows you to use express middleware within `server`. The proper way of using `modern` is:
 
@@ -190,3 +144,21 @@ server(cookieParser, ...);
 ```
 
 > TODO: add more examples, clear things up
+
+
+
+
+
+## Data
+
+This is aliased as `body` as in other libraries. It is the data sent with the request. It can be part of a POST or PUT request, but it can also be set by others such as websockets:
+
+```js
+const middle = ctx => {
+  expect(ctx.data).toBe('Hello 世界');
+};
+
+// Test it (csrf set to false for testing purposes)
+run(noCsrf, middle).post('/', { body: 'Hello 世界' });
+run(noCsrf, middle).emit('message', { body: 'Hello 世界' });
+```
