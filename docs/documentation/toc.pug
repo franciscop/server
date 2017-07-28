@@ -1,22 +1,34 @@
-//-section.toc
-//-  h2
-//-    a(href="/documentation/") Documentation
-//-  ul
-//-    each tutorial, frag in documentation
-//-      li
-//-        if (tutorial.sections.length)
-//-          label.more ›
-//-        a(href="/documentation/" + frag + "/")= tutorial.title
-//-        if (tutorial.sections.length)
-//-          ul
-//-            each name in tutorial.sections
-//-              li
-//-                a(href="/documentation/" + frag + "/#" + slug(name))= name
-//-
- 
 section.toc
-  h2 Documentation
+  h2
+    a Documentation
   ul
+    //- Do it automatically (for the final version, now color-coded is better)
+    //- li
+    //-   label.more ›
+    //-   a(href="/documentation/") Introduction
+    //-   ul
+    //-     li
+    //-       a(href="/documentation/#getting-started") Getting Started
+    //-     li
+    //-       a(href="/documentation/#basic-usage") Basic usage
+    //-     li
+    //-       a(href="/documentation/#middleware") Middleware
+    //-     li
+    //-       a(href="/documentation/#express-library") Express libraries
+    //-     li
+    //-       a(href="/documentation/#express-library") Routing
+    //-
+    //- each tutorial, frag in documentation
+    //-   li
+    //-     if (tutorial.sections.length)
+    //-       label.more ›
+    //-     a(href="/documentation/" + frag + "/")= tutorial.title
+    //-     if (tutorial.sections.length)
+    //-       ul
+    //-         each name in tutorial.sections
+    //-           li
+    //-             a(href="/documentation/" + frag + "/#" + slug(name))= name
+
     li
       label.more ›
       a.good(href="/documentation/") Introduction
@@ -28,7 +40,9 @@ section.toc
         li
           a.good(href="/documentation/#middleware") Middleware
         li
-          a.good(href="/documentation/#express-library") Express library
+          a.good(href="/documentation/#express-library") Express libraries
+        li
+          a.good(href="/documentation/#express-library") Routing
     li
       label.more ›
       a.good(href="/documentation/options/") Options
@@ -51,7 +65,7 @@ section.toc
           a.mid(href="/documentation/options/#core") core
     li
       label.more ›
-      a.mid(href="/documentation/context/") Context
+      a.good(href="/documentation/context/") Context
       ul
         li
           a.good(href="/documentation/context/#-options") .options
@@ -62,25 +76,25 @@ section.toc
         li
           a.good(href="/documentation/context/#-query") .query
         li
-          a.mid(href="/documentation/context/#-session") .session
+          a.good(href="/documentation/context/#-session") .session
         li
-          a.mid(href="/documentation/context/#-headers") .headers
+          a.good(href="/documentation/context/#-headers") .headers
         li
-          a.mid(href="/documentation/context/#-cookie") .cookie
+          a.good(href="/documentation/context/#-cookie") .cookie
         li
-          a.mid(href="/documentation/context/#-files") .files
+          a.good(href="/documentation/context/#-files") .files
         li
-          a.mid(href="/documentation/context/#-ip") .ip
+          a.good(href="/documentation/context/#-ip") .ip
         li
-          a.mid(href="/documentation/context/#-url") .url
+          a.good(href="/documentation/context/#-url") .url
         li
-          a.mid(href="/documentation/context/#-method") .method
+          a.good(href="/documentation/context/#-method") .method
         li
-          a.mid(href="/documentation/context/#-path") .path
+          a.good(href="/documentation/context/#-path") .path
         li
-          a.mid(href="/documentation/context/#-secure") .secure
+          a.good(href="/documentation/context/#-secure") .secure
         li
-          a.mid(href="/documentation/context/#-xhr") .xhr
+          a.good(href="/documentation/context/#-xhr") .xhr
     li
       label.more ›
       a.good(href="/documentation/router/") Router
