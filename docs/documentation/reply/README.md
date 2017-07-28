@@ -63,12 +63,19 @@ The `status()` reply can be used as final or as chainable if something else is a
 
 
 
-### Raw returns
 
-There are some cases where returning some raw data will be handled to a response. For instance, returning a String will be sent as a text or as HTML:
+
+### Return value
+
+Both in synchronous mode or asyncrhonous mode you can just return a string to create a response:
 
 ```js
-server(ctx => 'Hello world');
+// Send a string
+const middle = ctx => 'Hello 世界';
+
+// Test it
+const res = await run(middle).get('/');
+expect(res.body).toBe('Hello 世界');
 ```
 
 Returning an array or an object will stringify them as JSON:
@@ -79,11 +86,29 @@ server(ctx => ['life', 42]);
 server(ctx => ({ life: 42 }));
 ```
 
-Finally, a single number will be interpreted as a status code and the corresponding body for that status will be returned:
+A single number will be interpreted as a status code and the corresponding body for that status will be returned:
 
 ```js
 server(get('/nonexisting', => 404));
 ```
+
+
+You can also throw anything to trigger an error:
+
+```js
+const middle = ({ req }) => {
+  if (!req.body) {
+    throw new Error('No body provided');
+  }
+}
+
+const handler = error(ctx => ctx.error.message);
+
+// Test it
+const res = await run(middle, handler).get('/nonexisting');
+expect(res.body).toBe('No body provided');
+```
+
 
 
 

@@ -12,9 +12,11 @@ server(options, fn1, fn2, fn3, ...);
 
 > You can also learn Node.js development by [following the tutorials](/tutorials).
 
+
+
 ## Getting started
 
-Here's [a getting started tutorial for total beginners](/tutorials/getting-started/). If you know your way around Node.js, first install server:
+There's [a getting started tutorial for beginners](/tutorials/getting-started/). If you know your way around:
 
 ```bash
 npm install server
@@ -40,76 +42,135 @@ And open your browser on [localhost:3000](http://localhost:3000/) to see it in a
 
 
 
-## [Options](options)
+## Basic usage
 
-In its basic form it's a plain object with several key:values pairs:
+Some of the main components are the main function on itself, [router](/documentation/router/) and [reply](/documentation/reply/). The main function accepts first an optional object for [the options](/documentation/options/), and then as many [middleware](#middleware) or arrays of middleware as wanted:
 
 ```js
 const server = require('server');
 
-// Set the options (shown here with the defaults)
-const options = {
-  port: 3000,
-  public: 'public',
-  engine: 'pug',
-  env: 'development'
+server({ port: 3000 }, ctx => 'Hello 世界');
+```
+
+To use the router and reply you are encouraged to extract their methods as needed:
+
+```js
+const server = require('server');
+const { get, post } = server.router;
+const { render, json } = server.reply;
+
+server([
+  get('/', ctx => render('index.hbs')),
+  post('/', ctx => json(ctx.data)),
+  get(ctx => status(404))
+]);
+```
+
+Then when you are splitting your files into different parts and don't have access to the global server you can import only the corresponding parts:
+
+```js
+const { get, post } = require('server/router');
+const { render, json } = require('server/reply');
+```
+
+
+
+## Middleware
+
+A *middleware* is plain function that will be called on each request. It accepts [a context object](/documentation/context) and [returns a reply](/documentation/reply/), a [basic type](/documentation/reply/#return-value) or nothing. A couple of examples:
+
+```js
+const setname = ctx => { ctx.req.user = 'Francisco'; };
+const sendname = ctx => send(ctx.req.user);
+server(setname, sendname);
+```
+
+They can be placed as `server()` arguments, combined into an array or imported/exported from other files:
+
+```js
+server(
+  ctx => send(ctx.req.user),
+  [ ctx => console.log(ctx.data) ],
+  require('./comments/router.js')
+);
+```
+
+Then in `./comments/router.js`:
+
+```js
+const { get, post, put, del } = require('server/router');
+const { json } = require('server/reply');
+
+module.exports = [
+  get('/',    ctx => { /* ... */ }),
+  post('/',   ctx => { /* ... */ }),
+  put('/:id', ctx => { /* ... */ }),
+  del('/:id', ctx => { /* ... */ }),
+];
+```
+
+
+The main difference between synchronous and asynchronous functions is that you use  `async` keyword to then be able to use the keyword `await` within the function, avoiding [callback hell](http://callbackhell.com/). Some examples of middleware:
+
+```js
+// Some simple logging
+const mid = () => {
+  console.log('Hello 世界');
 };
 
-// Launch the server with the options
-server(options);
-```
-
-<a class="button" href="options"><strong>Options documentation</strong></a>
-
-
-## [Context](context)
-
-The context is the first and only parameter passed to the [middleware](/documentation/context/#middleware):
-
-```js
-// Load the server from the dependencies
-const server = require('server');
-
-// Display "Hello 世界" for any request
-const middleware = ctx => {
-  // ...
-  return 'Hello 世界';
+// Asynchronous, find user with Mongoose (MongoDB)
+const mid = async ctx => {
+  ctx.user = await User.find({ name: 'Francisco' }).exec();
+  console.log(ctx.user);
 };
 
-// Launch the server with a single middleware
-server(middleware);
+// Make sure that there is a user
+const mid = ctx => {
+  if (!ctx.user) {
+    throw new Error('No user detected!');
+  }
+};
+
+// Send some info to the browser
+const mid = ctx => {
+  return `Some info for ${ctx.user.name}`;
+};
 ```
 
+In this way you can `await` inside of your function. Server.js will also await to your middleware before proceeding to the next one:
 
-<a class="button" href="/documentation/context"><strong>Context documentation</strong></a>
+```js
+server(async ctx => {
+  await someAsyncOperation();
+  console.log('I am first');
+}, ctx => {
+  console.log('I am second');
+});
+```
+
+If you find an error in an async function you can throw it. It will be catched, a 500 error will be displayed to the user and the error will be logged:
+
+```js
+const middle = async ctx => {
+  if (!ctx.user) {
+    throw new Error('No user :(');
+  }
+};
+```
+
+<blockquote class="warning">**Avoid callback-based functions**: error propagations is problematic and they have to be converted to promises. Strongly prefer an async/await workflow.</blockquote>
 
 
 
-## [Router](router)
+### Express library
 
-The last but maybe most important part is the router that is used to create routes. A route is really a middleware and is used for handling user requests to specific places:
+Server.js is using express as the underlying library (we <3 express!). You can import middleware designed for express with `modern` is a small utility tool:
 
 ```js
 const server = require('server');
+const { modern } = server.utils;
+const legacy = require('legacy-package')({ ... });
+const mid = modern(legacy);
 
-// Import some of the routers available
-const { get, post, put, del } = server.router;
-
-// Handle requests to http://localhost:3000/
-const home = get('/', ctx => 'Homepage!');
-
-// Handle requests to http://localhost:3000/SOMETHING
-const page = get('/:page', ctx => `Page ${ctx.req.params.page}`);
-
-server(home, page);
+server(mid);
 ```
-
-<a class="button" href="router"><strong>Router documentation</strong></a>
-
-
-
-## [Advanced](advanced)
-
-Some recommendations on using and debugging server. A peak into the technology inside for understanding it better. Explanation on some of the design constrains for server.
-
-<a class="button" href="advanced"><strong>Advanced documentation</strong></a>
