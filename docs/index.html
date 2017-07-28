@@ -78,12 +78,9 @@ module.exports = [
 ];
 </code></pre>
 <h3 id="real-time">Real time</h3>
-<blockquote>
-<p>Upcoming feature</p>
-</blockquote>
 <p>Websockets were never this easy to use! With socket.io on the front-end, you can simply do this in the back-end to handle those events:</p>
 <pre><code class="lang-js">// chat/router.js
-const socket = require(&#39;server/router/socket&#39;);
+const { socket } = require(&#39;server/router&#39;);
 const ctrl = require(&#39;./controller&#39;);
 
 module.exports = [

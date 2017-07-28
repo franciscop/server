@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Context documentation - server.js</title><meta property="og:title" content="Context documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="All of the properties of the argument for the middleware."/><meta property="og:description" content="All of the properties of the argument for the middleware."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1000"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex one three-800 four-1000"><div class="full third-800 fourth-1000"><section class="toc"><h2>Documentation</h2><ul><li><label class="more">›</label><a class="good" href="/documentation/">Introduction</a><ul><li><a class="good" href="/documentation/#getting-started">Getting Started</a></li><li><a class="good" href="/documentation/#basic-usage">Basic usage</a></li><li><a class="good" href="/documentation/#middleware">Middleware</a></li><li><a class="good" href="/documentation/#express-library">Express library</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/options/">Options</a><ul><li><a class="good" href="/documentation/options/#port">port</a></li><li><a class="good" href="/documentation/options/#secret">secret</a></li><li><a class="good" href="/documentation/options/#public">public</a></li><li><a class="good" href="/documentation/options/#views">views</a></li><li><a class="good" href="/documentation/options/#engine">engine</a></li><li><a class="good" href="/documentation/options/#env">env</a></li><li><a class="good" href="/documentation/options/#log">log</a></li><li><a class="mid" href="/documentation/options/#core">core</a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/context/">Context</a><ul><li><a class="good" href="/documentation/context/#-options">.options</a></li><li><a class="good" href="/documentation/context/#-data">.data</a></li><li><a class="good" href="/documentation/context/#-params">.params</a></li><li><a class="good" href="/documentation/context/#-query">.query</a></li><li><a class="mid" href="/documentation/context/#-session">.session</a></li><li><a class="mid" href="/documentation/context/#-headers">.headers</a></li><li><a class="mid" href="/documentation/context/#-cookie">.cookie</a></li><li><a class="mid" href="/documentation/context/#-files">.files</a></li><li><a class="mid" href="/documentation/context/#-ip">.ip</a></li><li><a class="mid" href="/documentation/context/#-url">.url</a></li><li><a class="mid" href="/documentation/context/#-method">.method</a></li><li><a class="mid" href="/documentation/context/#-path">.path</a></li><li><a class="mid" href="/documentation/context/#-secure">.secure</a></li><li><a class="mid" href="/documentation/context/#-xhr">.xhr</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/router/">Router</a><ul class="size-100"><li><a class="good" href="/documentation/router/#get-">get()</a></li><li><a class="good" href="/documentation/router/#post-">post()</a></li><li><a class="good" href="/documentation/router/#put-">put()</a></li><li><a class="good" href="/documentation/router/#del-">del()</a></li><li><a class="good" href="/documentation/router/#error-">error()</a></li><li><a class="good" href="/documentation/router/#sub-">sub()</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/reply/">Reply</a><ul><li><a class="good" href="/documentation/reply/#cookie-">cookie()</a></li><li><a class="good" href="/documentation/reply/#download-">download()</a></li><li><a class="good" href="/documentation/reply/#header-">header()</a></li><li><a class="good" href="/documentation/reply/#json-">json()</a></li><li><a class="good" href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a class="good" href="/documentation/reply/#redirect-">redirect()</a></li><li><a class="good" href="/documentation/reply/#render-">render()</a></li><li><a class="good" href="/documentation/reply/#send-">send()</a></li><li><a class="good" href="/documentation/reply/#status-">status()</a></li><li><a class="good" href="/documentation/reply/#type-">type()</a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/errors/">Errors</a><ul><li><a class="bad" href="/documentation/errors/#handling">Handling</a></li><li><a class="bad" href="/documentation/errors/#native">Native</a></li><li><a class="bad" href="/documentation/errors/#options">Options</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Testing<ul><li><a class="bad" href="#">Setup</a></li><li><a class="bad" href="#">Unit</a></li><li><a class="bad" href="#">Integration</a></li><li>...</li></ul></a></li><li><label class="more">›</label><a class="mid" href="/documentation/advanced/">Advanced</a><ul><li><a class="mid" href="/documentation/advanced/#creating-middleware">Write middleware</a></li><li><a class="bad" href="/documentation/advanced/#">Write plugins</a></li><li><a class="bad" href="/documentation/advanced/#">Contributing</a></li></ul></li></ul></section></div><div class="full two-third-800 three-fourth-1000"><h1 id="context">Context</h1>
+<!DOCTYPE html><html class="initial"><head><title>Context documentation - server.js</title><meta property="og:title" content="Context documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="All of the properties of the argument for the middleware."/><meta property="og:description" content="All of the properties of the argument for the middleware."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1000"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="/sponsor">Sponsor</a><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex one three-800 four-1000"><div class="full third-800 fourth-1000"><section class="toc"><h2><a>Documentation</a></h2><ul><li><label class="more">›</label><a class="good" href="/documentation/">Introduction</a><ul><li><a class="good" href="/documentation/#getting-started">Getting Started</a></li><li><a class="good" href="/documentation/#basic-usage">Basic usage</a></li><li><a class="good" href="/documentation/#middleware">Middleware</a></li><li><a class="good" href="/documentation/#express-library">Express libraries</a></li><li><a class="good" href="/documentation/#express-library">Routing</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/options/">Options</a><ul><li><a class="good" href="/documentation/options/#port">port</a></li><li><a class="good" href="/documentation/options/#secret">secret</a></li><li><a class="good" href="/documentation/options/#public">public</a></li><li><a class="good" href="/documentation/options/#views">views</a></li><li><a class="good" href="/documentation/options/#engine">engine</a></li><li><a class="good" href="/documentation/options/#env">env</a></li><li><a class="good" href="/documentation/options/#log">log</a></li><li><a class="mid" href="/documentation/options/#core">core</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/context/">Context</a><ul><li><a class="good" href="/documentation/context/#-options">.options</a></li><li><a class="good" href="/documentation/context/#-data">.data</a></li><li><a class="good" href="/documentation/context/#-params">.params</a></li><li><a class="good" href="/documentation/context/#-query">.query</a></li><li><a class="good" href="/documentation/context/#-session">.session</a></li><li><a class="good" href="/documentation/context/#-headers">.headers</a></li><li><a class="good" href="/documentation/context/#-cookie">.cookie</a></li><li><a class="good" href="/documentation/context/#-files">.files</a></li><li><a class="good" href="/documentation/context/#-ip">.ip</a></li><li><a class="good" href="/documentation/context/#-url">.url</a></li><li><a class="good" href="/documentation/context/#-method">.method</a></li><li><a class="good" href="/documentation/context/#-path">.path</a></li><li><a class="good" href="/documentation/context/#-secure">.secure</a></li><li><a class="good" href="/documentation/context/#-xhr">.xhr</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/router/">Router</a><ul class="size-100"><li><a class="good" href="/documentation/router/#get-">get()</a></li><li><a class="good" href="/documentation/router/#post-">post()</a></li><li><a class="good" href="/documentation/router/#put-">put()</a></li><li><a class="good" href="/documentation/router/#del-">del()</a></li><li><a class="good" href="/documentation/router/#error-">error()</a></li><li><a class="good" href="/documentation/router/#sub-">sub()</a></li></ul></li><li><label class="more">›</label><a class="good" href="/documentation/reply/">Reply</a><ul><li><a class="good" href="/documentation/reply/#cookie-">cookie()</a></li><li><a class="good" href="/documentation/reply/#download-">download()</a></li><li><a class="good" href="/documentation/reply/#header-">header()</a></li><li><a class="good" href="/documentation/reply/#json-">json()</a></li><li><a class="good" href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a class="good" href="/documentation/reply/#redirect-">redirect()</a></li><li><a class="good" href="/documentation/reply/#render-">render()</a></li><li><a class="good" href="/documentation/reply/#send-">send()</a></li><li><a class="good" href="/documentation/reply/#status-">status()</a></li><li><a class="good" href="/documentation/reply/#type-">type()</a></li></ul></li><li><label class="more">›</label><a class="mid" href="/documentation/errors/">Errors</a><ul><li><a class="bad" href="/documentation/errors/#handling">Handling</a></li><li><a class="bad" href="/documentation/errors/#native">Native</a></li><li><a class="bad" href="/documentation/errors/#options">Options</a></li></ul></li><li><label class="more">›</label><a class="bad" href="#">Testing<ul><li><a class="bad" href="#">Setup</a></li><li><a class="bad" href="#">Unit</a></li><li><a class="bad" href="#">Integration</a></li><li>...</li></ul></a></li><li><label class="more">›</label><a class="mid" href="/documentation/advanced/">Advanced</a><ul><li><a class="mid" href="/documentation/advanced/#creating-middleware">Write middleware</a></li><li><a class="bad" href="/documentation/advanced/#">Write plugins</a></li><li><a class="bad" href="/documentation/advanced/#">Contributing</a></li></ul></li></ul></section></div><div class="full two-third-800 three-fourth-1000"><h1 id="context">Context</h1>
 <p>Context is the <strong>only</strong> parameter that middleware receives and contains all the information available at this point of the request:</p>
 <table>
 <thead>
@@ -146,15 +146,110 @@ run(mid).get(&#39;/dog/42&#39;);
 run(mid).get(&#39;/question?answer=42&amp;name=Francisco&#39;);
 </code></pre>
 <h2 id="-session">.session</h2>
+<p>After following the <a href="localhost:3000/tutorials/sessions-production/">sessions in production tutorial</a>, sessions should be ready to get rolling. This is an object that persist among the user refreshing the page and navigation:</p>
+<pre><code class="lang-js">// Count how many pages the visitor sees
+const mid = ctx =&gt; {
+  ctx.session.counter = (ctx.session.counter || 0) + 1;
+  return ctx.session.counter;
+};
+
+// Test that it works
+run(ctx).alive(async ctx =&gt; {
+  await api.get(&#39;/&#39;);
+  await api.get(&#39;/&#39;);
+  const res = await api.get(&#39;/&#39;);
+  expect(res.body).toBe(&#39;3&#39;);
+});
+</code></pre>
 <h2 id="-headers">.headers</h2>
+<p>Get the headers that were sent with the request:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; {
+  expect(ctx.headers.answer).toBe(42);
+};
+
+// Test it
+run(mid).get(&#39;/&#39;, { headers: { answer: 42 } });
+</code></pre>
 <h2 id="-cookie">.cookie</h2>
+<p>Object that holds the cookies sent by the client:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; {
+  console.log(ctx.cookies);
+};
+
+run(mid).get(&#39;/&#39;);
+</code></pre>
 <h2 id="-files">.files</h2>
+<p>Contains any and all of the files sent by a request. It would normally be sent through a form with an <code>&lt;input type=&quot;file&quot;&gt;</code> field or through a <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData"><code>FormData</code> in front-end  javascript</a>:</p>
+<pre><code class="lang-html">&lt;form method=&quot;POST&quot; action=&quot;/profilepic&quot; enctype=&quot;multipart/form-data&quot;&gt;
+  &lt;input name=&quot;profilepic&quot; type=&quot;input&quot;&gt;
+  &lt;input type=&quot;hidden&quot; name=&quot;_csrf&quot; value=&quot;{{_csrf}}&quot;&gt;
+  &lt;input type=&quot;submit&quot; value=&quot;Send picture&quot;&gt;
+&lt;/form&gt;
+</code></pre>
+<p>Note the <a href="/documentation/router/#csrf-token">csrf token</a> and the <a href="https://stackoverflow.com/q/1342506/938236"><code>enctype=&quot;multipart/form-data&quot;</code></a>, both of them needed. Then to handle it with Node.js:</p>
+<pre><code class="lang-js">const mid = post(&#39;/profilepic&#39;, ctx =&gt; {
+  // This comes from the &quot;name&quot; in the input field
+  console.log(ctx.files.profilepic);
+  return redirect(&#39;/profile&#39;);
+});
+</code></pre>
 <h2 id="-ip">.ip</h2>
+<p>The IP of the remote client. If it&#39;s behind a proxy that displays its proxy condition then the <code>ips</code> field will also be filled with the respective ips:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; {
+  console.log(ctx.ip, &#39;|&#39;, ctx.ips);
+};
+
+run(mid).get(&#39;/&#39;);
+</code></pre>
 <h2 id="-url">.url</h2>
+<p>The full cuantified URL:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; {
+  expect(ctx.url).toBe(&#39;/hello?answer=42&#39;);
+};
+
+run(mid).get(&#39;/hello?answer=42&#39;);
+</code></pre>
 <h2 id="-method">.method</h2>
+<p>The request method, it can be <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; {
+  expect(ctx.method).toBe(&#39;GET&#39;);
+};
+
+// Test it
+run(mid).get(&#39;/&#39;);
+</code></pre>
+<p>Or other methods:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; {
+  expect(ctx.method).toBe(&#39;POST&#39;);
+};
+
+// Test it
+run(noCsrf, mid).post(&#39;/&#39;);
+</code></pre>
 <h2 id="-path">.path</h2>
+<p>Only the path part from the URL. It is the full URL except for the query:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; {
+  expect(ctx.path).toBe(&#39;/question&#39;);
+};
+
+run(mid).get(&#39;/question?answer=42&#39;);
+</code></pre>
 <h2 id="-secure">.secure</h2>
+<p>Returns true if the request is made through HTTPS. Take into account that if you are behind Cloudflare or similar it might be reported as false even though your clients see <code>https</code>:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; {
+  expect(ctx.secure).toBe(false);
+};
+
+run(mid).get(&#39;/&#39;);
+</code></pre>
 <h2 id="-xhr">.xhr</h2>
+<p>A boolean set to true if the request was done through AJAX. Specifically, if <code>X-Requested-With</code> is <code>“XMLHttpRequest”</code>:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; {
+  expect(mid.xhr).toBe(false);
+};
+
+run(mid).get(&#39;/&#39;);
+</code></pre>
 <h2 id="keep-reading">Keep reading</h2><p>Once you master the middleware there are few topics to keep going on:</p><div class="pages"><a class="button" href="../options">Options</a><a class="button" href="../router">Router</a><a class="button" href="../advanced">Advanced</a></div></div></div></article><script src="https://unpkg.com/smoothscroll-polyfill@0"></script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
 setTimeout(function() {
   var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';

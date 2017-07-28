@@ -9,8 +9,8 @@ Available methods and their parameters for `server.router`:
 |[`put(PATH, FN1, FN2, ...)`](#put-)        |`put('/', ctx => { ... })`       |
 |[`del(PATH, FN1, FN2, ...)`](#del-)        |`del('/', ctx => { ... })`       |
 |[`error(NAME, FN1, FN2, ...)`](#error-)    |`error('user', ctx => { ... })`  |
-|[`socket(NAME, FN1, FN2, ...)`](#socket-)  |`socket('/', ctx => { ... })`    |
 |[`sub(SUBDOMAIN, FN1, FN2, ...)`](#sub-)   |`sub('es', ctx => { ... })`      |
+|[`socket(NAME, FN1, FN2, ...)`](#socket-)  |`socket('/', ctx => { ... })`    |
 
 A router is a function that tells the server how to handle each request. They are a specific kind of middleware that wraps your logic and acts as a gateway:
 
@@ -373,15 +373,3 @@ server({}, [
   })
 ]);
 ```
-
-
-
-## Retrocompatibility
-
-> Explain about the wrapper for all the middleware out there
-
-
-
-## Routes are final
-
-> Explain how a route is matched only once
