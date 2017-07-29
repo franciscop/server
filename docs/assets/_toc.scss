@@ -15,10 +15,11 @@
 .toc h2 {
   font-size: 1.25em;
   margin-left: 0;
-  padding: 0 10px;
+  padding: 0;
   margin-top: 0;
 }
 
+.toc h2 > *,
 .toc a {
   display: block;
   color: inherit;
