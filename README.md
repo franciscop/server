@@ -4,7 +4,7 @@
   [![[Status]](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server)
   [![[Windows Build]](https://img.shields.io/appveyor/ci/franciscop/server.svg?label=windows)](https://ci.appveyor.com/project/franciscop/server)
   [![[Downloads]](https://img.shields.io/npm/dm/server.svg)](https://npm-stat.com/charts.html?package=server)
-  [![[Roadmap]](https://img.shields.io/badge/version-BETA-yellow.svg)](https://medium.com/server-for-node-js/server-js-beta-1-released-d53d01468ac5)
+  [![[Roadmap]](https://img.shields.io/badge/version-BETA-yellow.svg)](https://medium.com/server-for-node-js/server-js-beta-1-released-d53d01468ac5) [![[Donate]](https://img.shields.io/badge/%20donate%20-%20paypal%20-blue.svg)](https://www.paypal.me/franciscopresencia/)
 
 
 Powerful server for Node.js that just works so **you can focus on your awesome project**:
@@ -119,13 +119,11 @@ module.exports = [
 
 ### Real time
 
-> Upcoming feature
-
 Websockets were never this easy to use! With socket.io on the front-end, you can simply do this in the back-end to handle those events:
 
 ```js
 // chat/router.js
-const socket = require('server/router/socket');
+const { socket } = require('server/router');
 const ctrl = require('./controller');
 
 module.exports = [
