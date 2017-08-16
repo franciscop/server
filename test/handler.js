@@ -17,7 +17,9 @@ module.exports = async (middle, opts = {}, servOpts) => {
   try {
     const res = await request(options);
     if (res.statusCode < 200 || res.statusCode >= 300) {
-      throw new Error(`Invalid response code: ${res.statusCode}`);
+      let err = new Error(`Invalid response code: ${res.statusCode}`);
+      err.code = res.statusCode;
+      throw err;
     }
     ctx.close();
     return res;

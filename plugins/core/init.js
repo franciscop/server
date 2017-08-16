@@ -56,7 +56,8 @@ module.exports = async ctx => {
 
     // Set the csrf for render(): https://expressjs.com/en/api.html#res.locals
     core.before.push(ctx => {
-      ctx.res.locals.csrf = ctx.req.csrfToken();
+      ctx.csrf = ctx.req.csrfToken();
+      ctx.res.locals.csrf = ctx.csrf;
     });
   }
 
@@ -80,4 +81,14 @@ module.exports = async ctx => {
       });
     });
   }
+
+  // Add a reference from ctx.req.body to the ctx.data and an alias
+  core.before.push(ctx => {
+    for (let key in ctx.req) {
+      if (key !== 'host') {
+        ctx[key] = ctx.req[key];
+      }
+    }
+    ctx.data = ctx.body;
+  });
 };

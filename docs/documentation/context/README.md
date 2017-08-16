@@ -84,6 +84,32 @@ run(noCsrf, middle).post('/', { body: 'Hello 世界' });
 run(middle).emit('message', 'Hello 世界');
 ```
 
+To handle forms sent normally:
+
+```pug
+//- index.pug
+form(method="POST" action="/contact")
+  input(name="email")
+  input(name="_csrf" value=csrf type="hidden")
+  input(type="submit" value="Subscribe")
+```
+
+Then to parse the data from the back-end:
+
+```js
+const server = require('server');
+const { get, post } = server.router;
+const { render, redirect } = server.reply;
+
+server([
+  get(ctx => render('index.pug')),
+  post(ctx => {
+    console.log(ctx.data);  // Logs the email
+    return redirect('/');
+  })
+]);
+```
+
 
 
 ## .params
@@ -101,6 +127,12 @@ run(mid).get('/dog/42');
 ```
 
 They come from parsing [the `ctx.path`](#-path) with the [package `path-to-regexp`](https://www.npmjs.com/package/path-to-regexp). Go there to see more information about it.
+
+```js
+const mid = del('/user/:id', ctx => {
+  console.log('Delete user:', ctx.params.id);
+});
+```
 
 
 
@@ -259,6 +291,7 @@ const mid = ctx => {
   expect(ctx.path).toBe('/question');
 };
 
+// Test it
 run(mid).get('/question?answer=42');
 ```
 
@@ -273,6 +306,7 @@ const mid = ctx => {
   expect(ctx.secure).toBe(false);
 };
 
+// Test it
 run(mid).get('/');
 ```
 

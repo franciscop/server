@@ -3,7 +3,8 @@ const extend = require('extend');
 const loadware = require('loadware');
 const join = require('server/src/join');
 const { get, error } = require('server/router');
-const { getter } = require('server/test');
+
+const run = require('server/test/run');
 
 const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
   req: { url, path, method },
@@ -44,7 +45,7 @@ describe('server/router definition', () => {
 
 describe('server/router works', () => {
   it('works', async () => {
-    const middles = [
+    const mid = [
       () => new Promise((resolve) => resolve()),
       get('/aaa', () => { throw new Error(); }),
       get('/', () => 'Hello 世界'),
@@ -53,7 +54,7 @@ describe('server/router works', () => {
     ];
 
     const ctx = createCtx();
-    await join(middles)(ctx);
+    await join(mid)(ctx);
     expect(ctx.req.solved).toBe(true);
   });
 
@@ -88,32 +89,32 @@ describe('Error routes', () => {
   it('can catch errors', async () => {
     const generate = () => { throw new Error('Should be caught'); };
     const handle = error(() => 'Error 世界');
-    const res = await getter([generate, handle]);
+
+    const res = await run([generate, handle]).get('/');
     expect(res.body).toBe('Error 世界');
   });
 
-  it('can catch errors with full path', () => {
+  it('can catch errors with full path', async () => {
     const generate = ctx => { ctx.throw('test:a'); };
     const handle = error('test:a', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('test:a');
       ctx.res.send('Error 世界');
     });
-    return getter([generate, handle]).then(res => {
-      expect(res.body).toBe('Error 世界');
-    });
+    const res = await run([generate, handle]).get('/');
+    expect(res.body).toBe('Error 世界');
   });
 
-  it('can catch errors with partial path', () => {
+  it('can catch errors with partial path', async () => {
     const generate = ctx => { ctx.throw('test:b'); };
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('test:b');
       ctx.res.send('Error 世界');
     });
-    return getter([generate, handle]).then(res => {
-      expect(res.body).toBe('Error 世界');
-    });
+
+    const res = await run([generate, handle]).get('/');
+    expect(res.body).toBe('Error 世界');
   });
 
   const errors = {
@@ -123,33 +124,39 @@ describe('Error routes', () => {
     'test:pre:build': opts => new Error(`Hi there ${opts.name}`)
   };
 
-  it('can generate errors', () => {
+  it('can generate errors', async () => {
     const generate = ctx => { ctx.throw('test:pre:1'); };
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('Hi there 1');
       ctx.res.send('Hello 世界');
     });
-    return getter([generate, handle], {}, { errors });
+
+    const res = await run({ errors }, [generate, handle]).get('/');
+    expect(res.body).toBe('Hello 世界');
   });
 
-  it('can generate errors with options', () => {
+  it('can generate errors with options', async () => {
     const generate = ctx => { ctx.throw('test:pre:build', { name: 'ABC' }); };
     const handle = error('test', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('Hi there ABC');
       ctx.res.send('Hello 世界');
     });
-    return getter([generate, handle], {}, { errors });
+
+    const res = await run({ errors }, [generate, handle]).get('/');
+    expect(res.body).toBe('Hello 世界');
   });
 
-  it('can generate errors', () => {
+  it('can generate errors', async () => {
     const generate = ctx => { ctx.throw('generic error'); };
     const handle = error('generic error', ctx => {
       expect(ctx.error).toBeInstanceOf(Error);
       expect(ctx.error.message).toBe('generic error');
       ctx.res.send('Hello 世界');
     });
-    return getter([generate, handle], {}, { errors });
+
+    const res = await run({ errors }, [generate, handle]).get('/');
+    expect(res.body).toBe('Hello 世界');
   });
 });

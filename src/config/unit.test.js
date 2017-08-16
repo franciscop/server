@@ -90,6 +90,18 @@ describe('environment variables', () => {
 });
 
 
+describe('errors', () => {
+  it('rejects a default secret', async () => {
+    try {
+      config({ secret: 'your-random-string-here' });
+      throw new Error('Should not be here');
+    } catch (err) {
+      expect(err.code).toBe('/server/options/secret/example');
+      expect(err.message).toMatch(/your-random-string-here/);
+    }
+  });
+});
+
 
 describe('plugins', () => {
   it('loads plugin config', () => {

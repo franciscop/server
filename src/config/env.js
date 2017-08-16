@@ -7,7 +7,11 @@ const type = require('./type');
 // Get the process variables in lowercase
 const env = {};
 for (let key in process.env) {
-  env[key.toLowerCase()] = type(process.env[key]);
+  if (key === 'NODE_ENV') {
+    env.env = process.env.NODE_ENV;
+  } else {
+    env[key.toLowerCase()] = type(process.env[key]);
+  }
 }
 
 module.exports = env;

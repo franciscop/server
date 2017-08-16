@@ -169,6 +169,23 @@ article {
   padding-bottom: 30vh;
 }
 
+article .features {
+  margin: 20px 0 30px;
+  text-align: center;
+
+  img {
+    margin: 0 auto;
+    width: 100px;
+    display: block;
+    filter: opacity(.8);
+  }
+
+  p {
+    width: 90%;
+    margin: 0 auto;
+  }
+}
+
 article img {
   max-width: 100%;
 }

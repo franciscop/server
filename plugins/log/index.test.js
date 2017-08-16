@@ -1,6 +1,5 @@
 const server = require('../../server');
-const { getter, throws } = require('../../test');
-
+const { handler } = require('../../test');
 
 describe('log()', () => {
   it('is defined', () => {
@@ -15,7 +14,7 @@ describe('log()', () => {
       expect(ctx.log).toBeDefined();
       return 'Hello 世界';
     };
-    return getter(middle, {});
+    return handler(middle);
   });
 
   it('has the right methods', () => {
@@ -30,10 +29,13 @@ describe('log()', () => {
       expect(ctx.log.debug).toBeDefined();
       return 'Hello 世界';
     };
-    return getter(middle, {});
+    return handler(middle);
   });
 
-  it('rejects invalid log levels', () => {
-    return throws(() => getter([], { log: 'abc' }));
+  it('rejects invalid log levels', async () => {
+    // console.log(expect(drinkOctopus).rejects);
+    await expect(handler([], {}, { log: 'abc' })).rejects.toMatchObject({
+      message: 'The log level abc is not valid. Valid names: emergency,alert,critical,error,warning,notice,info,debug'
+    });
   });
 });

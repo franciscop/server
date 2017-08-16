@@ -365,11 +365,16 @@ const language = sub(/(en|es|jp)/, ctx => {
 ```js
 const server = require('server');
 const { get, socket } = server.router;
+const { render } = server.reply;
 
 server({}, [
-  get('/', (req, res) => res.sendFile(__dirname + '/public/index.html')),
-  socket('message', (data, socket, io) => {
-    io.emit(data);
+  get('/', ctx => render('/public/index.html')),
+
+  // Receive a message from a single socket
+  socket('message', ctx => {
+
+    // Send the message to every socket
+    io.emit('message', ctx.data);
   })
 ]);
 ```

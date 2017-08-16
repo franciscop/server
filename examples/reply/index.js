@@ -19,6 +19,7 @@ server([
   // Needed:
   get('/file', ctx => file('data.txt')),
   get('/render', ctx => render('index.pug')),
+  get('/renderhtml', ctx => render('index.html')),
   get('/download', ctx => download('data.txt', 'my file.txt')),
 
   // Concatenable:

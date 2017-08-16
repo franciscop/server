@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:sketch="http://www.bohemiancoding.com/sketch/ns"
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="100"
+   height="100"
+   viewBox="0 0 100 100"
+   version="1.1"
+   id="svg2"
+   inkscape:version="0.91 r13725"
+   sodipodi:docname="socketio.svg">
+  <metadata
+     id="metadata22">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title>logo full</dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <sodipodi:namedview
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1"
+     objecttolerance="10"
+     gridtolerance="10"
+     guidetolerance="10"
+     inkscape:pageopacity="0"
+     inkscape:pageshadow="2"
+     inkscape:window-width="1920"
+     inkscape:window-height="1050"
+     id="namedview20"
+     showgrid="false"
+     inkscape:zoom="6.863386094"
+     inkscape:cx="56.78254438"
+     inkscape:cy="56.64392969"
+     inkscape:window-x="0"
+     inkscape:window-y="30"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="logo" />
+  <!-- Generator: Sketch 3.0.2 (7799) - http://www.bohemiancoding.com/sketch -->
+  <title
+     id="title4">logo full</title>
+  <description>Created with Sketch.</description>
+  <defs
+     id="defs6" />
+  <g
+     id="Page-1"
+     sketch:type="MSPage"
+     style="fill:none;fill-rule:evenodd;stroke:none;stroke-width:1"
+     transform="translate(0,57)">
+    <g
+       id="logo"
+       sketch:type="MSLayerGroup"
+       transform="matrix(1.909781903,0,0,1.911750316,8.931054187,-48.10771704)">
+      <path
+         d="m 16.33261303,1.746566507 c 5.2845,-1.3552499992 11.12475,-0.5655 15.78525,2.310749999 5.8695,3.510000005 9.70125,10.149750004 9.79875,16.984499994 0.2145,6.903 -3.38325,13.7475 -9.165,17.50125 -6.435,4.329 -15.33675,4.49475 -21.90825,0.38025 C 4.145113035,34.9258165 0.235363036,26.8625665 1.239613035,19.12106651 2.048863037,10.94081652 8.366863037,3.725816506 16.33261303,1.746566507 l 0,0 z"
+         id="path11"
+         sketch:type="MSShapeGroup"
+         inkscape:connector-curvature="0"
+         style="fill:#000000;fill-opacity:1" />
+      <path
+         d="M 15.37,4.67 C 25.61,0.57 38.17,8.14 39.23,19.12 40.88,29 32.68,39.04 22.67,39.33 13.15,40.28 3.95,32.21 3.68,22.65 2.97,14.91 8.07,7.23 15.37,4.67 l 0,0 z"
+         id="path13"
+         sketch:type="MSShapeGroup"
+         inkscape:connector-curvature="0"
+         style="fill:#ffffff" />
+      <path
+         d="m 16.4,20.44 c 4.59,-3.75 9.08,-7.63 13.77,-11.27 -2.46,3.78 -4.99,7.51 -7.45,11.29 -2.11,0.01 -4.22,0.01 -6.32,-0.02 l 0,0 z"
+         id="path15"
+         sketch:type="MSShapeGroup"
+         inkscape:connector-curvature="0"
+         style="fill:#000000;fill-opacity:1" />
+      <path
+         d="m 20.28,22.53 c 2.12,0 4.23,0 6.34,0.03 -4.62,3.73 -9.09,7.64 -13.79,11.27 2.46,-3.78 4.99,-7.52 7.45,-11.3 l 0,0 z"
+         id="path17"
+         sketch:type="MSShapeGroup"
+         inkscape:connector-curvature="0"
+         style="fill:#000000;fill-opacity:1" />
+    </g>
+  </g>
+</svg>

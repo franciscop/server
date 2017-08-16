@@ -1,10 +1,8 @@
 # **server.js** for Node.js
 
-  [![[Subscribe]](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH)
-  [![[Status]](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server)
+  [![[Downloads]](https://img.shields.io/npm/dm/server.svg)](https://npm-stat.com/charts.html?package=server) [![[Donate]](https://img.shields.io/badge/%20donate%20-%20paypal%20-blue.svg)](https://www.paypal.me/franciscopresencia/) [![[Subscribe]](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH)
+  [![[Roadmap]](https://img.shields.io/badge/version-BETA-yellow.svg)](https://medium.com/server-for-node-js/server-js-beta-1-released-d53d01468ac5) [![[Status]](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server)
   [![[Windows Build]](https://img.shields.io/appveyor/ci/franciscop/server.svg?label=windows)](https://ci.appveyor.com/project/franciscop/server)
-  [![[Downloads]](https://img.shields.io/npm/dm/server.svg)](https://npm-stat.com/charts.html?package=server)
-  [![[Roadmap]](https://img.shields.io/badge/version-BETA-yellow.svg)](https://medium.com/server-for-node-js/server-js-beta-1-released-d53d01468ac5) [![[Donate]](https://img.shields.io/badge/%20donate%20-%20paypal%20-blue.svg)](https://www.paypal.me/franciscopresencia/)
 
 
 Powerful server for Node.js that just works so **you can focus on your awesome project**:
@@ -148,3 +146,10 @@ This package was created by [Francisco Presencia](http://francisco.io/) but hope
 I love using my work and I'm available for contractor work. Freelancing helps maintain `server` and [my other open source projects](https://github.com/franciscop/) up to date! I am also on [Codementor](https://www.codementor.io/franciscop) so if you want to learn more Javascript/Node.js/etc contact me there.
 
 You can also [sponsor the project](https://serverjs.io/sponsor), get your logo in here and some other perks with tons of ♥
+
+
+## Sponsors
+
+Special thanks to [Browserstack](https://www.browserstack.com/) for supporting us debug this website across different browsers. Totally recommended for things like this:
+
+![Browserstack logo](/img/browserstack.svg)

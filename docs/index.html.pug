@@ -18,7 +18,23 @@ block content
       // Just having some fun (;
       button.secret super secret button
 
+
   article.home
+    div.features
+      div.flex.one.three-600
+        div
+          img(src="/img/battery.svg")
+          h2 Batteries on
+          p Everything you need is loaded to work by default
+        div
+          img(src="/img/socketio.svg")
+          h2 socket.io
+          p Real time communication in a couple of lines
+        div
+          img(src="/img/document.svg")
+          h2 Documented
+          p Extensive tutorials and docs for great productivity
+    
     include:marked:noheader ../README.md
 
 
