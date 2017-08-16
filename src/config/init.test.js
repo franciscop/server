@@ -1,14 +1,13 @@
 const server = require('server');
+const defaults = require('./defaults');
 const { port } = require('server/test');
 
 describe('Options', () => {
   it('default settings are correct', async () => {
-    const ctx = await server();
-    ctx.close();
-    expect(ctx.options.port).toBe(3000);
-    expect(ctx.options.engine).toBe('pug');
-    expect(ctx.options.verbose).toBe(false);
-    expect(ctx.options.secret).toMatch(/^secret-/);
+    expect(defaults.port).toBe(3000);
+    expect(defaults.engine).toBe('pug');
+    expect(defaults.public).toBe('public');
+    expect(defaults.secret).toMatch(/^secret-/);
   });
 
   it('accepts a single port Number', async () => {
@@ -25,12 +24,13 @@ describe('Options', () => {
     expect(ctx.options.port).toBe(options.port);
   });
 
-  it('can listen only one time to the same port', async () => {
+  it.only('can listen only one time to the same port', async () => {
     const onePort = port();
     const ctx = await server(onePort);
-    const err = await server(onePort).catch(err => err);
-    ctx.close();
-    expect(err.code === 'EADDRINUSE');
+    let err = await server(onePort).catch(err => err);
+    await ctx.close();
+    console.log(err);
+    expect(err.code).toBe('EADDRINUSE');
   });
 
   it('sets the engine properly `engine`', async () => {
@@ -50,8 +50,8 @@ describe('Options', () => {
     const portB = port();
     const serv1 = await server(portA);
     const serv2 = await server(portB);
-    serv1.close();
-    serv2.close();
+    await serv1.close();
+    await serv2.close();
 
     expect(serv2.options.port).toBe(portB);
     const portC = port();

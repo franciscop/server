@@ -103,9 +103,39 @@ This happens when you try to launch `server` in a port that is already being use
 - Change the port for the server such as `server({ port: 5000 });`.
 - Find out what process is already using the port and stop it. In Linux: `fuser -k -n tcp 3000`.
 
+Example on when this error is happening:
+
+```js
+const server = require('server');
+// DO NOT DO THIS:
+server(3000);
+server(3000);
+```
+
+To fix it, invoke it with a different port:
+
+```js
+const server = require('server');
+server(2000);
+server(3000);
+```
 
 
-## MissingMiddleware
+
+## Options
+
+These errors are related to server's options.
+
+### /server/options/portnotanumber
+
+
+
+
+## Core
+
+These errors occur when handling a specific part of server.js.
+
+### /server/core/missingmiddleware
 
 This will normally happen if you are trying to create a `server` middleware from an `express` middleware but forget to actually pass express' middleware.
 
@@ -118,7 +148,7 @@ const middle = modern();  // Error
 
 
 
-## InvalidMiddleware
+### /server/core/invalidmiddleware
 
 This happens when you try to call `modern()` with an argument that is not an old-style middleware. The first and only argument for `modern()` is a function with `express`' middleware signature.
 

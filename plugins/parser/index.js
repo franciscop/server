@@ -10,7 +10,7 @@ const plugin = {
     text: {},
     data: {},
     cookie: {},
-    method: 'X-HTTP-Method-Override',
+    method: ['X-HTTP-Method-Override', '_method'],
   },
   init: require('./init'),
   before: []   // It is populated in "init()"

@@ -21,6 +21,7 @@ module.exports = (method, ...all) => {
     // Only do this if the correct path
     ctx.req.params = match(ctx.req.path);
     if (!ctx.req.params) return;
+    ctx.params = ctx.req.params;
 
     // Perform this promise chain
     await join(middle)(ctx);

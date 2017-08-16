@@ -1,10 +1,11 @@
-const { getter, throws } = require('../../test');
+const { getter } = require('../../test');
 
 describe('final', () => {
   it('gets called with an unhandled error', async () => {
     const simple = () => { throw new Error('Hello'); };
-    const err = await throws(() => getter(simple, {}, { log: 'critical' }));
-    expect(err.message).toMatch(/500/);
+    await expect(getter(simple, {}, { log: 'critical' })).rejects.toMatchObject({
+      code: 500
+    });
   });
 
   it('does not reply if the headers are already sent', async () => {

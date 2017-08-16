@@ -1,84 +1,112 @@
 // Integration - test the router within the whole server functionality
-const request = require('request-promises');
 const server = require('server');
+const run = require('server/test/run');
 const { get, post, put, del } = server.router;
-const { err, launch, handler } = require('server/test');
+
+
+
+// Mock middlewares and data:
+const question = { answer: 42 };
+const mirror = ctx => ctx.data;
 const hello = () => 'Hello 世界';
+const throwError = () => { throw new Error('MockError'); };
 
-const routes = [
-  get('/', hello),
-  post('/', ctx => 'Hello ' + ctx.req.body.a),
-];
-const core = { csrf: false };
 
-// Check that a response is performed and it's a simple one
-const checker = ({ body = 'Hello 世界', method = 'GET' } = {}) => res => {
-  expect(res.request.method).toBe(method);
-  expect(res.body).toBe(body);
-};
+
+// CSRF validation is checked in another place; disable it for these tests
+run.options = { core: { csrf: false } };
 
 describe('Basic router types', () => {
-  it('can do a GET request', () => {
-    return handler(get('/', hello)).then(checker());
+  it('can do a GET request', async () => {
+    const mid = get('/', hello);
+
+    const res = await run(mid).get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
   });
 
-  it('can do a POST request', () => {
-    const method = 'POST';
-    return handler(post('/', hello), { method }, { core }).then(checker({ method }));
+  it('can do a POST request', async () => {
+    const mid = post('/', ctx => ctx.data);
+
+    const res = await run(mid).post('/', { body: question });
+    expect(res.body).toEqual({ answer: 42 });
+    expect(res.status).toBe(200);
   });
 
-  it('can do a PUT request', () => {
-    const method = 'PUT';
-    return handler(put('/', hello), { method }, { core }).then(checker({ method }));
+  it('can do a PUT request', async () => {
+    const mid = post('/', ctx => ctx.data);
+
+    const res = await run(mid).post('/', { body: question });
+    expect(res.body).toEqual({ answer: 42 });
+    expect(res.status).toBe(200);
   });
 
-  it('can do a DELETE request', () => {
-    const method = 'DELETE';
-    return handler(del('/', hello), { method }, { core }).then(checker({ method }));
+  it('can do a DELETE request', async () => {
+    const mid = del('/', ctx => 'Hello 世界');
+
+    const res = await run(mid).del('/', { body: question });
+    expect(res.body).toEqual('Hello 世界');
+    expect(res.status).toBe(200);
   });
 });
 
 
+
+
+
+
 describe('Ends where it should end', () => {
-  it('uses the matching method', () => {
-    return handler([
-      post('/', err),
-      put('/', err),
-      del('/', err),
+
+  it('uses the matching method', async () => {
+    const mid = [
+      post('/', throwError),
+      put('/', throwError),
+      del('/', throwError),
       get('/', hello)
-    ]).then(checker());
+    ];
+
+    const res = await run(mid).get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
   });
 
-  it('uses the matching path', () => {
-    return handler([
-      get('/bla', err),
-      get('/:id', err),
+
+  it('uses the matching path', async () => {
+    const mid = [
+      get('/bla', throwError),
+      get('/:id', throwError),
       get('/', hello)
-    ]).then(checker());
+    ];
+
+    const res = await run(mid).get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
   });
 
-  it('uses a route only once', () => {
-    return handler([
+
+  it('uses a route only once', async () => {
+    const mid = [
       get('/', hello),
-      get('/', err)
-    ]).then(checker());
+      get('/', throwError)
+    ];
+
+    const res = await run(mid).get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
   });
+
 
   it('parses params correctly', async () => {
-    const middle = get('/:id', ctx => ctx.req.params.id);
-    const res = await handler(middle, { path: '/42?ignored=true' });
+    const mid = get('/:id', ctx => ctx.params.id);
+
+    const res = await run(mid).get('/42?ignored=true');
     expect(res.body).toBe('42');
   });
 
   // A bug shifted the router's middleware on each request so now we test for
   // multiple request to make sure the middleware remains the same
   it('does not modify the router', async () => {
-    const ctx = await launch([get('/w', ctx => ctx.res.send('w'))].concat(routes));
-    const full = 'http://localhost:' + ctx.options.port + '/';
-    for (let url of [full, full, full]) {
-      const res = await request(url);
-      expect(res.body).toBe('Hello 世界');
-    }
-    ctx.close();
+    const inst = run(get('/', hello)).alive(async api => {
+      for (let url of [0, 1, 2]) {
+        const res = await api.get('/');
+        expect(res.body).toBe('Hello 世界');
+      }
+    });
   });
 });

@@ -44,7 +44,7 @@ And open your browser on [localhost:3000](http://localhost:3000/) to see it in a
 
 ## Basic usage
 
-Some of the main components are the main function on itself, [router](/documentation/router/) and [reply](/documentation/reply/). The main function accepts first an optional object for [the options](/documentation/options/), and then as many [middleware](#middleware) or arrays of middleware as wanted:
+Some of the components are the main function on itself, [router](/documentation/router/) and [reply](/documentation/reply/). The main function accepts first an optional object for [the options](/documentation/options/), and then as many [middleware](#middleware) or arrays of middleware as wanted:
 
 ```js
 const server = require('server');

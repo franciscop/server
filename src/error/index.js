@@ -1,6 +1,6 @@
 const native = require('./errors.js');
 const nicknames = {
-  EADDRINUSE: 'PortAlreadyUsed'
+  EADDRINUSE: 'server.native.portused'
 };
 
 // Create a new error from all the available ones and the argument passed
@@ -30,7 +30,9 @@ module.exports.throw = errors => (name, opts) => {
 // Map the native error to the custom defined one through the nicknames
 module.exports.native = err => {
   if (nicknames[err.code]) {
-    return native[nicknames[err.code]](err);
+    return native(nicknames[err.code], err);
   }
+  err.type = `server.native.${err.code}`;
+
   return err;
 };

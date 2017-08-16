@@ -13,14 +13,14 @@ Some possible uses:
 
 ## Install dependencies
 
-After [getting your project ready](/tutorials/getting-started) you'll have to make sure that you have MongoDB installed following [the official guide](https://docs.mongodb.com/manual/administration/install-community/) and runn it (will depend on your installation process). For Ubuntu you can simply do:
+After [getting your project ready](/tutorials/getting-started) you'll have to make sure that you have MongoDB installed following [the official guide](https://docs.mongodb.com/manual/administration/install-community/) and run it (will depend on your installation process). For Ubuntu you can simply do:
 
 ```bash
 mongod --version   # Should display a number
 mongod
 ```
 
-Then and within our project folder, we install the two libraries that we will be using:
+Then we install the two libraries that we will be using **within our project folder**:
 
 ```bash
 npm install server mongoose

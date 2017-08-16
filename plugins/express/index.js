@@ -8,6 +8,9 @@ module.exports = {
     ctx.express = express;
     ctx.app = ctx.express();
 
+    // Accept HTML as a render extension
+    ctx.app.engine('html', require('hbs').__express);
+
     if (ctx.options.engine) {
       // If it's an object, expect a { engine: { engineName: engineFN } }
       if (typeof ctx.options.engine === 'object') {
@@ -35,6 +38,9 @@ module.exports = {
       }
 
       resolve();
+    });
+    ctx.close = () => new Promise((res, rej) => {
+      ctx.server.close(err => err ? rej(err) : res());
     });
     ctx.server.on('error', err => reject(error.native(err)));
   })

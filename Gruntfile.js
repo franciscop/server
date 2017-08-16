@@ -1,6 +1,21 @@
 const filters = require('./docs/filters.js');
 const files = require('./docs/files.js');
 
+const fs = require('fs')
+
+function getInfo(src) {
+  delete require.cache[require.resolve(src)];
+  return require(src).reduce((obj, one) => {
+    // No file, error file or empty file === ignore this part
+    let data = {};
+    const readme = fs.readFileSync(src + one + '/README.md', 'utf-8');
+    data.title = (readme.match(/^\#\s(.+)/mg) || []).map(one => one.replace(/^\#\s/, ''))[0];
+    if (!data.title) throw new Error('Your file ' + file + '/README.md has no h1 in markdown');
+    data.sections = (readme.match(/^\#\#[\s](.+)/gm) || []).map(one => one.replace(/^\#\#\s/, ''));
+    return Object.assign(obj, { [one]: data });
+  }, {});
+}
+
 // Generate the documentation final:origin pairs
 const transform = dir => files(__dirname + '/' + dir)
   .filter(str => /\.html\.pug$/.test(str))
@@ -11,8 +26,6 @@ const transform = dir => files(__dirname + '/' + dir)
 
 // This builds the library itself
 module.exports = function (grunt) {
-
-
 
   // Configuration
   grunt.initConfig({
@@ -55,7 +68,13 @@ module.exports = function (grunt) {
       compile: {
         options: {
           client: false,
-          data: {},
+          data: () => {
+            return {
+              tutorials: getInfo('./docs/tutorials/'),
+              documentation: getInfo('./docs/documentation/'),
+              slug: str => str.toLowerCase().replace(/[^\w]+/g, '-')
+            };
+          },
           filters: filters
         },
         files: transform('docs')
@@ -65,14 +84,18 @@ module.exports = function (grunt) {
     watch: {
       scripts: {
         files: [
-          'package.js', // To bump versions
           'Gruntfile.js',
-          'documentation/*.**',
+
+          // Docs
           'docs/**/*.*',
-          'server.js',
-          'about.md',
           'README.md',
-          'src/**/*.js'
+
+          // For testing:
+          'server.js',
+          'src/**/*.js',
+
+          // To bump versions
+          'package.js'
         ],
         tasks: ['default'],
         options: {

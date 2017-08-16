@@ -37,8 +37,8 @@ describe('Full trip request', () => {
     expect(res.body).toBe('Hello 世界');
   });
 
-  it('can perform a simple get', async () => {
-    const res = await getter(() => 'Hello 世界');
+  it('uses the first reply', async () => {
+    const res = await getter([() => 'Hello 世界', () => 'Hello mundo']);
     expect(res.body).toBe('Hello 世界');
   });
 

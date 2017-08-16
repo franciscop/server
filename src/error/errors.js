@@ -1,8 +1,8 @@
 const errors = require('human-error')({
-  url: key => `https://serverjs.io/errors#${key.toLowerCase()}`
+  url: key => `https://serverjs.io/documentation/errors#${key.replace(/\W+/g, '-')}`
 });
 
-errors.PortAlreadyUsed = err => `
+errors['server.native.portused'] = err => `
   The port "${err.port}" is already in use.
   Only a single server can be used per port.
   You have these options:

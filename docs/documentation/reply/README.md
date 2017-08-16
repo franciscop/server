@@ -6,7 +6,6 @@ A reply is a method **returned from a middleware** that creates the response. Th
 |-------------------------------------------|----------------------------|-----|
 |[`cookie(name, value, opts)`](#cookie-)    |cookie('name', 'Francisco') |false|
 |[`download(path[, filename])`](#download-) |download('resume.pdf')      |true |
-|[`file(path)`](#file-)                     |file('data.html')           |true |
 |[`header(field[, value])`](#header-)       |header('ETag': '12345')     |false|
 |[`json([data])`](#json-)                   |json({ hello: 'world' })    |true |
 |[`jsonp([data])`](#jsonp-)                 |jsonp({ hello: 'world' })   |true |
@@ -24,8 +23,7 @@ const { render, redirect, file } = require('server/reply');
 
 module.exports = [
   get('/', ctx => render('index.hbs')),
-  post('/', processRequest, ctx => redirect('/')),
-  get('/robots.txt', file('config/robots.txt'))
+  post('/', processRequest, ctx => redirect('/'))
 ];
 ```
 
@@ -275,12 +273,12 @@ The filename is relative to the [views option](/documentation/options/#-views-) 
 server({ views: 'somefolder' }, ctx => render('index.hbs'));
 ```
 
-The extension of this filename is optional. It accepts by default `.hbs`, `.pug` and `.html` (html not yet) and can accept more types [installing other engines](/documentation/options/#-engine-):
+The extension of this filename is optional. It accepts by default `.hbs`, `.pug` and `.html` and can accept more types [installing other engines](/documentation/options/#-engine-):
 
 ```js
 const mid1 = ctx => render('index.pug');
 const mid2 = ctx => render('index.hbs');
-const mid3 = ctx => render('index.html');  // not yet
+const mid3 = ctx => render('index.html');
 ```
 
 The data will be passed to the template engine. Note that some plugins might pass additional data as well.
@@ -312,6 +310,7 @@ const mid1 = ctx => status(201).send({ resource: 'foobar' });
 const mid2 = ctx => status(404).send('Not found');
 const mid3 = ctx => status(500).send({ error: 'our fault' });
 ```
+
 
 
 ## status()

@@ -34,9 +34,6 @@ module.exports = ctx => {
     parser.before.push(modern(text));
   }
 
-  // Add a reference from ctx.req.body to the ctx.data
-  parser.before.push(ctx => { ctx.data = ctx.req.body; });
-
   // Data parser
   if (options.data) {
     const data = require('express-data-parser')(options.data);
