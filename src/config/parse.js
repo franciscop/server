@@ -6,7 +6,7 @@ const OptionsError = require('./errors');
 // Primitives to test
 // const types = ['Boolean', 'Number', 'String', 'Array', 'Object'];
 
-module.exports = function(schema, arg = {}, env= {}) {
+module.exports = async function(schema, arg = {}, env= {}) {
   const options = {};
 
   if (typeof arg !== 'object') {
@@ -26,14 +26,23 @@ module.exports = function(schema, arg = {}, env= {}) {
     // Skip the control variables such as '__root'
     if (/^\_\_/.test(key)) continue;
 
-    // Use the arguments and environment by default
+    // Decide whether to use the argument or not
     if (def.arg === false) {
-      if (arg[key]) throw new OptionsError('/server/options/noarg', { key });
+
+      // No argument expected but one was passed
+      if (arg[key]) {
+        throw new OptionsError('/server/options/noarg', { key });
+      }
     } else {
       def.arg = def.arg === true ? key : def.arg || key;
     }
+
+    // Decide whether to use the environment or not
     if (def.env === false) {
-      if (env[key]) throw new OptionsError('/server/options/noenv', { key });
+      // No argument expected but one was passed
+      if (env[key.toUpperCase()]) {
+        throw new OptionsError('/server/options/noenv', { key });
+      }
     } else {
       def.env = (def.env === true ? key : def.env || key).toUpperCase();
     }
@@ -61,10 +70,10 @@ module.exports = function(schema, arg = {}, env= {}) {
     // Validate the type
     if (def.type) {
 
-      // When specifying a String, Number, etc with the constructor
+      // Parse valid types into a simple array of strings: ['string', 'number']
       def.type = (def.type instanceof Array ? def.type : [def.type])
-        .map(one => one.name ? one.name : one)
-        .map(one => one.toLowerCase());
+        // pulls up the name for primitives such as String, Number, etc
+        .map(one => (one.name ? one.name : one).toLowerCase());
 
       // Make sure it is one of the valid types
       if (!def.type.includes(typeof value)) {
@@ -77,7 +86,7 @@ module.exports = function(schema, arg = {}, env= {}) {
     }
 
     if (def.validate) {
-      let ret = def.validate(def, value, options);
+      let ret = def.validate(value, def, options);
       if (ret instanceof Error) throw ret;
       if (!ret) throw new OptionsError('/server/options/validate', { key, value });
     }
