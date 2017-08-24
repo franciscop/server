@@ -52,7 +52,7 @@ const server = require('server');
 server({ port: 3000 }, ctx => 'Hello 世界');
 ```
 
-To use the router and reply you are encouraged to extract their methods as needed:
+To use the router and reply extract their methods as needed:
 
 ```js
 const server = require('server');

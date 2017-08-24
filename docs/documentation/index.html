@@ -30,7 +30,7 @@ server(ctx =&gt; &#39;Hello world&#39;);
 
 server({ port: 3000 }, ctx =&gt; &#39;Hello 世界&#39;);
 </code></pre>
-<p>To use the router and reply you are encouraged to extract their methods as needed:</p>
+<p>To use the router and reply extract their methods as needed:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 const { render, json } = server.reply;

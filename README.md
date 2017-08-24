@@ -146,10 +146,3 @@ This package was created by [Francisco Presencia](http://francisco.io/) but hope
 I love using my work and I'm available for contractor work. Freelancing helps maintain `server` and [my other open source projects](https://github.com/franciscop/) up to date! I am also on [Codementor](https://www.codementor.io/franciscop) so if you want to learn more Javascript/Node.js/etc contact me there.
 
 You can also [sponsor the project](https://serverjs.io/sponsor), get your logo in here and some other perks with tons of ♥
-
-
-## Sponsors
-
-Special thanks to [Browserstack](https://www.browserstack.com/) for supporting us debug this website across different browsers. Totally recommended for things like this:
-
-![Browserstack logo](/img/browserstack.svg)
