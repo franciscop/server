@@ -80,7 +80,7 @@ describe('schema', () => {
   });
 
   it('does a validation', async () => {
-    const validate = (def, value, options) => {
+    const validate = () => {
       let err = new Error('Hello world');
       err.code = '/server/options/fakeerror';
       return err;
@@ -90,7 +90,8 @@ describe('schema', () => {
   });
 
   it('expects the validation to return truthy', async () => {
-    const data = parse({ public: { validate: () => true } });
+    const opts = await parse({ public: { validate: () => true } }, { public: 'hello' });
+    expect(opts.public).toBe('hello');
   });
 
   it('expects the validation not to return false', async () => {
