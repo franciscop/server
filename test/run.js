@@ -74,7 +74,6 @@ module.exports = function (...middle) {
     // Parse the server options
     const opts = await serverOptions(middle);
 
-    console.log('OPTS:', opts);
     const ctx = await server(opts, middle).catch(err => { throw err; });
 
     ctx.close = () => new Promise((resolve, reject) => {

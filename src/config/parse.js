@@ -8,7 +8,6 @@ const path = require('path');
 // const types = ['Boolean', 'Number', 'String', 'Array', 'Object'];
 
 module.exports = async function(schema, arg = {}, env= {}, all = {}) {
-  console.log("ARGS:", arg);
   const options = {};
 
   if (typeof arg !== 'object') {
