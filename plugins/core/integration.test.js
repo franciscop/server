@@ -70,7 +70,9 @@ describe('Default modules', () => {
   // });
 
   it('static', async () => {
-    const res = await run({ public: test }).get('/logo.png');
+    const res = await run({ public: test }, ctx => {
+      console.log(ctx.options.public);
+    }).get('/logo.png');
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });
