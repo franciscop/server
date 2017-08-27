@@ -9,18 +9,6 @@ module.exports = async ctx => {
   const core = require('.');
   core.before = [];
 
-  // const core = ctx.plugins.filter(p => p.name === 'core')[0];
-  // console.log(core.options);
-
-  opts.public = opts.public || ctx.options.public;
-
-  // Normalize the "public" folder
-  if (!path.isAbsolute(opts.public)) {
-    opts.public = path.join(process.cwd(), opts.public);
-  }
-  opts.public = path.normalize(opts.public);
-  ctx.options.public = opts.public;
-
   // Compress
   if (opts.compress) {
     const compress = require('compression')(opts.compress);
