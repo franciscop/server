@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node .",
     "dev": "grunt watch",
-    "test": "jest --coverage --forceExit"
+    "test": "jest static --coverage --forceExit"
   },
   "engines": {
     "node": ">=7.6.0"
