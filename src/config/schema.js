@@ -16,8 +16,8 @@ module.exports = {
       console.log(value, arg, env, schema);
       if (/^win/.test(process.platform)) {
         if (value === 'C:\\Users\\Public') {
-          console.log('Got here so far', arg.public, schema.default);
-          return (arg.public || schema.default);
+          console.log('Got here so far', arg.public, schema.public.default);
+          return (arg.public || schema.public.default);
           // return path.normalize(path.join(process.cwd(), 'test'));
           // value = arg.public || schema.default;
           // const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
