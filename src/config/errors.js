@@ -22,13 +22,23 @@ error['/server/options/noenv'] = ({ key }) => `
   Please read the documentation for '${key}' and make sure to set it correctly.
 `;
 
+error['/server/options/cannotextend'] = ({ type, key }) => `
+  The option "${key}" must be an object but it received "${type}".
+  Please check your options to make sure you are passing an object.
+${type === 'undefined' ? `
+  If you are the creator of the plugin and you are receiving 'undefined', you
+  could allow for the default behaviour to be an empty object 'default: {}'
+` : ''}
+`;
+
 error['/server/options/required'] = ({ key }) => `
   The option '${key}' is required but it was not set neither as an argument nor
   in the environment. Please make sure to set it.
 `;
 
-error['/server/options/type'] = ({ key, expected, received }) => `
-  The option '${key}' should be a '[${expected}]' but you passed a '${received}'.
+error['/server/options/type'] = ({ key, expected, received, value }) => `
+  The option '${key}' should be a '[${expected}]' but you passed a '${received}':
+  ${JSON.stringify(value)}
 `;
 
 error['/server/options/enum'] = ({ key, value, possible }) => `

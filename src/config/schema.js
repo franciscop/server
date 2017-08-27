@@ -13,7 +13,7 @@ module.exports = {
   },
   env: {
     default: 'development',
-    enum: ['production', 'testing', 'development'],
+    enum: ['production', 'test', 'development'],
     arg: false,
     env: 'NODE_ENV'
   },
@@ -25,5 +25,16 @@ module.exports = {
     default: 'secret-' + token,
     type: String,
     arg: false
+    // TODO: integrate this
+    // if (options.secret === 'your-random-string-here') {
+    //   throw new ServerError('/server/options/secret/example');
+    // }
+    //
+    // if (/^secret-/.test(options.secret) && options.verbose) {
+    //   console.log(new ServerError('/server/options/secret/generated'));
+    // }
+  },
+  'x-powered-by': {
+    default: false
   }
 };

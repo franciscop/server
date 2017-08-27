@@ -1,63 +1,16 @@
-const extend = require('extend');  // deep clone, not like shallow Object.assign
-const config = require('./defaults');
-const ServerError = require('./errors');
+const parse = require('./parse');
+const schema = require('./schema');
 const env = require('./env');
 
-module.exports = (user = {}, plugins = []) => {
+module.exports = async (user = {}, plugins = []) => {
 
-  // If it's a number it's the port
-  if (typeof user === 'number') {
-    user = { port: user };
-  }
+  // Parse the options set by the argument and through the env
+  const options = await parse(schema, user, env);
 
-  let options = extend({}, config);
+  // Load plugin options namespaced with the name in parallel
+  await Promise.all(plugins.map(async ({ name, options: def = {}} = {}) => {
+    options[name] = await parse(def, user[name], env, options);
+  }));
 
-  // Load the options from the plugin array, namespaced with the plugin name
-  plugins.forEach(({ name, options: opts = {}} = {}) => {
-    if (opts instanceof Function) {
-      opts = opts(options[name] || {}, options);
-    }
-    extend(true, options, { [name]: opts });
-  });
-
-  extend(true, options, user);
-
-  // TODO: these notifications should not be here
-  if (options.secret === 'your-random-string-here') {
-    throw new ServerError('/server/options/secret/example');
-  }
-
-  if (/^secret-/.test(options.secret) && options.verbose) {
-    console.log(new ServerError('/server/options/secret/generated'));
-  }
-
-  return new Proxy(options, {
-    get: (orig, key) => {
-
-      // In windows the process.env.public points to 'C:\\Users\\Public'
-      if (key === 'public' && /^win/.test(process.platform)) {
-        // Change it in this case where we know it's wrong for sure
-        if (env.public === 'C:\\Users\\Public') {
-          return options.public || 'public';
-        }
-
-        // Light check with warning
-        if (env.public !== 'public') {
-          // TODO: change this to a proper warning
-          console.log(`
-            Windows might have set the path of public to ${env.public}.
-            If you changed the 'public' folder please ignore this message
-          `);
-        }
-      }
-
-      // If it is set in the environment some other way
-      if (typeof env[key] !== 'undefined') {
-        return env[key];
-      }
-
-      // It was set in the options
-      return options[key];
-    }
-  });
+  return options;
 };

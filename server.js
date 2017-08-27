@@ -33,13 +33,14 @@ const Server = async (...middle) => {
   const opts = (
     typeof middle[0] === 'undefined' ||
     typeof middle[0] === 'boolean' ||
+    typeof middle[0] === 'string' ||
     middle[0] === null ||
     middle[0] instanceof Function ||
     middle[0] instanceof Array
   ) ? {} : middle.shift();
 
   // Set the options for the context of Server.js
-  ctx.options = config(opts, module.exports.plugins);
+  ctx.options = await config(opts, module.exports.plugins);
 
   // Only enabled plugins through the config
   ctx.plugins = module.exports.plugins.filter(p => ctx.options[p.name]);
@@ -85,6 +86,7 @@ module.exports.plugins = [
   require('./plugins/log'),
   require('./plugins/express'),
   require('./plugins/parser'),
+  require('./plugins/static'),
   require('./plugins/core'),
   require('./plugins/socket'),
 ];

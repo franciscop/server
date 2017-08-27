@@ -3,6 +3,7 @@ const extend = require('extend');
 const loadware = require('loadware');
 const join = require('server/src/join');
 const { get, error } = require('server/router');
+const RouterError = require('./errors');
 
 const run = require('server/test/run');
 
@@ -95,26 +96,21 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with full path', async () => {
-    const generate = ctx => { ctx.throw('test:a'); };
-    const handle = error('test:a', ctx => {
-      expect(ctx.error).toBeInstanceOf(Error);
-      expect(ctx.error.message).toBe('test:a');
-      ctx.res.send('Error 世界');
+    const generate = ctx => { throw new RouterError('/server/test/router'); };
+    const handle = error('/server/test/router', ctx => {
+      return ctx.error.code;
     });
     const res = await run([generate, handle]).get('/');
-    expect(res.body).toBe('Error 世界');
+    expect(res.body).toBe('/server/test/router');
   });
 
   it('can catch errors with partial path', async () => {
-    const generate = ctx => { ctx.throw('test:b'); };
-    const handle = error('test', ctx => {
-      expect(ctx.error).toBeInstanceOf(Error);
-      expect(ctx.error.message).toBe('test:b');
-      ctx.res.send('Error 世界');
+    const generate = ctx => { throw new RouterError('/server/test/router'); };
+    const handle = error('/server/test', ctx => {
+      return ctx.error.code;
     });
-
     const res = await run([generate, handle]).get('/');
-    expect(res.body).toBe('Error 世界');
+    expect(res.body).toBe('/server/test/router');
   });
 
   const errors = {
@@ -125,38 +121,26 @@ describe('Error routes', () => {
   };
 
   it('can generate errors', async () => {
-    const generate = ctx => { ctx.throw('test:pre:1'); };
-    const handle = error('test', ctx => {
-      expect(ctx.error).toBeInstanceOf(Error);
-      expect(ctx.error.message).toBe('Hi there 1');
-      ctx.res.send('Hello 世界');
+    const generate = ctx => {
+      throw new RouterError('/server/test/router');
+    };
+    const handle = error('/server/test/router', ctx => {
+      return ctx.error.code;
     });
 
     const res = await run({ errors }, [generate, handle]).get('/');
-    expect(res.body).toBe('Hello 世界');
+    expect(res.body).toBe('/server/test/router');
   });
 
   it('can generate errors with options', async () => {
-    const generate = ctx => { ctx.throw('test:pre:build', { name: 'ABC' }); };
-    const handle = error('test', ctx => {
-      expect(ctx.error).toBeInstanceOf(Error);
-      expect(ctx.error.message).toBe('Hi there ABC');
-      ctx.res.send('Hello 世界');
+    const generate = ctx => {
+      throw new RouterError('/server/test/simplerouter', { text: 'ABC' });
+    };
+    const handle = error('/server/test/simplerouter', ctx => {
+      return ctx.error.message;
     });
 
     const res = await run({ errors }, [generate, handle]).get('/');
-    expect(res.body).toBe('Hello 世界');
-  });
-
-  it('can generate errors', async () => {
-    const generate = ctx => { ctx.throw('generic error'); };
-    const handle = error('generic error', ctx => {
-      expect(ctx.error).toBeInstanceOf(Error);
-      expect(ctx.error.message).toBe('generic error');
-      ctx.res.send('Hello 世界');
-    });
-
-    const res = await run({ errors }, [generate, handle]).get('/');
-    expect(res.body).toBe('Hello 世界');
+    expect(res.body).toBe(`Simple message: ABC`);
   });
 });

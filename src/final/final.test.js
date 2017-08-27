@@ -1,11 +1,10 @@
-const { getter } = require('../../test');
+const run = require('server/test/run');
 
 describe('final', () => {
   it('gets called with an unhandled error', async () => {
     const simple = () => { throw new Error('Hello'); };
-    await expect(getter(simple, {}, { log: 'critical' })).rejects.toMatchObject({
-      code: 500
-    });
+    const res = await run(simple).get('/');
+    expect(res.statusCode).toBe(500);
   });
 
   it('does not reply if the headers are already sent', async () => {
@@ -13,12 +12,7 @@ describe('final', () => {
       ctx.res.send('Error 世界');
       throw new Error('Hello');
     };
-    const res = await getter(simple, {}, { log: 'critical' });
+    const res = await run(simple).get('/');
     expect(res.body).toBe('Error 世界');
-  });
-
-  it('testing', async () => {
-    const res = await getter(() => 'Hello 世界');
-    expect(res.body).toBe('Hello 世界');
   });
 });

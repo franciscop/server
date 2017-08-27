@@ -2,7 +2,7 @@ const load = require('loadware');
 const assert = require('assert');
 const reply = require('../../reply');
 
-// Recursively resolve possible function returns and assign the value to .ret
+// Recursively resolve possible function returns
 const processReturn = async (ctx, ret) => {
   if (!ret) return;
 
@@ -12,7 +12,8 @@ const processReturn = async (ctx, ret) => {
   }
 
   // Create a whole new reply thing
-  return await reply.send(ret).exec(ctx);
+  const fn = typeof ret === 'number' ? 'status' : 'send';
+  return await reply[fn](ret).exec(ctx);
 };
 
 // Pass an array of modern middleware and return a single modern middleware

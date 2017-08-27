@@ -1,8 +1,8 @@
 const server = require('../');
 const request = require('request-promises');
-const port = require('./helpers/port');
+const port = require('./port');
 const config = require('../src/config');
-
+const schema = require('../src/config/schema');
 
 
 // Make an object with the options as expected by request()
@@ -31,29 +31,31 @@ const normalize = (method, url, port, options) => {
 
 
 // Parse the server options
-const serverOptions = middle => {
+const serverOptions = async middle => {
   // First parameter can be:
   // - options: Number || Object (cannot be ID'd)
   // - middleware: undefined || null || Boolean || Function || Array
   let opts = (
     typeof middle[0] === 'undefined' ||
     typeof middle[0] === 'boolean' ||
+    typeof middle[0] === 'string' ||
     middle[0] === null ||
     middle[0] instanceof Function ||
     middle[0] instanceof Array
   ) ? {} : middle.shift();
 
   // In case the port is the defaults one
-  if (!opts || !opts.port) opts.synthetic = true;
-
-  // Set the options for the context of Server.js
-  opts = config(opts, module.exports.plugins);
+  let synthetic = !opts || !opts.port;
+  await opts;
 
   // Create the port when none was specified
-  if (opts.synthetic) opts.port = port();
+  if (synthetic) opts.port = port();
 
-  // Be able to set global variables
-  opts = Object.assign({}, opts, module.exports.options);
+  // Be able to set global variables from outside
+  opts = Object.assign({}, opts, module.exports.options || {}, {
+    env: undefined,
+    secret: undefined
+  });
 
   return opts;
 };
@@ -62,16 +64,18 @@ const serverOptions = middle => {
 
 module.exports = function (...middle) {
 
-  // Parse the server options
-  const opts = serverOptions(middle);
-
   // Make sure we are working with an instance
   if (!(this instanceof (module.exports))) {
-    return new (module.exports)(opts, ...middle);
+    return new (module.exports)(...middle);
   }
 
   const launch = async (method, url, reqOpts) => {
-    const ctx = await server(opts, middle).catch(console.log);
+
+    // Parse the server options
+    const opts = await serverOptions(middle);
+
+    const ctx = await server(opts, middle).catch(err => { throw err; });
+
     ctx.close = () => new Promise((resolve, reject) => {
       ctx.server.close(err => err ? reject(err) : resolve());
     });
@@ -81,9 +85,16 @@ module.exports = function (...middle) {
     res.method = res.request.method;
     res.status = res.statusCode;
     res.options = ctx.options;
+    if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
+      res.rawBody = res.body;
+      res.body = JSON.parse(res.body);
+    }
+    res.ctx = ctx;
 
+    // Close the server once it has all finished
     await ctx.close();
 
+    // Return the response that happened from the server
     return res;
   }
 

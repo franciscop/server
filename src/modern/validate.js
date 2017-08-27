@@ -1,25 +1,25 @@
-const errors = require('./errors');
+const ModernError = require('./errors');
 
 exports.middleware = middle => {
   if (!middle) {
-    throw errors.MissingMiddleware();
+    throw new ModernError('/server/modern/missingmiddleware');
   }
   if (!(middle instanceof Function)) {
-    throw errors.InvalidMiddleware({ type: typeof middle });
+    throw new ModernError('/server/modern/invalidmiddleware', { type: typeof middle });
   }
   if (middle.length === 4) {
-    throw errors.ErrorMiddleware();
+    throw new ModernError('/server/modern/errormiddleware');
   }
 };
 
 exports.context = ctx => {
   if (!ctx) {
-    throw errors.MissingContext();
+    throw new ModernError('/server/modern/missingcontext');
   }
   if (!ctx.req) {
-    throw errors.MalformedContext({ item: 'req' });
+    throw new ModernError('/server/modern/malformedcontext', { item: 'res' });
   }
   if (!ctx.res) {
-    throw errors.MalformedContext({ item: 'res' });
+    throw new ModernError('/server/modern/malformedcontext', { item: 'res' });
   }
 };

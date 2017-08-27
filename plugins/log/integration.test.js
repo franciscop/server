@@ -1,5 +1,8 @@
 const server = require('../../server');
-const { handler } = require('../../test');
+const { status } = server.reply;
+
+// Test runner:
+const run = require('server/test/run');
 
 describe('log()', () => {
   it('is defined', () => {
@@ -9,16 +12,13 @@ describe('log()', () => {
     });
   });
 
-  it('is inside the middleware', () => {
-    const middle = ctx => {
-      expect(ctx.log).toBeDefined();
-      return 'Hello 世界';
-    };
-    return handler(middle);
+  it('is inside the middleware', async () => {
+    const res = await run(ctx => status(ctx.log ? 200 : 500)).get('/');
+    expect(res.statusCode).toBe(200);
   });
 
-  it('has the right methods', () => {
-    const middle = ctx => {
+  it('has the right methods', async () => {
+    const res = await run(ctx => {
       expect(ctx.log.emergency).toBeDefined();
       expect(ctx.log.alert).toBeDefined();
       expect(ctx.log.critical).toBeDefined();
@@ -27,15 +27,13 @@ describe('log()', () => {
       expect(ctx.log.notice).toBeDefined();
       expect(ctx.log.info).toBeDefined();
       expect(ctx.log.debug).toBeDefined();
-      return 'Hello 世界';
-    };
-    return handler(middle);
+      return status(200);
+    }).get('/');
+    expect(res.statusCode).toBe(200);
   });
 
   it('rejects invalid log levels', async () => {
-    // console.log(expect(drinkOctopus).rejects);
-    await expect(handler([], {}, { log: 'abc' })).rejects.toMatchObject({
-      message: 'The log level abc is not valid. Valid names: emergency,alert,critical,error,warning,notice,info,debug'
-    });
+    const res = run({ log: 'abc' }).get('/');
+    expect(res).rejects.toMatchObject({ code: '/server/options/enum' });
   });
 });

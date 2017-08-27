@@ -3,14 +3,31 @@
 module.exports = {
   name: 'core',
   options: {
-    compress: {},
-    session: {
-      resave: false,
-      saveUninitialized: true,
-      cookie: {}
+    compress: {
+      default: {},
+      type: Object
     },
-    responseTime: {},
-    csrf: {}
+    favicon: {
+      type: String
+    },
+    session: {
+      default: {
+        resave: false,
+        saveUninitialized: true,
+        cookie: {}
+      },
+      type: Object,
+      env: 'express-session',
+      extend: true
+    },
+    timing: {
+      default: {},
+      type: Object
+    },
+    csrf: {
+      default: {},
+      type: Object
+    }
   },
 
   errors: require('./errors'),

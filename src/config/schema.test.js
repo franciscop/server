@@ -35,6 +35,11 @@ describe('schema', () => {
     expect(data.public).toBe('abc');
   });
 
+  it('environment wins params', async () => {
+    const opts = await parse(schema, { public: 'aaa' }, { PUBLIC: 'bbb' });
+    expect(opts.public).toBe('bbb');
+  });
+
   it('can handle several types', async () => {
     expect(await parse(schema, { public: false })).toMatchObject({ public: false });
     expect(await parse(schema, { public: 'abc' })).toMatchObject({ public: 'abc' });
@@ -50,7 +55,7 @@ describe('schema', () => {
 
   it('can handle NODE_ENV', async () => {
     expect(await parse(schema, {}, { NODE_ENV: 'development' })).toMatchObject({ env: 'development' });
-    expect(await parse(schema, {}, { NODE_ENV: 'testing' })).toMatchObject({ env: 'testing' });
+    expect(await parse(schema, {}, { NODE_ENV: 'test' })).toMatchObject({ env: 'test' });
     expect(await parse(schema, {}, { NODE_ENV: 'production' })).toMatchObject({ env: 'production' });
   });
 

@@ -1,6 +1,5 @@
 const join = require('../join');
 const modern = require('./index');
-const { throws } = require('../../test');
 const middle = (req, res, next) => next();
 const ctx = { req: {}, res: {} };
 
@@ -31,24 +30,24 @@ describe('initializes', () => {
 
 
 describe('call the middleware', () => {
-  it('requires the context to be called', async () => {
-    await throws(() => modern(middle)());
-  });
-
   it('returns a promise when called', () => {
     expect(modern(middle)(ctx) instanceof Promise).toBe(true);
   });
 
+  it('requires the context to be called', async () => {
+    expect(modern(middle)()).rejects.toBeDefined();
+  });
+
   it('rejected with empty context', async () => {
-    await throws(() => modern(middle)({}));
+    expect(modern(middle)({})).rejects.toBeDefined();
   });
 
   it('rejected without res', async () => {
-    await throws(() => modern(middle)({ req: {} }));
+    expect(modern(middle)({ req: {} })).rejects.toBeDefined();
   });
 
   it('rejected without req', async () => {
-    await throws(() => modern(middle)({ res: {} }));
+    expect(modern(middle)({ res: {} })).rejects.toBeDefined();
   });
 });
 
@@ -61,7 +60,7 @@ describe('Middleware handles the promise', () => {
 
   it('cannot handle error middleware', async () => {
     // eslint-disable-next-line no-unused-vars
-    await throws(() => modern((err, req, res, next) => {}));
+    expect(() => modern((err, req, res, next) => {})).toThrow();
   });
 
   it('keeps the context', async () => {
@@ -160,7 +159,7 @@ describe('Middleware handles the promise', () => {
 
   it('rejects when next is called with an error', async () => {
     const wrong = (req, res, next) => next(new Error('Custom error'));
-    await throws(() => modern(wrong)(ctx));
+    expect(modern(wrong)(ctx)).rejects.toBeDefined();
   });
 
   it('does not resolve nor reject if next is not called', async () => {

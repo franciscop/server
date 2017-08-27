@@ -37,15 +37,12 @@ describe('Default modules', () => {
   });
 
   it('dataParser', async () => {
-    const mid = ctx => {
-      expect(ctx.files.logo.name).toBe('logo.png');
-      expect(ctx.files.logo.type).toBe('image/png');
-      expect(ctx.files.logo.size).toBe(10151);
-      return 'Hello 世界';
-    };
-
+    const mid = ctx => ctx.files.logo;
     const res = await run(mid).post('/', { formData: { logo } });
-    expect(res.body).toBe('Hello 世界');
+
+    expect(res.body.name).toBe('logo.png');
+    expect(res.body.type).toBe('image/png');
+    expect(res.body.size).toBe(30587);
   });
 
   // It can *set* cookies from the server()
@@ -105,15 +102,4 @@ describe('Cancel parts through options', () => {
   });
 
   // TODO: check all others can be cancelled
-
-  // NOTE: this comes from the default behaviour now; migrate it
-  it('can cancel all parsers', async () => {
-    const mid = ctx => {
-      expect(ctx.body).toBe(undefined);
-      return 'Hello 世界';
-    };
-
-    const res = await run({ parser: false }, mid).post('/');
-    expect(res.body).toBe('Hello 世界');
-  });
 });

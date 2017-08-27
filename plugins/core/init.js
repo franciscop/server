@@ -28,9 +28,9 @@ module.exports = async ctx => {
   }
 
   // Public folder
-  if (opts.public) {
-    core.before.push(modern(ctx.express.static(opts.public)));
-  }
+  // if (opts.public) {
+  //   core.before.push(modern(ctx.express.static(opts.public)));
+  // }
 
   if (opts.session) {
     opts.session.secret = opts.session.secret || ctx.options.secret;
@@ -42,9 +42,9 @@ module.exports = async ctx => {
     core.before.push(modern(session(opts.session)));
   }
 
-  if (opts.responseTime) {
-    const responseTime = require('response-time')(opts.responseTime);
-    core.before.push(modern(responseTime));
+  if (opts.timing) {
+    const timing = require('response-time')(opts.timing);
+    core.before.push(modern(timing));
   }
 
   // TODO: vhost: require('vhost')

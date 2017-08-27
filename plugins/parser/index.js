@@ -5,12 +5,31 @@
 const plugin = {
   name: 'parser',
   options: {
-    body: { extended: true },
-    json: {},
-    text: {},
-    data: {},
-    cookie: {},
-    method: ['X-HTTP-Method-Override', '_method'],
+    body: {
+      type: Object,
+      default: { extended: true },
+      extend: true
+    },
+    json: {
+      type: Object,
+      default: {}
+    },
+    text: {
+      type: Object,
+      default: {}
+    },
+    data: {
+      type: Object,
+      default: {}
+    },
+    cookie: {
+      type: Object,
+      default: {}
+    },
+    method: {
+      type: Object,
+      default: ['X-HTTP-Method-Override', '_method']
+    }
   },
   init: require('./init'),
   before: []   // It is populated in "init()"

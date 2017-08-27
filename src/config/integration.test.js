@@ -1,7 +1,8 @@
-// Internal files
+// Test runner:
 const run = require('server/test/run');
 
 describe('Basic router types', () => {
+  // TODO: fix this
   it('has independent options', async () => {
     const res = await Promise.all([
       run({ public: 'right' }, ctx => new Promise(resolve => {

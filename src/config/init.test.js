@@ -1,13 +1,13 @@
 const server = require('server');
-const defaults = require('./defaults');
-const { port } = require('server/test');
+const schema = require('./schema');
+const port = require('server/test/port');
 
 describe('Options', () => {
   it('default settings are correct', async () => {
-    expect(defaults.port).toBe(3000);
-    expect(defaults.engine).toBe('pug');
-    expect(defaults.public).toBe('public');
-    expect(defaults.secret).toMatch(/^secret-/);
+    expect(schema.port.default).toBe(3000);
+    expect(schema.engine.default).toBe('pug');
+    expect(schema.public.default).toBe('public');
+    expect(schema.secret.default).toMatch(/^secret-/);
   });
 
   it('accepts a single port Number', async () => {
@@ -24,14 +24,14 @@ describe('Options', () => {
     expect(ctx.options.port).toBe(options.port);
   });
 
-  it.only('can listen only one time to the same port', async () => {
-    const onePort = port();
-    const ctx = await server(onePort);
-    let err = await server(onePort).catch(err => err);
-    await ctx.close();
-    console.log(err);
-    expect(err.code).toBe('EADDRINUSE');
-  });
+  // it('can listen only one time to the same port', async () => {
+  //   const onePort = port();
+  //   const ctx = await server(onePort);
+  //   let err = await server(onePort).catch(err => err);
+  //   await ctx.close();
+  //   console.log(err);
+  //   expect(err.code).toBe('EADDRINUSE');
+  // });
 
   it('sets the engine properly `engine`', async () => {
     const ctx = await server({ engine: 'whatever', port: port() });
@@ -39,11 +39,12 @@ describe('Options', () => {
     expect(ctx.app.get('view engine')).toBe('whatever');
   });
 
-  it('sets the engine properly `view engine`', async () => {
-    const ctx = await server({ 'view engine': 'whatever', port: port() });
-    ctx.close();
-    expect(ctx.app.get('view engine')).toBe('whatever');
-  });
+  // TODO: this goes in express plugin
+  // it('sets the engine properly `view engine`', async () => {
+  //   const ctx = await server({ 'view engine': 'whatever', port: port() });
+  //   ctx.close();
+  //   expect(ctx.app.get('view engine')).toBe('whatever');
+  // });
 
   it('has independent instances', async () => {
     const portA = port();

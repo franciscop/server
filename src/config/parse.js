@@ -1,4 +1,5 @@
 const OptionsError = require('./errors');
+const path = require('path');
 
 // For options that default to true
 // const trueorundef = value => typeof value === 'undefined' || value === true;
@@ -6,7 +7,7 @@ const OptionsError = require('./errors');
 // Primitives to test
 // const types = ['Boolean', 'Number', 'String', 'Array', 'Object'];
 
-module.exports = async function(schema, arg = {}, env= {}) {
+module.exports = async function(schema, arg = {}, env= {}, all = {}) {
   const options = {};
 
   if (typeof arg !== 'object') {
@@ -22,9 +23,15 @@ module.exports = async function(schema, arg = {}, env= {}) {
     // RETRIEVAL
     // Make the definition local so it's easier to handle
     const def = schema[key];
+    let value;
 
     // Skip the control variables such as '__root'
     if (/^\_\_/.test(key)) continue;
+
+    // Make sure we are dealing with a valid definition
+    if (typeof def !== 'object') {
+      throw new Error('Invalid option definition: ' + JSON.stringify(def));
+    }
 
     // Decide whether to use the argument or not
     if (def.arg === false) {
@@ -48,8 +55,33 @@ module.exports = async function(schema, arg = {}, env= {}) {
     }
 
     // List of possibilities, from HIGHER preference to LOWER preference
-    const possible = [env[def.env], arg[def.arg], def.default];
-    const value = possible.filter(value => typeof value !== 'undefined').shift();
+    const possible = [
+      env[def.env],
+      arg[def.arg],
+      all[def.inherit],
+      def.default
+    ].filter(value => typeof value !== 'undefined');
+    if (possible.length) {
+      value = possible[0];
+    }
+
+    if (def.find) {
+      value = await def.find(arg, env, all, schema);
+    }
+
+    // Extend the base object or user object with new values if these are not set
+    if (def.extend && (typeof value === 'undefined' || typeof value === 'object')) {
+      if (typeof value === 'undefined') {
+        value = {};
+      }
+      Object.assign(value, def.default, value);
+    }
+
+    // Normalize the "public" pub
+    if (def.file && !path.isAbsolute(value)) {
+      value = path.normalize(path.join(process.cwd(), value));
+    }
+
 
 
 
@@ -67,8 +99,8 @@ module.exports = async function(schema, arg = {}, env= {}) {
       }
     }
 
-    // Validate the type
-    if (def.type) {
+    // Validate the type (only if there's a value)
+    if (def.type && value) {
 
       // Parse valid types into a simple array of strings: ['string', 'number']
       def.type = (def.type instanceof Array ? def.type : [def.type])
@@ -80,7 +112,8 @@ module.exports = async function(schema, arg = {}, env= {}) {
         throw new OptionsError('/server/options/type', {
           key,
           expected: def.type,
-          received: typeof value
+          received: typeof value,
+          value
         });
       }
     }
