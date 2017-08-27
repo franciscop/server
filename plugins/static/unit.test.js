@@ -2,6 +2,7 @@ const run = require('server/test/run');
 const stat = require('./');
 const error = require('server/router/error');
 const path = require('path');
+const fs = require('fs');
 
 describe('static plugin', () => {
   it('exists', async () => {
@@ -24,7 +25,7 @@ describe('static plugin', () => {
         // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
       }
     ]).get('/logo.png');
-    expect(res.body).toBe('badfgasdfsd');
+    expect(res.body).toBe(res.statusCode);
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });
