@@ -9,5 +9,8 @@ module.exports = {
       inherit: 'public'
     }
   },
-  before: ctx => modern(ctx.express.static(ctx.options.static.public))(ctx)
+  before: ctx => {
+    console.log(ctx.options.static.public);
+    return modern(ctx.express.static(ctx.options.static.public))(ctx);
+  }
 };

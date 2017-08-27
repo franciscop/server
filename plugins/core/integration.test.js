@@ -70,21 +70,6 @@ describe('Default modules', () => {
   //   expect(res1.body).toBe('6');
   // });
 
-  it('static', async () => {
-    const res = await run({ public: test }, async ctx => {
-      console.log(ctx.options.public);
-      const req = path.join(ctx.options.public, ctx.url);
-      console.log(await fs.readFile(req, 'utf8'));
-    }).get('/logo.png');
-    expect(res.statusCode).toBe(200);
-    expect(res.headers['content-type']).toBe('image/png');
-  });
-
-  it('non-existing static', async () => {
-    const res = await run({ public: test }).get('/non-existing.png');
-    expect(res.statusCode).toBe(404);
-  });
-
   it('response-time', async () => {
     const res = await run(empty).get('/');
     expect(res.headers['x-response-time']).toMatch(/ms$/);
