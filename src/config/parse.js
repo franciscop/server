@@ -78,12 +78,15 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
     }
 
     // Normalize the "public" pub
-    if (def.file && value && typeof value === 'string' && !path.isAbsolute(value)) {
-      value = path.normalize(path.join(process.cwd(), value));
+    if (def.file && typeof value === 'string') {
+      if (!path.isAbsolute(value)) {
+        value = path.join(process.cwd(), value);
+      }
+      value = path.normalize(value);
     }
 
     if (def.clean) {
-      value = def.clean(value, arg, env, all, schema) || value;
+      value = def.clean(value, arg, env, all, schema);
     }
 
 
