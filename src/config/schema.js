@@ -27,7 +27,7 @@ module.exports = {
   },
   engine: {
     default: 'pug',
-    type: String
+    type: [String, Object]
   },
   secret: {
     default: 'secret-' + token,
