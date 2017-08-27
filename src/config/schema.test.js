@@ -37,12 +37,12 @@ describe('schema', () => {
 
   it('environment wins params', async () => {
     const opts = await parse(schema, { public: 'aaa' }, { PUBLIC: 'abc' });
-    expect(opts.public).toMatch(/\/abc/);
+    expect(opts.public).toMatch(/[\/\\]abc/);
   });
 
   it('can handle several types', async () => {
     expect((await parse(schema, { public: false })).public).toBe(false);
-    expect((await parse(schema, { public: 'abc' })).public).toMatch(/\/abc/);
+    expect((await parse(schema, { public: 'abc' })).public).toMatch(/[\/\\]abc/);
   });
 
   it('rejects on incorrect types', async () => {
