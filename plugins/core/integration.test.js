@@ -6,7 +6,6 @@ const { send } = server.reply;
 // Test runner:
 const run = require('server/test/run');
 const path = require('path');
-const fs = require('mz/fs');
 
 
 

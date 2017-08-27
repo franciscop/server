@@ -13,9 +13,10 @@ module.exports = {
     if (ctx.options.engine) {
       // If it's an object, expect a { engine: { engineName: engineFN } }
       if (typeof ctx.options.engine === 'object') {
-        const engineName = Object.keys(ctx.options.engine)[0];
-        ctx.app.engine(engineName, ctx.options.engine[engineName]);
-        ctx.app.set('view engine', engineName);
+        for (let name in ctx.options.engine) {
+          ctx.app.engine(name, ctx.options.engine[name]);
+          ctx.app.set('view engine', name);
+        }
       } else {  // Simple case like { engine: 'pug' }
         ctx.app.set('view engine', ctx.options.engine);
       }

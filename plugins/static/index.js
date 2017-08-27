@@ -10,7 +10,7 @@ module.exports = {
     }
   },
   before: ctx => {
-    console.log(ctx.options.static.public);
+    console.log('Public:', ctx.options.static.public);
     return modern(ctx.express.static(ctx.options.static.public))(ctx);
   }
 };

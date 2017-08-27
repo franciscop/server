@@ -13,7 +13,7 @@ describe('static plugin', () => {
   it('static', async () => {
     const res = await run({ public: 'test' }, [
       async ctx => {
-        console.log('Hi');
+        console.log('From inside:', ctx.options.public);
         // const file = path.join(ctx.options.public, ctx.url);
         // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
       },
