@@ -22,7 +22,7 @@ describe('static plugin', () => {
         // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
       }
     ]).get('/logo.png');
-    expect(res.body).toBe('badfgasdfsd');
+    // expect(res.body).toBe('badfgasdfsd');
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });
