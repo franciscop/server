@@ -7,7 +7,6 @@ const router = require('./router');
 const reply = require('./reply');
 const join = require('./src/join/index.js');
 const modern = require('./src/modern');
-const error = require('./src/error');
 const final = require('./src/final');
 
 // Create the initial context
@@ -47,8 +46,6 @@ const Server = async (...middle) => {
 
   ctx.utils = { modern: modern };
   ctx.modern = modern;
-  // ctx.error = error(ctx.options.errors);
-  ctx.throw = error(ctx.options.errors);
 
   // All the init beforehand
   for (let init of hook(ctx, 'init')) {

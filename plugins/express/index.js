@@ -1,5 +1,4 @@
 const express = require('express');
-const error = require('../../src/error');
 
 module.exports = {
   name: 'express',
@@ -42,6 +41,6 @@ module.exports = {
     ctx.close = () => new Promise((res, rej) => {
       ctx.server.close(err => err ? rej(err) : res());
     });
-    ctx.server.on('error', err => reject(error.native(err)));
+    ctx.server.on('error', err => reject(err));
   })
 };
