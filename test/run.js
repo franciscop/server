@@ -52,10 +52,12 @@ const serverOptions = async middle => {
   if (synthetic) opts.port = port();
 
   // Be able to set global variables from outside
+  console.log('RUN opts before:', opts);
   opts = Object.assign({}, opts, module.exports.options || {}, {
     env: undefined,
     secret: undefined
   });
+  console.log('RUN opts:', opts);
 
   return opts;
 };

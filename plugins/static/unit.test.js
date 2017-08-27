@@ -12,7 +12,7 @@ describe('static plugin', () => {
     expect(stat.options).toBeDefined();
   });
 
-  it('static', async () => {
+  it.only('static', async () => {
     const res = await run({ public: 'test' }, [
       async ctx => {
         // const file = path.join(ctx.options.public, ctx.url);
