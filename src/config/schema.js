@@ -14,6 +14,7 @@ module.exports = {
     file: true,
     clean: (value, arg, env, all, schema) => {
       if (/^win/.test(process.platform)) {
+        return arg.public || schema.default;
         if (value === 'C:\\Users\\Public') {
           return arg.public || schema.default;
           // return path.normalize(path.join(process.cwd(), 'test'));
