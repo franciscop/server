@@ -16,6 +16,7 @@ module.exports = {
       console.log(value);
       if (/^win/.test(process.platform)) {
         if (value === 'C:\\Users\\Public') {
+          console.log('Got here so far', arg.public, schema.default);
           return (arg.public || schema.default);
           // return path.normalize(path.join(process.cwd(), 'test'));
           // value = arg.public || schema.default;
