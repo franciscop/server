@@ -3,7 +3,7 @@ const schema = require('./schema');
 const env = require('./env');
 
 module.exports = async (user = {}, plugins = []) => {
-
+  console.log('OPTS:', user);
   // Parse the options set by the argument and through the env
   const options = await parse(schema, user, env);
 
