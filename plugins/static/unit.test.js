@@ -13,11 +13,12 @@ describe('static plugin', () => {
   it('static', async () => {
     const res = await run({ public: 'test' }, [
       async ctx => {
-        const file = path.join(ctx.options.public, ctx.url);
-        return {
-          file,
+        // const file = path.join(ctx.options.public, ctx.url);
+        return JSON.stringify({
+          pub: ctx.options.public,
+          url: ctx.url,
           message: 'I am displayed'
-        };
+        });
         // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
       }
     ]).get('/logo.png');
