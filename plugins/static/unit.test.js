@@ -11,14 +11,12 @@ describe('static plugin', () => {
   });
 
   it('static', async () => {
-    console.log('Do I get logged?');
     const res = await run({ public: 'test' }, [
       async ctx => {
-        console.log('From inside:', ctx.options.public);
         // const file = path.join(ctx.options.public, ctx.url);
         // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
       },
-      error(ctx => ctx.error.stack })
+      error(ctx => ctx.error.stack)
     ]).get('/logo.png');
     expect(res.body).toBe('badfgasdfsd');
     expect(res.statusCode).toBe(200);
