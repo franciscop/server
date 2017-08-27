@@ -82,6 +82,10 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
       value = path.normalize(path.join(process.cwd(), value));
     }
 
+    if (def.clean) {
+      value = def.clean(value) || value;
+    }
+
 
 
 
