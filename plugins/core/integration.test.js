@@ -6,6 +6,7 @@ const { send } = server.reply;
 // Test runner:
 const run = require('server/test/run');
 const path = require('path');
+const fs = require('mz/fs');
 
 
 
@@ -70,8 +71,10 @@ describe('Default modules', () => {
   // });
 
   it('static', async () => {
-    const res = await run({ public: test }, ctx => {
+    const res = await run({ public: test }, async ctx => {
       console.log(ctx.options.public);
+      const req = path.join(ctx.options.public, ctx.url);
+      console.log(await fs.readFile(req, 'utf8'));
     }).get('/logo.png');
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
