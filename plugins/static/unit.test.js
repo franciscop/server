@@ -18,9 +18,9 @@ describe('static plugin', () => {
         // const file = path.join(ctx.options.public, ctx.url);
         // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
       },
-      error(ctx => { console.log(ctx.error); })
+      error(ctx => ctx.error.stack })
     ]).get('/logo.png');
-    console.log(res.body);
+    expect(res.body).toBe('badfgasdfsd');
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });
