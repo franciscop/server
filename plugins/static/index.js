@@ -9,7 +9,8 @@ module.exports = {
       file: true,
       inherit: 'public',
       clean: value => {
-        if (/^C\:\\\\Users\\\\Public$/.test(value)) {
+        console.log(value === 'C:\\Users\\Public');
+        if (value === 'C:\\Users\\Public') {
           // console.log(`
           //   Looks like you are in windows, so we won't be using the .env variable
           //   as it points to ${value}. We will be using the folder 'public' instead.
