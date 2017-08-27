@@ -11,6 +11,7 @@ describe('static plugin', () => {
   });
 
   it('static', async () => {
+    console.log('Do I get logged?');
     const res = await run({ public: 'test' }, [
       async ctx => {
         console.log('From inside:', ctx.options.public);
@@ -19,6 +20,7 @@ describe('static plugin', () => {
       },
       error(ctx => { console.log(ctx.error); })
     ]).get('/logo.png');
+    console.log(res.body);
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });
