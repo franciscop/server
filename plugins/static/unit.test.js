@@ -1,5 +1,6 @@
 const run = require('server/test/run');
 const stat = require('./');
+const error = require('server/router/error');
 
 describe('static plugin', () => {
   it('exists', async () => {
@@ -13,7 +14,7 @@ describe('static plugin', () => {
     const res = await run({ public: 'test' }, async ctx => {
       const file = path.join(ctx.options.public, ctx.url);
       console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
-    }).get('/logo.png');
+    }, error(ctx => { console.log(ctx.error); })).get('/logo.png');
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });
