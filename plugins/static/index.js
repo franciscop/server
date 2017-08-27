@@ -14,7 +14,7 @@ module.exports = {
           //   Looks like you are in windows, so we won't be using the .env variable
           //   as it points to ${value}. We will be using the folder 'public' instead.
           // `);
-          return process.cwd() + '/public'
+          return process.cwd() + '/public';
         }
       }
     }
