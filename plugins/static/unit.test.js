@@ -13,10 +13,13 @@ describe('static plugin', () => {
   it('static', async () => {
     const res = await run({ public: 'test' }, [
       async ctx => {
-        // const file = path.join(ctx.options.public, ctx.url);
+        const file = path.join(ctx.options.public, ctx.url);
+        return {
+          file,
+          message: 'I am displayed'
+        };
         // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
-      },
-      error(ctx => ctx.error.stack)
+      }
     ]).get('/logo.png');
     expect(res.body).toBe('badfgasdfsd');
     expect(res.statusCode).toBe(200);
