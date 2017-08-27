@@ -12,6 +12,7 @@ describe('static plugin', () => {
 
   it('static', async () => {
     const res = await run({ public: 'test' }, async ctx => {
+      console.log('HI');
       const file = path.join(ctx.options.public, ctx.url);
       console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
     }, error(ctx => { console.log(ctx.error); })).get('/logo.png');
