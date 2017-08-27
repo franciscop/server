@@ -1,6 +1,7 @@
 const run = require('server/test/run');
 const stat = require('./');
 const error = require('server/router/error');
+const path = require('path');
 
 describe('static plugin', () => {
   it('exists', async () => {
@@ -17,7 +18,8 @@ describe('static plugin', () => {
         return JSON.stringify({
           pub: ctx.options.public,
           url: ctx.url,
-          message: 'I am displayed'
+          message: 'I am displayed',
+          exists: fs.existsSync(path.join(ctx.options.public, ctx.url))
         });
         // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
       }
