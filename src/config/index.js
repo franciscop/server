@@ -14,5 +14,7 @@ module.exports = async (user = {}, plugins = []) => {
     options[name] = await parse(def, user[name], env, options);
   }));
 
+  console.log('OPTS2:', options);
+
   return options;
 };

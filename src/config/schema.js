@@ -13,14 +13,12 @@ module.exports = {
     type: [String, Boolean],
     file: true,
     clean: (value, arg, env, all, schema) => {
-      console.log(value, arg, all, schema);
       if (/^win/.test(process.platform)) {
         if (value === 'C:\\Users\\Public') {
           // return (arg.public || schema.public.default);
           // return path.normalize(path.join(process.cwd(), 'test'));
           value = arg.public || schema.default;
           const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
-          console.log('Normalized:', path.normalize(fullpath));
           return path.normalize(fullpath);
         }
       }
