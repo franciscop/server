@@ -11,8 +11,18 @@ describe('static plugin', () => {
   });
 
   it('static', async () => {
-    const res = await run({ public: 'test' }).get('/logo.png');
-    // expect(res.body).toBe('badfgasdfsd');
+    const res = await run({ public: 'test' }, [
+      async ctx => {
+        // const file = path.join(ctx.options.public, ctx.url);
+        return JSON.stringify({
+          pub: ctx.options.public,
+          url: ctx.url,
+          message: 'I am displayed'
+        });
+        // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
+      }
+    ]).get('/logo.png');
+    expect(res.body).toBe('badfgasdfsd');
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });
