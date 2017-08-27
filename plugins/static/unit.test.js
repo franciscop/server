@@ -11,11 +11,14 @@ describe('static plugin', () => {
   });
 
   it('static', async () => {
-    const res = await run({ public: 'test' }, async ctx => {
-      console.log('Hi');
-      // const file = path.join(ctx.options.public, ctx.url);
-      // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
-    }, error(ctx => { console.log(ctx.error); })).get('/logo.png');
+    const res = await run({ public: 'test' }, [
+      async ctx => {
+        console.log('Hi');
+        // const file = path.join(ctx.options.public, ctx.url);
+        // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
+      },
+      error(ctx => { console.log(ctx.error); })
+    ]).get('/logo.png');
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });
