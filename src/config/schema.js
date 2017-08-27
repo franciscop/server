@@ -14,7 +14,8 @@ module.exports = {
     file: true,
     clean: (value, arg, env, all, schema) => {
       if (value === 'C:\\Users\\Public' && typeof arg.public === 'string') {
-        return path.join(process.cwd(), arg.public || schema.default);
+        value = arg.public || schema.default;
+        return path.isAbsolute() ? value : path.join(process.cwd(), value);
       }
     }
   },
