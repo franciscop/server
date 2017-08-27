@@ -1,5 +1,6 @@
 const buffer = require('crypto').randomBytes(60);
 const token = buffer.toString('base64').replace(/\//g,'_').replace(/\+/g,'-');
+const path = require('path');
 
 module.exports = {
   __root: 'port',
@@ -9,7 +10,13 @@ module.exports = {
   },
   public: {
     default: 'public',
-    type: [String, Boolean]
+    type: [String, Boolean],
+    file: true,
+    clean: (value, arg, env, all, schema) => {
+      if (value === 'C:\\Users\\Public' && typeof arg.public === 'string') {
+        return path.join(process.cwd(), arg.public || schema.default);
+      }
+    }
   },
   env: {
     default: 'development',

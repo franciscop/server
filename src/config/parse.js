@@ -78,12 +78,12 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
     }
 
     // Normalize the "public" pub
-    if (def.file && !path.isAbsolute(value)) {
+    if (def.file && value && typeof value === 'string' && !path.isAbsolute(value)) {
       value = path.normalize(path.join(process.cwd(), value));
     }
 
     if (def.clean) {
-      value = def.clean(value) || value;
+      value = def.clean(value, arg, env, all, schema) || value;
     }
 
 
@@ -95,6 +95,7 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
       if (typeof value === 'undefined') {
         throw new OptionsError('/server/options/required', { key });
       }
+      // TODO: check that the file and folder exist
     }
 
     if (def.enum) {

@@ -16,8 +16,8 @@ describe('schema', () => {
   });
 
   it('can use the argument', async () => {
-    const data = await parse({ public: { arg: true } }, { public: 'abc' });
-    expect(data.public).toBe('abc');
+    const opts = await parse({ public: { arg: true } }, { public: 'abc' });
+    expect(opts.public).toBe('abc');
   });
 
   it('can use the ENV', async () => {
@@ -26,23 +26,23 @@ describe('schema', () => {
   });
 
   it('just works with false env and no env', async () => {
-    const opts = await parse({ public: { env: false }}, { public: 'hello' });
-    expect(opts.public).toEqual('hello');
+    const opts = await parse({ public: { env: false }}, { public: 'abc' });
+    expect(opts.public).toBe('abc');
   });
 
   it('accepts required with value', async () => {
-    const data = await parse({ public: { required: true } }, { public: 'abc' });
-    expect(data.public).toBe('abc');
+    const opts = await parse({ public: { required: true } }, { public: 'abc' });
+    expect(opts.public).toBe('abc');
   });
 
   it('environment wins params', async () => {
-    const opts = await parse(schema, { public: 'aaa' }, { PUBLIC: 'bbb' });
-    expect(opts.public).toBe('bbb');
+    const opts = await parse(schema, { public: 'aaa' }, { PUBLIC: 'abc' });
+    expect(opts.public).toMatch(/\/abc/);
   });
 
   it('can handle several types', async () => {
-    expect(await parse(schema, { public: false })).toMatchObject({ public: false });
-    expect(await parse(schema, { public: 'abc' })).toMatchObject({ public: 'abc' });
+    expect((await parse(schema, { public: false })).public).toBe(false);
+    expect((await parse(schema, { public: 'abc' })).public).toMatch(/\/abc/);
   });
 
   it('rejects on incorrect types', async () => {
