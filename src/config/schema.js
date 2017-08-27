@@ -13,7 +13,7 @@ module.exports = {
     type: [String, Boolean],
     file: true,
     clean: (value, arg, env, all, schema) => {
-      console.log(value);
+      console.log(value, arg, env, schema);
       if (/^win/.test(process.platform)) {
         if (value === 'C:\\Users\\Public') {
           console.log('Got here so far', arg.public, schema.default);
