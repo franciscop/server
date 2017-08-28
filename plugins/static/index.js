@@ -10,7 +10,7 @@ module.exports = {
     }
   },
   init: function () {
-    console.log('INIT');
+    console.log('INIT', require('.').before);
   },
   before: [ctx => {
     console.log('All:', ctx.options.static.public);
