@@ -11,8 +11,8 @@ module.exports = {
   },
   init: ctx => {
     console.log('INIT');
-    const static = require('.');
-    static.before.push(modern(ctx.express.static(ctx.options.static.public)));
+    const stat = require('.');
+    stat.before.push(modern(ctx.express.static(ctx.options.static.public)));
   },
   before: []
 };
