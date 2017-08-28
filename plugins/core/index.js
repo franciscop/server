@@ -13,7 +13,7 @@ module.exports = {
       type: String,
       inherit: 'public',
       clean: (value, arg, env, all, schema) => {
-        console.log(process.platform, value);
+        console.log(process.platform, arg, env, all);
         if (/^win/.test(process.platform)) {
           if (value === 'C:\\Users\\Public') {
             // return (arg.public || schema.public.default);
