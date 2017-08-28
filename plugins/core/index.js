@@ -19,8 +19,9 @@ module.exports = {
             // return (arg.public || schema.public.default);
             // return path.normalize(path.join(process.cwd(), 'test'));
             value = arg.public || schema.default;
-            const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
-            return path.normalize(fullpath);
+            return value;
+            // const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
+            // return path.normalize(fullpath);
           }
         }
         return value;
