@@ -43,7 +43,6 @@ const Server = async (...middle) => {
 
   // Only enabled plugins through the config
   ctx.plugins = module.exports.plugins.filter(p => ctx.options[p.name]);
-  console.log(ctx.options);
 
   ctx.utils = { modern: modern };
   ctx.modern = modern;
@@ -56,7 +55,6 @@ const Server = async (...middle) => {
 
 
   // PLUGIN middleware
-  console.log(hook(ctx, 'before'));
   middle = join(hook(ctx, 'before'), middle, hook(ctx, 'after'), final);
 
   // Main thing here

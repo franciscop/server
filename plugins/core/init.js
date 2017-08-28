@@ -16,9 +16,9 @@ module.exports = async ctx => {
   }
 
   // Public folder
-  // if (opts.public) {
-  //   core.before.push(modern(ctx.express.static(opts.public)));
-  // }
+  if (opts.public) {
+    core.before.push(modern(ctx.express.static(opts.public)));
+  }
 
   if (opts.session) {
     opts.session.secret = opts.session.secret || ctx.options.secret;

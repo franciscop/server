@@ -9,10 +9,14 @@ module.exports = {
       inherit: 'public'
     }
   },
-  init: ctx => {
-    console.log('INIT');
-    const stat = require('.');
-    stat.before.push(modern(ctx.express.static(ctx.options.static.public)));
+  init: function () {
+    // console.log('INIT');
+    // const static = require('.');
+    // static.before.push()
   },
-  before: []
+  before: async ctx => {
+    // console.log('All:', ctx.options.static.public);
+    // console.log('A', await modern(ctx.express.static(ctx.options.static.public))(ctx));
+    // return (ctx);
+  }
 };

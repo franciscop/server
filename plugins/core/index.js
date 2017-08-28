@@ -7,6 +7,10 @@ module.exports = {
       default: {},
       type: Object
     },
+    public: {
+      type: String,
+      inherit: 'public'
+    },
     favicon: {
       type: String
     },
