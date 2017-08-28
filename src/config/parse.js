@@ -134,5 +134,6 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
     options[key] = value;
   }
 
+  console.log(options);
   return options;
 };
