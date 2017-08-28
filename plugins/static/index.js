@@ -10,10 +10,10 @@ module.exports = {
     }
   },
   init: function () {
-    console.log('INIT', require('.').before);
+    console.log('INIT');
   },
-  before: [ctx => {
+  before: ctx => {
     console.log('All:', ctx.options.static.public);
     return modern(ctx.express.static(ctx.options.static.public))(ctx);
-  }]
+  }
 };

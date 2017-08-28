@@ -55,6 +55,7 @@ const Server = async (...middle) => {
 
 
   // PLUGIN middleware
+  console.log(hook(ctx, 'before'));
   middle = join(hook(ctx, 'before'), middle, hook(ctx, 'after'), final);
 
   // Main thing here
