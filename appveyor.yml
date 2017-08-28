@@ -8,6 +8,7 @@ install:
   - if exist node_modules npm prune
   - if exist node_modules npm rebuild
   - npm install
+  - npm install jest-cli --save-dev
 build: off
 test_script:
   - node --version
