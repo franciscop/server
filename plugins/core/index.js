@@ -1,3 +1,5 @@
+const path = require('path');
+
 // Middleware plugin
 // Restore some of the old Express functionality
 module.exports = {
