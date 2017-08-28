@@ -32,7 +32,7 @@ describe('static plugin', () => {
   });
 
   it('non-existing static', async () => {
-    const res = await run({ public: 'test' }).get('/non-existing.png');
+    const res = await run({ public: 'test', favicon: 'a\\b' }).get('/non-existing.png');
     expect(res.statusCode).toBe(404);
   });
 
