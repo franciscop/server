@@ -15,7 +15,7 @@ describe('static plugin', () => {
   it.only('static', async () => {
     const res = await run({ public: 'test' }, [
       async ctx => {
-        console.log('Calling here');
+        console.log('Calling here', ctx.options.public);
         // const file = path.join(ctx.options.public, ctx.url);
         return JSON.stringify({
           pub: ctx.options.public,
@@ -26,7 +26,7 @@ describe('static plugin', () => {
         // console.log(file, ':', (await fs.readFile(file, 'utf8')).length);
       }
     ]).get('/logo.png');
-    expect(res.body).toBe(res.statusCode);
+    expect(res.body.slice(0, 100)).toBe(res.statusCode);
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });

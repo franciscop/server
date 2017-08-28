@@ -9,11 +9,10 @@ module.exports = {
       inherit: 'public'
     }
   },
-  init: function () {
+  init: ctx => {
     console.log('INIT');
+    const static = require('.');
+    static.before.push(modern(ctx.express.static(ctx.options.static.public)));
   },
-  before: ctx => {
-    console.log('All:', ctx.options.static.public);
-    return modern(ctx.express.static(ctx.options.static.public))(ctx);
-  }
+  before: []
 };

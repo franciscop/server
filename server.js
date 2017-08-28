@@ -43,7 +43,7 @@ const Server = async (...middle) => {
 
   // Only enabled plugins through the config
   ctx.plugins = module.exports.plugins.filter(p => ctx.options[p.name]);
-  console.log(ctx.plugins);
+  console.log(ctx.options);
 
   ctx.utils = { modern: modern };
   ctx.modern = modern;
