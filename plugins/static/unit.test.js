@@ -15,6 +15,7 @@ describe('static plugin', () => {
   it.only('static', async () => {
     const res = await run({ public: 'test' }, [
       async ctx => {
+        console.log('Calling here');
         // const file = path.join(ctx.options.public, ctx.url);
         return JSON.stringify({
           pub: ctx.options.public,
