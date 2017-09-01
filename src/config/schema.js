@@ -19,6 +19,8 @@ module.exports = {
         // return (arg.public || schema.public.default);
         // return path.normalize(path.join(process.cwd(), 'test'));
         value = option.arg.public || option.schema.default;
+        console.log('LOG:', options.arg.public, options.schema.default);
+
         const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
         return path.normalize(fullpath);
       }
