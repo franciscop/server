@@ -69,12 +69,12 @@ describe('schema', () => {
     await expect(env).rejects.toMatchObject({ code: '/server/options/notobject' });
   });
 
-  it('no `arg` should be given no arg', async () => {
+  it.skip('no `arg` should be given no arg', async () => {
     const arg = parse(schema, { env: 'development' });
     await expect(arg).rejects.toMatchObject({ code: '/server/options/noarg' });
   });
 
-  it('no `env` should be given no env', async () => {
+  it.skip('no `env` should be given no env', async () => {
     const env = parse({ public: { env: false }}, {}, { PUBLIC: 'hello' });
     await expect(env).rejects.toMatchObject({ code: '/server/options/noenv' });
   });

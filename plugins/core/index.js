@@ -1,5 +1,3 @@
-const path = require('path');
-
 // Middleware plugin
 // Restore some of the old Express functionality
 module.exports = {
@@ -9,24 +7,16 @@ module.exports = {
       default: {},
       type: Object
     },
-    public: {
-      type: String,
-      inherit: 'public',
-      clean: (value, arg, env, all, schema) => {
-        console.log(process.platform, arg, env, all);
-        if (/^win/.test(process.platform)) {
-          if (value === 'C:\\Users\\Public') {
-            // return (arg.public || schema.public.default);
-            // return path.normalize(path.join(process.cwd(), 'test'));
-            value = arg.public || schema.default;
-            return value;
-            // const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
-            // return path.normalize(fullpath);
-          }
-        }
-        return value;
-      }
-    },
+    // public: {
+    //   type: String,
+    //   inherit: 'public',
+    //   clean: (value, option) => {
+    //     if (/^win/.test(process.platform) && value === 'C:\\Users\\Public') {
+    //       return option.parent.public;
+    //     }
+    //     return value;
+    //   }
+    // },
     favicon: {
       type: String
     },

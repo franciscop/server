@@ -12,16 +12,15 @@ module.exports = {
     default: 'public',
     type: [String, Boolean],
     file: true,
-    clean: (value, arg, env, all, schema) => {
-      console.log(process.platform, value);
-      if (/^win/.test(process.platform)) {
-        if (value === 'C:\\Users\\Public') {
-          // return (arg.public || schema.public.default);
-          // return path.normalize(path.join(process.cwd(), 'test'));
-          value = arg.public || schema.default;
-          const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
-          return path.normalize(fullpath);
-        }
+    clean: (value, option) => {
+      // console.log('Global:', value, Object.keys(option));
+      // console.log(process.platform, value);
+      if (/^win/.test(process.platform) && value === 'C:\\Users\\Public') {
+        // return (arg.public || schema.public.default);
+        // return path.normalize(path.join(process.cwd(), 'test'));
+        value = option.arg.public || option.schema.default;
+        const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
+        return path.normalize(fullpath);
       }
       return value;
     }

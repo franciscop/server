@@ -12,7 +12,7 @@ module.exports = async (user = {}, plugins = []) => {
     options[name] = await parse(def, user[name], env, options);
   }));
 
-  console.log(options);
+  // console.log(options);
 
   return options;
 };

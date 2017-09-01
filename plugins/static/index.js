@@ -6,17 +6,16 @@ module.exports = {
     __root: 'public',
     public: {
       type: String,
-      inherit: 'public'
+      inherit: 'public',
+      clean: (value, option) => {
+        if (/^win/.test(process.platform) && value === 'C:\\Users\\Public') {
+          return option.parent.public;
+        }
+        return value;
+      }
     }
   },
-  init: function () {
-    // console.log('INIT');
-    // const static = require('.');
-    // static.before.push()
-  },
-  before: async ctx => {
-    // console.log('All:', ctx.options.static.public);
-    // console.log('A', await modern(ctx.express.static(ctx.options.static.public))(ctx));
-    // return (ctx);
+  before: ctx => {
+    return modern(ctx.express.static(ctx.options.static.public))(ctx);
   }
 };

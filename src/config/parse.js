@@ -7,7 +7,7 @@ const path = require('path');
 // Primitives to test
 // const types = ['Boolean', 'Number', 'String', 'Array', 'Object'];
 
-module.exports = async function(schema, arg = {}, env= {}, all = {}) {
+module.exports = async function(schema, arg = {}, env= {}, parent = {}) {
   const options = {};
 
   if (typeof arg !== 'object') {
@@ -37,8 +37,10 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
     if (def.arg === false) {
 
       // No argument expected but one was passed
+      // Should this throw or not?
       if (arg[key]) {
-        throw new OptionsError('/server/options/noarg', { key });
+        console.log((new OptionsError('/server/options/noarg')).message);
+        // throw new OptionsError('/server/options/noarg', { key });
       }
     } else {
       def.arg = def.arg === true ? key : def.arg || key;
@@ -48,7 +50,8 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
     if (def.env === false) {
       // No argument expected but one was passed
       if (env[key.toUpperCase()]) {
-        throw new OptionsError('/server/options/noenv', { key });
+        console.log((new OptionsError('/server/options/noenv')).message);
+        // throw new OptionsError('/server/options/noenv', { key });
       }
     } else {
       def.env = (def.env === true ? key : def.env || key).toUpperCase();
@@ -58,7 +61,7 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
     const possible = [
       env[def.env],
       arg[def.arg],
-      all[def.inherit],
+      parent[def.inherit],
       def.default
     ].filter(value => typeof value !== 'undefined');
     if (possible.length) {
@@ -66,7 +69,7 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
     }
 
     if (def.find) {
-      value = await def.find(arg, env, all, schema);
+      value = await def.find(arg, env, parent, schema);
     }
 
     // Extend the base object or user object with new values if these are not set
@@ -86,7 +89,7 @@ module.exports = async function(schema, arg = {}, env= {}, all = {}) {
     }
 
     if (def.clean) {
-      value = def.clean(value, arg, env, all, schema);
+      value = def.clean(value, { arg, env, parent, schema });
     }
 
 

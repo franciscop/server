@@ -1,5 +1,3 @@
-const path = require('path');
-
 module.exports = async ctx => {
 
   const modern = ctx.utils.modern;
@@ -16,9 +14,9 @@ module.exports = async ctx => {
   }
 
   // Public folder
-  if (opts.public) {
-    core.before.push(modern(ctx.express.static(opts.public)));
-  }
+  // if (opts.public) {
+  //   core.before.push(modern(ctx.express.static(opts.public)));
+  // }
 
   if (opts.session) {
     opts.session.secret = opts.session.secret || ctx.options.secret;
