@@ -23,6 +23,19 @@ describe('Default modules', () => {
     expect(res.headers['content-type']).toBe('image/x-icon');
   });
 
+  it('can log the context', async () => {
+    const res = await run(ctx => {
+
+      try {
+        require('util').inspect(ctx);
+      } catch (err) {
+        return err.message;
+      }
+      return 'Good!';
+    }).get('/');
+    expect(res.body).toBe('Good!');
+  });
+
   it('accepts several definitions of public correctly', async () => {
     const full = path.join(process.cwd(), 'test');
     const publish = ctx => ctx.options.public;
