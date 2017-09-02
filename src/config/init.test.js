@@ -29,7 +29,6 @@ describe('Options', () => {
   //   const ctx = await server(onePort);
   //   let err = await server(onePort).catch(err => err);
   //   await ctx.close();
-  //   console.log(err);
   //   expect(err.code).toBe('EADDRINUSE');
   // });
 
