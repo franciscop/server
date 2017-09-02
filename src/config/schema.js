@@ -18,9 +18,10 @@ module.exports = {
       if (/^win/.test(process.platform) && value === 'C:\\Users\\Public') {
         // return (arg.public || schema.public.default);
         // return path.normalize(path.join(process.cwd(), 'test'));
-        value = option.arg.public || option.schema.default;
-        console.log('LOG:', options.arg.public, options.schema.default);
+        value = option.arg.public || option.def.default;
+        console.log('LOG:', option.arg.public, option.def.default);
 
+        if (!value) return;
         const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
         return path.normalize(fullpath);
       }

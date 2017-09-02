@@ -11,19 +11,19 @@ error['/server/options/notobject'] = `
   to use the '__root' property.
 `;
 
-error['/server/options/noarg'] = ({ key }) => `
-  The option '${key}' cannot be passed through the arguments of server. This
+error['/server/options/noarg'] = ({ name }) => `
+  The option '${name}' cannot be passed through the arguments of server. This
   might be because it's sensitive and it has to be set in the environment.
-  Please read the documentation for '${key}' and make sure to set it correctly.
+  Please read the documentation for '${name}' and make sure to set it correctly.
 `;
 
-error['/server/options/noenv'] = ({ key }) => `
-  The option '${key}' cannot be passed through the environment of server.
-  Please read the documentation for '${key}' and make sure to set it correctly.
+error['/server/options/noenv'] = ({ name }) => `
+  The option '${name}' cannot be passed through the environment of server.
+  Please read the documentation for '${name}' and make sure to set it correctly.
 `;
 
-error['/server/options/cannotextend'] = ({ type, key }) => `
-  The option "${key}" must be an object but it received "${type}".
+error['/server/options/cannotextend'] = ({ type, name }) => `
+  The option "${name}" must be an object but it received "${type}".
   Please check your options to make sure you are passing an object.
 ${type === 'undefined' ? `
   If you are the creator of the plugin and you are receiving 'undefined', you
@@ -31,23 +31,23 @@ ${type === 'undefined' ? `
 ` : ''}
 `;
 
-error['/server/options/required'] = ({ key }) => `
-  The option '${key}' is required but it was not set neither as an argument nor
+error['/server/options/required'] = ({ name }) => `
+  The option '${name}' is required but it was not set neither as an argument nor
   in the environment. Please make sure to set it.
 `;
 
-error['/server/options/type'] = ({ key, expected, received, value }) => `
-  The option '${key}' should be a '[${expected}]' but you passed a '${received}':
+error['/server/options/type'] = ({ name, expected, received, value }) => `
+  The option '${name}' should be a '[${typeof expected}]' but you passed a '${received}':
   ${JSON.stringify(value)}
 `;
 
-error['/server/options/enum'] = ({ key, value, possible }) => `
-  The option '${key}' has a value of '${value}' but it should have one of these values:
+error['/server/options/enum'] = ({ name, value, possible }) => `
+  The option '${name}' has a value of '${value}' but it should have one of these values:
   ${JSON.stringify(possible)}
 `;
 
-error['/server/options/validate'] = ({ key, value }) => `
-  Failed to validate the option '${key}' with the value '${value}'. Please
+error['/server/options/validate'] = ({ name, value }) => `
+  Failed to validate the option '${name}' with the value '${value}'. Please
   consult this option documentation for more information.
 `;
 

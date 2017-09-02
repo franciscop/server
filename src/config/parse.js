@@ -1,15 +1,22 @@
+// parse.js
+// Reads an schema and retrieves the proper options from it
+
+// Errors specifics to this submodule
 const OptionsError = require('./errors');
 const path = require('path');
 
-// For options that default to true
-// const trueorundef = value => typeof value === 'undefined' || value === true;
 
-// Primitives to test
-// const types = ['Boolean', 'Number', 'String', 'Array', 'Object'];
+// The main function.
+// - arg: user options from the argument in the main server() function
+// - env: the environment variables as read from env.js
+// - parent: if it's a submodule, the global configuration
+module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
 
-module.exports = async function(schema, arg = {}, env= {}, parent = {}) {
+  // Fully parsed options will be stored here
   const options = {};
 
+  // Accepts a single option instead of an object and it will be mapped to its
+  // root value. Example: server(2000) === server({ port: 2000 })
   if (typeof arg !== 'object') {
     if (!schema.__root) {
       throw new OptionsError('/server/options/notobject');
@@ -17,59 +24,48 @@ module.exports = async function(schema, arg = {}, env= {}, parent = {}) {
     arg = { [schema.__root]: arg };
   }
 
-  // Loop each of the defined variables
-  for (let key in schema) {
+  // Loop each of the defined options
+  for (let name in schema) {
 
     // RETRIEVAL
     // Make the definition local so it's easier to handle
-    const def = schema[key];
+    const def = schema[name];
     let value;
 
     // Skip the control variables such as '__root'
-    if (/^\_\_/.test(key)) continue;
+    if (/^\_\_/.test(name)) continue;
 
-    // Make sure we are dealing with a valid definition
+    // Make sure we are dealing with a valid schema definition for this option
     if (typeof def !== 'object') {
       throw new Error('Invalid option definition: ' + JSON.stringify(def));
     }
 
-    // Decide whether to use the argument or not
-    if (def.arg === false) {
-
-      // No argument expected but one was passed
-      // Should this throw or not?
-      if (arg[key]) {
-        console.log((new OptionsError('/server/options/noarg')).message);
-        // throw new OptionsError('/server/options/noarg', { key });
-      }
-    } else {
-      def.arg = def.arg === true ? key : def.arg || key;
-    }
-
-    // Decide whether to use the environment or not
-    if (def.env === false) {
-      // No argument expected but one was passed
-      if (env[key.toUpperCase()]) {
-        console.log((new OptionsError('/server/options/noenv')).message);
-        // throw new OptionsError('/server/options/noenv', { key });
-      }
-    } else {
-      def.env = (def.env === true ? key : def.env || key).toUpperCase();
-    }
-
-    // List of possibilities, from HIGHER preference to LOWER preference
-    const possible = [
-      env[def.env],
-      arg[def.arg],
-      parent[def.inherit],
-      def.default
-    ].filter(value => typeof value !== 'undefined');
-    if (possible.length) {
-      value = possible[0];
-    }
-
+    // The user defined a function to find the actual value manually
     if (def.find) {
-      value = await def.find(arg, env, parent, schema);
+      value = await def.find({ arg, env, def, parent, schema });
+    } else {
+
+      // Use the user-passed option unles explictly told not to
+      if (def.arg !== false) {
+        def.arg = def.arg === true ? name : def.arg || name;
+      }
+
+      // Use the environment variable unless explicitly told not to
+      if (def.env !== false) {
+        def.env = (def.env === true ? name : def.env || name).toUpperCase();
+      }
+
+      // List of possibilities, from HIGHER preference to LOWER preference
+      // Removes the empty one and gets the first one as it has HIGHER preference
+      const possible = [
+        env[def.env],
+        arg[def.arg],
+        parent[def.inherit],
+        def.default
+      ].filter(value => typeof value !== 'undefined');
+      if (possible.length) {
+        value = possible[0];
+      }
     }
 
     // Extend the base object or user object with new values if these are not set
@@ -77,19 +73,20 @@ module.exports = async function(schema, arg = {}, env= {}, parent = {}) {
       if (typeof value === 'undefined') {
         value = {};
       }
-      Object.assign(value, def.default, value);
+      value = Object.assign({}, def.default, value);
     }
 
-    // Normalize the "public" pub
-    if (def.file && typeof value === 'string') {
+    // Normalize the "public" folder or file
+    if ((def.file || def.folder) && typeof value === 'string') {
       if (!path.isAbsolute(value)) {
         value = path.join(process.cwd(), value);
       }
       value = path.normalize(value);
     }
 
+    // A final hook for the schema to call up on the value
     if (def.clean) {
-      value = def.clean(value, { arg, env, parent, schema });
+      value = await def.clean(value, { arg, env, parent, schema });
     }
 
 
@@ -99,14 +96,14 @@ module.exports = async function(schema, arg = {}, env= {}, parent = {}) {
     // Validate that it is set
     if (def.required) {
       if (typeof value === 'undefined') {
-        throw new OptionsError('/server/options/required', { key });
+        throw new OptionsError('/server/options/required', { name });
       }
       // TODO: check that the file and folder exist
     }
 
     if (def.enum) {
       if (!def.enum.includes(value)) {
-        throw new OptionsError('/server/options/enum', { key, value, possible: def.enum });
+        throw new OptionsError('/server/options/enum', { name, value, possible: def.enum });
       }
     }
 
@@ -121,10 +118,7 @@ module.exports = async function(schema, arg = {}, env= {}, parent = {}) {
       // Make sure it is one of the valid types
       if (!def.type.includes(typeof value)) {
         throw new OptionsError('/server/options/type', {
-          key,
-          expected: def.type,
-          received: typeof value,
-          value
+          name, expected: def.type, value
         });
       }
     }
@@ -132,9 +126,9 @@ module.exports = async function(schema, arg = {}, env= {}, parent = {}) {
     if (def.validate) {
       let ret = def.validate(value, def, options);
       if (ret instanceof Error) throw ret;
-      if (!ret) throw new OptionsError('/server/options/validate', { key, value });
+      if (!ret) throw new OptionsError('/server/options/validate', { name, value });
     }
-    options[key] = value;
+    options[name] = value;
   }
 
   return options;
