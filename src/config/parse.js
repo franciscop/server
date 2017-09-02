@@ -86,7 +86,7 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
 
     // A final hook for the schema to call up on the value
     if (def.clean) {
-      value = await def.clean(value, { arg, env, parent, schema });
+      value = await def.clean(value, { arg, env, parent, def, schema });
     }
 
 
