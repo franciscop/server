@@ -7,12 +7,7 @@ module.exports = {
     public: {
       type: String,
       inherit: 'public',
-      clean: (value, option) => {
-        if (/^win/.test(process.platform) && value === 'C:\\Users\\Public') {
-          return option.parent.public;
-        }
-        return value;
-      }
+      env: false
     }
   },
   before: ctx => {
