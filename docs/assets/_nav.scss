@@ -1,0 +1,61 @@
+
+nav .menu > * {
+  margin: 0;
+}
+
+@media all and (min-width: #{$picnic-breakpoint}) {
+  nav .menu {
+    padding-right: .6em;
+  }
+}
+
+
+nav {
+  padding-left: calc(50% - 450px);
+  padding-right: calc(50% - 450px);
+  margin: 0 auto;
+}
+
+:not(.extra.docs) ~ nav.transparent {
+  background: none;
+  box-shadow: none;
+
+  a, a.pseudo, .burger {
+    color: #fff;
+  }
+}
+
+@each $size in (500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500) {
+  .width-#{$size} ~ nav {
+    padding-left: calc(50% - #{$size / 2}px);
+    padding-right: calc(50% - #{$size / 2}px);
+  }
+
+  .width-#{$size} ~ article {
+    max-width: #{$size}px;
+  }
+}
+
+
+nav.instant,
+nav.instant * {
+  transition: all 0s!important;
+}
+
+nav .brand {
+  padding: 0 .5em;
+}
+
+nav .burger {
+  margin-right: .5em;
+}
+
+nav .brand .logo {
+  margin-right: 1em;
+}
+
+@media all and (max-width: $picnic-breakpoint) {
+  nav.transparent .menu a.pseudo {
+    color: #333;
+  }
+}

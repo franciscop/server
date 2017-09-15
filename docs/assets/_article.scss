@@ -1,0 +1,108 @@
+article {
+  width: 100%;
+  max-width: 900px;
+  margin: 20px auto;
+  background: #fff;
+  padding: 2em;
+  padding-bottom: 30vh;
+
+  .features {
+    margin: 20px 0 30px;
+    text-align: center;
+
+    img {
+      margin: 0 auto;
+      width: 100px;
+      display: block;
+      filter: opacity(.8);
+    }
+
+    p {
+      width: 90%;
+      margin: 0 auto;
+    }
+  }
+
+  img {
+    max-width: 100%;
+  }
+
+
+  /* p only if it's the first elementc */
+  & > p:first-child {
+    margin-top: 0;
+  }
+
+  /*tighten up*/
+  h1,
+  h2,
+  h3 {
+    margin: -60px 0 0;
+    padding-top: 80px;
+    padding-bottom: 0;
+  }
+
+  h1 {
+    margin-top: -106px;
+    padding-top: 100px;
+    line-height: 1.1;
+  }
+
+  h1 + *,
+  h2 + *,
+  h3 + * {
+    margin-top: .6em;
+  }
+
+  table {
+    margin: 1.5em 0 .5em;
+    width: 100%;
+    max-width: 100%;
+
+    td, th {
+      padding: .3em .6em;
+    }
+
+    th {
+      background: none;
+      color: #333;
+    }
+
+    tr:nth-child(2n) {
+      background: none;
+    }
+
+    th,
+    td {
+      border: 2px solid #ddd;
+    }
+  }
+
+  .pages {
+    text-align: left;
+  }
+}
+
+
+
+// Responsive spacing
+$rspacing: 20px;
+@media all and (max-width: 900px) {
+  article {
+    padding: $rspacing;
+    width: 100%;
+    border-radius: 0;
+
+    table {
+      display: block;
+      overflow-x: auto;
+    }
+
+    pre[class*="language-"] {
+      font-size: 1.1em;
+      // Same as padding
+      margin-left: -$rspacing;
+      width: calc(100% + #{$rspacing});
+    }
+  }
+}

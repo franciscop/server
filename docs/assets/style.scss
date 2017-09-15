@@ -7,20 +7,7 @@ $primary-color: #f55;
 @import "./prism";
 
 @import "./toc";
-
-td, th {
-  padding: .3em .6em;
-}
-
-nav .menu > * {
-  margin: 0;
-}
-
-@media all and (min-width: #{$picnic-breakpoint}) {
-  nav .menu {
-    padding-right: .6em;
-  }
-}
+@import "./nav";
 
 .external {
   box-shadow: none;
@@ -55,65 +42,6 @@ pre[class*="language-"] {
 .token.operator,
 .token.url {
   background: none;
-}
-
-
-
-
-
-.from-h3 .button::before {
-  content: "- ";
-}
-
-nav {
-  padding-left: calc(50% - 450px);
-  padding-right: calc(50% - 450px);
-  margin: 0 auto;
-}
-
-:not(.extra.docs) ~ nav.transparent {
-  background: none;
-  box-shadow: none;
-
-  a, a.pseudo, .burger {
-    color: #fff;
-  }
-}
-
-@each $size in (500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500) {
-  .width-#{$size} ~ nav {
-    padding-left: calc(50% - #{$size / 2}px);
-    padding-right: calc(50% - #{$size / 2}px);
-  }
-
-  .width-#{$size} ~ article {
-    max-width: #{$size}px;
-  }
-}
-
-
-
-@media all and (max-width: $picnic-breakpoint) {
-  nav.transparent .menu a.pseudo {
-    color: #333;
-  }
-}
-
-nav.instant,
-nav.instant * {
-  transition: all 0s!important;
-}
-
-nav .brand {
-  padding: 0 .5em;
-}
-
-nav .burger {
-  margin-right: .5em;
-}
-
-nav .brand .logo {
-  margin-right: 1em;
 }
 
 body {
@@ -160,54 +88,8 @@ body {
 }
 
 
-article {
-  width: 100%;
-  max-width: 900px;
-  margin: 20px auto;
-  background: #fff;
-  padding: 2em;
-  padding-bottom: 30vh;
-}
 
-article .features {
-  margin: 20px 0 30px;
-  text-align: center;
-
-  img {
-    margin: 0 auto;
-    width: 100px;
-    display: block;
-    filter: opacity(.8);
-  }
-
-  p {
-    width: 90%;
-    margin: 0 auto;
-  }
-}
-
-article img {
-  max-width: 100%;
-}
-
-article table {
-  margin: 1.5em 0 .5em;
-  width: 100%;
-}
-
-article table th {
-  background: none;
-  color: #333;
-}
-
-article table tr:nth-child(2n) {
-  background: none;
-}
-
-article table th,
-article table td {
-  border: 2px solid #ddd;
-}
+@import 'article';
 
 .hero h1 {
   font-weight: normal;
@@ -383,40 +265,6 @@ button.secret {
   background: $primary-color;
 }
 
-/* p only if it's the first elementc */
-article > p:first-child {
-  margin-top: 0;
-}
-
-/*tighten up*/
-article h1,
-article h2,
-article h3 {
-  margin: -60px 0 0;
-  padding-top: 80px;
-  padding-bottom: 0;
-}
-
-.documentation h1,
-.tutorial h1 {
-  margin-top: -106px;
-  padding-top: 100px;
-  line-height: 1;
-}
-
-article h1 + *,
-article h2 + *,
-article h3 + * {
-  margin-top: .6em;
-}
-
-@media all and (max-width: 900px) {
-  article {
-    padding: 20px;
-    width: 100%;
-    border-radius: 0;
-  }
-}
 
 
 .pages {
@@ -431,6 +279,11 @@ article h3 + * {
   margin-top: 1em;
 }
 
-article .pages {
-  text-align: left;
+
+.become-sponsor {
+  display: block;
+  background: #eee;
+  text-align: center;
+  color: #666;
+  padding: 20px 0;
 }

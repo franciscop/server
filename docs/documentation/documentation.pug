@@ -1,12 +1,12 @@
 extends ../_layout/index
 
 block extra
-  div.width-1000
+  div.width-1100
 
 block content
-  article.documentation
-    div.flex.one.three-800.four-1000
-      div.full.third-800.fourth-1000
+  article.documentation(style="max-width: 1100px")
+    div.flex.one.three-900
+      div.full.third-900(style="width: 30%")
         include ./toc.pug
-      div.full.two-third-800.three-fourth-1000
+      div.full.two-third-900(style="width: 70%")
         block article

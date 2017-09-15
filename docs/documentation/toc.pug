@@ -1,23 +1,8 @@
 section.toc
   h2
-    span Documentation
+    a(href="/documentation/") Documentation
   ul
     //- Do it automatically (for the final version, now color-coded is better)
-    //- li
-    //-   label.more ›
-    //-   a(href="/documentation/") Introduction
-    //-   ul
-    //-     li
-    //-       a(href="/documentation/#getting-started") Getting Started
-    //-     li
-    //-       a(href="/documentation/#basic-usage") Basic usage
-    //-     li
-    //-       a(href="/documentation/#middleware") Middleware
-    //-     li
-    //-       a(href="/documentation/#express-library") Express libraries
-    //-     li
-    //-       a(href="/documentation/#express-library") Routing
-    //-
     //- each tutorial, frag in documentation
     //-   li
     //-     if (tutorial.sections.length)
@@ -40,7 +25,7 @@ section.toc
         li
           a.good(href="/documentation/#middleware") Middleware
         li
-          a.good(href="/documentation/#express-library") Express libraries
+          a.good(href="/documentation/#express-middleware") Express middleware
         li
           a.good(href="/documentation/#express-library") Routing
     li

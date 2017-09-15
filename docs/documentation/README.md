@@ -162,15 +162,59 @@ const middle = async ctx => {
 
 
 
-### Express library
+### Express middleware
 
-Server.js is using express as the underlying library (we <3 express!). You can import middleware designed for express with `modern` is a small utility tool:
+Server.js is using express as the underlying library (we <3 express!). You can import middleware designed for express with `modern`:
+
+```js
+const server = require('server');
+
+// Import the util tool "modern"
+const { modern } = server.utils;
+
+// Require the helmet library
+const legacy = require('helmet')({ ... });
+
+// Convert it to server.js middleware
+const mid = modern(legacy);
+
+// Add it as you'd add a normal middleware
+server(mid, ...);
+```
+
+> Note: the `{ ... }` represent the options for that middleware since many of [express libraries](https://expressjs.com/en/guide/writing-middleware.html) follow the [factory pattern](https://github.com/expressjs/express/issues/3150).
+
+To simplify it, we can also perform this operation inline:
 
 ```js
 const server = require('server');
 const { modern } = server.utils;
-const legacy = require('legacy-package')({ ... });
-const mid = modern(legacy);
 
-server(mid);
+server(
+  modern(require('express-mid-1')({ ... })),
+  modern(require('express-mid-2')({ ... })),
+  // ...
+);
+```
+
+Or just keep the whole middleware in a separated file/folder:
+
+```js
+// index.js
+const server = require('server');
+const middleware = require('./middleware');
+const routes = require('./routes');
+
+server(middleware, routes);
+```
+
+```js
+// middleware.js
+const server = require('server');
+const { modern } = server.utils;
+
+module.exports = [
+  modern(require('express-mid-1')({ ... }),
+  modern(require('express-mid-2')({ ... })
+];
 ```
