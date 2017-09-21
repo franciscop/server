@@ -3,7 +3,7 @@
 <pre><code class="lang-js">// Import the variable into the file
 const server = require(&#39;server&#39;);
 
-// options and fn1, fn2, etc are optional
+// All of the arguments are optional
 server(options, fn1, fn2, fn3, ...);
 </code></pre>
 <blockquote>
@@ -17,7 +17,7 @@ server(options, fn1, fn2, fn3, ...);
 <pre><code class="lang-js">// Import the library
 const server = require(&#39;server&#39;);
 
-// Launch it with a middleware that answers anything
+// Answers to any request
 server(ctx =&gt; &#39;Hello world&#39;);
 </code></pre>
 <p>Run it from the terminal:</p>

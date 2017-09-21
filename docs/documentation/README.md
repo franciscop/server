@@ -6,7 +6,7 @@ Conceptually **server** is a function that accepts options and other functions. 
 // Import the variable into the file
 const server = require('server');
 
-// options and fn1, fn2, etc are optional
+// All of the arguments are optional
 server(options, fn1, fn2, fn3, ...);
 ```
 
@@ -28,7 +28,7 @@ Then create some demo code in your `index.js`:
 // Import the library
 const server = require('server');
 
-// Launch it with a middleware that answers anything
+// Answers to any request
 server(ctx => 'Hello world');
 ```
 

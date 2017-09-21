@@ -118,6 +118,7 @@ $rspacing: 20px;
       font-size: 1.1em;
       // Same as padding
       margin-left: -$rspacing;
+      padding: 10px $rspacing;
       width: calc(100% + #{2 * $rspacing});
 
       code {
