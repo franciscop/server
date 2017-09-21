@@ -119,6 +119,11 @@ $rspacing: 20px;
       // Same as padding
       margin-left: -$rspacing;
       width: calc(100% + #{2 * $rspacing});
+
+      code {
+        display: inline-block;
+        margin-right: 20px;
+      }
     }
   }
 }
