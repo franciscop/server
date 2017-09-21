@@ -24,18 +24,6 @@ describe('Default modules', () => {
     expect(res.body).toBe('Hello 世界');
   });
 
-  it('jsonParser', async () => {
-    const mid = ctx => {
-      expect(ctx.data).toEqual(ctx.req.body);
-      expect(ctx.data.hello).toBe('世界');
-      expect(content(ctx)).toBe('application/json');
-      return 'Hello 世界';
-    };
-
-    const res = await run(mid).post('/', { body: { hello: '世界' }});
-    expect(res.body).toBe('Hello 世界');
-  });
-
   it('dataParser', async () => {
     const mid = ctx => ctx.files.logo;
     const res = await run(mid).post('/', { formData: { logo } });
@@ -82,6 +70,36 @@ describe('Default modules', () => {
     expect(res.body).toBe('Hello 世界');
   });
 
+  // Change the method to the specified one
+  it('override-method works with a string', async () => {
+    const mid = ctx => {
+      expect(ctx.method).toBe('PUT');
+      expect(ctx.originalMethod).toBe('POST');
+      return 'Hello 世界';
+    };
+
+    const headers = { 'X-HTTP-Method-Override': 'PUT' };
+    const res = await run({ parser: {
+      method: 'X-HTTP-Method-Override'
+    } }, mid).post('/', { headers });
+    expect(res.body).toBe('Hello 世界');
+  });
+
+  // Change the method to the specified one
+  it('override-method works with an array', async () => {
+    const mid = ctx => {
+      expect(ctx.method).toBe('PUT');
+      expect(ctx.originalMethod).toBe('POST');
+      return 'Hello 世界';
+    };
+
+    const headers = { 'X-HTTP-Method-Override': 'PUT' };
+    const res = await run({ parser: {
+      method: ['X-HTTP-Method-Override']
+    } }, mid).post('/', { headers });
+    expect(res.body).toBe('Hello 世界');
+  });
+
   // TODO: check more options
 });
 
@@ -98,6 +116,18 @@ describe('Cancel parts through options', () => {
     };
 
     const res = await run(options, mid).post('/', { form: 'hello=世界' });
+    expect(res.body).toBe('Hello 世界');
+  });
+
+  it('can cancel jsonParser', async () => {
+    const mid = ctx => {
+      expect(ctx.data).toEqual(ctx.req.body);
+      expect(ctx.data).toEqual({});
+      expect(content(ctx)).toBe('application/json');
+      return 'Hello 世界';
+    };
+
+    const res = await run({ parser: { json: false }}, mid).post('/', { body: { hello: '世界' }});
     expect(res.body).toBe('Hello 世界');
   });
 
