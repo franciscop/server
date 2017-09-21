@@ -208,13 +208,29 @@ const routes = require('./routes');
 server(middleware, routes);
 ```
 
+Abc
+
 ```js
 // middleware.js
 const server = require('server');
 const { modern } = server.utils;
 
 module.exports = [
-  modern(require('express-mid-1')({ ... }),
-  modern(require('express-mid-2')({ ... })
+  modern(require('express-mid-1')({ /* ... */ })),
+  modern(require('express-mid-2')({ /* ... */ }))
 ];
+```
+
+
+
+## Advanced topics
+
+There is a lot of basic to mid-difficulty documentation to do until we even get here. Just a quick note so far:
+
+The main function returns a promise that will be fulfilled when the server is running and can be accessed. It will receive a more primitive context. So this is perfectly valid:
+
+```js
+server(ctx => 'Hello world').then(ctx => {
+  console.log(`Server launched on https://localhost:${ctx.options.port}/`);
+});
 ```

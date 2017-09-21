@@ -24,6 +24,7 @@ var toc = u('.toc');
 let offset = 10;
 const breakpoint = 900;
 var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
+navheight = 0;
 const resize = () => {
   if (!toc.length) return;
 
@@ -34,7 +35,7 @@ const resize = () => {
     var articlepaddingtop = parseFloat(getComputedStyle(u('article').first()).getPropertyValue('padding-top'));
     var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
     u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
-    u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset + 20) + 'px)';
+    u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset - 10) + 'px)';
     u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 10) + 'px';
     // console.log(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'));
   } else {

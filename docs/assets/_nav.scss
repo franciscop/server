@@ -29,6 +29,7 @@ nav {
   .width-#{$size} ~ nav {
     padding-left: calc(50% - #{$size / 2}px);
     padding-right: calc(50% - #{$size / 2}px);
+    position: absolute;
   }
 
   .width-#{$size} ~ article {
@@ -52,6 +53,10 @@ nav .burger {
 
 nav .brand .logo {
   margin-right: 1em;
+}
+
+nav .pseudo {
+  margin-right: 5px;
 }
 
 @media all and (max-width: $picnic-breakpoint) {

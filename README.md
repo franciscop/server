@@ -52,7 +52,7 @@ Execute this in the terminal to get the server started:
 node .
 ```
 
-And finally, open your browser on [localhost:3000](http://localhost:3000/) and you should see your server answering 'Hello world!'.
+And finally, open your browser on [localhost:3000](http://localhost:3000/) and you should see 'Hello world!' on your browser.
 
 
 

@@ -6,6 +6,22 @@ article {
   padding: 2em;
   padding-bottom: 30vh;
 
+  &.documentation,
+  &.tutorial {
+    .main {
+      max-width: 100%;
+    }
+
+    @media all and (min-width: $picnic-breakpoint) {
+      .side {
+        width: 30%;
+      }
+      .main {
+        width: 70%;
+      }
+    }
+  }
+
   .features {
     margin: 20px 0 30px;
     text-align: center;
@@ -37,8 +53,8 @@ article {
   h1,
   h2,
   h3 {
-    margin: -60px 0 0;
-    padding-top: 80px;
+    margin: 0;
+    padding-top: 25px;
     padding-bottom: 0;
   }
 
@@ -102,7 +118,7 @@ $rspacing: 20px;
       font-size: 1.1em;
       // Same as padding
       margin-left: -$rspacing;
-      width: calc(100% + #{$rspacing});
+      width: calc(100% + #{2 * $rspacing});
     }
   }
 }

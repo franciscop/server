@@ -4,9 +4,10 @@ block extra
   div.width-1100
 
 block content
-  article.tutorial(style="max-width: 1100px")
-    div.flex.one.three-900
-      div.full.third-900(style="width: 30%")
+  article.tutorial
+    div.flex
+      //- Need this so the parent of .toc has a width and we position it respect.
+      div.side
         include ./toc.pug
-      div.full.two-third-900(style="width: 70%")
+      div.main
         block article
