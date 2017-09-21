@@ -33,9 +33,20 @@ article {
       filter: opacity(.8);
     }
 
+    h2 {
+      padding-top: 0;
+    }
+
     p {
       width: 90%;
       margin: 0 auto;
+    }
+
+    @media all and (max-width: 600px) {
+      img {
+        margin-top: 10px;
+        margin-bottom: -10px;
+      }
     }
   }
 
