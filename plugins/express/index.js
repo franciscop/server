@@ -2,10 +2,43 @@ const express = require('express');
 
 module.exports = {
   name: 'express',
-  options: {},
+  options: {
+    // See these in-depth in https://expressjs.com/en/api.html#app.set
+    'case sensitive routing': {},
+    'env': {
+      inherit: 'env'
+    },
+    'etag': {},
+    'jsonp callback name': {},
+    'json replacer': {},
+    'json spaces': {},
+    'query parser': {},
+    'strict routing': {},
+    'subdomain offset': {},
+    'trust proxy': {},
+    'views': {
+      default: 'views',
+      inherit: true,
+      type: String,
+      file: true
+    },
+    'view cache': {},
+    'view engine': {
+      inherit: 'engine'
+    },
+    'x-powered-by': {}
+  },
   init: ctx => {
     ctx.express = express;
     ctx.app = ctx.express();
+
+    // Go through all of the options and set the right ones
+    for (let key in ctx.options.express) {
+      let value = ctx.options.express[key];
+      if (typeof value !== 'undefined') {
+        ctx.app.set(key, value);
+      }
+    }
 
     // Accept HTML as a render extension
     ctx.app.engine('html', require('hbs').__express);
@@ -19,15 +52,6 @@ module.exports = {
         }
       } else {  // Simple case like { engine: 'pug' }
         ctx.app.set('view engine', ctx.options.engine);
-      }
-    }
-
-    // Set them into express' app
-    // TODO: whitelist here of name:type from
-    //   https://expressjs.com/en/api.html#app.settings.table
-    for (let key in ctx.options) {
-      if (['boolean', 'number', 'string'].includes(typeof ctx.options[key])) {
-        ctx.app.set(key, ctx.options[key]);
       }
     }
   },

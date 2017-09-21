@@ -74,7 +74,11 @@ module.exports = function (...middle) {
     // Parse the server options
     const opts = await serverOptions(middle);
 
-    const ctx = await server(opts, middle).catch(err => { throw err; });
+    const error = server.router.error(ctx => {
+      return server.reply.status(500).send(ctx.error.message);
+    });
+
+    const ctx = await server(opts, middle, error);
 
     ctx.close = () => new Promise((resolve, reject) => {
       ctx.server.close(err => err ? reject(err) : resolve());
