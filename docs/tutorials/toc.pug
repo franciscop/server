@@ -5,7 +5,7 @@ section.toc
     each tutorial, frag in tutorials
       li
         if (tutorial.sections.length)
-          label.more ›
+          label.more
         a(href="/tutorials/" + frag + "/#top")= tutorial.title
         if (tutorial.sections.length)
           ul
