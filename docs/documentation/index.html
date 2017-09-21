@@ -46,7 +46,7 @@ server([
 const { render, json } = require(&#39;server/reply&#39;);
 </code></pre>
 <h2 id="middleware">Middleware</h2>
-<p>A <em>middleware</em> is plain function that will be called on each request. It accepts <a href="/documentation/context">a context object</a> and <a href="/documentation/reply/">returns a reply</a>, a <a href="/documentation/reply/#return-value">basic type</a> or nothing. A couple of examples:</p>
+<p>A <em>middleware</em> is plain function that will be called on each request. It receives <a href="/documentation/context">a context object</a> and <a href="/documentation/reply/">returns a reply</a>, a <a href="/documentation/reply/#return-value">basic type</a> or nothing. A couple of examples:</p>
 <pre><code class="lang-js">const setname = ctx =&gt; { ctx.req.user = &#39;Francisco&#39;; };
 const sendname = ctx =&gt; send(ctx.req.user);
 server(setname, sendname);

@@ -77,7 +77,7 @@ const { render, json } = require('server/reply');
 
 ## Middleware
 
-A *middleware* is plain function that will be called on each request. It accepts [a context object](/documentation/context) and [returns a reply](/documentation/reply/), a [basic type](/documentation/reply/#return-value) or nothing. A couple of examples:
+A *middleware* is plain function that will be called on each request. It receives [a context object](/documentation/context) and [returns a reply](/documentation/reply/), a [basic type](/documentation/reply/#return-value) or nothing. A couple of examples:
 
 ```js
 const setname = ctx => { ctx.req.user = 'Francisco'; };
