@@ -4,7 +4,7 @@
 const ports = [];
 const limit = 1000;
 
-const random = () => 2000 + parseInt(Math.random() * 8000);
+const random = () => 1024 + parseInt(Math.random() * 48151);
 
 // Keep a count of how many times we tried to find a port to avoid infinite loop
 const randPort = (i = 0) => {

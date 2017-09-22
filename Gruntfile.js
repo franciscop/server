@@ -68,8 +68,10 @@ module.exports = function (grunt) {
       compile: {
         options: {
           client: false,
-          data: () => {
+          data: file => {
             return {
+              require,
+              file,
               tutorials: getInfo('./docs/tutorials/'),
               documentation: getInfo('./docs/documentation/'),
               slug: str => str.toLowerCase().replace(/[^\w]+/g, '-')

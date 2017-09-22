@@ -3,5 +3,6 @@
   "context",
   "router",
   "reply",
-  "errors"
+  "errors",
+  "testing"
 ]

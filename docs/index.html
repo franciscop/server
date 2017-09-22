@@ -217,6 +217,7 @@ u('a').on('click', e => {
   if (!href) return;
   const [url, hash] = href.split('#');
 
+  console.log(url, window.location.pathname, hash);
   if (url === window.location.pathname && !hash) {
     e.preventDefault();
     u('body').scroll();

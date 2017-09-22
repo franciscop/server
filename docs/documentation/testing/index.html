@@ -1,0 +1,207 @@
+<!DOCTYPE html><html class="initial"><head><title>Testing documentation - server.js</title><meta property="og:title" content="Testing documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Testing your application properly."/><meta property="og:description" content="Testing your application properly."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex"><div class="side"><section class="toc"><h2><a href="/documentation/">Documentation</a></h2><ul><li><label class="more"></label><a class="good" href="/documentation/">Introduction</a><ul><li><a class="good" href="/documentation/#getting-started">Getting Started</a></li><li><a class="good" href="/documentation/#basic-usage">Basic usage</a></li><li><a class="good" href="/documentation/#middleware">Middleware</a></li><li><a class="good" href="/documentation/#express-middleware">Express middleware</a></li><li><a class="good" href="/documentation/#express-library">Routing</a></li><li><a class="mid" href="/documentation/#advanced-topics">Advanced topics</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/options/">Options</a><ul><li><a class="good" href="/documentation/options/#port">port</a></li><li><a class="good" href="/documentation/options/#secret">secret</a></li><li><a class="good" href="/documentation/options/#public">public</a></li><li><a class="good" href="/documentation/options/#views">views</a></li><li><a class="good" href="/documentation/options/#engine">engine</a></li><li><a class="good" href="/documentation/options/#env">env</a></li><li><a class="good" href="/documentation/options/#log">log</a></li><li><a class="mid" href="/documentation/options/#core">core</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/context/">Context</a><ul><li><a class="good" href="/documentation/context/#-options">.options</a></li><li><a class="good" href="/documentation/context/#-data">.data</a></li><li><a class="good" href="/documentation/context/#-params">.params</a></li><li><a class="good" href="/documentation/context/#-query">.query</a></li><li><a class="good" href="/documentation/context/#-session">.session</a></li><li><a class="good" href="/documentation/context/#-headers">.headers</a></li><li><a class="good" href="/documentation/context/#-cookie">.cookie</a></li><li><a class="good" href="/documentation/context/#-files">.files</a></li><li><a class="good" href="/documentation/context/#-ip">.ip</a></li><li><a class="good" href="/documentation/context/#-url">.url</a></li><li><a class="good" href="/documentation/context/#-method">.method</a></li><li><a class="good" href="/documentation/context/#-path">.path</a></li><li><a class="good" href="/documentation/context/#-secure">.secure</a></li><li><a class="good" href="/documentation/context/#-xhr">.xhr</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/router/">Router</a><ul class="size-100"><li><a class="good" href="/documentation/router/#get-">get()</a></li><li><a class="good" href="/documentation/router/#post-">post()</a></li><li><a class="good" href="/documentation/router/#put-">put()</a></li><li><a class="good" href="/documentation/router/#del-">del()</a></li><li><a class="good" href="/documentation/router/#error-">error()</a></li><li><a class="good" href="/documentation/router/#sub-">sub()</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/reply/">Reply</a><ul><li><a class="good" href="/documentation/reply/#cookie-">cookie()</a></li><li><a class="good" href="/documentation/reply/#download-">download()</a></li><li><a class="good" href="/documentation/reply/#header-">header()</a></li><li><a class="good" href="/documentation/reply/#json-">json()</a></li><li><a class="good" href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a class="good" href="/documentation/reply/#redirect-">redirect()</a></li><li><a class="good" href="/documentation/reply/#render-">render()</a></li><li><a class="good" href="/documentation/reply/#send-">send()</a></li><li><a class="good" href="/documentation/reply/#status-">status()</a></li><li><a class="good" href="/documentation/reply/#type-">type()</a></li></ul></li><li><label class="more"></label><a class="mid" href="/documentation/errors/">Errors</a><ul><li><a class="bad" href="/documentation/errors/#native">/server/native</a></li><li><a class="bad" href="/documentation/errors/#core">/server/core</a></li><li><a class="bad" href="/documentation/errors/#options">/server/options</a></li></ul></li><li><label class="more"></label><a class="mid" href="/documentation/testing/">Testing</a><ul><li><a class="bad" href="/documentation/testing/#setup">Setup</a></li><li><a class="bad" href="/documentation/testing/#unit">Unit</a></li><li><a class="bad" href="/documentation/testing/#integration">Integration</a></li></ul></li></ul></section></div><div class="main"><h1 id="testing">Testing</h1>
+<p>There&#39;s a small test suite included, but you probably want to use something more specific to your use-case.</p>
+<p>Testing that a middleware correctly handles the lack of a user:</p>
+<pre><code class="lang-js">// auth/errors.js (more info in /documentation/errors/)
+const error = require(&#39;server/error&#39;);
+error[&#39;/app/auth/nouser&#39;] = &#39;You must be authenticated to do this&#39;;
+module.exports = error;
+</code></pre>
+<p>Our main module:</p>
+<pre><code class="lang-js">// auth/needuser.js
+const AuthError = require(&#39;./errors&#39;);
+
+module.exports = ctx =&gt; {
+  if (!ctx.user) {
+    throw new AuthError(&#39;/app/auth/nouser&#39;, { status: 403, public: true });
+  }
+};
+</code></pre>
+<p>Then to test this module:</p>
+<pre><code class="lang-js">// auth/needuser.test.js
+const run = require(&#39;server/test/run&#39;);
+const needuser = require(&#39;./needuser&#39;);
+
+describe(&#39;auth/needuser.js&#39;, () =&gt; {
+  it(&#39;returns a server error without a user&#39;, async () =&gt; {
+    const res = await run(needuser).get(&#39;/&#39;);
+    expect(res.status).toBe(403);
+  });
+
+  it(&#39;works with a mocked user&#39;, async () =&gt; {
+    const mockuser = ctx =&gt; { ctx.user = {}; };
+    const res = await run(mockuser, needuser).get(&#39;/&#39;);
+    expect(res.status).toBe(200);
+  });
+});
+</code></pre>
+<h2 id="run-">run()</h2>
+<p>This function accepts the same arguments as <code>server()</code>, however it will return an API that you can use to test any middleware (and, by extension, any route) that you want. The API that it returns so far is this:</p>
+<pre><code class="lang-js">const run = require(&#39;server/test/run&#39;);
+
+const api = run(TOTEST);
+
+api.get.then(res =&gt; { ... });
+api.post.then(res =&gt; { ... });
+api.put.then(res =&gt; { ... });
+api.del.then(res =&gt; { ... });
+</code></pre>
+<h2 id="disable-csrf">Disable CSRF</h2>
+<p>For testing POST, PUT and DELETE methods you might want to disable CSRF. To do that, just pass it the appropriate option:</p>
+<pre><code class="lang-js">run({ security: { csrf: false } }, TOTEST);
+</code></pre>
+<p>This API accepts as arguments:</p>
+<pre><code class="lang-js">api.get(URL, OPTIONS);
+</code></pre>
+<p>It is using <a href="https://github.com/request/request"><code>request</code></a> underneath, so the options are the same as for this module. There are few small differences:</p>
+<ul>
+<li>It will generate the port randomly from <a href="https://stackoverflow.com/q/413807/938236">1024</a> to <a href="https://stackoverflow.com/a/113237/938236">49151</a>. However, there is a chance of collision that grows <a href="https://en.wikipedia.org/wiki/Birthday_problem">faster than expected</a> as your number of tests grows. There&#39;s mitigation code going on to avoid collisions so until the tens of thousands of tests it should be fine.</li>
+<li>The URLs will be made local internally to <code>http://localhost:${port}</code> unless you fully qualify them (which is not recommended).</li>
+</ul>
+<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/options">Options</a><a class="button" href="/documentation/context">Context</a><a class="button" href="/documentation/router">Router</a><a class="button" href="/documentation/reply">Reply</a><a class="button" href="/documentation/errors">Errors</a><a class="button" href="/documentation/testing">Testing</a></div></div></div></article><script src="https://unpkg.com/smoothscroll-polyfill@0"></script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
+setTimeout(function() {
+  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
+  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
+    el.setAttribute('href', email);
+  });
+}, 2000);
+
+// Add language tag to the code for print
+[].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
+  return /lang(uage)?\-/.test(pre.className);
+}).forEach(function(pre){
+  var name = pre.className.split(/\s+/).filter(function(name){
+    return /lang(uage)?\-/.test(name);
+  })[0].replace(/lang(uage)?\-/, '');
+  var map = { js: 'javascript', jade: 'pug' };
+  if (name in map) name = map[name];
+  pre.parentNode.setAttribute('data-language', name);
+});
+
+
+var nav = u('nav');
+var toc = u('.toc');
+let offset = 10;
+const breakpoint = 900;
+var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
+navheight = 0;
+const resize = () => {
+  if (!toc.length) return;
+
+  if (window.innerWidth > breakpoint) {
+    u('.toc [href]').filter(el => {
+      return u(el).attr('href').split('#')[0] === window.location.pathname;
+    }).parent().addClass('active');
+    var articlepaddingtop = parseFloat(getComputedStyle(u('article').first()).getPropertyValue('padding-top'));
+    var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
+    u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
+    u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset) + 'px)';
+    u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 10) + 'px';
+    // console.log(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'));
+  } else {
+    toc.removeClass('fixed');
+    u('.toc').first().style.top = 'auto';
+    u('.toc').first().style.maxHeight = '1000px';
+    u('.toc').first().style.width = 'auto';
+  }
+};
+resize();
+window.onresize = resize;
+
+function transparency(){
+  var top = document.documentElement.scrollTop || document.body.scrollTop;
+  var height = "innerHeight" in window
+    ? window.innerHeight
+    : document.documentElement.offsetHeight;
+
+  if (toc.length) {
+    toc.toggleClass('fixed', u('article').size().top < navheight - offset && window.innerWidth > breakpoint);
+  }
+
+  if (u('article.documentation').length) {
+    if (u('nav.transparent').length) {
+      u('nav').removeClass('transparent');
+    }
+    return;
+  }
+
+  if (top > 80) {
+    if (nav.hasClass('transparent')) {
+      nav.removeClass('transparent');
+    }
+  } else {
+    if (!nav.hasClass('transparent')) {
+      nav.addClass('transparent');
+    }
+  }
+}
+u(document).on('scroll', transparency);
+transparency();
+setTimeout(function(){ nav.removeClass('instant'); }, 200);
+
+
+// Remove an incorrect "get" that there was highlighted
+Prism.hooks.add('after-highlight', function(env){
+  u('span.token.keyword').each(el => {
+    if (el.innerHTML === 'get') {
+      if (el.nextElementSibling && el.nextElementSibling.innerHTML === '(') {
+        u(el).replace('<span class="token function">get</span>');
+      } else {
+        u(el).replace('get');
+      }
+    }
+    if (el.innerHTML === 'delete') {
+      if (el.previousElementSibling && el.previousElementSibling.innerHTML === '.') {
+        u(el).replace('delete');
+      }
+    }
+    if (el.innerHTML === 'public') u(el).replace('public');
+  });
+
+  // Syntax highlighting changes vertical align. This makes it to scroll back
+  // to the current hash (if any) after page load+highlight
+  const hash = window.location.hash;
+  if (hash && u(hash).length) {
+    u(hash).scroll();
+  }
+});
+
+u('.toc .more').handle('click', e => {
+  const container = u(e.currentTarget).closest('li');
+  const child = container.find('ul').nodes[0];
+  const height = container.hasClass('active') ? 0 : child.scrollHeight;
+  child.style.maxHeight = height + 'px';
+  container.toggleClass('active');
+});
+
+u('a').on('click', e => {
+  const href = u(e.currentTarget).attr('href');
+  if (!href) return;
+  const [url, hash] = href.split('#');
+
+  console.log(url, window.location.pathname, hash);
+  if (url === window.location.pathname && !hash) {
+    e.preventDefault();
+    u('body').scroll();
+    history.replaceState(null, null, window.location.pathname);
+    return;
+  }
+
+  // console.log(url, window.location.pathname, u('#' + hash));
+  if ((!url || url === window.location.pathname) && u('#' + hash).length) {
+    e.preventDefault();
+    u('#' + hash).scroll();
+    history.replaceState(null, null, '#' + hash);
+  }
+});
+
+
+
+// Google analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63739359-2', 'auto');
+ga('send', 'pageview');
+</script></body></html>

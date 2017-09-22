@@ -3,7 +3,7 @@ const factory = (defaults = {}) => {
     opts = Object.assign({}, module.exports.options, defaults, opts);
     opts.code = code;
     if (!error[code]) {
-      throw new Error(`The error '${code}' does not exist so you cannot use it.`);
+      throw new Error(`The error '${code}' is not defined so you cannot use it.`);
     }
     const message = error[code] instanceof Function ? error[code](opts) : error[code];
     const err = new Error(message);
