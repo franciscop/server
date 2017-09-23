@@ -27,25 +27,29 @@ article {
     text-align: center;
 
     img {
-      margin: 0 auto;
-      width: 100px;
+      margin: 10px auto -5px;
+      width: 90px;
       display: block;
       filter: opacity(.8);
     }
 
     h2 {
       padding-top: 0;
+      // font-size: 1.2em;
     }
 
     p {
-      width: 90%;
       margin: 0 auto;
     }
 
-    @media all and (max-width: 600px) {
+    @media all and (min-width: 600px) {
       img {
-        margin-top: 10px;
-        margin-bottom: -10px;
+        margin: 0 auto;
+        width: 100px;
+      }
+      p {
+        width: 90%;
+        margin: 0 auto;
       }
     }
   }
