@@ -1,3 +1,5 @@
+$rspacing: 15px;
+
 article {
   width: 100%;
   max-width: 900px;
@@ -23,7 +25,7 @@ article {
   }
 
   .features {
-    margin: 20px 0 30px;
+    margin: 20px #{-$rspacing / 3} 30px;
     text-align: center;
 
     img {
@@ -35,7 +37,6 @@ article {
 
     h2 {
       padding-top: 0;
-      // font-size: 1.2em;
     }
 
     p {
@@ -117,7 +118,6 @@ article {
 
 
 // Responsive spacing
-$rspacing: 15px;
 @media all and (max-width: 900px) {
   article {
     padding: $rspacing;
