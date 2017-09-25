@@ -4,6 +4,8 @@ environment:
 cache:
   - node_modules
 install:
+  - rm -rf node_modules/
+  - npm cache verify
   - ps: Install-Product node $env:nodejs_version
   - if exist node_modules npm prune
   - if exist node_modules npm rebuild
