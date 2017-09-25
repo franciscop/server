@@ -56,7 +56,9 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
       if (def.env !== false) {
         def.env = (def.env === true ? name : def.env || name).toUpperCase();
       } else if (env[name.toUpperCase()] && process.env.NODE_ENV === 'test') {
-        throw new OptionsError('/server/options/noenv', { name });
+        if (!/^win/.test(process.platform) || name !== 'public') {
+          throw new OptionsError('/server/options/noenv', { name });
+        }
       }
 
       // List of possibilities, from HIGHER preference to LOWER preference
