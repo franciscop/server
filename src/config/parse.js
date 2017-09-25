@@ -33,7 +33,7 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
     let value;
 
     // Skip the control variables such as '__root'
-    if (/^\_\_/.test(name)) continue;
+    if (/^__/.test(name)) continue;
 
     // Make sure we are dealing with a valid schema definition for this option
     if (typeof def !== 'object') {

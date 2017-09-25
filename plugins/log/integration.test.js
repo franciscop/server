@@ -40,7 +40,7 @@ describe('log()', () => {
     expect(res).rejects.toMatchObject(new ConfigError('/server/options/enum', {
       name: 'level',
       value: 'abc',
-      possible: ["emergency","alert","critical","error","warning","notice","info","debug"],
+      possible: ['emergency','alert','critical','error','warning','notice','info','debug'],
       status: 500
     }));
   });

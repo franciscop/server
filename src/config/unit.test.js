@@ -1,6 +1,28 @@
 const schema = require('./schema');
 const parse = require('./parse');
 
+
+// const reject = prom => ({
+//   with: async obj => {
+//     if (!(prom instanceof Promise)) {
+//       throw new Error('reject() only accepts a promise');
+//     }
+//     let thrown = false;
+//     try {
+//       await prom;
+//     } catch (err) {
+//       thrown = true;
+//       for (let key in obj) {
+//         expect(err[key]).toBe(obj[key]);
+//       }
+//     }
+//     if (!thrown) {
+//       throw new Error('The promise didn\'t reject');
+//     }
+//   }
+// });
+
+
 const config = require('./index');
 //const defaults = require('./defaults');
 
@@ -79,12 +101,12 @@ describe('options/parse', () => {
 
   it('environment wins params', async () => {
     const opts = await parse(schema, { public: 'aaa' }, { PUBLIC: 'abc' });
-    expect(opts.public).toMatch(/[\/\\]abc/);
+    expect(opts.public).toMatch(/[/\\]abc/);
   });
 
   it('can handle several types', async () => {
     expect((await parse(schema, { public: false })).public).toBe(false);
-    expect((await parse(schema, { public: 'abc' })).public).toMatch(/[\/\\]abc/);
+    expect((await parse(schema, { public: 'abc' })).public).toMatch(/[/\\]abc/);
   });
 
   it('rejects on incorrect types', async () => {

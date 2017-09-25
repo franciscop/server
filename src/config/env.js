@@ -5,7 +5,7 @@ require('dotenv').config();
 const is = {
   numeric: num => !isNaN(num),
   boolean: bool => /^(true|false)$/i.test(bool),
-  json: str => /^[\{\[]/.test(str) && /[\}\]]$/.test(str)
+  json: str => /^[{[]/.test(str) && /[}\]]$/.test(str)
 };
 
 const type = str => {
