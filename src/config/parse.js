@@ -48,11 +48,15 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
       // Use the user-passed option unles explictly told not to
       if (def.arg !== false) {
         def.arg = def.arg === true ? name : def.arg || name;
+      } else if (arg[name] && process.env.NODE_ENV === 'test') {
+        throw new OptionsError('/server/options/noarg', { name });
       }
 
       // Use the environment variable unless explicitly told not to
       if (def.env !== false) {
         def.env = (def.env === true ? name : def.env || name).toUpperCase();
+      } else if (env[name.toUpperCase()] && process.env.NODE_ENV === 'test') {
+        throw new OptionsError('/server/options/noenv', { name });
       }
 
       // List of possibilities, from HIGHER preference to LOWER preference

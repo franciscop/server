@@ -1,5 +1,5 @@
 // Load them from the environment file if any
-require('dotenv').config({ silent: true });
+require('dotenv').config();
 
 // Check if a variable is numeric even if string
 const is = {
@@ -17,7 +17,6 @@ const type = str => {
   return str;
 };
 
-// Get the process variables in lowercase
 const env = {};
 for (let key in process.env) {
   env[key] = type(process.env[key]);

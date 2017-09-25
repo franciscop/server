@@ -111,8 +111,8 @@ describe('options/parse', () => {
     await expect(env).rejects.toMatchObject({ code: '/server/options/notobject' });
   });
 
-  it.skip('no `arg` should be given no arg', async () => {
-    const arg = parse(schema, { env: 'development' });
+  it('no `arg` should be given no arg', async () => {
+    const arg = parse(schema, { env: 'abc' });
     await expect(arg).rejects.toMatchObject({ code: '/server/options/noarg' });
   });
 
