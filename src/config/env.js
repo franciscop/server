@@ -1,5 +1,5 @@
 // Load them from the environment file if any
-require('dotenv').config();
+require('dotenv').config({ silent: true });
 
 // Check if a variable is numeric even if string
 const is = {
