@@ -1,5 +1,6 @@
 const server = require('../../server');
 const { status } = server.reply;
+const ConfigError = require('server/src/config/errors');
 
 // Test runner:
 const run = require('server/test/run');
@@ -34,6 +35,13 @@ describe('log()', () => {
 
   it('rejects invalid log levels', async () => {
     const res = run({ log: 'abc' }).get('/');
-    expect(res).rejects.toMatchObject({ code: '/server/options/enum' });
+
+    // Now errors must be fully qualified with Jest
+    expect(res).rejects.toMatchObject(new ConfigError('/server/options/enum', {
+      name: 'level',
+      value: 'abc',
+      possible: ["emergency","alert","critical","error","warning","notice","info","debug"],
+      status: 500
+    }));
   });
 });

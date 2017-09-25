@@ -5,7 +5,7 @@ const params = require('path-to-regexp-wrap')();
 module.exports = (...all) => {
   // Extracted or otherwise it'd shift once per call; also more performant
   const { path, middle } = parse(all);
-  const match = params(path);
+  const match = params(path || '');
 
   const generic = () => {};
   generic.error = async ctx => {
