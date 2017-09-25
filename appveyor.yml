@@ -7,6 +7,8 @@ install:
   - ps: Install-Product node $env:nodejs_version
   - node -v
   - npm -v
+  - npm cache verify
+  - rm -rf node_modules/
   - if exist node_modules npm prune
   - if exist node_modules npm rebuild
   - npm install
