@@ -116,14 +116,11 @@ const mid = ctx =&gt; {
 <p>Server.js is using express as the underlying library (we &lt;3 express!). You can import middleware designed for express with <code>modern</code>:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
 
-// Import the util tool &quot;modern&quot;
-const { modern } = server.utils;
-
-// Require the helmet library
+// Require it and initialize it with some options
 const legacy = require(&#39;helmet&#39;)({ ... });
 
 // Convert it to server.js middleware
-const mid = modern(legacy);
+const mid = server.utils.modern(legacy);
 
 // Add it as you&#39;d add a normal middleware
 server(mid, ...);

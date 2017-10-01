@@ -169,14 +169,11 @@ Server.js is using express as the underlying library (we <3 express!). You can i
 ```js
 const server = require('server');
 
-// Import the util tool "modern"
-const { modern } = server.utils;
-
-// Require the helmet library
+// Require it and initialize it with some options
 const legacy = require('helmet')({ ... });
 
 // Convert it to server.js middleware
-const mid = modern(legacy);
+const mid = server.utils.modern(legacy);
 
 // Add it as you'd add a normal middleware
 server(mid, ...);
