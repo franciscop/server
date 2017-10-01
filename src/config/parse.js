@@ -15,6 +15,11 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
   // Fully parsed options will be stored here
   const options = {};
 
+  // For plugins, accept "false" as an option to nuke a full plugin
+  if (arg === false && parent) {
+    return false;
+  }
+
   // Accepts a single option instead of an object and it will be mapped to its
   // root value. Example: server(2000) === server({ port: 2000 })
   if (typeof arg !== 'object') {

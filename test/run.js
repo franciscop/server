@@ -120,6 +120,9 @@ module.exports = function (...middle) {
       };
       await cb(api);
     } catch (err) {
+      if (!instance) {
+        console.log(err);
+      }
       throw err;
     } finally {
       instance.close();

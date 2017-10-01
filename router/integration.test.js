@@ -14,7 +14,7 @@ const throwError = () => { throw new Error('MockError'); };
 
 
 // CSRF validation is checked in another place; disable it for these tests
-run.options = { core: { csrf: false } };
+run.options = { security: false };
 
 describe('Basic router types', () => {
   it('can do a GET request', async () => {

@@ -2,7 +2,7 @@
 const { cookie } = require('server/reply');
 const run = require('server/test/run');
 const fs = require('fs');
-run.options = { core: { csrf: false } };
+run.options = { security: false };
 
 // Local helpers and data
 const logo = fs.createReadStream(__dirname + '/../../test/logo.png');

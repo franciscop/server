@@ -3,7 +3,7 @@ const run = require('server/test/run');
 
 const server = require('server');
 const { get } = server.router;
-const nocsrf = { core: { csrf: false } };
+const nocsrf = { security: false };
 
 describe('join', () => {
 

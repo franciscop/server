@@ -1,20 +1,11 @@
-// Internal files
-const server = require('server');
-const { get, post } = server.router;
-const { send } = server.reply;
-
 // Test runner:
 const run = require('server/test/run');
 const path = require('path');
-
-
 
 // Local helpers and data
 const empty = () => 'Hello 世界';
 const test = 'test';
 const favicon = test + '/logo.png';
-
-
 
 describe('Default modules', () => {
 
@@ -87,27 +78,6 @@ describe('Default modules', () => {
     expect(res.headers['x-response-time']).toMatch(/ms$/);
   });
 
-  it('can handle sessions', async () => {
-    return run({ public: test }, [
-      get('/a', ctx => { ctx.session.page = 'pageA'; }, () => send('')),
-      get('/b', ctx => ctx.session.page),
-    ]).alive(async api => {
-      expect((await api.get('/a')).body).toBe('');
-      expect((await api.get('/b')).body).toBe('pageA');
-    });
-  });
-
-  it('csurf', async () => {
-    return await run({ public: test }, [
-      get('/', ctx => ctx.res.locals.csrf),
-      post('/', () => '世界')
-    ]).alive(async api => {
-      const csrf = (await api.get('/')).body;
-      expect(csrf).toBeDefined();
-      const res = await api.post('/', { body: { _csrf: csrf }});
-      expect(res.statusCode).toBe(200);
-    });
-  });
 
   // // SKIP: request() nor supertest() read gzip
   // it.skip('compress', async () => {

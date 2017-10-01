@@ -10,7 +10,9 @@ module.exports = {
       env: false
     }
   },
-  before: ctx => {
-    return modern(ctx.express.static(ctx.options.static.public))(ctx);
+  init: ctx => {
+    module.exports.before = [
+      modern(ctx.express.static(ctx.options.static.public))
+    ];
   }
 };

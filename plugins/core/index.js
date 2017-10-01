@@ -7,16 +7,6 @@ module.exports = {
       default: {},
       type: Object
     },
-    // public: {
-    //   type: String,
-    //   inherit: 'public',
-    //   clean: (value, option) => {
-    //     if (/^win/.test(process.platform) && value === 'C:\\Users\\Public') {
-    //       return option.parent.public;
-    //     }
-    //     return value;
-    //   }
-    // },
     favicon: {
       type: String
     },
@@ -34,10 +24,6 @@ module.exports = {
       default: {},
       type: Object
     },
-    csrf: {
-      default: {},
-      type: Object
-    }
   },
 
   init: require('./init'),

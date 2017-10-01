@@ -33,6 +33,11 @@ module.exports = {
     default: 'pug',
     type: [String, Object]
   },
+  views: {
+    default: 'views',
+    type: String,
+    folder: true
+  },
   secret: {
     default: 'secret-' + token,
     type: String,

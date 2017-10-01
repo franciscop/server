@@ -13,51 +13,15 @@ module.exports = async ctx => {
     core.before.push(modern(compress));
   }
 
-  // Public folder
-  // if (opts.public) {
-  //   core.before.push(modern(ctx.express.static(opts.public)));
-  // }
-
-  if (opts.session) {
-    opts.session.secret = opts.session.secret || ctx.options.secret;
-    const session = require('express-session');
-    if (ctx.options.redis_url) {
-      let RedisStore = require('connect-redis')(session);
-      opts.session.store = new RedisStore({ url: ctx.options.redis_url });
-    }
-    core.before.push(modern(session(opts.session)));
-  }
-
   if (opts.timing) {
     const timing = require('response-time')(opts.timing);
     core.before.push(modern(timing));
   }
 
-  // TODO: vhost: require('vhost')
-  // - DO IT WITH A ROUTER
-
-  if (opts.csrf) {
-    const csrf = require('csurf')(opts.csrf);
-    core.before.push(modern(csrf));
-
-    // Set the csrf for render(): https://expressjs.com/en/api.html#res.locals
-    core.before.push(ctx => {
-      ctx.csrf = ctx.req.csrfToken();
-      ctx.res.locals.csrf = ctx.csrf;
-    });
-  }
-
-  // ctx => {
-  //   if (!opts.middle) return;
-  //   ?TODO: serveIndex: (opt, all) => require('serve-index')(all.public)
-  // },
-
-
   if (opts.favicon) {
     const favicon = require('serve-favicon')(opts.favicon);
     core.before.push(modern(favicon));
   }
-
 
   if (opts.partials) {
     await new Promise((resolve, reject) => {

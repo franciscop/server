@@ -9,7 +9,7 @@ const join = require('./src/join/index.js');
 const modern = require('./src/modern');
 const final = require('./src/final');
 
-// Create the initial context
+// Create a context per-request
 const context = (self, req, res) => Object.assign({}, self, { req, res });
 
 // Get the functions from the plugins for a special point
@@ -20,8 +20,7 @@ const hook = (ctx, name) => ctx.plugins.map(p => p[name]).filter(p => p);
 // Main function
 const Server = async (...middle) => {
 
-  // Proxify it to use the server if a method is not in context
-  // Useful for things like ctx.close()
+  // Initialize the global context
   const ctx = {};
 
   // First parameter can be:
@@ -82,6 +81,8 @@ module.exports.plugins = [
   require('./plugins/express'),
   require('./plugins/parser'),
   require('./plugins/static'),
+  require('./plugins/session'),
+  require('./plugins/security'),
   require('./plugins/core'),
   require('./plugins/socket'),
 ];
