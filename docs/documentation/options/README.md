@@ -2,16 +2,18 @@
 
 Available options, their defaults, types and names in `.env`:
 
-|name                 |default          |[.env](#environment)        |type    |
-|---------------------|-----------------|----------------------------|--------|
-|[`port`](#port)      |`3000`           |`PORT=3000`                 |Number  |
-|[`secret`](#secret)  |`'secret-XXXX'`  |`SECRET=secret-XXXX`        |String  |
-|[`public`](#public)  |`'public'`       |`PUBLIC=public`             |String  |
-|[`views`](#views)    |`'views'`        |`VIEWS=views`               |String  |
-|[`engine`](#engine)  |`'pug'`          |`ENGINE=pug`                |String  |
-|[`env`](#env)        |`'development'`  |**`NODE_ENV=development`**  |String  |
-|[`log`](#log)        |`'info'`         |`LOG=info`                  |String  |
-|[`core`](#core)      |[[info]](#core)  |[[info]](#core)             |Object  |
+|name                   |default            |[.env](#environment)      |type  |
+|-----------------------|-------------------|--------------------------|------|
+|[`port`](#port)        |`3000`             |`PORT=3000`               |Number|
+|[`secret`](#secret)    |`'secret-XXXX'`    |`SECRET=secret-XXXX`      |String|
+|[`public`](#public)    |`'public'`         |`PUBLIC=public`           |String|
+|[`views`](#views)      |`'views'`          |`VIEWS=views`             |String|
+|[`engine`](#engine)    |`'pug'`            |`ENGINE=pug`              |String|
+|[`env`](#env)          |`'development'`    |**`NODE_ENV=development`**|String|
+|[`log`](#log)          |`'info'`           |`LOG=info`                |String|
+|[`session`](#session)  |[[info]](#session) |[[info]](#session)        |Object|
+|[`security`](#security)|[[info]](#security)|[[info]](#security)       |Object|
+|[`core`](#core)        |[[info]](#core)    |[[info]](#core)           |Object|
 
 You can set those through the first argument in `server()` function:
 
@@ -315,9 +317,40 @@ This allows you for instance to handle some specific errors in a different way.
 
 
 
+## Session
+
+
+
+
+
+## Security
+
+> Work in progress
+
+This is an internal plugin. While the plugin specification is not yet finished, this can be used and will be kept forward-compatible. It combines [Csurf](https://github.com/expressjs/csurf) (ready) and [Helmet](https://github.com/helmetjs/helmet) (not yet) to give extra security:
+
+```js
+server({
+  security: {
+    csrf: {
+      ignoreMethods: ['GET', 'HEAD', 'OPTIONS'],
+      value: req => req.body.csnowflakerf
+    }
+  }
+});
+```
+
+For quick tests/prototypes, the whole security plugin can be disabled (**not recommended**):
+
+```js
+server({ security: false });
+```
+
+
+
 ## Core
 
-> Experimental
+<blockquote class="error">deprecated</blockquote>
 
 This is actually part of an internal plugin, so [the specification of them is still experimental](https://github.com/franciscop/server/issues/1). However the options *will* be accepted like this: an object with the key the same as the plugin name and the options as an object like this:
 

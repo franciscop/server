@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Reply documentation - server.js</title><meta property="og:title" content="Reply documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="How to handle different types of responses for any situation."/><meta property="og:description" content="How to handle different types of responses for any situation."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex"><div class="side"><section class="toc"><h2><a href="/documentation/">Documentation</a></h2><ul><li><label class="more"></label><a class="good" href="/documentation/">Introduction</a><ul><li><a class="good" href="/documentation/#getting-started">Getting Started</a></li><li><a class="good" href="/documentation/#basic-usage">Basic usage</a></li><li><a class="good" href="/documentation/#middleware">Middleware</a></li><li><a class="good" href="/documentation/#express-middleware">Express middleware</a></li><li><a class="good" href="/documentation/#express-library">Routing</a></li><li><a class="mid" href="/documentation/#advanced-topics">Advanced topics</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/options/">Options</a><ul><li><a class="good" href="/documentation/options/#port">port</a></li><li><a class="good" href="/documentation/options/#secret">secret</a></li><li><a class="good" href="/documentation/options/#public">public</a></li><li><a class="good" href="/documentation/options/#views">views</a></li><li><a class="good" href="/documentation/options/#engine">engine</a></li><li><a class="good" href="/documentation/options/#env">env</a></li><li><a class="good" href="/documentation/options/#log">log</a></li><li><a class="mid" href="/documentation/options/#core">core</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/context/">Context</a><ul><li><a class="good" href="/documentation/context/#-options">.options</a></li><li><a class="good" href="/documentation/context/#-data">.data</a></li><li><a class="good" href="/documentation/context/#-params">.params</a></li><li><a class="good" href="/documentation/context/#-query">.query</a></li><li><a class="good" href="/documentation/context/#-session">.session</a></li><li><a class="good" href="/documentation/context/#-headers">.headers</a></li><li><a class="good" href="/documentation/context/#-cookie">.cookie</a></li><li><a class="good" href="/documentation/context/#-files">.files</a></li><li><a class="good" href="/documentation/context/#-ip">.ip</a></li><li><a class="good" href="/documentation/context/#-url">.url</a></li><li><a class="good" href="/documentation/context/#-method">.method</a></li><li><a class="good" href="/documentation/context/#-path">.path</a></li><li><a class="good" href="/documentation/context/#-secure">.secure</a></li><li><a class="good" href="/documentation/context/#-xhr">.xhr</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/router/">Router</a><ul class="size-100"><li><a class="good" href="/documentation/router/#get-">get()</a></li><li><a class="good" href="/documentation/router/#post-">post()</a></li><li><a class="good" href="/documentation/router/#put-">put()</a></li><li><a class="good" href="/documentation/router/#del-">del()</a></li><li><a class="good" href="/documentation/router/#error-">error()</a></li><li><a class="good" href="/documentation/router/#sub-">sub()</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/reply/">Reply</a><ul><li><a class="good" href="/documentation/reply/#cookie-">cookie()</a></li><li><a class="good" href="/documentation/reply/#download-">download()</a></li><li><a class="good" href="/documentation/reply/#header-">header()</a></li><li><a class="good" href="/documentation/reply/#json-">json()</a></li><li><a class="good" href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a class="good" href="/documentation/reply/#redirect-">redirect()</a></li><li><a class="good" href="/documentation/reply/#render-">render()</a></li><li><a class="good" href="/documentation/reply/#send-">send()</a></li><li><a class="good" href="/documentation/reply/#status-">status()</a></li><li><a class="good" href="/documentation/reply/#type-">type()</a></li></ul></li><li><label class="more"></label><a class="mid" href="/documentation/errors/">Errors</a><ul><li><a class="bad" href="/documentation/errors/#native">/server/native</a></li><li><a class="bad" href="/documentation/errors/#core">/server/core</a></li><li><a class="bad" href="/documentation/errors/#options">/server/options</a></li></ul></li><li><label class="more"></label><a class="mid" href="/documentation/testing/">Testing</a><ul><li><a class="bad" href="/documentation/testing/#setup">Setup</a></li><li><a class="bad" href="/documentation/testing/#unit">Unit</a></li><li><a class="bad" href="/documentation/testing/#integration">Integration</a></li></ul></li></ul></section></div><div class="main"><h1 id="reply">Reply</h1>
+<!DOCTYPE html><html class="initial"><head><title>Reply documentation - server.js</title><meta property="og:title" content="Reply documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="How to handle different types of responses for any situation."/><meta property="og:description" content="How to handle different types of responses for any situation."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex"><section class="toc"><h2><a href="/documentation/">Documentation</a></h2><ul><li><label class="more"></label><a class="good" href="/documentation/">Introduction</a><ul><li><a class="good" href="/documentation/#getting-started">Getting Started</a></li><li><a class="good" href="/documentation/#basic-usage">Basic usage</a></li><li><a class="good" href="/documentation/#middleware">Middleware</a></li><li><a class="good" href="/documentation/#express-middleware">Express middleware</a></li><li><a class="good" href="/documentation/#express-library">Routing</a></li><li><a class="mid" href="/documentation/#advanced-topics">Advanced topics</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/options/">Options</a><ul><li><a class="good" href="/documentation/options/#port">port</a></li><li><a class="good" href="/documentation/options/#secret">secret</a></li><li><a class="good" href="/documentation/options/#public">public</a></li><li><a class="good" href="/documentation/options/#views">views</a></li><li><a class="good" href="/documentation/options/#engine">engine</a></li><li><a class="good" href="/documentation/options/#env">env</a></li><li><a class="good" href="/documentation/options/#log">log</a></li><li><a class="good" href="/documentation/options/#session">session</a></li><li><a class="mid" href="/documentation/options/#security">security</a></li><li><a class="mid" href="/documentation/options/#core">core</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/context/">Context</a><ul><li><a class="good" href="/documentation/context/#-options">.options</a></li><li><a class="good" href="/documentation/context/#-data">.data</a></li><li><a class="good" href="/documentation/context/#-params">.params</a></li><li><a class="good" href="/documentation/context/#-query">.query</a></li><li><a class="good" href="/documentation/context/#-session">.session</a></li><li><a class="good" href="/documentation/context/#-headers">.headers</a></li><li><a class="good" href="/documentation/context/#-cookie">.cookie</a></li><li><a class="good" href="/documentation/context/#-files">.files</a></li><li><a class="good" href="/documentation/context/#-ip">.ip</a></li><li><a class="good" href="/documentation/context/#-url">.url</a></li><li><a class="good" href="/documentation/context/#-method">.method</a></li><li><a class="good" href="/documentation/context/#-path">.path</a></li><li><a class="good" href="/documentation/context/#-secure">.secure</a></li><li><a class="good" href="/documentation/context/#-xhr">.xhr</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/router/">Router</a><ul class="size-100"><li><a class="good" href="/documentation/router/#get-">get()</a></li><li><a class="good" href="/documentation/router/#post-">post()</a></li><li><a class="good" href="/documentation/router/#put-">put()</a></li><li><a class="good" href="/documentation/router/#del-">del()</a></li><li><a class="good" href="/documentation/router/#error-">error()</a></li><li><a class="good" href="/documentation/router/#sub-">sub()</a></li></ul></li><li><label class="more"></label><a class="good" href="/documentation/reply/">Reply</a><ul><li><a class="good" href="/documentation/reply/#cookie-">cookie()</a></li><li><a class="good" href="/documentation/reply/#download-">download()</a></li><li><a class="good" href="/documentation/reply/#header-">header()</a></li><li><a class="good" href="/documentation/reply/#json-">json()</a></li><li><a class="good" href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a class="good" href="/documentation/reply/#redirect-">redirect()</a></li><li><a class="good" href="/documentation/reply/#render-">render()</a></li><li><a class="good" href="/documentation/reply/#send-">send()</a></li><li><a class="good" href="/documentation/reply/#status-">status()</a></li><li><a class="good" href="/documentation/reply/#type-">type()</a></li></ul></li><li><label class="more"></label><a class="mid" href="/documentation/errors/">Errors</a><ul><li><a class="bad" href="/documentation/errors/#native">/server/native</a></li><li><a class="bad" href="/documentation/errors/#core">/server/core</a></li><li><a class="bad" href="/documentation/errors/#options">/server/options</a></li></ul></li><li><label class="more"></label><a class="mid" href="/documentation/testing/">Testing</a><ul><li><a class="bad" href="/documentation/testing/#setup">Setup</a></li><li><a class="bad" href="/documentation/testing/#unit">Unit</a></li><li><a class="bad" href="/documentation/testing/#integration">Integration</a></li></ul></li></ul></section><div class="main"><h1 id="reply">Reply</h1>
 <p>A reply is a method <strong>returned from a middleware</strong> that creates the response. These are the available methods and their parameters for <code>server.reply</code>:</p>
 <table>
 <thead>
@@ -313,15 +313,7 @@ const mid3 = ctx =&gt; type(&#39;json&#39;);
 const mid4 = ctx =&gt; type(&#39;application/json&#39;);
 const mid5 = ctx =&gt; type(&#39;png&#39;);
 </code></pre>
-<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/options">Options</a><a class="button" href="/documentation/context">Context</a><a class="button" href="/documentation/router">Router</a><a class="button" href="/documentation/reply">Reply</a><a class="button" href="/documentation/errors">Errors</a><a class="button" href="/documentation/testing">Testing</a></div></div></div></article><script src="https://unpkg.com/smoothscroll-polyfill@0"></script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
-setTimeout(function() {
-  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
-  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
-    el.setAttribute('href', email);
-  });
-}, 2000);
-
-// Add language tag to the code for print
+<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/options">Options</a><a class="button" href="/documentation/context">Context</a><a class="button" href="/documentation/router">Router</a><a class="button" href="/documentation/reply">Reply</a><a class="button" href="/documentation/errors">Errors</a><a class="button" href="/documentation/testing">Testing</a></div></div></div></article><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Add language tag to the code for print
 [].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
   return /lang(uage)?\-/.test(pre.className);
 }).forEach(function(pre){
@@ -333,67 +325,9 @@ setTimeout(function() {
   pre.parentNode.setAttribute('data-language', name);
 });
 
-
-var nav = u('nav');
-var toc = u('.toc');
-let offset = 10;
-const breakpoint = 900;
-var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
-navheight = 0;
-const resize = () => {
-  if (!toc.length) return;
-
-  if (window.innerWidth > breakpoint) {
-    u('.toc [href]').filter(el => {
-      return u(el).attr('href').split('#')[0] === window.location.pathname;
-    }).parent().addClass('active');
-    var articlepaddingtop = parseFloat(getComputedStyle(u('article').first()).getPropertyValue('padding-top'));
-    var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
-    u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
-    u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset) + 'px)';
-    u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 10) + 'px';
-    // console.log(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'));
-  } else {
-    toc.removeClass('fixed');
-    u('.toc').first().style.top = 'auto';
-    u('.toc').first().style.maxHeight = '1000px';
-    u('.toc').first().style.width = 'auto';
-  }
-};
-resize();
-window.onresize = resize;
-
-function transparency(){
-  var top = document.documentElement.scrollTop || document.body.scrollTop;
-  var height = "innerHeight" in window
-    ? window.innerHeight
-    : document.documentElement.offsetHeight;
-
-  if (toc.length) {
-    toc.toggleClass('fixed', u('article').size().top < navheight - offset && window.innerWidth > breakpoint);
-  }
-
-  if (u('article.documentation').length) {
-    if (u('nav.transparent').length) {
-      u('nav').removeClass('transparent');
-    }
-    return;
-  }
-
-  if (top > 80) {
-    if (nav.hasClass('transparent')) {
-      nav.removeClass('transparent');
-    }
-  } else {
-    if (!nav.hasClass('transparent')) {
-      nav.addClass('transparent');
-    }
-  }
-}
-u(document).on('scroll', transparency);
-transparency();
-setTimeout(function(){ nav.removeClass('instant'); }, 200);
-
+u('.toc [href]').filter(el => {
+  return u(el).attr('href').split('#')[0] === window.location.pathname;
+}).parent().addClass('active');
 
 // Remove an incorrect "get" that there was highlighted
 Prism.hooks.add('after-highlight', function(env){
@@ -434,7 +368,7 @@ u('a').on('click', e => {
   if (!href) return;
   const [url, hash] = href.split('#');
 
-  console.log(url, window.location.pathname, hash);
+  // If it is the current URL just go to the top
   if (url === window.location.pathname && !hash) {
     e.preventDefault();
     u('body').scroll();
@@ -442,7 +376,7 @@ u('a').on('click', e => {
     return;
   }
 
-  // console.log(url, window.location.pathname, u('#' + hash));
+  // If it is an internal link go to that part
   if ((!url || url === window.location.pathname) && u('#' + hash).length) {
     e.preventDefault();
     u('#' + hash).scroll();
@@ -460,4 +394,10 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
 ga('create', 'UA-63739359-2', 'auto');
 ga('send', 'pageview');
+
+
+// Avoid email scrapping
+setTimeout(function() {
+  u('a.email').attr('href', 'mailto:public' + '@francisco.i' + 'o?subject=server.js');
+}, 2000);
 </script></body></html>

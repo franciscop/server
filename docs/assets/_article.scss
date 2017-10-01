@@ -3,19 +3,25 @@ $rspacing: 15px;
 article {
   width: 100%;
   max-width: 900px;
-  margin: 20px auto;
+  margin: 20px auto 30vh;
   background: #fff;
   padding: 2em;
-  padding-bottom: 30vh;
 
   &.documentation,
   &.tutorial {
+
     .main {
       max-width: 100%;
     }
 
     @media all and (min-width: $picnic-breakpoint) {
-      .side {
+      margin-top: 50px;
+
+      .flex {
+        width: 100%;
+        margin: 0;
+      }
+      .toc {
         width: 30%;
       }
       .main {

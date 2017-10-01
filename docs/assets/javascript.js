@@ -1,11 +1,3 @@
-// Avoid email scrapping
-setTimeout(function() {
-  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
-  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
-    el.setAttribute('href', email);
-  });
-}, 2000);
-
 // Add language tag to the code for print
 [].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
   return /lang(uage)?\-/.test(pre.className);
@@ -18,67 +10,9 @@ setTimeout(function() {
   pre.parentNode.setAttribute('data-language', name);
 });
 
-
-var nav = u('nav');
-var toc = u('.toc');
-let offset = 10;
-const breakpoint = 900;
-var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
-navheight = 0;
-const resize = () => {
-  if (!toc.length) return;
-
-  if (window.innerWidth > breakpoint) {
-    u('.toc [href]').filter(el => {
-      return u(el).attr('href').split('#')[0] === window.location.pathname;
-    }).parent().addClass('active');
-    var articlepaddingtop = parseFloat(getComputedStyle(u('article').first()).getPropertyValue('padding-top'));
-    var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
-    u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
-    u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset) + 'px)';
-    u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 10) + 'px';
-    // console.log(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'));
-  } else {
-    toc.removeClass('fixed');
-    u('.toc').first().style.top = 'auto';
-    u('.toc').first().style.maxHeight = '1000px';
-    u('.toc').first().style.width = 'auto';
-  }
-};
-resize();
-window.onresize = resize;
-
-function transparency(){
-  var top = document.documentElement.scrollTop || document.body.scrollTop;
-  var height = "innerHeight" in window
-    ? window.innerHeight
-    : document.documentElement.offsetHeight;
-
-  if (toc.length) {
-    toc.toggleClass('fixed', u('article').size().top < navheight - offset && window.innerWidth > breakpoint);
-  }
-
-  if (u('article.documentation').length) {
-    if (u('nav.transparent').length) {
-      u('nav').removeClass('transparent');
-    }
-    return;
-  }
-
-  if (top > 80) {
-    if (nav.hasClass('transparent')) {
-      nav.removeClass('transparent');
-    }
-  } else {
-    if (!nav.hasClass('transparent')) {
-      nav.addClass('transparent');
-    }
-  }
-}
-u(document).on('scroll', transparency);
-transparency();
-setTimeout(function(){ nav.removeClass('instant'); }, 200);
-
+u('.toc [href]').filter(el => {
+  return u(el).attr('href').split('#')[0] === window.location.pathname;
+}).parent().addClass('active');
 
 // Remove an incorrect "get" that there was highlighted
 Prism.hooks.add('after-highlight', function(env){
@@ -119,7 +53,7 @@ u('a').on('click', e => {
   if (!href) return;
   const [url, hash] = href.split('#');
 
-  console.log(url, window.location.pathname, hash);
+  // If it is the current URL just go to the top
   if (url === window.location.pathname && !hash) {
     e.preventDefault();
     u('body').scroll();
@@ -127,7 +61,7 @@ u('a').on('click', e => {
     return;
   }
 
-  // console.log(url, window.location.pathname, u('#' + hash));
+  // If it is an internal link go to that part
   if ((!url || url === window.location.pathname) && u('#' + hash).length) {
     e.preventDefault();
     u('#' + hash).scroll();
@@ -145,3 +79,9 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
 ga('create', 'UA-63739359-2', 'auto');
 ga('send', 'pageview');
+
+
+// Avoid email scrapping
+setTimeout(function() {
+  u('a.email').attr('href', 'mailto:public' + '@francisco.i' + 'o?subject=server.js');
+}, 2000);

@@ -37,12 +37,6 @@ nav {
   }
 }
 
-
-nav.instant,
-nav.instant * {
-  transition: all 0s!important;
-}
-
 nav .brand {
   padding: 0 .5em;
 }
@@ -52,7 +46,7 @@ nav .burger {
 }
 
 nav .brand .logo {
-  margin-right: 1em;
+  margin-right: .75em;
 }
 
 nav .pseudo {

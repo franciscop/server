@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Spreadsheet tutorial - server.js</title><meta property="og:title" content="Spreadsheet tutorial - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Learn how to use a Google Spreadsheet as a database for web applications. Perfect for the confluence of business and web."/><meta property="og:description" content="Learn how to use a Google Spreadsheet as a database for web applications. Perfect for the confluence of business and web."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav class="instant transparent"><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="tutorial"><div class="flex"><div class="side"><section class="toc"><h2><a href="/tutorials/#top">Tutorials</a></h2><ul><li><label class="more"></label><a href="/tutorials/getting-started/">Getting started</a><ul><li><a href="/tutorials/getting-started/#install-node-js">Install Node.js</a></li><li><a href="/tutorials/getting-started/#create-your-project">Create your project</a></li><li><a href="/tutorials/getting-started/#initialize-git-and-npm">Initialize Git and npm</a></li><li><a href="/tutorials/getting-started/#make-awesome-things-">Make awesome things!</a></li></ul></li><li><label class="more"></label><a href="/tutorials/sessions-production/">Session in production</a><ul><li><a href="/tutorials/sessions-production/#secret">Secret</a></li><li><a href="/tutorials/sessions-production/#storage">Storage</a></li><li><a href="/tutorials/sessions-production/#alternatives">Alternatives</a></li></ul></li><li><label class="more"></label><a href="/tutorials/spreadsheet/">Spreadsheet database</a><ul><li><a href="/tutorials/spreadsheet/#create-a-spreadsheet">Create a spreadsheet</a></li><li><a href="/tutorials/spreadsheet/#installation">Installation</a></li><li><a href="/tutorials/spreadsheet/#back-end-with-server-js">Back-end with server.js</a></li><li><a href="/tutorials/spreadsheet/#front-end">Front-end</a></li></ul></li><li><label class="more"></label><a href="/tutorials/todo/">TO-DO list</a><ul><li><a href="/tutorials/todo/#install-dependencies">Install dependencies</a></li><li><a href="/tutorials/todo/#rest-api">REST API</a></li><li><a href="/tutorials/todo/#database">Database</a></li><li><a href="/tutorials/todo/#functionality">Functionality</a></li></ul></li><li><label class="more"></label><a href="/tutorials/chat/">Real-time chat</a><ul><li><a href="/tutorials/chat/#user-interface">User Interface</a></li><li><a href="/tutorials/chat/#choose-a-username">Choose a username</a></li><li><a href="/tutorials/chat/#sending-messages">Sending messages</a></li><li><a href="/tutorials/chat/#server-handling">Server handling</a></li><li><a href="/tutorials/chat/#user-x-joined">User X joined</a></li><li><a href="/tutorials/chat/#upload-to-heroku">Upload to Heroku</a></li><li><a href="/tutorials/chat/#xss-protection">XSS Protection</a></li></ul></li></ul></section></div><div class="main"><h1 id="spreadsheet-database">Spreadsheet database</h1>
+<!DOCTYPE html><html class="initial"><head><title>Spreadsheet tutorial - server.js</title><meta property="og:title" content="Spreadsheet tutorial - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Learn how to use a Google Spreadsheet as a database for web applications. Perfect for the confluence of business and web."/><meta property="og:description" content="Learn how to use a Google Spreadsheet as a database for web applications. Perfect for the confluence of business and web."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/logo.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="tutorial"><div class="flex"><section class="toc"><h2><a href="/tutorials/#top">Tutorials</a></h2><ul><li><label class="more"></label><a href="/tutorials/getting-started/">Getting started</a><ul><li><a href="/tutorials/getting-started/#install-node-js">Install Node.js</a></li><li><a href="/tutorials/getting-started/#create-your-project">Create your project</a></li><li><a href="/tutorials/getting-started/#initialize-git-and-npm">Initialize Git and npm</a></li><li><a href="/tutorials/getting-started/#make-awesome-things-">Make awesome things!</a></li></ul></li><li><label class="more"></label><a href="/tutorials/sessions-production/">Session in production</a><ul><li><a href="/tutorials/sessions-production/#secret">Secret</a></li><li><a href="/tutorials/sessions-production/#storage">Storage</a></li><li><a href="/tutorials/sessions-production/#alternatives">Alternatives</a></li></ul></li><li><label class="more"></label><a href="/tutorials/spreadsheet/">Spreadsheet database</a><ul><li><a href="/tutorials/spreadsheet/#create-a-spreadsheet">Create a spreadsheet</a></li><li><a href="/tutorials/spreadsheet/#installation">Installation</a></li><li><a href="/tutorials/spreadsheet/#back-end-with-server-js">Back-end with server.js</a></li><li><a href="/tutorials/spreadsheet/#front-end">Front-end</a></li></ul></li><li><label class="more"></label><a href="/tutorials/todo/">TO-DO list</a><ul><li><a href="/tutorials/todo/#install-dependencies">Install dependencies</a></li><li><a href="/tutorials/todo/#rest-api">REST API</a></li><li><a href="/tutorials/todo/#database">Database</a></li><li><a href="/tutorials/todo/#functionality">Functionality</a></li></ul></li><li><label class="more"></label><a href="/tutorials/chat/">Real-time chat</a><ul><li><a href="/tutorials/chat/#user-interface">User Interface</a></li><li><a href="/tutorials/chat/#choose-a-username">Choose a username</a></li><li><a href="/tutorials/chat/#sending-messages">Sending messages</a></li><li><a href="/tutorials/chat/#server-handling">Server handling</a></li><li><a href="/tutorials/chat/#user-x-joined">User X joined</a></li><li><a href="/tutorials/chat/#upload-to-heroku">Upload to Heroku</a></li><li><a href="/tutorials/chat/#xss-protection">XSS Protection</a></li></ul></li></ul></section><div class="main"><h1 id="spreadsheet-database">Spreadsheet database</h1>
 <p><a class="button" href='https://github.com/franciscop/server-tutorial-spreadsheet'>Source code</a></p>
 <p>In this tutorial you&#39;ll learn how to take a Google Spreadsheet and convert it into a read-only database for Node.js. We will see some possible front-end applications such as data analysis and geolocation in a map.</p>
 <p>This is useful for simple and small datasets that might be modified by non-technical people since everyone knows how to edit spreadsheets. The data will then be available on the site as it is modified by several people simultaneously on Google Drive.</p>
@@ -101,15 +101,7 @@ server(async () =&gt; {
 <p><img src="img/demographics_chart.png" alt="Demographics chart"></p>
 <h3 id="demographics-by-location">Demographics by location</h3>
 <p><img src="img/demographics_map.png" alt="Demographics map"></p>
-<h2 id="keep-reading">Keep reading</h2><p>We are preparing a second part for the tutorial. Subscribe to our Mailchimp list to receive it and other tutorials when released:</p></div></div></article><script src="https://unpkg.com/smoothscroll-polyfill@0"></script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Avoid email scrapping
-setTimeout(function() {
-  var email = 'mailto:public' + '@francisco.i' + 'o?subject=server.js';
-  [].slice.call(document.querySelectorAll('a.email')).forEach(function(el){
-    el.setAttribute('href', email);
-  });
-}, 2000);
-
-// Add language tag to the code for print
+<h2 id="keep-reading">Keep reading</h2><p>We are preparing a second part for the tutorial. Subscribe to our Mailchimp list to receive it and other tutorials when released:</p></div></div></article><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script>// Add language tag to the code for print
 [].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
   return /lang(uage)?\-/.test(pre.className);
 }).forEach(function(pre){
@@ -121,67 +113,9 @@ setTimeout(function() {
   pre.parentNode.setAttribute('data-language', name);
 });
 
-
-var nav = u('nav');
-var toc = u('.toc');
-let offset = 10;
-const breakpoint = 900;
-var navheight = parseFloat(getComputedStyle(u('nav').first()).getPropertyValue('height'));
-navheight = 0;
-const resize = () => {
-  if (!toc.length) return;
-
-  if (window.innerWidth > breakpoint) {
-    u('.toc [href]').filter(el => {
-      return u(el).attr('href').split('#')[0] === window.location.pathname;
-    }).parent().addClass('active');
-    var articlepaddingtop = parseFloat(getComputedStyle(u('article').first()).getPropertyValue('padding-top'));
-    var h2paddingtop = parseFloat(getComputedStyle(u('.toc h2').first()).getPropertyValue('padding-top'));
-    u('.toc').first().style.top = (articlepaddingtop + navheight - offset) + 'px';
-    u('.toc').first().style.maxHeight = 'calc(100% - ' + (articlepaddingtop + navheight + offset) + 'px)';
-    u('.toc').first().style.width = (parseFloat(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width')) - 10) + 'px';
-    // console.log(getComputedStyle(u('.toc').parent().first()).getPropertyValue('width'));
-  } else {
-    toc.removeClass('fixed');
-    u('.toc').first().style.top = 'auto';
-    u('.toc').first().style.maxHeight = '1000px';
-    u('.toc').first().style.width = 'auto';
-  }
-};
-resize();
-window.onresize = resize;
-
-function transparency(){
-  var top = document.documentElement.scrollTop || document.body.scrollTop;
-  var height = "innerHeight" in window
-    ? window.innerHeight
-    : document.documentElement.offsetHeight;
-
-  if (toc.length) {
-    toc.toggleClass('fixed', u('article').size().top < navheight - offset && window.innerWidth > breakpoint);
-  }
-
-  if (u('article.documentation').length) {
-    if (u('nav.transparent').length) {
-      u('nav').removeClass('transparent');
-    }
-    return;
-  }
-
-  if (top > 80) {
-    if (nav.hasClass('transparent')) {
-      nav.removeClass('transparent');
-    }
-  } else {
-    if (!nav.hasClass('transparent')) {
-      nav.addClass('transparent');
-    }
-  }
-}
-u(document).on('scroll', transparency);
-transparency();
-setTimeout(function(){ nav.removeClass('instant'); }, 200);
-
+u('.toc [href]').filter(el => {
+  return u(el).attr('href').split('#')[0] === window.location.pathname;
+}).parent().addClass('active');
 
 // Remove an incorrect "get" that there was highlighted
 Prism.hooks.add('after-highlight', function(env){
@@ -222,7 +156,7 @@ u('a').on('click', e => {
   if (!href) return;
   const [url, hash] = href.split('#');
 
-  console.log(url, window.location.pathname, hash);
+  // If it is the current URL just go to the top
   if (url === window.location.pathname && !hash) {
     e.preventDefault();
     u('body').scroll();
@@ -230,7 +164,7 @@ u('a').on('click', e => {
     return;
   }
 
-  // console.log(url, window.location.pathname, u('#' + hash));
+  // If it is an internal link go to that part
   if ((!url || url === window.location.pathname) && u('#' + hash).length) {
     e.preventDefault();
     u('#' + hash).scroll();
@@ -248,4 +182,10 @@ m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
 
 ga('create', 'UA-63739359-2', 'auto');
 ga('send', 'pageview');
+
+
+// Avoid email scrapping
+setTimeout(function() {
+  u('a.email').attr('href', 'mailto:public' + '@francisco.i' + 'o?subject=server.js');
+}, 2000);
 </script></body></html>

@@ -1,15 +1,16 @@
 .toc {
-  padding: 0;
   background: #fff;
   overflow-y: auto;
-  padding-top: 0;
-  margin-left: -.5em;
-  margin-bottom: 20px;
-  // position: fixed;
+  margin: -3px 0 0 -3px;
+  max-height: calc(100vh - 50px);
+  top: 30px;
 }
 
-.toc.fixed {
-  position: fixed;
+@media all and (min-width: 700px) {
+  .toc {
+    padding: 0 10px 0 0;
+    position: sticky;
+  }
 }
 
 .toc h2 {
@@ -23,8 +24,7 @@
 .toc a {
   display: block;
   color: inherit;
-  padding: 0 5px 0 10px;
-  width: calc(100% - 5px);
+  padding: 0 10px;
   overflow: hidden;
   white-space: nowrap;
   text-overflow: ellipsis;
@@ -37,7 +37,7 @@
 }
 
 .toc a {
-  clear: both;
+  flex: 0 0 calc(100% - 35px);
 }
 
 .toc a.good::after,
@@ -49,10 +49,18 @@
   height: 10px;
   border-radius: 50%;
   float: right;
-  margin: 14px 6px 0 0;
+  margin: 10px 0 0 0;
   opacity: 0.4;
   position: absolute;
   right: 10px;
+}
+
+@media all and (min-width: 800px) {
+  .toc a.good::after,
+  .toc a.mid::after,
+  .toc a.bad::after {
+    margin: 12px 0 0 0;
+  }
 }
 
 .toc li ul a.good::after,
@@ -82,20 +90,27 @@
 }
 
 .toc li {
-  padding: 0 0 0 30px;
-  line-height: 2;
-  margin: 0;
-  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  line-height: 1.8;
+  margin: .1em 0;
+  flex-wrap: wrap;
 }
 
 .toc li li {
-  margin-left: -15px;
+  margin-left: 45px;
+  a {
+    flex: 0 0 100%;
+  }
 }
 
 .toc .more {
-  position: absolute;
-  left: 0;
-  top: 5px;
+  // position: absolute;
+  // left: 0;
+  // top: 5px;
+  flex: 0 0 30px;
+  display: block;
   transition: all .3s ease;
   font-size: 30px;
   line-height: 24px;
@@ -127,6 +142,7 @@
 }
 
 .toc .more ~ ul {
+  flex: 0 0 100%;
   max-height: 0;
   overflow: hidden;
   transition: all .3s ease;
