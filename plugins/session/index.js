@@ -1,4 +1,4 @@
-const modern = require('server/src/modern');
+const modern = require('../../src/modern');
 const expressSession = require('express-session');
 let session;
 
@@ -36,8 +36,9 @@ module.exports = {
     }
   },
   before: ctx => {
-    if (!session)
+    if (!session) {
       session = modern(expressSession(ctx.options.session));
+    }
     return session(ctx);
   }
 };

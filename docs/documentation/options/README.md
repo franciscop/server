@@ -10,10 +10,10 @@ Available options, their defaults, types and names in `.env`:
 |[`views`](#views)      |`'views'`          |`VIEWS=views`             |String|
 |[`engine`](#engine)    |`'pug'`            |`ENGINE=pug`              |String|
 |[`env`](#env)          |`'development'`    |**`NODE_ENV=development`**|String|
+|[`favicon`](#favicon)  |`false`            |`FAVICON=public/logo.png` |String|
 |[`log`](#log)          |`'info'`           |`LOG=info`                |String|
 |[`session`](#session)  |[[info]](#session) |[[info]](#session)        |Object|
 |[`security`](#security)|[[info]](#security)|[[info]](#security)       |Object|
-|[`core`](#core)        |[[info]](#core)    |[[info]](#core)           |Object|
 
 You can set those through the first argument in `server()` function:
 
@@ -122,6 +122,19 @@ Some hosts such as Heroku will define an environment variable called `PORT`, so 
 
 ```
 PORT=3000
+```
+
+Example: setting the port to some other number. For numbers 1-1024 you'd need administrator permission, so we're testing it with higher ports:
+
+```js
+const options = {
+  port: 5001
+};
+
+/* test */
+const same = ctx => ({ port: ctx.options.port });
+const res = await run(options, same).get('/');
+expect(res.body.port).toBe(5001);
 ```
 
 
@@ -269,6 +282,22 @@ server(ctx => {
 
 
 
+## Favicon
+
+To include a favicon, specify its path with the `favicon` key:
+
+```js
+const server = require('server');
+
+server({ favicon: 'public/favicon.png' },
+  ctx => 'Hello world'
+);
+```
+
+The path can be absolute or relative to the root of your project.
+
+
+
 ## Log
 
 Display some data that might be of value for the developers. This includes from just some information up to really important bugs and errors notifications.
@@ -319,6 +348,24 @@ This allows you for instance to handle some specific errors in a different way.
 
 ## Session
 
+It accepts these options as an object:
+
+```js
+server({ session: {
+  resave: false,
+  saveUninitialized: true,
+  cookie: {},
+  secret: 'INHERITED',
+  store: undefined,
+  redis: undefined
+}});
+```
+
+You can [read more about these options in Express' package documentation](https://github.com/expressjs/session).
+
+All of them are optional. Secret will inherit the secret from the global secret if it is not explicitly set.
+
+If redis or `REDIS_URL` is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in [the tutorial **Sessions in production**](http://serverjs.io/tutorials/sessions-production/).
 
 
 
@@ -327,7 +374,7 @@ This allows you for instance to handle some specific errors in a different way.
 
 > Work in progress
 
-This is an internal plugin. While the plugin specification is not yet finished, this can be used and will be kept forward-compatible. It combines [Csurf](https://github.com/expressjs/csurf) (ready) and [Helmet](https://github.com/helmetjs/helmet) (not yet) to give extra security:
+It combines [Csurf](https://github.com/expressjs/csurf) (ready) and [Helmet](https://github.com/helmetjs/helmet) (not yet) to give extra security:
 
 ```js
 server({
@@ -346,29 +393,8 @@ For quick tests/prototypes, the whole security plugin can be disabled (**not rec
 server({ security: false });
 ```
 
-
-
-## Core
-
-<blockquote class="error">deprecated</blockquote>
-
-This is actually part of an internal plugin, so [the specification of them is still experimental](https://github.com/franciscop/server/issues/1). However the options *will* be accepted like this: an object with the key the same as the plugin name and the options as an object like this:
-
-```js
-server({
-  core: {
-    csrf: {
-      ignoreMethods: ['GET', 'HEAD', 'OPTIONS'],
-      value: req => req.body.csnowflakerf
-    }
-  }
-});
-```
-
-The name for the `.env` file is still undecided, but the standard will probably be `PLUGINNAME_OPTION=value`. For the example above:
+The name for the `.env` file is still undecided, but the standard will probably be `PLUGINNAME_OPTION=value`. For disabling the CSRF if you have a better method:
 
 ```
-CORE_CSR=false
+SECURITY_CSRF=false
 ```
-
-You can modify many of the middleware in this way

@@ -108,8 +108,17 @@ module.exports = function (...middle) {
       instance = await launch();
       const port = instance.options.port;
       const requestApi = request.defaults({ jar: request.jar() });
-      const generic = method => (url, options) => {
-        return requestApi(normalize(method, url, port, options));
+      const generic = method => async (url, options) => {
+        const res = await requestApi(normalize(method, url, port, options));
+        res.method = res.request.method;
+        res.status = res.statusCode;
+        if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
+          res.rawBody = res.body;
+          res.body = JSON.parse(res.body);
+        }
+        // console.log(instance);
+        res.ctx = instance;
+        return res;
       };
       const api = {
         get: generic('GET'),

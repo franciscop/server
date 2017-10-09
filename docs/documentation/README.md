@@ -148,7 +148,7 @@ server(async ctx => {
 });
 ```
 
-If you find an error in an async function you can throw it. It will be catched, a 500 error will be displayed to the user and the error will be logged:
+If you find an error in an async function you can throw it. It will be caught, a 500 error will be displayed to the user and the error will be logged:
 
 ```js
 const middle = async ctx => {
@@ -158,11 +158,11 @@ const middle = async ctx => {
 };
 ```
 
-<blockquote class="warning">**Avoid callback-based functions**: error propagations is problematic and they have to be converted to promises. Strongly prefer an async/await workflow.</blockquote>
+<blockquote class="warning">**Avoid callback-based functions**: error propagation is problematic and they have to be converted to promises. Strongly prefer an async/await workflow.</blockquote>
 
 
 
-### Express middleware
+## Express middleware
 
 Server.js is using express as the underlying library (we <3 express!). You can import middleware designed for express with `modern`:
 
@@ -205,7 +205,7 @@ const routes = require('./routes');
 server(middleware, routes);
 ```
 
-Abc
+Then in our `middleware.js`:
 
 ```js
 // middleware.js
@@ -220,6 +220,53 @@ module.exports = [
 
 
 
+## Routing
+
+This is the concept of redirecting each request to our server to the right place. For instance, if the user requests our homepage `/` we want to render the homepage, but if they request an image gallery `/gallery/67546` we want to render the gallery `67546`.
+
+For this we will be creating routes using server's routers. We can import it like this:
+
+```js
+const server = require('server');
+const { get, post } = server.router;
+
+// OR
+
+const { get, post } = require('server/router');
+```
+
+There are some other ways, but these are the recommended ones. Then we say the path of the request for the method that we want to listen to and a middleware:
+
+```js
+const getHome = get('/', () => render('index.pug'));
+const getGallery = get('/gallery/:id', async ctx => {
+  const images = await db.find({ id: ctx.params.id }).exec();
+  return render('gallery.pug', { images });
+});
+```
+
+Let's put it all together to see how they work:
+
+```js
+const server = require('server');
+const { get, post } = server.router;
+
+const getHome = get('/', () => render('index.pug'));
+const getGallery = get('/gallery/:id', async ctx => {
+  const images = await db.find({ id: ctx.params.id }).exec();
+  return render('gallery.pug', { images });
+});
+
+server(getHome, getGallery);
+```
+
+We can also receive `post`, `del`, `error`, `socket` and other request types through the router. To see them all, visit the Router documentation:
+
+<a href="/documentation/router" class="button">Router Documentation</a>
+
+
+
+
 ## Advanced topics
 
 There is a lot of basic to mid-difficulty documentation to do until we even get here. Just a quick note so far:
@@ -228,6 +275,6 @@ The main function returns a promise that will be fulfilled when the server is ru
 
 ```js
 server(ctx => 'Hello world').then(ctx => {
-  console.log(`Server launched on https://localhost:${ctx.options.port}/`);
+  console.log(`Server launched on http://localhost:${ctx.options.port}/`);
 });
 ```

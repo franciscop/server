@@ -22,7 +22,8 @@ article {
         margin: 0;
       }
       .toc {
-        width: 30%;
+        width: 28%;
+        margin-right: 2%;
       }
       .main {
         width: 70%;
@@ -141,11 +142,6 @@ article {
       margin-left: -$rspacing;
       padding: 10px $rspacing;
       width: calc(100% + #{2 * $rspacing});
-
-      code {
-        display: inline-block;
-        margin-right: 20px;
-      }
     }
   }
 }

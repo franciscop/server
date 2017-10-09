@@ -1,12 +1,14 @@
 {
   "name": "server",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.3",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "scripts": {
     "start": "node .",
     "dev": "grunt watch",
-    "test": "jest --coverage --forceExit"
+    "test": "jest --coverage --forceExit",
+    "kill-comment": "Kill a process running in a specific port: PORT=3000 npm run kill",
+    "kill": "kill $(lsof -t -i:$PORT) && echo '> KILLED!' || echo '> The port was already dead'"
   },
   "engines": {
     "node": ">=7.6.0"

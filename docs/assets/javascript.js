@@ -1,15 +1,14 @@
 // Add language tag to the code for print
-[].slice.call(document.querySelectorAll('pre code')).filter(function(pre){
-  return /lang(uage)?\-/.test(pre.className);
-}).forEach(function(pre){
-  var name = pre.className.split(/\s+/).filter(function(name){
-    return /lang(uage)?\-/.test(name);
-  })[0].replace(/lang(uage)?\-/, '');
-  var map = { js: 'javascript', jade: 'pug' };
-  if (name in map) name = map[name];
-  pre.parentNode.setAttribute('data-language', name);
+const regName = /lang(uage)?\-/;
+const hasName = name => regName.test(name);
+const map = { js: 'javascript', jade: 'pug' };
+[].slice.call(document.querySelectorAll('pre code')).forEach(function(pre){
+  if (!regName.test(pre.className)) return;
+  let name = pre.className.split(/\s+/).filter(hasName)[0].replace(regName, '');
+  pre.parentNode.setAttribute('data-language', name in map ? map[name] : name);
 });
 
+// Display the proper part in the TOC
 u('.toc [href]').filter(el => {
   return u(el).attr('href').split('#')[0] === window.location.pathname;
 }).parent().addClass('active');
@@ -40,6 +39,7 @@ Prism.hooks.add('after-highlight', function(env){
   }
 });
 
+// Show more/less when clicking the chevron
 u('.toc .more').handle('click', e => {
   const container = u(e.currentTarget).closest('li');
   const child = container.find('ul').nodes[0];
@@ -48,6 +48,7 @@ u('.toc .more').handle('click', e => {
   container.toggleClass('active');
 });
 
+// Go to the appropriate part of the page when clicking an internal link
 u('a').on('click', e => {
   const href = u(e.currentTarget).attr('href');
   if (!href) return;
@@ -81,7 +82,7 @@ ga('create', 'UA-63739359-2', 'auto');
 ga('send', 'pageview');
 
 
-// Avoid email scrapping
+// Hopefully avoid email scrapping
 setTimeout(function() {
   u('a.email').attr('href', 'mailto:public' + '@francisco.i' + 'o?subject=server.js');
 }, 2000);

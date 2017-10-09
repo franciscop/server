@@ -10,7 +10,7 @@ const modern = require('./src/modern');
 const final = require('./src/final');
 
 // Create a context per-request
-const context = (self, req, res) => Object.assign({}, self, { req, res });
+const context = (self, req, res) => Object.assign(req, self, { req, res });
 
 // Get the functions from the plugins for a special point
 const hook = (ctx, name) => ctx.plugins.map(p => p[name]).filter(p => p);
@@ -83,6 +83,7 @@ module.exports.plugins = [
   require('./plugins/static'),
   require('./plugins/session'),
   require('./plugins/security'),
-  require('./plugins/core'),
+  require('./plugins/favicon'),
+  require('./plugins/compress'),
   require('./plugins/socket'),
 ];

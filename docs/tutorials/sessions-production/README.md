@@ -4,7 +4,7 @@ Sessions work out of the box for developing, but they need a bit of extra work t
 
 ## Secret
 
-The first thing to change is adding a [session secret](https://martinfowler.com/articles/session-secret.html) as an environment variable in `.env` for your machine:
+The first thing to change is adding a [session secret](https://martinfowler.com/articles/session-secret.html) as an [environment variable](/documentation/options/#environment) in `.env` for your machine:
 
 ```
 SECRET=your-random-string-here
@@ -19,13 +19,20 @@ This will be used to secure the cookies as well as for other plugins that need a
 
 ```js
 // Simple visit counter for the main page
-const server = require('server');
-const counter = server.router.get('/', ctx => {
-  const session = ctx.req.session;
-  session.views = (session.views || 0) + 1;
-  ctx.res.send(session.views);
+const counter = get('/', ctx => {
+  ctx.session.views = (ctx.session.views || 0) + 1;
+  return { views: ctx.session.views };
 });
-server(counter);
+
+/* test */
+await run(counter).alive(async api => {
+  let res = await api.get('/');
+  expect(res.body.views).toBe(1);
+  res = await api.get('/');
+  expect(res.body.views).toBe(2);
+  res = await api.get('/');
+  expect(res.body.views).toBe(3);
+});
 ```
 
 This works great for testing; for quick demos and for short sessions, but **all session data will die when the server is restarted** since they are stored in the RAM.

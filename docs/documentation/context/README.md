@@ -47,8 +47,9 @@ const mid = ctx => {
   expect(ctx.options.port).toBe(3012);
 };
 
-// Test it
-run({ port: 3012 }, mid).get('/');
+/* test */
+const res = await run({ port: 3012 }, mid, () => 200).get('/');
+expect(res.status).toBe(200);
 ```
 
 If we have a variable set in the `.env` or through some other environment variables, it'll use that instead as [environment options take preference](/documentation/options/):
@@ -60,11 +61,12 @@ PORT=80
 
 ```js
 const mid = ctx => {
-  expect(ctx.options.port).toBe(80);
+  expect(ctx.options.port).toBe(7693);
 };
 
-// Test it
-run({ port: 3000 }, mid).get('/');
+/* test */
+const res = await run({ port: 7693 }, mid, () => 200).get('/');
+expect(res.status).toBe(200);
 ```
 
 

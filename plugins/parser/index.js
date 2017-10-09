@@ -1,8 +1,8 @@
 // Parser plugin
 // Get the raw request and transform it into something usable
 // Examples: ctx.body, ctx.files, etc
-const join = require('server/src/join');
-const modern = require('server/src/modern');
+const join = require('../../src/join');
+const modern = require('../../src/modern');
 
 const plugin = {
   name: 'parser',
@@ -85,7 +85,12 @@ const plugin = {
         ctx.options.parser.cookie
       );
       return modern(cookie)(ctx);
-    }
+    },
+
+    // Add a reference from ctx.req.body to the ctx.data and an alias
+    ctx => {
+      ctx.data = ctx.body;
+    },
   ]
 };
 

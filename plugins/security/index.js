@@ -1,4 +1,4 @@
-const modern = require('server/src/modern');
+const modern = require('../../src/modern');
 const csurf = require('csurf');
 
 module.exports = {

@@ -96,7 +96,7 @@ And then create a file called `index.js` with the demo code to see how it works:
 const server = require('server');
 
 // Launch the server to always answer "Hello world"
-server(() => 'Hello world!');
+server(ctx => 'Hello world!');
 ```
 
 To execute it **after saving it**, run from the terminal:
