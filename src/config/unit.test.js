@@ -2,7 +2,6 @@ const schema = require('./schema');
 const parse = require('./parse');
 
 const config = require('./index');
-//const defaults = require('./defaults');
 
 describe('options', () => {
   it('is a function', async () => {
@@ -37,7 +36,7 @@ describe('options', () => {
 
   it.skip('throws when secret is passed manually', async () => {
     const opts = config({ secret: 'your-random-string-here' });
-    await expect(opts).rejects.toMatchObject({ code: '/server/options/noarg' });
+    await expect(opts).rejects.toHaveProperty('code', '/server/options/noarg');
   });
 });
 
@@ -89,10 +88,10 @@ describe('options/parse', () => {
 
   it('rejects on incorrect types', async () => {
     const pub = parse(schema, { public: 25 });
-    await expect(pub).rejects.toMatchObject({ code: '/server/options/type' });
+    await expect(pub).rejects.toHaveProperty('code', '/server/options/type');
 
     const port = parse(schema, { port: '25' });
-    await expect(port).rejects.toMatchObject({ code: '/server/options/type' });
+    await expect(port).rejects.toHaveProperty('code', '/server/options/type');
   });
 
   it('can handle NODE_ENV', async () => {
@@ -103,27 +102,27 @@ describe('options/parse', () => {
 
   it('throws with wrong value', async () => {
     const env = parse(schema, {}, { NODE_ENV: 'abc' });
-    await expect(env).rejects.toMatchObject({ code: '/server/options/enum' });
+    await expect(env).rejects.toHaveProperty('code', '/server/options/enum');
   });
 
   it('no `__root` should be given no root', async () => {
     const env = parse({}, 'hello');
-    await expect(env).rejects.toMatchObject({ code: '/server/options/notobject' });
+    await expect(env).rejects.toHaveProperty('code', '/server/options/notobject');
   });
 
   it('no `arg` should be given no arg', async () => {
     const arg = parse(schema, { env: 'abc' });
-    await expect(arg).rejects.toMatchObject({ code: '/server/options/noarg' });
+    await expect(arg).rejects.toHaveProperty('code', '/server/options/noarg');
   });
 
   it.skip('no `env` should be given no env', async () => {
     const env = parse({ public: { env: false }}, {}, { PUBLIC: 'hello' });
-    await expect(env).rejects.toMatchObject({ code: '/server/options/noenv' });
+    await expect(env).rejects.toHaveProperty('code', '/server/options/noenv');
   });
 
   it('throws with no value for required', async () => {
     const env = parse({ public: { required: true } });
-    await expect(env).rejects.toMatchObject({ code: '/server/options/required' });
+    await expect(env).rejects.toHaveProperty('code', '/server/options/required');
   });
 
   it('does a validation', async () => {
@@ -133,7 +132,7 @@ describe('options/parse', () => {
       return err;
     };
     const env = parse({ public: { validate } }, {}, { PUBLIC: 'hello' });
-    await expect(env).rejects.toMatchObject({ code: '/server/options/fakeerror' });
+    await expect(env).rejects.toHaveProperty('code', '/server/options/fakeerror');
   });
 
   it('expects the validation to return truthy', async () => {
@@ -143,11 +142,11 @@ describe('options/parse', () => {
 
   it('expects the validation not to return false', async () => {
     const env = parse({ public: { validate: () => false } });
-    await expect(env).rejects.toMatchObject({ code: '/server/options/validate' });
+    await expect(env).rejects.toHaveProperty('code', '/server/options/validate');
   });
 
   it('works as expected in windows', async () => {
     const env = parse({ public: { validate: () => false } });
-    await expect(env).rejects.toMatchObject({ code: '/server/options/validate' });
+    await expect(env).rejects.toHaveProperty('code', '/server/options/validate');
   });
 });
