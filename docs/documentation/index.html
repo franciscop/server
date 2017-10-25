@@ -47,13 +47,13 @@ const { render, json } = require(&#39;server/reply&#39;);
 </code></pre>
 <h2 id="middleware">Middleware</h2>
 <p>A <em>middleware</em> is plain function that will be called on each request. It receives <a href="/documentation/context">a context object</a> and <a href="/documentation/reply/">returns a reply</a>, a <a href="/documentation/reply/#return-value">basic type</a> or nothing. A couple of examples:</p>
-<pre><code class="lang-js">const setname = ctx =&gt; { ctx.req.user = &#39;Francisco&#39;; };
-const sendname = ctx =&gt; send(ctx.req.user);
+<pre><code class="lang-js">const setname = ctx =&gt; { ctx.user = &#39;Francisco&#39;; };
+const sendname = ctx =&gt; send(ctx.user);
 server(setname, sendname);
 </code></pre>
 <p>They can be placed as <code>server()</code> arguments, combined into an array or imported/exported from other files:</p>
 <pre><code class="lang-js">server(
-  ctx =&gt; send(ctx.req.user),
+  ctx =&gt; send(ctx.user),
   [ ctx =&gt; console.log(ctx.data) ],
   require(&#39;./comments/router.js&#39;)
 );

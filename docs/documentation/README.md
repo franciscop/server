@@ -80,8 +80,8 @@ const { render, json } = require('server/reply');
 A *middleware* is plain function that will be called on each request. It receives [a context object](/documentation/context) and [returns a reply](/documentation/reply/), a [basic type](/documentation/reply/#return-value) or nothing. A couple of examples:
 
 ```js
-const setname = ctx => { ctx.req.user = 'Francisco'; };
-const sendname = ctx => send(ctx.req.user);
+const setname = ctx => { ctx.user = 'Francisco'; };
+const sendname = ctx => send(ctx.user);
 server(setname, sendname);
 ```
 
@@ -89,7 +89,7 @@ They can be placed as `server()` arguments, combined into an array or imported/e
 
 ```js
 server(
-  ctx => send(ctx.req.user),
+  ctx => send(ctx.user),
   [ ctx => console.log(ctx.data) ],
   require('./comments/router.js')
 );
