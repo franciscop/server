@@ -21,7 +21,7 @@
 
     &lt;!-- Include jquery, cookies, socket.io (client-side) and your own code --&gt;
     &lt;script src=&quot;https://code.jquery.com/jquery-3.2.1.slim.min.js&quot;&gt;&lt;/script&gt;
-    &lt;script src=&quot;https://unpkg.com/cookiesjs@1/cookies.min.js&quot;&gt;&lt;/script&gt;
+    &lt;script src=&quot;https://unpkg.com/cookie_js@1.2.2/cookie.min.js&quot;&gt;&lt;/script&gt;
     &lt;script src=&quot;https://unpkg.com/socket.io-client@2/dist/socket.io.slim.js&quot;&gt;&lt;/script&gt;
     &lt;script src=&quot;javascript.js&quot;&gt;&lt;/script&gt;
   &lt;/body&gt;
@@ -124,7 +124,7 @@ button:hover {
 <pre><code class="lang-js">// /public/javascript.js
 
 // Get the current username from the cookies
-var user = cookies(&#39;user&#39;);
+var user = cookie.get(&#39;user&#39;);
 if (!user) {
 
   // Ask for the username if there is none set already
@@ -133,7 +133,7 @@ if (!user) {
     alert(&#39;We cannot work with you like that!&#39;);
   } else {
     // Store it in the cookies for future use
-    cookies({ user: user });
+    cookie.set(&#39;user&#39;, user);
   }
 }
 </code></pre>
@@ -169,7 +169,7 @@ $(&#39;form&#39;).submit(function (e) {
 
   // Send the message to the server
   socket.emit(&#39;message&#39;, {
-    user: cookies(&#39;user&#39;) || &#39;Anonymous&#39;,
+    user: cookie.get(&#39;user&#39;) || &#39;Anonymous&#39;,
     message: message
   });
 
@@ -182,7 +182,7 @@ $(&#39;form&#39;).submit(function (e) {
 <pre><code class="lang-js">// ./public/javascript.js
 
 // Get the current username from the cookies
-var user = cookies(&#39;user&#39;);
+var user = cookie.get(&#39;user&#39;);
 if (!user) {
 
   // Ask for the username if there is none set already
@@ -191,7 +191,7 @@ if (!user) {
     alert(&#39;We cannot work with you like that!&#39;);
   } else {
     // Store it in the cookies for future use
-    cookies({ user: user });
+    cookie.set(&#39;user&#39;, user);
   }
 }
 
@@ -218,7 +218,7 @@ $(&#39;form&#39;).submit(function (e) {
 
   // Send the message to the server
   socket.emit(&#39;message&#39;, {
-    user: cookies(&#39;user&#39;) || &#39;Anonymous&#39;,
+    user: cookie.get(&#39;user&#39;) || &#39;Anonymous&#39;,
     message: message
   });
 

@@ -32,7 +32,7 @@ In your project folder create a folder `public` and put the file `index.html` in
 
     <!-- Include jquery, cookies, socket.io (client-side) and your own code -->
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-    <script src="https://unpkg.com/cookiesjs@1/cookies.min.js"></script>
+    <script src="https://unpkg.com/cookie_js@1.2.2/cookie.min.js"></script>
     <script src="https://unpkg.com/socket.io-client@2/dist/socket.io.slim.js"></script>
     <script src="javascript.js"></script>
   </body>
@@ -151,7 +151,7 @@ Before doing anything else let's get the visitor username. Create a file called 
 // /public/javascript.js
 
 // Get the current username from the cookies
-var user = cookies('user');
+var user = cookie.get('user');
 if (!user) {
 
   // Ask for the username if there is none set already
@@ -160,7 +160,7 @@ if (!user) {
     alert('We cannot work with you like that!');
   } else {
     // Store it in the cookies for future use
-    cookies({ user: user });
+    cookie.set('user', user);
   }
 }
 ```
@@ -212,7 +212,7 @@ $('form').submit(function (e) {
 
   // Send the message to the server
   socket.emit('message', {
-    user: cookies('user') || 'Anonymous',
+    user: cookie.get('user') || 'Anonymous',
     message: message
   });
 
@@ -228,7 +228,7 @@ Awesome, if you have followed all along this is the final code for `javascript.j
 // ./public/javascript.js
 
 // Get the current username from the cookies
-var user = cookies('user');
+var user = cookie.get('user');
 if (!user) {
 
   // Ask for the username if there is none set already
@@ -237,7 +237,7 @@ if (!user) {
     alert('We cannot work with you like that!');
   } else {
     // Store it in the cookies for future use
-    cookies({ user: user });
+    cookie.set('user', user);
   }
 }
 
@@ -264,7 +264,7 @@ $('form').submit(function (e) {
 
   // Send the message to the server
   socket.emit('message', {
-    user: cookies('user') || 'Anonymous',
+    user: cookie.get('user') || 'Anonymous',
     message: message
   });
 
