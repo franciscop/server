@@ -48,12 +48,16 @@ module.exports = {
     }
   },
   before: [
-    ctx => ctx.options.security.csrf ? modern(csurf(ctx.options.security.csrf))(ctx) : false,
+    ctx => ctx.options.security && ctx.options.security.csrf
+      ? modern(csurf(ctx.options.security.csrf))(ctx)
+      : false,
     ctx => {
       // Set the csrf for render(): https://expressjs.com/en/api.html#res.locals
-      ctx.csrf = ctx.req.csrfToken();
-      ctx.res.locals.csrf = ctx.csrf;
+      if (ctx.req.csrfToken) {
+        ctx.csrf = ctx.req.csrfToken();
+        ctx.res.locals.csrf = ctx.csrf;
+      }
     },
-    ctx => modern(helmet(ctx.options.security))(ctx)
+    ctx => ctx.options.security ? modern(helmet(ctx.options.security))(ctx) : false
   ]
 };
