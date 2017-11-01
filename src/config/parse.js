@@ -140,9 +140,8 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
       if (!ret) throw new OptionsError('/server/options/validate', { name, value });
     }
 
-    if (typeof value !== 'undefined') {
-      options[name] = value;
-    }
+    options[name] = value;
+    // }
   }
 
   return options;
