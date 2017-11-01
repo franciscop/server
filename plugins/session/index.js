@@ -1,6 +1,7 @@
 const modern = require('../../src/modern');
-const expressSession = require('express-session');
-let session;
+const session = require('express-session');
+const RedisStore = require('connect-redis')(session);
+let fullSession;
 
 module.exports = {
   name: 'session',
@@ -31,14 +32,9 @@ module.exports = {
   },
   init: ctx => {
     if (!ctx.options.session.store && ctx.options.session.redis) {
-      let Redis = require('connect-redis')(session);
-      ctx.options.session.store = new Redis({ url: ctx.options.session.redis });
+      ctx.options.session.store = new RedisStore({ url: ctx.options.session.redis });
     }
+    fullSession = modern(session(ctx.options.session));
   },
-  before: ctx => {
-    if (!session) {
-      session = modern(expressSession(ctx.options.session));
-    }
-    return session(ctx);
-  }
+  before: ctx => fullSession(ctx)
 };

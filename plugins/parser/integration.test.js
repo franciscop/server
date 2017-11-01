@@ -43,20 +43,6 @@ describe('Default modules', () => {
     expect(cookies).toMatch('place=%E4%B8%96%E7%95%8C');
   });
 
-  it('persists the session', async () => {
-    const mid = ctx => {
-      ctx.session.counter = (ctx.session.counter || 0) + 1;
-      return 'n' + ctx.session.counter;
-    };
-
-    run(mid).alive(async api => {
-      for (let i = 0; i < 3; i++) {
-        const res = await api.get('/');
-        expect(res.body).toBe('n' + (i + 1));
-      }
-    });
-  });
-
   // Change the method to the specified one
   it('method-override through header', async () => {
     const mid = ctx => {
