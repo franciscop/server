@@ -269,10 +269,7 @@ server({ favicon: &#39;public/favicon.png&#39; },
 <p>All of them are optional. Secret will inherit the secret from the global secret if it is not explicitly set.</p>
 <p>If redis or <code>REDIS_URL</code> is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in <a href="http://serverjs.io/tutorials/sessions-production/">the tutorial <strong>Sessions in production</strong></a>.</p>
 <h2 id="security">Security</h2>
-<blockquote>
-<p>Work in progress</p>
-</blockquote>
-<p>It combines <a href="https://github.com/expressjs/csurf">Csurf</a> (ready) and <a href="https://github.com/helmetjs/helmet">Helmet</a> (not yet) to give extra security:</p>
+<p>It combines <a href="https://github.com/expressjs/csurf">Csurf</a> and <a href="https://github.com/helmetjs/helmet">Helmet</a> to give extra security:</p>
 <pre><code class="lang-js">server({
   security: {
     csrf: {
@@ -282,11 +279,39 @@ server({ favicon: &#39;public/favicon.png&#39; },
   }
 });
 </code></pre>
+<p>We are using <a href="https://helmetjs.github.io/">Helmet</a> for great security defaults. To pass any <a href="https://github.com/helmetjs/helmet">helmet option</a>, just pass it as another option in security:</p>
+<pre><code class="lang-js">server({
+  security: {
+    frameguard: {
+      action: &#39;deny&#39;
+    }
+  }
+});
+</code></pre>
 <p>For quick tests/prototypes, the whole security plugin can be disabled (<strong>not recommended</strong>):</p>
 <pre><code class="lang-js">server({ security: false });
 </code></pre>
-<p>The name for the <code>.env</code> file is still undecided, but the standard will probably be <code>PLUGINNAME_OPTION=value</code>. For disabling the CSRF if you have a better method:</p>
-<pre><code>SECURITY_CSRF=false
+<p>Individual parts can also be disabled like this:</p>
+<pre><code class="lang-js">server({
+  security: {
+    csrf: false
+  }
+});
+</code></pre>
+<p>Their names in the <code>.env</code> are those:</p>
+<pre><code>SECURITY_CSRF
+SECURITY_CONTENTSECURITYPOLICY
+SECURITY_EXPECTCT
+SECURITY_DNSPREFETCHCONTROL
+SECURITY_FRAMEGUARD
+SECURITY_HIDEPOWEREDBY
+SECURITY_HPKP
+SECURITY_HSTS
+SECURITY_IENOOPEN
+SECURITY_NOCACHE
+SECURITY_NOSNIFF
+SECURITY_REFERRERPOLICY
+SECURITY_XSSFILTER
 </code></pre><h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/options">Options</a><a class="button" href="/documentation/context">Context</a><a class="button" href="/documentation/router">Router</a><a class="button" href="/documentation/reply">Reply</a><a class="button" href="/documentation/errors">Errors</a><a class="button" href="/documentation/testing">Testing</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Add language tag to the code for print
 const regName = /lang(uage)?\-/;
 const hasName = name => regName.test(name);

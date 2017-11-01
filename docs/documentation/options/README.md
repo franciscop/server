@@ -372,9 +372,7 @@ If redis or `REDIS_URL` is set with a Redis URL, a Redis store will be launched 
 
 ## Security
 
-> Work in progress
-
-It combines [Csurf](https://github.com/expressjs/csurf) (ready) and [Helmet](https://github.com/helmetjs/helmet) (not yet) to give extra security:
+It combines [Csurf](https://github.com/expressjs/csurf) and [Helmet](https://github.com/helmetjs/helmet) to give extra security:
 
 ```js
 server({
@@ -387,14 +385,48 @@ server({
 });
 ```
 
+We are using [Helmet](https://helmetjs.github.io/) for great security defaults. To pass any [helmet option](https://github.com/helmetjs/helmet), just pass it as another option in security:
+
+```js
+server({
+  security: {
+    frameguard: {
+      action: 'deny'
+    }
+  }
+});
+```
+
 For quick tests/prototypes, the whole security plugin can be disabled (**not recommended**):
 
 ```js
 server({ security: false });
 ```
 
-The name for the `.env` file is still undecided, but the standard will probably be `PLUGINNAME_OPTION=value`. For disabling the CSRF if you have a better method:
+Individual parts can also be disabled like this:
+
+```js
+server({
+  security: {
+    csrf: false
+  }
+});
+```
+
+Their names in the `.env` are those:
 
 ```
-SECURITY_CSRF=false
+SECURITY_CSRF
+SECURITY_CONTENTSECURITYPOLICY
+SECURITY_EXPECTCT
+SECURITY_DNSPREFETCHCONTROL
+SECURITY_FRAMEGUARD
+SECURITY_HIDEPOWEREDBY
+SECURITY_HPKP
+SECURITY_HSTS
+SECURITY_IENOOPEN
+SECURITY_NOCACHE
+SECURITY_NOSNIFF
+SECURITY_REFERRERPOLICY
+SECURITY_XSSFILTER
 ```
