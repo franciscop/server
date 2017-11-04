@@ -1,6 +1,6 @@
 # TO-DO list
 
-<a class="button" href="https://github.com/franciscop/server-tutorial-spreadsheet">Source code</a>
+<a class="button" href="https://github.com/franciscop/server-tutorial-todo">Source code</a>
 
 In this tutorial you will learn to design a basic API to create a list of items. We will store those in a MongoDB database using Mongoose and it will be for a single person.
 
