@@ -49,7 +49,7 @@
     "response-time": "^2.3.2",
     "serve-favicon": "^2.3.2",
     "serve-index": "^1.8.0",
-    "socket.io": "^2.0.3"
+    "ws": "^3.3.0"
   },
   "devDependencies": {
     "eslint": "^4.7.2",

@@ -1,5 +1,5 @@
 // Create a socket plugin
-const socketIO = require('socket.io');
+const WebSocket = require('ws');
 const extend = require('extend');
 
 const listeners = {};
@@ -12,21 +12,19 @@ module.exports = {
     listeners[path].push(middle);
   },
   launch: ctx => {
-    ctx.io = socketIO(ctx.server);
-    ctx.io.on('connect', socket => {
-      for (let name in listeners) {
-        if (name !== 'connect') {
-          listeners[name].forEach(cb => {
-            socket.on(name, data => {
-              cb(extend({}, ctx, { path: name, socket: socket, data: data }));
-            });
+    const wss = ctx.wss = new WebSocket.Server({ server: ctx.server });
+    wss.on('connection', socket => {
+      for (const name in listeners) {
+        if (name === 'connect') continue;
+        for (const cb of listeners[name]) {
+          socket.on(name, data => {
+            cb(extend({}, ctx, { path: name, socket, data }));
           });
         }
-      }
-      if (listeners['connect']) {
-        listeners['connect'].forEach(cb => {
-          cb(extend({}, ctx, { path: 'connect', socket: socket }));
-        });
+        if (!listeners.connect) return;
+        for (const cb of listeners.connect) {
+          cb(extend({}, ctx, { path: 'connect', socket }));
+        }
       }
     });
   }
