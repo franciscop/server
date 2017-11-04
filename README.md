@@ -118,7 +118,7 @@ module.exports = [
 
 ### Real time
 
-Websockets were never this easy to use! With socket.io on the front-end, you can simply do this in the back-end to handle those events:
+Websockets were never this easy to use! You can simply use `router.socket` in the back-end to handle those events:
 
 ```js
 // chat/router.js
