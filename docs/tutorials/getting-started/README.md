@@ -22,6 +22,8 @@ nvm use node
 nvm alias default node
 ```
 
+> Server requires **Node.js 7.6.0** or newer. **Node.js 8.9.x** LTS is recommended for long-term support from Node.js.
+
 Great, now we should have Node.js installed and working. To test it's properly installed, execute this on the terminal:
 
 ```bash
