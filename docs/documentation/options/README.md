@@ -325,6 +325,26 @@ Or as a parameter to the main function:
 server({ log: 'info' });
 ```
 
+To use it do it like this:
+
+```js
+server(ctx => {
+  ctx.log.info('Simple info message');
+  ctx.log.error('Shown on the console');
+});
+```
+
+If we want to modify the level and only show the warnings or more important logs:
+
+```js
+server({ log: 'warning' }, ctx => {
+  ctx.log.info('Not shown anymore');
+  ctx.log.error('Shown on the console');
+});
+```
+
+
+
 
 
 ### Advanced logging

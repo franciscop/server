@@ -26,12 +26,7 @@ const plugin = {
     }
   },
   init: ctx => {
-    if (ctx.options.log && ctx.options.log.report) {
-      ctx.log = new Log(ctx.options.log, ctx.options.log.report);
-      return;
-    }
-
-    ctx.log = new Log(ctx.options.log);
+    ctx.log = new Log(ctx.options.log.level, ctx.options.log.report);
   }
 };
 

@@ -242,6 +242,18 @@ server({ favicon: &#39;public/favicon.png&#39; },
 </code></pre><p>Or as a parameter to the main function:</p>
 <pre><code class="lang-js">server({ log: &#39;info&#39; });
 </code></pre>
+<p>To use it do it like this:</p>
+<pre><code class="lang-js">server(ctx =&gt; {
+  ctx.log.info(&#39;Simple info message&#39;);
+  ctx.log.error(&#39;Shown on the console&#39;);
+});
+</code></pre>
+<p>If we want to modify the level and only show the warnings or more important logs:</p>
+<pre><code class="lang-js">server({ log: &#39;warning&#39; }, ctx =&gt; {
+  ctx.log.info(&#39;Not shown anymore&#39;);
+  ctx.log.error(&#39;Shown on the console&#39;);
+});
+</code></pre>
 <h3 id="advanced-logging">Advanced logging</h3>
 <p>You can also pass a <code>report</code> variable, in which case the level should be specify as <code>level</code>:</p>
 <pre><code class="lang-js">server({

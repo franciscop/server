@@ -2,5 +2,5 @@ const server = require('../../');
 const { json } = server.reply;
 
 server(ctx => {
-  console.log(ctx);
+  ctx.log.info('Hi there');
 }, ctx => 'Hello!');
