@@ -13,7 +13,11 @@ const type = str => {
   if (typeof str !== 'string') return str;
   if (is.numeric(str)) return +str;
   if (is.boolean(str)) return /true/i.test(str);
-  if (is.json(str)) return JSON.parse(str);
+  try {
+    if (is.json(str)) return JSON.parse(str);
+  } catch (err) {
+    return str;
+  }
   return str;
 };
 

@@ -1,5 +1,6 @@
 const schema = require('./schema');
 const parse = require('./parse');
+const env = require('./env');
 
 const config = require('./index');
 
@@ -148,5 +149,13 @@ describe('options/parse', () => {
   it('works as expected in windows', async () => {
     const env = parse({ public: { validate: () => false } });
     await expect(env).rejects.toHaveProperty('code', '/server/options/validate');
+  });
+});
+
+
+
+describe('Parses the .env correctly', () => {
+  it('works with pseudo-json', () => {
+    expect(env.TEST44).toBe('{"a"}');
   });
 });
