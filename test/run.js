@@ -75,7 +75,9 @@ module.exports = function (...middle) {
     const opts = await serverOptions(middle);
 
     const error = server.router.error(ctx => {
-      return server.reply.status(500).send(ctx.error.message);
+      if (!ctx.res.headersSent) {
+        return server.reply.status(500).send(ctx.error.message);
+      }
     });
 
     const ctx = await server(opts, middle, error);
