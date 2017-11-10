@@ -66,6 +66,11 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
         }
       }
 
+      // Make sure to use the name if we are inheriting with true
+      if (def.env !== false) {
+        def.inherit = (def.inherit === true ? name : def.inherit || name);
+      }
+
       // List of possibilities, from HIGHER preference to LOWER preference
       // Removes the empty one and gets the first one as it has HIGHER preference
       const possible = [

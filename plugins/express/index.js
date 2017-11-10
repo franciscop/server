@@ -20,7 +20,7 @@ module.exports = {
       default: 'views',
       inherit: true,
       type: String,
-      file: true
+      folder: true
     },
     'view cache': {},
     'view engine': {
