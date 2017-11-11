@@ -1,9 +1,6 @@
 const server = require('../');
 const request = require('request-promises');
 const port = require('./port');
-const config = require('../src/config');
-const schema = require('../src/config/schema');
-
 
 // Make an object with the options as expected by request()
 const normalize = (method, url, port, options) => {
