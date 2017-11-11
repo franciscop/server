@@ -1,5 +1,9 @@
 # Errors
 
+<blockquote class="error">
+  If you happen to stumble here, this bit of the documentation is outdated and follows some old code. Please help us improve the project and the docs so we can make it into the official release.
+</blockquote>
+
 There are many type of errors that can occur with server.js and here we try to explain them and how to fix them. They are divided by category: where/why they are originated.
 
 We also overview here how to handle errors. You have to [first define it](#define-an-error), then [throw the error](#throw-the-error) and finally [handle the error](#error-handling).

@@ -1,5 +1,9 @@
 # Testing
 
+<blockquote class="error">
+  If you happen to stumble here, this bit of the documentation is outdated and follows some old code. Please help us improve the project and the docs so we can make it into the official release.
+</blockquote>
+
 There's a small test suite included, but you probably want to use something more specific to your use-case.
 
 Testing that a middleware correctly handles the lack of a user:
