@@ -50,7 +50,7 @@ describe('Basic router types', () => {
 });
 
 
-fdescribe('Special router types', () => {
+describe('Special router types', () => {
   it('can do a request to a subdomain', async () => {
     const mid = sub('api', get('/', hello));
 
