@@ -60,6 +60,24 @@ describe('Special router types', () => {
     expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
   });
 
+  it('can handle regex', async () => {
+    const mid = sub(/^api$/, get('/', hello));
+
+    const res = await run((ctx) => {
+      ctx.headers.host = 'api.example.com';
+    }, mid).get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
+  });
+
+  it('does not do partial match', async () => {
+    const mid = sub(/^api$/, get('/', hello));
+
+    const res = await run((ctx) => {
+      ctx.headers.host = 'bla.api.example.com';
+    }, mid, () => 'Did not match').get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Did not match' });
+  });
+
   it('can do a request to a multi-level subdomain', async () => {
     const mid = sub('api.local', get('/', hello));
 
