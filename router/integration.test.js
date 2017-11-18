@@ -1,7 +1,7 @@
 // Integration - test the router within the whole server functionality
 const server = require('server');
 const run = require('server/test/run');
-const { get, post, put, del } = server.router;
+const { get, post, put, del, sub } = server.router;
 
 
 
@@ -50,8 +50,25 @@ describe('Basic router types', () => {
 });
 
 
+describe('Special router types', () => {
+  it('can do a request to a subdomain', async () => {
+    const mid = sub('api', get('/', hello));
 
+    const res = await run((ctx) => {
+      ctx.headers.host = 'api.example.com';
+    }, mid).get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
+  });
 
+  it('can do a request to a multi-level subdomain', async () => {
+    const mid = sub('api.local', get('/', hello));
+
+    const res = await run((ctx) => {
+      ctx.headers.host = 'api.local.example.com';
+    }, mid).get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
+  });
+});
 
 
 describe('Ends where it should end', () => {
