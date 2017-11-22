@@ -50,7 +50,48 @@ describe('Basic router types', () => {
 });
 
 
-describe('Special router types', () => {
+describe('Generic paths', () => {
+  it('can do a GET request', async () => {
+    const mid = get(hello);
+
+    const res = await run(mid).get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
+  });
+
+  it('can do a GET request', async () => {
+    const mid = get('*', hello);
+
+    const res = await run(mid).get('/');
+    expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
+  });
+
+  // it('can do a POST request', async () => {
+  //   const mid = post('/', ctx => ctx.data);
+  //
+  //   const res = await run(mid).post('/', { body: question });
+  //   expect(res.body).toEqual({ answer: 42 });
+  //   expect(res.status).toBe(200);
+  // });
+  //
+  // it('can do a PUT request', async () => {
+  //   const mid = post('/', ctx => ctx.data);
+  //
+  //   const res = await run(mid).post('/', { body: question });
+  //   expect(res.body).toEqual({ answer: 42 });
+  //   expect(res.status).toBe(200);
+  // });
+  //
+  // it('can do a DELETE request', async () => {
+  //   const mid = del('/', ctx => 'Hello 世界');
+  //
+  //   const res = await run(mid).del('/', { body: question });
+  //   expect(res.body).toEqual('Hello 世界');
+  //   expect(res.status).toBe(200);
+  // });
+});
+
+
+describe('Subdomain router', () => {
   it('can do a request to a subdomain', async () => {
     const mid = sub('api', get('/', hello));
 
