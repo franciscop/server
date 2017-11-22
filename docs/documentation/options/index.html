@@ -53,10 +53,10 @@
 <td>String</td>
 </tr>
 <tr>
-<td><a href="#log"><code>log</code></a></td>
-<td><code>&#39;info&#39;</code></td>
-<td><code>LOG=info</code></td>
-<td>String</td>
+<td><a href="#parse"><code>parse</code></a></td>
+<td><a href="#parse">[info]</a></td>
+<td><a href="#parse">[info]</a></td>
+<td>Object</td>
 </tr>
 <tr>
 <td><a href="#session"><code>session</code></a></td>
@@ -69,6 +69,12 @@
 <td><a href="#security">[info]</a></td>
 <td><a href="#security">[info]</a></td>
 <td>Object</td>
+</tr>
+<tr>
+<td><a href="#log"><code>log</code></a></td>
+<td><code>&#39;info&#39;</code></td>
+<td><code>LOG=info</code></td>
+<td>String</td>
 </tr>
 </tbody>
 </table>
@@ -224,48 +230,64 @@ server({ favicon: &#39;public/favicon.png&#39; },
 );
 </code></pre>
 <p>The path can be absolute or relative to the root of your project.</p>
-<h2 id="log">Log</h2>
-<p>Display some data that might be of value for the developers. This includes from just some information up to really important bugs and errors notifications.</p>
-<p>You can set <a href="https://www.npmjs.com/package/log#log-levels">several log levels</a> and it <strong>defaults to &#39;info&#39;</strong>:</p>
-<ul>
-<li><code>emergency</code>: system is unusable</li>
-<li><code>alert</code>: action must be taken immediately</li>
-<li><code>critical</code>: the system is in critical condition</li>
-<li><code>error</code>: error condition</li>
-<li><code>warning</code>: warning condition</li>
-<li><code>notice</code>: a normal but significant condition</li>
-<li><code>info</code>: a purely informational message</li>
-<li><code>debug</code>: messages to debug an application</li>
-</ul>
-<p>Do it either in <a href="#environment">your <code>.env</code></a>:</p>
-<pre><code>LOG=info
-</code></pre><p>Or as a parameter to the main function:</p>
-<pre><code class="lang-js">server({ log: &#39;info&#39; });
-</code></pre>
-<p>To use it do it like this:</p>
-<pre><code class="lang-js">server(ctx =&gt; {
-  ctx.log.info(&#39;Simple info message&#39;);
-  ctx.log.error(&#39;Shown on the console&#39;);
-});
-</code></pre>
-<p>If we want to modify the level and only show the warnings or more important logs:</p>
-<pre><code class="lang-js">server({ log: &#39;warning&#39; }, ctx =&gt; {
-  ctx.log.info(&#39;Not shown anymore&#39;);
-  ctx.log.error(&#39;Shown on the console&#39;);
-});
-</code></pre>
-<h3 id="advanced-logging">Advanced logging</h3>
-<p>You can also pass a <code>report</code> variable, in which case the level should be specify as <code>level</code>:</p>
+<h2 id="parse">Parse</h2>
+<p>The parsing middleware is included by default. It uses few of them under the hood and these are the options for all of them. They should all work by default, but still give access to the options if you want to make some more advanced modifications.</p>
+<h3 id="body-parser">Body parser</h3>
+<p>This is the name for the default parser for <code>&lt;form&gt;</code> without anything else. The technical name and for those coming from express is <code>urlencoded</code>. See the <a href="https://github.com/expressjs/body-parser#bodyparserurlencodedoptions">available options in the middleware documentation</a>.</p>
+<p>As an example, let&#39;s say that you want to upgrade from the default <code>limit</code> of <code>100kb</code> to <code>1mb</code>:</p>
 <pre><code class="lang-js">server({
-  log: {
-    level: &#39;info&#39;,
-    report: (content, type) =&gt; {
-      console.log(content);
+  parser: {
+    body: { limit: &#39;1mb&#39; }
+  }
+});
+</code></pre>
+<h3 id="json-parser">JSON parser</h3>
+<p>This will parse JSON requests into the actual variables. See the <a href="https://github.com/expressjs/body-parser#bodyparserjsonoptions">available options in this middleware documentation</a>.</p>
+<p>As an example, let&#39;s say (as above) that we want to change the limit for requests from <code>100kb</code> to <code>1mb</code>. To do so, change the json parser option:</p>
+<pre><code class="lang-js">server({
+  parser: {
+    json: { limit: &#39;1mb&#39; }
+  }
+});
+</code></pre>
+<p>You can also combine the two above:</p>
+<pre><code class="lang-js">server({
+  parser: {
+    body: { limit: &#39;1mb&#39; },
+    json: { limit: &#39;1mb&#39; }
+  }
+});
+</code></pre>
+<h3 id="text-parser">Text parser</h3>
+<p>Plain ol&#39; text. As with the other examples, refer to the <a href="https://github.com/expressjs/body-parser#bodyparsertextoptions">middleware full documentation</a> for more comprehensive docs.</p>
+<p>An example, setting the size limit for the requests:</p>
+<pre><code class="lang-js">server({
+  parser: {
+    text: { limit: &#39;1mb&#39; }
+  }
+});
+</code></pre>
+<h3 id="data-parser">Data parser</h3>
+<p>This is for file uploads of any type. It uses Formidable underneath, so refer to <a href="https://github.com/felixge/node-formidable#api">the Formidable documentation</a> for the full list of options.</p>
+<p>An example:</p>
+<pre><code class="lang-js">server({
+  parser: {
+    data: { uploadDir: &#39;/my/dir&#39; }
+  }
+});
+</code></pre>
+<h3 id="cookie-parser">Cookie parser</h3>
+<p>For using cookies, it uses cookie-parser underneath so <a href="https://expressjs.com/en/api.html#res.cookie">refer to express documentation</a> for the full list of options.</p>
+<p>An example:</p>
+<pre><code class="lang-js">server({
+  parser: {
+    cookie: {
+      maxAge: 900000,
+      httpOnly: true
     }
   }
 });
 </code></pre>
-<p>This allows you for instance to handle some specific errors in a different way.</p>
 <h2 id="session">Session</h2>
 <p>It accepts these options as an object:</p>
 <pre><code class="lang-js">server({ session: {
@@ -324,7 +346,49 @@ SECURITY_NOCACHE
 SECURITY_NOSNIFF
 SECURITY_REFERRERPOLICY
 SECURITY_XSSFILTER
-</code></pre><h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/options">Options</a><a class="button" href="/documentation/context">Context</a><a class="button" href="/documentation/router">Router</a><a class="button" href="/documentation/reply">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Add language tag to the code for print
+</code></pre><h2 id="log">Log</h2>
+<p>Display some data that might be of value for the developers. This includes from just some information up to really important bugs and errors notifications.</p>
+<p>You can set <a href="https://www.npmjs.com/package/log#log-levels">several log levels</a> and it <strong>defaults to &#39;info&#39;</strong>:</p>
+<ul>
+<li><code>emergency</code>: system is unusable</li>
+<li><code>alert</code>: action must be taken immediately</li>
+<li><code>critical</code>: the system is in critical condition</li>
+<li><code>error</code>: error condition</li>
+<li><code>warning</code>: warning condition</li>
+<li><code>notice</code>: a normal but significant condition</li>
+<li><code>info</code>: a purely informational message</li>
+<li><code>debug</code>: messages to debug an application</li>
+</ul>
+<p>Do it either in <a href="#environment">your <code>.env</code></a>:</p>
+<pre><code>LOG=info
+</code></pre><p>Or as a parameter to the main function:</p>
+<pre><code class="lang-js">server({ log: &#39;info&#39; });
+</code></pre>
+<p>To use it do it like this:</p>
+<pre><code class="lang-js">server(ctx =&gt; {
+  ctx.log.info(&#39;Simple info message&#39;);
+  ctx.log.error(&#39;Shown on the console&#39;);
+});
+</code></pre>
+<p>If we want to modify the level and only show the warnings or more important logs:</p>
+<pre><code class="lang-js">server({ log: &#39;warning&#39; }, ctx =&gt; {
+  ctx.log.info(&#39;Not shown anymore&#39;);
+  ctx.log.error(&#39;Shown on the console&#39;);
+});
+</code></pre>
+<h3 id="advanced-logging">Advanced logging</h3>
+<p>You can also pass a <code>report</code> variable, in which case the level should be specify as <code>level</code>:</p>
+<pre><code class="lang-js">server({
+  log: {
+    level: &#39;info&#39;,
+    report: (content, type) =&gt; {
+      console.log(content);
+    }
+  }
+});
+</code></pre>
+<p>This allows you for instance to handle some specific errors in a different way.</p>
+<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/options">Options</a><a class="button" href="/documentation/context">Context</a><a class="button" href="/documentation/router">Router</a><a class="button" href="/documentation/reply">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Add language tag to the code for print
 const regName = /lang(uage)?\-/;
 const hasName = name => regName.test(name);
 const map = { js: 'javascript', jade: 'pug' };

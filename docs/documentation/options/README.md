@@ -11,9 +11,10 @@ Available options, their defaults, types and names in `.env`:
 |[`engine`](#engine)    |`'pug'`            |`ENGINE=pug`              |String|
 |[`env`](#env)          |`'development'`    |**`NODE_ENV=development`**|String|
 |[`favicon`](#favicon)  |`false`            |`FAVICON=public/logo.png` |String|
-|[`log`](#log)          |`'info'`           |`LOG=info`                |String|
+|[`parse`](#parse)      |[[info]](#parse)   |[[info]](#parse)          |Object|
 |[`session`](#session)  |[[info]](#session) |[[info]](#session)        |Object|
 |[`security`](#security)|[[info]](#security)|[[info]](#security)       |Object|
+|[`log`](#log)          |`'info'`           |`LOG=info`                |String|
 
 You can set those through the first argument in `server()` function:
 
@@ -298,71 +299,94 @@ The path can be absolute or relative to the root of your project.
 
 
 
-## Log
+## Parse
 
-Display some data that might be of value for the developers. This includes from just some information up to really important bugs and errors notifications.
+The parsing middleware is included by default. It uses few of them under the hood and these are the options for all of them. They should all work by default, but still give access to the options if you want to make some more advanced modifications.
 
-You can set [several log levels](https://www.npmjs.com/package/log#log-levels) and it **defaults to 'info'**:
+### Body parser
 
-- `emergency`: system is unusable
-- `alert`: action must be taken immediately
-- `critical`: the system is in critical condition
-- `error`: error condition
-- `warning`: warning condition
-- `notice`: a normal but significant condition
-- `info`: a purely informational message
-- `debug`: messages to debug an application
+This is the name for the default parser for `<form>` without anything else. The technical name and for those coming from express is `urlencoded`. See the [available options in the middleware documentation](https://github.com/expressjs/body-parser#bodyparserurlencodedoptions).
 
-Do it either in [your `.env`](#environment):
-
-```
-LOG=info
-```
-
-Or as a parameter to the main function:
-
-```js
-server({ log: 'info' });
-```
-
-To use it do it like this:
-
-```js
-server(ctx => {
-  ctx.log.info('Simple info message');
-  ctx.log.error('Shown on the console');
-});
-```
-
-If we want to modify the level and only show the warnings or more important logs:
-
-```js
-server({ log: 'warning' }, ctx => {
-  ctx.log.info('Not shown anymore');
-  ctx.log.error('Shown on the console');
-});
-```
-
-
-
-
-
-### Advanced logging
-
-You can also pass a `report` variable, in which case the level should be specify as `level`:
+As an example, let's say that you want to upgrade from the default `limit` of `100kb` to `1mb`:
 
 ```js
 server({
-  log: {
-    level: 'info',
-    report: (content, type) => {
-      console.log(content);
+  parser: {
+    body: { limit: '1mb' }
+  }
+});
+```
+
+### JSON parser
+
+This will parse JSON requests into the actual variables. See the [available options in this middleware documentation](https://github.com/expressjs/body-parser#bodyparserjsonoptions).
+
+As an example, let's say (as above) that we want to change the limit for requests from `100kb` to `1mb`. To do so, change the json parser option:
+
+```js
+server({
+  parser: {
+    json: { limit: '1mb' }
+  }
+});
+```
+
+You can also combine the two above:
+
+```js
+server({
+  parser: {
+    body: { limit: '1mb' },
+    json: { limit: '1mb' }
+  }
+});
+```
+
+### Text parser
+
+Plain ol' text. As with the other examples, refer to the [middleware full documentation](https://github.com/expressjs/body-parser#bodyparsertextoptions) for more comprehensive docs.
+
+An example, setting the size limit for the requests:
+
+```js
+server({
+  parser: {
+    text: { limit: '1mb' }
+  }
+});
+```
+
+### Data parser
+
+This is for file uploads of any type. It uses Formidable underneath, so refer to [the Formidable documentation](https://github.com/felixge/node-formidable#api) for the full list of options.
+
+An example:
+
+```js
+server({
+  parser: {
+    data: { uploadDir: '/my/dir' }
+  }
+});
+```
+
+### Cookie parser
+
+For using cookies, it uses cookie-parser underneath so [refer to express documentation](https://expressjs.com/en/api.html#res.cookie) for the full list of options.
+
+An example:
+
+```js
+server({
+  parser: {
+    cookie: {
+      maxAge: 900000,
+      httpOnly: true
     }
   }
 });
 ```
 
-This allows you for instance to handle some specific errors in a different way.
 
 
 
@@ -450,3 +474,71 @@ SECURITY_NOSNIFF
 SECURITY_REFERRERPOLICY
 SECURITY_XSSFILTER
 ```
+
+
+
+## Log
+
+Display some data that might be of value for the developers. This includes from just some information up to really important bugs and errors notifications.
+
+You can set [several log levels](https://www.npmjs.com/package/log#log-levels) and it **defaults to 'info'**:
+
+- `emergency`: system is unusable
+- `alert`: action must be taken immediately
+- `critical`: the system is in critical condition
+- `error`: error condition
+- `warning`: warning condition
+- `notice`: a normal but significant condition
+- `info`: a purely informational message
+- `debug`: messages to debug an application
+
+Do it either in [your `.env`](#environment):
+
+```
+LOG=info
+```
+
+Or as a parameter to the main function:
+
+```js
+server({ log: 'info' });
+```
+
+To use it do it like this:
+
+```js
+server(ctx => {
+  ctx.log.info('Simple info message');
+  ctx.log.error('Shown on the console');
+});
+```
+
+If we want to modify the level and only show the warnings or more important logs:
+
+```js
+server({ log: 'warning' }, ctx => {
+  ctx.log.info('Not shown anymore');
+  ctx.log.error('Shown on the console');
+});
+```
+
+
+
+
+
+### Advanced logging
+
+You can also pass a `report` variable, in which case the level should be specify as `level`:
+
+```js
+server({
+  log: {
+    level: 'info',
+    report: (content, type) => {
+      console.log(content);
+    }
+  }
+});
+```
+
+This allows you for instance to handle some specific errors in a different way.
