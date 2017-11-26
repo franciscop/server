@@ -1,13 +1,20 @@
-// Final error handler
+// This file makes sure to clean up things in case there was something missing
+// There are two reasons normally for this to happen: no reply was set or an
+// unhandled error was thrown
+const FinalError = require('./errors');
+
+// Make sure that a (404) reply is sent if there was no user reply
 const handler = async ctx => {
   if (!ctx.res.headersSent) {
+    ctx.log.error(FinalError('/server/final/noreturn').message);
     ctx.res.sendStatus(ctx.res.explicitStatus ? ctx.res.statusCode : 404);
   }
 };
 
+// Make sure there is a (500) reply if there was an unhandled error thrown
 handler.error = ctx => {
   const error = ctx.error;
-  ctx.log.warning('There is an unhandled error:');
+  ctx.log.warning(FinalError('/server/final/unhandled').message);
   ctx.log.error(error);
   if (!ctx.res.headersSent) {
     let status = error.status || error.code || 500;
