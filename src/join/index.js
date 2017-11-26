@@ -11,6 +11,8 @@ const processReturn = async (ctx, ret) => {
     return await ret.exec(ctx);
   }
 
+  // TODO: make a check for only accepting the right types of return values
+
   // Create a whole new reply thing
   const fn = typeof ret === 'number' ? 'status' : 'send';
   return await reply[fn](ret).exec(ctx);

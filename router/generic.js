@@ -1,6 +1,6 @@
 const join = require('../src/join');
 const parse = require('./parse');
-const params = require('path-to-regexp-wrap')();
+const params = require('./path-to-regexp-wrap')();
 
 // Generic request handler
 module.exports = (method, ...all) => {

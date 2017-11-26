@@ -1,6 +1,6 @@
 const join = require('../src/join');
 const parse = require('./parse');
-const params = require('path-to-regexp-wrap')();
+const params = require('./path-to-regexp-wrap')();
 
 module.exports = (...all) => {
   // Extracted or otherwise it'd shift once per call; also more performant
