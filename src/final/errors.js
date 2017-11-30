@@ -1,7 +1,7 @@
 const error = require('../../error');
 
 error['/server/final/noreturn'] = `
-Your middleware did not return anything to the user. This normally happens when no route was matched or if the router did not reply with anythig.
+Your middleware did not return anything to the user. This normally happens when no route was matched or if the router did not reply with anything.
 
 This won't return anything:
 
