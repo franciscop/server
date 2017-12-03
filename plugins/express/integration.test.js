@@ -30,7 +30,8 @@ describe('express', () => {
       }
       return status(200);
     }).get('/');
-    expect(res.body).toBe('OK');
+    expect(res.status).toBe(200);
+    expect(res.body).toBe('');
   });
 
   it('ignores the view engine (use .engine instead)', async () => {
@@ -39,6 +40,7 @@ describe('express', () => {
       expect(ctx.app.get('view engine')).toBe('pug');
       return status(200);
     }).get('/');
-    expect(res.body).toBe('OK');
+    expect(res.status).toBe(200);
+    expect(res.body).toBe('');
   });
 });
