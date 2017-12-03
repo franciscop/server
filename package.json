@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.10",
+  "version": "1.0.12",
   "description": "A modern and powerful server for Node.js",
   "main": "server.js",
   "scripts": {

@@ -8,7 +8,7 @@ const handler = async ctx => {
   if (!ctx.res.headersSent) {
 
     // Send the user-set status
-    ctx.res.sendStatus(ctx.res.explicitStatus ? ctx.res.statusCode : 404);
+    ctx.res.status(ctx.res.explicitStatus ? ctx.res.statusCode : 404).send();
 
     // Show it only if there was no status set in a return
     if (!ctx.res.explicitStatus) {
