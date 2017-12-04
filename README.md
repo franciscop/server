@@ -6,7 +6,6 @@
 [![[Windows Build]](https://img.shields.io/appveyor/ci/franciscop/server.svg?label=windows)](https://ci.appveyor.com/project/franciscop/server)
 [![[Dependencies status]](https://david-dm.org/franciscop/server/status.svg)](https://david-dm.org/franciscop/server)
 
-
 Powerful server for Node.js that just works so **you can focus on your awesome project**:
 
 ```js
