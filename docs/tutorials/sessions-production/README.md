@@ -10,7 +10,7 @@ The first thing to change is adding a [session secret](https://martinfowler.com/
 SECRET=your-random-string-here
 ```
 
-This will be used to secure the cookies as well as for other plugins that need a secret. Make it unique, long and random. Then **don't forget to add a different one for the production server** and other stages in your deploy pipeline if any.
+This will be used to secure the cookies as well as for other plugins that need a secret. Make it unique, long and random. Then **don't forget to add a different one for the production server** and other stages in your deploy pipeline if any. Also, exclude the `.env` file from Git [as explained here](http://localhost:3000/documentation/options/#environment).
 
 
 ## Storage
@@ -37,7 +37,13 @@ await run(counter).alive(async api => {
 
 This works great for testing; for quick demos and for short sessions, but **all session data will die when the server is restarted** since they are stored in the RAM.
 
-To make them persistent we recommend [using a compatible session storage](https://github.com/expressjs/session#compatible-session-stores). We bundle Redis for Node.js by default, so you just have to install it (\*nix systems have it easily available) and edit your `.env` to include `REDIS_URL`:
+To make them persistent we recommend [using a compatible session storage](https://github.com/expressjs/session#compatible-session-stores). We bundle Redis for Node.js by default, so you just have to install it (\*nix systems have it easily available). For example, on Ubuntu:
+
+```
+sudo apt install redis-server
+```
+
+Then edit your `.env` to include `REDIS_URL`:
 
 ```
 SECRET=your-random-string-here
@@ -45,8 +51,6 @@ REDIS_URL=redis://:password@hostname:port/db_number
 ```
 
 > Note: for Heroku this variable is created automatically when adding [the appropriate add-on](https://devcenter.heroku.com/articles/heroku-redis). For other hosting companies please consult their documentation.
-
-> Note2: as in the beta 1 Redis is not yet ready
 
 Otherwise add your preferred storage to the session through the options:
 
@@ -63,7 +67,7 @@ server({ session: { storage } }, [
 
 
 
-## Alternatives
+### Alternatives
 
 Why not just use cookie-session? [Here is an explanation of the alternative](http://stackoverflow.com/a/15745086/938236), but it boils down to:
 
