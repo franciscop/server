@@ -12,7 +12,7 @@ const handler = async ctx => {
 
     // Show it only if there was no status set in a return
     if (!ctx.res.explicitStatus) {
-      ctx.log.error(FinalError('/server/final/noreturn').message);
+      ctx.log.error(new FinalError('noreturn'));
     }
   }
 };
@@ -20,7 +20,7 @@ const handler = async ctx => {
 // Make sure there is a (500) reply if there was an unhandled error thrown
 handler.error = ctx => {
   const error = ctx.error;
-  ctx.log.warning(FinalError('/server/final/unhandled').message);
+  ctx.log.warning(FinalError('unhandled'));
   ctx.log.error(error);
   if (!ctx.res.headersSent) {
     let status = error.status || error.code || 500;
@@ -36,4 +36,8 @@ handler.error = ctx => {
   }
 };
 
-module.exports = handler;
+module.exports = {
+  name: 'final',
+  after: handler
+};
+// module.exports = handler;

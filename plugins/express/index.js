@@ -57,10 +57,7 @@ module.exports = {
   },
   listen: ctx => new Promise((resolve, reject) => {
     ctx.server = ctx.app.listen(ctx.options.port, () => {
-      if (ctx.options.verbose) {
-        ctx.log(`Server started on http://localhost:${ctx.options.port}/`);
-      }
-
+      ctx.log.debug(`Server started on http://localhost:${ctx.options.port}/`);
       resolve();
     });
     ctx.close = () => new Promise((res, rej) => {

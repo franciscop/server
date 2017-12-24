@@ -1,20 +1,25 @@
-const factory = (defaults = {}) => {
-  const error = function(code, opts){
-    opts = Object.assign({}, module.exports.options, defaults, opts);
-    opts.code = code;
-    if (!error[code]) {
-      throw new Error(`The error '${code}' is not defined so you cannot use it.`);
-    }
-    const message = error[code] instanceof Function ? error[code](opts) : error[code];
-    const err = new Error(message);
-    for (let key in opts) {
-      err[key] = opts[key] instanceof Function ? opts[key](opts) : opts[key];
-    }
-    return err;
-  };
+const buildError = (message, opts) => {
+  const error = new Error(message);
+  for (const key in opts) {
+    error[key] = opts[key] instanceof Function ? opts[key](opts) : opts[key];
+  }
   return error;
-}
+};
 
-module.exports = factory();
-module.exports.options = {};
-module.exports.defaults = defaults => factory(defaults);
+const singleSlash = str => '/' + str.split('/').filter(one => one).join('/');
+
+const ErrorFactory = function (namespace = '', defaults = {}) {
+  defaults.namespace = defaults.namespace || namespace;
+
+  return function ErrorInstance (code = '', options = {}) {
+    options = Object.assign({}, ErrorFactory.options, defaults, options);
+    options.code = singleSlash(options.namespace + '/' + code);
+    options.id = options.code.toLowerCase().replace(/[^\w]+/g, '-').replace(/^-/, '');
+    options.message = ErrorInstance[code];
+    return buildError(options.message, options);
+  };
+};
+
+ErrorFactory.options = { status: 500 };
+
+module.exports = ErrorFactory;

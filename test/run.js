@@ -77,7 +77,7 @@ module.exports = function (...middle) {
       }
     });
 
-    const ctx = await server(opts, middle, error);
+    const ctx = await server(opts, middle, opts.raw ? false : error);
 
     ctx.close = () => new Promise((resolve, reject) => {
       ctx.server.close(err => err ? reject(err) : resolve());

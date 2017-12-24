@@ -43,4 +43,14 @@ describe('express', () => {
     expect(res.status).toBe(200);
     expect(res.body).toBe('');
   });
+
+  it.skip('uses an engine', async () => {
+    const res = run({
+      express: { engine: {
+        blabla: 'I do not know how to make an engine yet'
+      }}
+    }).get('/');
+    expect(res.status).toBe(200);
+    expect(res.body).toBe('');
+  });
 });

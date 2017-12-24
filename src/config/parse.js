@@ -24,7 +24,7 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
   // root value. Example: server(2000) === server({ port: 2000 })
   if (typeof arg !== 'object') {
     if (!schema.__root) {
-      throw new OptionsError('/server/options/notobject');
+      throw new OptionsError('notobject');
     }
     arg = { [schema.__root]: arg };
   }
@@ -54,7 +54,7 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
       if (def.arg !== false) {
         def.arg = def.arg === true ? name : def.arg || name;
       } else if (arg[name] && process.env.NODE_ENV === 'test') {
-        throw new OptionsError('/server/options/noarg', { name });
+        throw new OptionsError('noarg', { name });
       }
 
       // Use the environment variable unless explicitly told not to
@@ -62,7 +62,7 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
         def.env = (def.env === true ? name : def.env || name).toUpperCase();
       } else if (env[name.toUpperCase()] && process.env.NODE_ENV === 'test') {
         if (!/^win/.test(process.platform) || name !== 'public') {
-          throw new OptionsError('/server/options/noenv', { name });
+          throw new OptionsError('noenv', { name });
         }
       }
 
@@ -112,14 +112,14 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
     // Validate that it is set
     if (def.required) {
       if (typeof value === 'undefined') {
-        throw new OptionsError('/server/options/required', { name });
+        throw new OptionsError('required', { name });
       }
       // TODO: check that the file and folder exist
     }
 
     if (def.enum) {
       if (!def.enum.includes(value)) {
-        throw new OptionsError('/server/options/enum', { name, value, possible: def.enum });
+        throw new OptionsError('enum', { name, value, possible: def.enum });
       }
     }
 
@@ -133,7 +133,7 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
 
       // Make sure it is one of the valid types
       if (!def.type.includes(typeof value)) {
-        throw new OptionsError('/server/options/type', {
+        throw new OptionsError('type', {
           name, expected: def.type, value
         });
       }
@@ -142,7 +142,7 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
     if (def.validate) {
       let ret = def.validate(value, def, options);
       if (ret instanceof Error) throw ret;
-      if (!ret) throw new OptionsError('/server/options/validate', { name, value });
+      if (!ret) throw new OptionsError('validate', { name, value });
     }
 
     if (typeof value !== 'undefined') {

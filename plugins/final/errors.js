@@ -1,6 +1,6 @@
-const error = require('../../error');
+const error = require('../../error')('/plugin/final/');
 
-error['/server/final/noreturn'] = `
+error.noreturn = `
 Your middleware did not return anything to the user. This normally happens when no route was matched or if the router did not reply with anything.
 
 This won't return anything:
@@ -34,7 +34,7 @@ https://serverjs.io/documentation/reply/
 `;
 
 
-error['/server/final/unhandled'] = `
+error.unhandled = `
 Some middleware threw an error that was not handled properly. This can happen when you do this:
 
 ~~~

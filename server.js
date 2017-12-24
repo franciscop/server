@@ -7,7 +7,6 @@ const router = require('./router');
 const reply = require('./reply');
 const join = require('./src/join/index.js');
 const modern = require('./src/modern');
-const final = require('./src/final');
 
 // Create a context per-request
 const context = (self, req, res) => Object.assign(req, self, { req, res });
@@ -52,10 +51,10 @@ const Server = async (...middle) => {
 
 
   // PLUGIN middleware
-  middle = join(hook(ctx, 'before'), middle, hook(ctx, 'after'), final);
+  ctx.middle = join(hook(ctx, 'before'), middle, hook(ctx, 'after'));
 
   // Main thing here
-  ctx.app.use((req, res) => middle(context(ctx, req, res)));
+  ctx.app.use((req, res) => ctx.middle(context(ctx, req, res)));
 
 
 
@@ -86,4 +85,5 @@ module.exports.plugins = [
   require('./plugins/favicon'),
   require('./plugins/compress'),
   require('./plugins/socket'),
+  require('./plugins/final')
 ];

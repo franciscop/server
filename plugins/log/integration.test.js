@@ -37,7 +37,7 @@ describe('log()', () => {
     const res = run({ log: 'abc' }).get('/');
 
     // Now errors must be fully qualified with Jest
-    expect(res).rejects.toMatchObject(new ConfigError('/server/options/enum', {
+    expect(res).rejects.toMatchObject(new ConfigError('enum', {
       name: 'level',
       value: 'abc',
       possible: ['emergency','alert','critical','error','warning','notice','info','debug'],

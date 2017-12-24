@@ -96,7 +96,7 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with full path', async () => {
-    const generate = ctx => { throw new RouterError('/server/test/router'); };
+    const generate = ctx => { throw new RouterError('router'); };
     const handle = error('/server/test/router', ctx => {
       return ctx.error.code;
     });
@@ -105,7 +105,7 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with partial path', async () => {
-    const generate = ctx => { throw new RouterError('/server/test/router'); };
+    const generate = ctx => { throw new RouterError('router'); };
     const handle = error('/server/test', ctx => {
       return ctx.error.code;
     });
@@ -122,7 +122,7 @@ describe('Error routes', () => {
 
   it('can generate errors', async () => {
     const generate = ctx => {
-      throw new RouterError('/server/test/router');
+      throw new RouterError('router');
     };
     const handle = error('/server/test/router', ctx => {
       return ctx.error.code;
@@ -134,7 +134,7 @@ describe('Error routes', () => {
 
   it('can generate errors with options', async () => {
     const generate = ctx => {
-      throw new RouterError('/server/test/simplerouter', { text: 'ABC' });
+      throw new RouterError('simplerouter', { text: 'ABC' });
     };
     const handle = error('/server/test/simplerouter', ctx => {
       return ctx.error.message;

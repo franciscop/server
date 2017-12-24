@@ -1,15 +1,10 @@
 const path = require('path');
-
+const fs = require('mz/fs');
 
 
 const Reply = function (name, ...args) {
-  if (!(this instanceof Reply)) {
-    return new Reply();
-  }
   this.stack = [];
-  if (name) {
-    this[name](...args);
-  }
+  this[name](...args);
   return this;
 };
 
@@ -27,20 +22,31 @@ Reply.prototype.cookie = function (...args) {
 Reply.prototype.download = function (...args) {
 
   // Guard clauses
-  if (args.length < 1)
-    throw new Error('file() expects a path');
+  if (args.length < 1) {
+    throw new Error('download() expects a path as the first argument');
+  }
 
-  if (args.length > 2)
-    throw new Error('file() expects a path and options but nothing else');
+  if (args.length < 2) {
+    throw new Error('download() expects a filename as the second argument');
+  }
 
-  let [file, opts = {}] = args;
+  if (args.length > 2) {
+    throw new Error('download() only expects two arguments, path and filename. The rest of them will be ignored');
+  }
+
+  let [file, opts] = args;
   if (!path.isAbsolute(file)) {
     file = path.resolve(process.cwd(), file);
   }
 
-  this.stack.push(ctx => new Promise((resolve, reject) => {
-    ctx.res.download(file, opts, err => err ? reject(err) : resolve());
-  }));
+  this.stack.push(async ctx => {
+    if (!await fs.exists(file)) {
+      throw new Error(`The file "${file}" does not exist. Make sure that you set an absolute path or a relative path to the root of your project`);
+    }
+    return new Promise((resolve, reject) => {
+      ctx.res.download(file, opts, err => err ? reject(err) : resolve());
+    });
+  });
 
   return this;
 };
@@ -59,20 +65,27 @@ Reply.prototype.end = function () {
 Reply.prototype.file = function (...args) {
 
   // Guard clauses
-  if (args.length < 1)
-    throw new Error('file() expects a path');
+  if (args.length < 1) {
+    throw new Error('file() expects a path as the first argument');
+  }
 
-  if (args.length > 2)
-    throw new Error('file() expects a path and options but nothing else');
+  if (args.length > 2) {
+    throw new Error(`file() only expects two arguments, the path and options, but ${args.length} were provided.`);
+  }
 
   let [file, opts = {}] = args;
   if (!path.isAbsolute(file)) {
     file = path.resolve(process.cwd(), file);
   }
 
-  this.stack.push(ctx => new Promise((resolve, reject) => {
-    ctx.res.sendFile(file, opts, err => err ? reject(err) : resolve());
-  }));
+  this.stack.push(async ctx => {
+    if (!await fs.exists(file)) {
+      throw new Error(`The file "${file}" does not exist. Make sure that you set an absolute path or a relative path to the root of your project`);
+    }
+    return new Promise((resolve, reject) => {
+      ctx.res.sendFile(file, opts, err => err ? reject(err) : resolve());
+    });
+  });
 
   return this;
 };
@@ -110,11 +123,13 @@ Reply.prototype.redirect = function (...args) {
 Reply.prototype.render = function (...args) {
 
   // Guard clauses
-  if (args.length < 1)
+  if (args.length < 1) {
     throw new Error('file() expects a path');
+  }
 
-  if (args.length > 2)
+  if (args.length > 2) {
     throw new Error('file() expects a path and options but nothing else');
+  }
 
   let [file, opts = {}] = args;
 
@@ -127,10 +142,13 @@ Reply.prototype.render = function (...args) {
 };
 
 Reply.prototype.send = function (...args) {
+
+  // If we are trying to send the context
+  if (args[0] && args[0].close && args[0].close instanceof Function) {
+    throw new Error('Never send the context, request or response as those are a security risk');
+  }
+
   this.stack.push(ctx => {
-    if (args[0].req) {
-      throw new Error('You should not return res()');
-    }
     ctx.res.send(...args);
   });
   return this;

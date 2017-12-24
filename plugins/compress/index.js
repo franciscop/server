@@ -11,9 +11,6 @@ module.exports = {
     }
   },
 
-  before: [
-    ctx => ctx.options.compress
-      ? modern(compress(ctx.options.compress))(ctx)
-      : false
-  ]
+  // The whole plugin won't be loaded if the option is false
+  before: ctx => modern(compress(ctx.options.compress))(ctx)
 };

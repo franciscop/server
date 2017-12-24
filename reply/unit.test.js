@@ -2,7 +2,8 @@ const reply = require('.');
 
 
 
-describe('server/reply definition', () => {
+describe('reply', () => {
+
   it('loads the main reply', () => {
     expect(reply).toEqual(require('server').reply);
     expect(reply).toEqual(require('server/reply'));
@@ -37,28 +38,30 @@ describe('server/reply definition', () => {
     expect(require('server/reply/status'  )).toEqual(reply.status);
     expect(require('server/reply/type'    )).toEqual(reply.type);
   });
-});
 
 
 
-describe('reply: instances instead of global', () => {
-  it('adds a method to the stack', () => {
-    const mock = reply.file('./index.js');
-    expect(mock.stack.length).toEqual(1);
-    const inst = reply.file('./index.js');
-    expect(inst.stack.length).toEqual(1);
 
-    // Do not touch the global
-    expect(mock.stack.length).toEqual(1);
-  });
 
-  it('adds several methods correctly', () => {
-    const mock = reply.file('./index.js');
-    expect(mock.stack.length).toEqual(1);
-    const inst = reply.file('./index.js').file('./whatever.js');
-    expect(inst.stack.length).toEqual(2);
+  describe('reply: instances instead of global', () => {
+    it('adds a method to the stack', () => {
+      const mock = reply.file('./index.js');
+      expect(mock.stack.length).toEqual(1);
+      const inst = reply.file('./index.js');
+      expect(inst.stack.length).toEqual(1);
 
-    // Do not touch the global
-    expect(mock.stack.length).toEqual(1);
+      // Do not touch the global
+      expect(mock.stack.length).toEqual(1);
+    });
+
+    it('adds several methods correctly', () => {
+      const mock = reply.file('./index.js');
+      expect(mock.stack.length).toEqual(1);
+      const inst = reply.file('./index.js').file('./whatever.js');
+      expect(inst.stack.length).toEqual(2);
+
+      // Do not touch the global
+      expect(mock.stack.length).toEqual(1);
+    });
   });
 });
