@@ -11,6 +11,7 @@ module.exports = (...all) => {
   generic.error = async ctx => {
 
     // Only do this if the correct path
+    ctx.error.code = ctx.error.code || '';
     ctx.error.params = match(ctx.error.code);
 
     // Add an extra-allowing initial matching

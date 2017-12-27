@@ -1,7 +1,7 @@
 // Integration - test the router within the whole server functionality
 const server = require('server');
 const run = require('server/test/run');
-const { get, post, put, del, sub } = server.router;
+const { get, post, put, del, sub, error } = server.router;
 
 
 
@@ -184,5 +184,22 @@ describe('Ends where it should end', () => {
         expect(res.body).toBe('Hello 世界');
       }
     });
+  });
+
+
+  it('does error matching', async () => {
+    let err;
+    const res = await run(throwError, error(ctx => {
+      err = ctx.error;
+      return 'Hello world';
+    })).get('/');
+    expect(res.body).toBe('Hello world');
+    expect(err.message).toMatch(/MockError/);
+  });
+
+  it('does empty error matching', async () => {
+    let err;
+    const res = await run(throwError).get('/');
+    expect(res.status).toBe(500);
   });
 });
