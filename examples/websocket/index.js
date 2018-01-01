@@ -5,7 +5,6 @@ const { render } = server.reply;
 server(
   get('/', ctx => {
     ctx.session.counter = ctx.session.counter || 0;
-    console.log(ctx.session.counter);
     return render('index.html');
   }),
   socket('connect', ctx => {

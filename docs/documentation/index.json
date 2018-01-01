@@ -2,7 +2,5 @@
   "options",
   "context",
   "router",
-  "reply",
-  "errors",
-  "testing"
+  "reply"
 ]

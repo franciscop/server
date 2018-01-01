@@ -218,6 +218,44 @@ module.exports = [
 ];
 ```
 
+Read the next section for a great example of a common middleware from express used with server.
+
+
+## CORS
+
+To allow requesting a resource from another domain you must enable [Cross-Origin Resource Sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS). To do so, you have two options: do it manually or through a great library. Both of them end up setting some headers.
+
+Let's see how to do it manually for any domain:
+
+```js
+const server = require('server');
+const { header } = server.reply;  // OR server.reply;
+
+const cors = [
+  ctx => header("Access-Control-Allow-Origin", "*"),
+  ctx => header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept")
+];
+
+server({}, cors, ...);
+```
+
+If you want to whitelist some domains it's not easy manually, so we can use the great package [`cors` from npm](https://www.npmjs.com/package/cors):
+
+```js
+const server = require('server');
+
+// Load it with the options
+const corsExpress = require('cors')({
+  origin: ['https://example.com', 'https://example2.com']
+});
+
+// Make the express middleware compatible with server
+const cors = server.utils.modern(corsExpress);
+
+// Launch the server with this specific middleware
+server({}, cors, ...);
+```
+
 
 
 ## Routing
@@ -263,6 +301,8 @@ server(getHome, getGallery);
 We can also receive `post`, `del`, `error`, `socket` and other request types through the router. To see them all, visit the Router documentation:
 
 <a href="/documentation/router" class="button">Router Documentation</a>
+
+
 
 
 

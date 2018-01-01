@@ -3,17 +3,25 @@ const files = require('./docs/files.js');
 
 const fs = require('fs')
 
+function extract(src) {
+  const data = {};
+  const readme = fs.readFileSync(src + 'README.md', 'utf-8');
+    data.title = (readme.match(/^\#\s(.+)/mg) || []).map(one => one.replace(/^\#\s/, ''))[0];
+  if (!data.title) throw new Error('Your file ' + file + '/README.md has no h1 in markdown');
+  data.sections = (readme.match(/^\#\#[\s](.+)/gm) || []).map(one => one.replace(/^\#\#\s/, ''));
+  return data;
+}
+
 function getInfo(src) {
   delete require.cache[require.resolve(src)];
+  const info = {};
+  if (/documentation/.test(src)) {
+    const base = { title: 'Introduction', url: '/documentation/' };
+    info.introduction = Object.assign({}, extract(src), base);
+  }
   return require(src).reduce((obj, one) => {
-    // No file, error file or empty file === ignore this part
-    let data = {};
-    const readme = fs.readFileSync(src + one + '/README.md', 'utf-8');
-    data.title = (readme.match(/^\#\s(.+)/mg) || []).map(one => one.replace(/^\#\s/, ''))[0];
-    if (!data.title) throw new Error('Your file ' + file + '/README.md has no h1 in markdown');
-    data.sections = (readme.match(/^\#\#[\s](.+)/gm) || []).map(one => one.replace(/^\#\#\s/, ''));
-    return Object.assign(obj, { [one]: data });
-  }, {});
+    return Object.assign({}, obj, { [one]: extract(src + one + '/') });
+  }, info);
 }
 
 // Generate the documentation final:origin pairs
