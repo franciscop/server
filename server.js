@@ -80,10 +80,10 @@ module.exports.plugins = [
   require('./plugins/express'),
   require('./plugins/parser'),
   require('./plugins/static'),
+  require('./plugins/socket'),
   require('./plugins/session'),
   require('./plugins/security'),
   require('./plugins/favicon'),
   require('./plugins/compress'),
-  require('./plugins/socket'),
   require('./plugins/final')
 ];

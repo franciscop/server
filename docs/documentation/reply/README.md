@@ -224,22 +224,22 @@ run(mid).get('/').then(res => {
 Same as [json()](#json) but wrapped with a callback. [Read more about JSONP](https://en.wikipedia.org/wiki/JSONP):
 
 ```js
-const mid = ctx => json({ foo: 'bar' });
+const mid = ctx => jsonp({ foo: 'bar' });
 
 // Test it
-run(mid).get('/').then(res => {
-  expect(res.body).toEqual(`callback({foo:"bar"})`);
+run(mid).get('/?callback=callback').then(res => {
+  expect(res.body).toMatch('callback({foo:"bar"})');
 });
 ```
 
-It is useful for loading data Cross-Domain. Add a `?callback=foo` query to the request to change the callback name:
+It is useful for loading data Cross-Domain. The query `?callback=foo` **is mandatory** and you should set the callback name there:
 
 ```js
-const mid = ctx => json({ foo: 'bar' });
+const mid = ctx => jsonp({ foo: 'bar' });
 
 // Test it
 run(mid).get('/?callback=foo').then(res => {
-  expect(res.body).toEqual(`foo({foo:"bar"})`);
+  expect(res.body).toMatch('foo({foo:"bar"})');
 });
 ```
 

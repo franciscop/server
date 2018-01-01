@@ -242,19 +242,19 @@ run(mid).get(&#39;/&#39;).then(res =&gt; {
 </code></pre>
 <h2 id="jsonp-">jsonp()</h2>
 <p>Same as <a href="#json">json()</a> but wrapped with a callback. <a href="https://en.wikipedia.org/wiki/JSONP">Read more about JSONP</a>:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; json({ foo: &#39;bar&#39; });
+<pre><code class="lang-js">const mid = ctx =&gt; jsonp({ foo: &#39;bar&#39; });
 
 // Test it
-run(mid).get(&#39;/&#39;).then(res =&gt; {
-  expect(res.body).toEqual(`callback({foo:&quot;bar&quot;})`);
+run(mid).get(&#39;/?callback=callback&#39;).then(res =&gt; {
+  expect(res.body).toMatch(&#39;callback({foo:&quot;bar&quot;})&#39;);
 });
 </code></pre>
-<p>It is useful for loading data Cross-Domain. Add a <code>?callback=foo</code> query to the request to change the callback name:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; json({ foo: &#39;bar&#39; });
+<p>It is useful for loading data Cross-Domain. The query <code>?callback=foo</code> <strong>is mandatory</strong> and you should set the callback name there:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; jsonp({ foo: &#39;bar&#39; });
 
 // Test it
 run(mid).get(&#39;/?callback=foo&#39;).then(res =&gt; {
-  expect(res.body).toEqual(`foo({foo:&quot;bar&quot;})`);
+  expect(res.body).toMatch(&#39;foo({foo:&quot;bar&quot;})&#39;);
 });
 </code></pre>
 <h2 id="redirect-">redirect()</h2>

@@ -149,11 +149,11 @@ describe('reply', () => {
 
 
   describe('jsonp', () => {
-    it.skip('answers jsonp', async () => {
+    it('answers jsonp', async () => {
       const mid = () => jsonp([0, 1, 'a']);
-      const res = await run(mid).get('/');
-      expect(res.rawBody).toBe('callback([0,1,"a"])');
-      expect(res.headers['content-type']).toMatch(/application\/json/);
+      const res = await run(mid).get('/?callback=callback');
+      expect(res.body).toMatch('callback([0,1,"a"])');
+      expect(res.headers['content-type']).toMatch('text/javascript');
     });
   });
 

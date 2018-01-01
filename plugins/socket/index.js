@@ -14,18 +14,19 @@ module.exports = {
   launch: ctx => {
     ctx.io = socketIO(ctx.server);
     ctx.io.on('connect', socket => {
-      for (let name in listeners) {
-        if (name !== 'connect') {
-          listeners[name].forEach(cb => {
-            socket.on(name, data => {
-              cb(extend({}, ctx, { path: name, socket: socket, data: data }));
+      // console.log(socket.client.request.session);
+      for (let path in listeners) {
+        if (path !== 'connect') {
+          listeners[path].forEach(cb => {
+            socket.on(path, data => {
+              cb(extend(socket.client.request, ctx, { path, socket, data }));
             });
           });
         }
       }
       if (listeners['connect']) {
         listeners['connect'].forEach(cb => {
-          cb(extend({}, ctx, { path: 'connect', socket: socket }));
+          cb(extend(socket.client.request, ctx, { path: 'connect', socket }));
         });
       }
     });

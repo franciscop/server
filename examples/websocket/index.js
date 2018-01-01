@@ -1,8 +1,13 @@
 const server = require('../../server');
-const { socket } = server.router;
+const { get, socket } = server.router;
+const { render } = server.reply;
 
 server(
-  socket('message', ctx => {
-    ctx.socket.emit('message', 'Hello there');
+  get('/', () => render('index.html')),
+  socket('connect', ctx => {
+    setInterval(() => {
+      ctx.session.counter = (ctx.session.counter || 0) + 1;
+      ctx.socket.emit('message', ctx.session.counter);
+    }, 1000);
   })
 );
