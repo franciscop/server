@@ -7,17 +7,17 @@
   <title>Document</title>
 </head>
 <body>
-  Hello world!
+  <h1>Hello world!</h1>
 
   <script src="https://unpkg.com/socket.io-client@2.0.3/dist/socket.io.slim.js"></script>
   <script>
     const socket = new io();
 
     socket.on('connect', () => {
-      console.log('Connected!');
+      document.querySelector('h1').innerText = 'Connected!';
     });
     socket.on('message', (data) => {
-      console.log('Message!', data);
+      document.querySelector('h1').innerText = data;
     });
   </script>
 </body>
