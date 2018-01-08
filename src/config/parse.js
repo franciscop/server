@@ -153,11 +153,7 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
   // If the property 'options' exists handle it recursively
   for (let name in schema) {
     const def = schema[name];
-    if (name === 'auth') {
-      console.log(def);
-    }
     if (def.options) {
-      console.log('Got here', def.options, arg[name]);
       options[name] = await parse(def.options, arg[name], env, options);
     }
   }
