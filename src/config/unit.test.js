@@ -150,6 +150,14 @@ describe('options/parse', () => {
     const env = parse({ public: { validate: () => false } });
     await expect(env).rejects.toHaveProperty('code', '/server/options/validate');
   });
+
+  it('can be recursive with subproperties', async () => {
+    const github = await parse({ github: { options: { id: { default: 5 } } } });
+    expect(github).toEqual({ github: { id: 5 } });
+
+    const github2 = await parse({ github: { options: { id: { default: 5 } } } }, { github: { id: 10 }});
+    expect(github2).toEqual({ github: { id: 10 } });
+  });
 });
 
 

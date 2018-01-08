@@ -16,7 +16,7 @@ Available options, their defaults, types and names in `.env`:
 |[`security`](#security)|[[info]](#security)|[[info]](#security)       |Object|
 |[`log`](#log)          |`'info'`           |`LOG=info`                |String|
 
-You can set those through the first argument in `server()` function:
+You can set those through **the first argument** in `server()` function:
 
 ```js
 // Import the main library
@@ -155,6 +155,7 @@ Please **do not** set this as a variable <strike>`server({ secret: 'whatever' })
 
 
 
+
 ## Public
 
 The folder where your static assets are and defaults to `public`. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through the browser such as `example.com/myfile.pdf` should be in this folder. You can set it to any folder within your project.
@@ -168,13 +169,27 @@ PUBLIC=public
 Through the initialization parameter:
 
 ```js
-server({ public: 'public' });
+const options = {
+  public: 'public'
+};
+
+/* test */
+const same = ctx => ({ public: ctx.options.public });
+const res = await run(options, same).get('/');
+expect(res.body.public).toBe(process.cwd() + '/public');
 ```
 
 To set the root folder specify it as `'./'`:
 
 ```js
-server({ public: './' });
+const options = {
+  public: './'
+};
+
+/* test */
+const same = ctx => ({ public: ctx.options.public });
+const res = await run(options, same).get('/');
+expect(res.body.public).toBe(process.cwd() + '/');
 ```
 
 If you don't want any of your files to be accessible publicly, then you can cancel it through a false or empty value:
@@ -199,13 +214,27 @@ VIEWS=views
 Through the initialization parameter:
 
 ```js
-server({ views: 'views' });
+const options = {
+  views: 'views'
+};
+
+/* test */
+const same = ctx => ({ views: ctx.options.views });
+const res = await run(options, same).get('/');
+expect(res.body.views).toBe(process.cwd() + '/views');
 ```
 
 To set the root folder specify it as `'./'`:
 
 ```js
-server({ views: './' });
+const options = {
+  views: './'
+};
+
+/* test */
+const same = ctx => ({ views: ctx.options.views });
+const res = await run(options, same).get('/');
+expect(res.body.views).toBe(process.cwd() + '/');
 ```
 
 If you don't have any view file you don't have to create the folder. The files within `views` should all have an extension such as `.hbs`, `.pug`, etc. To see how to install and use those keep reading.
@@ -409,8 +438,57 @@ You can [read more about these options in Express' package documentation](https:
 
 All of them are optional. Secret will inherit the secret from the global secret if it is not explicitly set.
 
-If redis or `REDIS_URL` is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in [the tutorial **Sessions in production**](http://serverjs.io/tutorials/sessions-production/).
+If the session.redis option or `REDIS_URL` is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in [the tutorial **Sessions in production**](http://serverjs.io/tutorials/sessions-production/). Example:
 
+```bash
+# .env
+REDIS_URL=redis://:password@hostname:port/db_number
+```
+
+```js
+// index.js
+const server = require('server');
+
+// It will work by default since it's an env variable
+server({}, ...);
+```
+
+Otherwise, to pass it manually (**not recommended**) pass it through the options:
+
+```js
+const redis = 'redis://:password@hostname:port/db_number';
+server({ session: { redis } }, ...);
+```
+
+
+### Session Stores
+
+To use one of the many available third party session stores, pass it as the `store` parameter:
+
+```js
+// Create your whole store thing
+const store = ...;
+
+// Use it within the session
+server({ session: { store } }, ...);
+```
+
+Many of the stores will need you to pass the raw **`session`** initially like this:
+
+```js
+const RedisStore = require('connect-redis')(session);
+const store = RedisStore({ ... });
+```
+
+You can access this variable through `server.session` after requiring `server`:
+
+```js
+const server = require('server');
+const RedisStore = require('connect-redis')(server.session);
+const store = RedisStore({ ... });
+
+server({ session: { store } }, ...);
+```
 
 
 
@@ -424,6 +502,9 @@ server({
     csrf: {
       ignoreMethods: ['GET', 'HEAD', 'OPTIONS'],
       value: req => req.body.csnowflakerf
+    },
+    frameguard: {
+      action: 'deny'
     }
   }
 });
@@ -447,7 +528,7 @@ For quick tests/prototypes, the whole security plugin can be disabled (**not rec
 server({ security: false });
 ```
 
-Individual parts can also be disabled like this:
+Individual parts can also be disabled like this. This makes sense if you use other mechanisms to avoid CSRF, such as JWT:
 
 ```js
 server({
@@ -541,4 +622,4 @@ server({
 });
 ```
 
-This allows you for instance to handle some specific errors in a different way.
+This allows you for instance to handle some specific errors in a different way. It is also useful for testing that the correct data is printed on the console in certain situations.

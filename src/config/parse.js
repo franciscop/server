@@ -10,7 +10,7 @@ const path = require('path');
 // - arg: user options from the argument in the main server() function
 // - env: the environment variables as read from env.js
 // - parent: if it's a submodule, the global configuration
-module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
+const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
 
   // Fully parsed options will be stored here
   const options = {};
@@ -147,6 +147,18 @@ module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
 
     if (typeof value !== 'undefined') {
       options[name] = value;
+    }
+  }
+
+  // If the property 'options' exists handle it recursively
+  for (let name in schema) {
+    const def = schema[name];
+    if (name === 'auth') {
+      console.log(def);
+    }
+    if (def.options) {
+      console.log('Got here', def.options, arg[name]);
+      options[name] = await parse(def.options, arg[name], env, options);
     }
   }
 

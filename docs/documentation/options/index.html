@@ -78,7 +78,7 @@
 </tr>
 </tbody>
 </table>
-<p>You can set those through the first argument in <code>server()</code> function:</p>
+<p>You can set those through <strong>the first argument</strong> in <code>server()</code> function:</p>
 <pre><code class="lang-js">// Import the main library
 const server = require(&#39;server&#39;);
 
@@ -165,10 +165,24 @@ expect(res.body.port).toBe(5001);
 <p>To set the public folder in the environment add this to <a href="#environment">your <code>.env</code></a>:</p>
 <pre><code>PUBLIC=public
 </code></pre><p>Through the initialization parameter:</p>
-<pre><code class="lang-js">server({ public: &#39;public&#39; });
+<pre><code class="lang-js">const options = {
+  public: &#39;public&#39;
+};
+
+/* test */
+const same = ctx =&gt; ({ public: ctx.options.public });
+const res = await run(options, same).get(&#39;/&#39;);
+expect(res.body.public).toBe(process.cwd() + &#39;/public&#39;);
 </code></pre>
 <p>To set the root folder specify it as <code>&#39;./&#39;</code>:</p>
-<pre><code class="lang-js">server({ public: &#39;./&#39; });
+<pre><code class="lang-js">const options = {
+  public: &#39;./&#39;
+};
+
+/* test */
+const same = ctx =&gt; ({ public: ctx.options.public });
+const res = await run(options, same).get(&#39;/&#39;);
+expect(res.body.public).toBe(process.cwd() + &#39;/&#39;);
 </code></pre>
 <p>If you don&#39;t want any of your files to be accessible publicly, then you can cancel it through a false or empty value:</p>
 <pre><code class="lang-js">server({ public: false });
@@ -179,10 +193,24 @@ server({ public: &#39;&#39; });
 <p>To set the views folder in the environment add this to <a href="#environment">your <code>.env</code></a>:</p>
 <pre><code>VIEWS=views
 </code></pre><p>Through the initialization parameter:</p>
-<pre><code class="lang-js">server({ views: &#39;views&#39; });
+<pre><code class="lang-js">const options = {
+  views: &#39;views&#39;
+};
+
+/* test */
+const same = ctx =&gt; ({ views: ctx.options.views });
+const res = await run(options, same).get(&#39;/&#39;);
+expect(res.body.views).toBe(process.cwd() + &#39;/views&#39;);
 </code></pre>
 <p>To set the root folder specify it as <code>&#39;./&#39;</code>:</p>
-<pre><code class="lang-js">server({ views: &#39;./&#39; });
+<pre><code class="lang-js">const options = {
+  views: &#39;./&#39;
+};
+
+/* test */
+const same = ctx =&gt; ({ views: ctx.options.views });
+const res = await run(options, same).get(&#39;/&#39;);
+expect(res.body.views).toBe(process.cwd() + &#39;/&#39;);
 </code></pre>
 <p>If you don&#39;t have any view file you don&#39;t have to create the folder. The files within <code>views</code> should all have an extension such as <code>.hbs</code>, <code>.pug</code>, etc. To see how to install and use those keep reading.</p>
 <h2 id="engine">Engine</h2>
@@ -301,7 +329,39 @@ server({ favicon: &#39;public/favicon.png&#39; },
 </code></pre>
 <p>You can <a href="https://github.com/expressjs/session">read more about these options in Express&#39; package documentation</a>.</p>
 <p>All of them are optional. Secret will inherit the secret from the global secret if it is not explicitly set.</p>
-<p>If redis or <code>REDIS_URL</code> is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in <a href="http://serverjs.io/tutorials/sessions-production/">the tutorial <strong>Sessions in production</strong></a>.</p>
+<p>If the session.redis option or <code>REDIS_URL</code> is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in <a href="http://serverjs.io/tutorials/sessions-production/">the tutorial <strong>Sessions in production</strong></a>. Example:</p>
+<pre><code class="lang-bash"># .env
+REDIS_URL=redis://:password@hostname:port/db_number
+</code></pre>
+<pre><code class="lang-js">// index.js
+const server = require(&#39;server&#39;);
+
+// It will work by default since it&#39;s an env variable
+server({}, ...);
+</code></pre>
+<p>Otherwise, to pass it manually (<strong>not recommended</strong>) pass it through the options:</p>
+<pre><code class="lang-js">const redis = &#39;redis://:password@hostname:port/db_number&#39;;
+server({ session: { redis } }, ...);
+</code></pre>
+<h3 id="session-stores">Session Stores</h3>
+<p>To use one of the many available third party session stores, pass it as the <code>store</code> parameter:</p>
+<pre><code class="lang-js">// Create your whole store thing
+const store = ...;
+
+// Use it within the session
+server({ session: { store } }, ...);
+</code></pre>
+<p>Many of the stores will need you to pass the raw <strong><code>session</code></strong> initially like this:</p>
+<pre><code class="lang-js">const RedisStore = require(&#39;connect-redis&#39;)(session);
+const store = RedisStore({ ... });
+</code></pre>
+<p>You can access this variable through <code>server.session</code> after requiring <code>server</code>:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const RedisStore = require(&#39;connect-redis&#39;)(server.session);
+const store = RedisStore({ ... });
+
+server({ session: { store } }, ...);
+</code></pre>
 <h2 id="security">Security</h2>
 <p>It combines <a href="https://github.com/expressjs/csurf">Csurf</a> and <a href="https://github.com/helmetjs/helmet">Helmet</a> to give extra security:</p>
 <pre><code class="lang-js">server({
@@ -309,6 +369,9 @@ server({ favicon: &#39;public/favicon.png&#39; },
     csrf: {
       ignoreMethods: [&#39;GET&#39;, &#39;HEAD&#39;, &#39;OPTIONS&#39;],
       value: req =&gt; req.body.csnowflakerf
+    },
+    frameguard: {
+      action: &#39;deny&#39;
     }
   }
 });
@@ -325,7 +388,7 @@ server({ favicon: &#39;public/favicon.png&#39; },
 <p>For quick tests/prototypes, the whole security plugin can be disabled (<strong>not recommended</strong>):</p>
 <pre><code class="lang-js">server({ security: false });
 </code></pre>
-<p>Individual parts can also be disabled like this:</p>
+<p>Individual parts can also be disabled like this. This makes sense if you use other mechanisms to avoid CSRF, such as JWT:</p>
 <pre><code class="lang-js">server({
   security: {
     csrf: false
@@ -387,8 +450,8 @@ SECURITY_XSSFILTER
   }
 });
 </code></pre>
-<p>This allows you for instance to handle some specific errors in a different way.</p>
-<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/options">Options</a><a class="button" href="/documentation/context">Context</a><a class="button" href="/documentation/router">Router</a><a class="button" href="/documentation/reply">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Add language tag to the code for print
+<p>This allows you for instance to handle some specific errors in a different way. It is also useful for testing that the correct data is printed on the console in certain situations.</p>
+<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Add language tag to the code for print
 const regName = /lang(uage)?\-/;
 const hasName = name => regName.test(name);
 const map = { js: 'javascript', jade: 'pug' };
