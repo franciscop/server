@@ -147,7 +147,7 @@ if (u('article.documentation').length) {
   });
 }
 
-u('.main h1, .main h2, .main h3, .main h4, .main h5').each(el => {
+u('.main h2, .main h3, .main h4, .main h5').each(el => {
   const path = `${window.location.pathname.split('#')[0]}#${el.id}`;
   u(el).html(`<a href="${path}"><span class="self">#</span>${u(el).html()}</a>`);
 });
