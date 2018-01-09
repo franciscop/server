@@ -173,8 +173,17 @@ if (u('article.documentation').length) {
     if (initial) {
       search(initial);
     }
+    // Autofocus only on desktop
+    var isTouch = 'ontouchstart' in document.documentElement;
+    if (!isTouch) {
+      u('.search').first().focus();
+    }
     u('.search').on('input', e => {
       search(e.target.value);
+    });
+    u('.searchform').handle('submit', e => {
+      search(u('.search').first().value);
+      u('.searchbox a').first().click();
     });
   });
 }
