@@ -477,7 +477,11 @@ if (u('article.documentation').length) {
   Promise.all(searchLinks.map(link => fetch(link).then(res => res.text()).then(html => {
     u('<div>').html(html).find('article.documentation h1, article.documentation h2, article.documentation h3, article.documentation h4').each(el => {
       if (el.id) {
-        headings[`${link}#${el.id}`] = u(el).text();
+        if (el.nodeName === 'H1') {
+          headings[`${link}`] = u(el).text();
+        } else {
+          headings[`${link}#${el.id}`] = u(el).text();
+        }
       }
     });
     all[link] = u('<div>').html(html).find('article.documentation .main').text().toLowerCase();
