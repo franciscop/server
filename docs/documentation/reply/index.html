@@ -412,6 +412,13 @@ Prism.hooks.add('after-highlight', function(env){
   });
 });
 
+// Syntax highlighting changes vertical align. This makes it to scroll back
+// to the current hash (if any) after page load+highlight
+const hash = window.location.hash;
+if (hash && u(hash).length) {
+  u(hash).scroll();
+}
+
 // Show more/less when clicking the chevron
 u('.toc .more').handle('click', e => {
   const container = u(e.currentTarget).closest('li');
