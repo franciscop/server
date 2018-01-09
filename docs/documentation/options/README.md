@@ -176,7 +176,7 @@ const options = {
 /* test */
 const same = ctx => ({ public: ctx.options.public });
 const res = await run(options, same).get('/');
-expect(res.body.public).toBe(process.cwd() + '/public');
+expect(res.body.public).toBe(path.join(process.cwd() + '/public'));
 ```
 
 To set the root folder specify it as `'./'`:
@@ -221,7 +221,7 @@ const options = {
 /* test */
 const same = ctx => ({ views: ctx.options.views });
 const res = await run(options, same).get('/');
-expect(res.body.views).toBe(process.cwd() + '/views');
+expect(res.body.views).toBe(path.join(process.cwd(), 'views') + path.sep);
 ```
 
 To set the root folder specify it as `'./'`:
@@ -234,7 +234,7 @@ const options = {
 /* test */
 const same = ctx => ({ views: ctx.options.views });
 const res = await run(options, same).get('/');
-expect(res.body.views).toBe(process.cwd() + '/');
+expect(res.body.views).toBe(process.cwd() + path.sep);
 ```
 
 If you don't have any view file you don't have to create the folder. The files within `views` should all have an extension such as `.hbs`, `.pug`, etc. To see how to install and use those keep reading.

@@ -98,6 +98,9 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
         value = path.join(process.cwd(), value);
       }
       value = path.normalize(value);
+      if (def.folder && value[value.length - 1] !== path.sep) {
+        value = value + path.sep;
+      }
     }
 
     // A final hook for the schema to call up on the value

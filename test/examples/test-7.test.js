@@ -3,6 +3,8 @@ const { render, json } = require('server/reply');
 const { get, post } = require('server/router');
 const { modern } = require('server').utils;
 const run = require('server/test/run');
+const fs = require('mz/fs');
+const path = require('path');
 
 describe('Automatic test from content 7', () => {
   it('works', async () => {
