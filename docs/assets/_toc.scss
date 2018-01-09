@@ -4,6 +4,30 @@
   margin: -3px 0 0 -3px;
   max-height: calc(100vh - 50px);
   top: 30px;
+
+  .search {
+    width: calc(100% - 10px);
+    margin: 5px 0 5px 10px;
+    border-color: #ccc;
+
+    &.active {
+      border-color: $primary-color;
+    }
+  }
+
+  .searchbox ul {
+    width: calc(100% - 10px);
+    margin-left: 10px;
+  }
+
+  .searchbox .tip {
+    color: #888;
+    font-size: .8em;
+  }
+
+  .searchbox li a {
+    flex: 0 0 100%;
+  }
 }
 
 @media all and (min-width: 700px) {
@@ -87,6 +111,14 @@
   margin: 0;
   list-style: none;
   position: relative;
+
+  &.hidden {
+    display: none;
+  }
+}
+
+.toc > ul {
+  margin-bottom: 50px;
 }
 
 .toc li {

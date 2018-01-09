@@ -82,9 +82,74 @@ const map = { js: 'javascript', jade: 'pug' };
 });
 
 // Display the proper part in the TOC
-u('.toc [href]').filter(el => {
+const tocLinks = u('.toc [href]');
+tocLinks.filter(el => {
   return u(el).attr('href').split('#')[0] === window.location.pathname;
 }).parent().addClass('active');
+
+// Build the search
+if (u('article.documentation').length) {
+  const base = el => u(el).attr('href').split('#')[0];
+  const unique = (value, i, all) => all.indexOf(value) === i;
+  const searchLinks = tocLinks.nodes.map(base).filter(unique);
+  const all = {};
+  const headings = {};
+  Promise.all(searchLinks.map(link => fetch(link).then(res => res.text()).then(html => {
+    u('<div>').html(html).find('article.documentation h1, article.documentation h2, article.documentation h3, article.documentation h4').each(el => {
+      if (el.id) {
+        headings[`${link}#${el.id}`] = u(el).text();
+      }
+    });
+    all[link] = u('<div>').html(html).find('article.documentation .main').text().toLowerCase();
+  }))).then(() => {
+
+    const search = term => {
+      if (!term) {
+        u('.search').removeClass('active');
+        u('.searchbox').html('<ul></ul>');
+        u('.toc > ul').removeClass('hidden');
+        return;
+      }
+      u('.toc > ul').addClass('hidden');
+      u('.search').addClass('active');
+      const value = term.toLowerCase();
+      u('.searchbox').html('<ul></ul>');
+      const found = [];
+      for (let link in headings) {
+        if (headings[link].toLowerCase().includes(value)) {
+          found.push(link.split('#')[0]);
+          u('.searchbox ul').append(`<li><a href="${link}">★ ${headings[link]}</a></li>`);
+        }
+      }
+      let extra = false;
+      for (let link in all) {
+        if (all[link].includes(value) && !found.includes(link)) {
+          if (!extra) {
+            u('.searchbox ul').append('<li class="tip">Also mentioned here:</li>');
+          }
+          extra = true;
+          u('.searchbox ul').append(`<li><a href="${link}">${link}</a></li>`);
+        }
+      }
+      u('.searchbox a').on('click', e => {
+        u('.search').removeClass('active');
+        u('.search').first().value = '';
+        u('.searchbox').html('<ul></ul>');
+        u('.toc > ul').removeClass('hidden');
+      });
+    };
+
+    const initial = u('.search').first().value;
+    if (initial) {
+      search(initial);
+    }
+    u('.search').on('input', e => {
+      search(e.target.value);
+    });
+  });
+}
+
+
 
 // Remove an incorrect "get" that there was highlighted
 Prism.hooks.add('after-highlight', function(env){
@@ -122,8 +187,10 @@ u('.toc .more').handle('click', e => {
 });
 
 // Go to the appropriate part of the page when clicking an internal link
-u('a').on('click', e => {
-  const href = u(e.currentTarget).attr('href');
+// Manual event delegation
+u('article').on('click', e => {
+  if (e.target.nodeName !== 'A') return;
+  const href = u(e.target).attr('href');
   if (!href) return;
   const [url, hash] = href.split('#');
 

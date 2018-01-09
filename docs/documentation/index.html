@@ -1,4 +1,4 @@
-<!DOCTYPE html><html class="initial"><head><title>Documentation - server.js</title><meta property="og:title" content="Documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Full documentation of server.js API and methodologies."/><meta property="og:description" content="Full documentation of server.js API and methodologies."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/code.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex"><section class="toc"><h2><a href="/documentation/">Documentation</a></h2><ul><li><label class="more"></label><a href="/documentation/">Introduction</a><ul><li><a href="/documentation/#getting-started">Getting started</a></li><li><a href="/documentation/#basic-usage">Basic usage</a></li><li><a href="/documentation/#middleware">Middleware</a></li><li><a href="/documentation/#express-middleware">Express middleware</a></li><li><a href="/documentation/#cors">CORS</a></li><li><a href="/documentation/#routing">Routing</a></li><li><a href="/documentation/#advanced-topics">Advanced topics</a></li></ul></li><li><label class="more"></label><a href="/documentation/options/">Options</a><ul><li><a href="/documentation/options/#port">Port</a></li><li><a href="/documentation/options/#secret">Secret</a></li><li><a href="/documentation/options/#public">Public</a></li><li><a href="/documentation/options/#views">Views</a></li><li><a href="/documentation/options/#engine">Engine</a></li><li><a href="/documentation/options/#env">Env</a></li><li><a href="/documentation/options/#favicon">Favicon</a></li><li><a href="/documentation/options/#parse">Parse</a></li><li><a href="/documentation/options/#session">Session</a></li><li><a href="/documentation/options/#security">Security</a></li><li><a href="/documentation/options/#log">Log</a></li></ul></li><li><label class="more"></label><a href="/documentation/context/">Context</a><ul><li><a href="/documentation/context/#-options">.options</a></li><li><a href="/documentation/context/#-data">.data</a></li><li><a href="/documentation/context/#-params">.params</a></li><li><a href="/documentation/context/#-query">.query</a></li><li><a href="/documentation/context/#-session">.session</a></li><li><a href="/documentation/context/#-headers">.headers</a></li><li><a href="/documentation/context/#-cookie">.cookie</a></li><li><a href="/documentation/context/#-files">.files</a></li><li><a href="/documentation/context/#-ip">.ip</a></li><li><a href="/documentation/context/#-url">.url</a></li><li><a href="/documentation/context/#-method">.method</a></li><li><a href="/documentation/context/#-path">.path</a></li><li><a href="/documentation/context/#-secure">.secure</a></li><li><a href="/documentation/context/#-xhr">.xhr</a></li></ul></li><li><label class="more"></label><a href="/documentation/router/">Router</a><ul><li><a href="/documentation/router/#get-">get()</a></li><li><a href="/documentation/router/#post-">post()</a></li><li><a href="/documentation/router/#put-">put()</a></li><li><a href="/documentation/router/#del-">del()</a></li><li><a href="/documentation/router/#error-">error()</a></li><li><a href="/documentation/router/#sub-">sub()</a></li><li><a href="/documentation/router/#socket-">socket()</a></li></ul></li><li><label class="more"></label><a href="/documentation/reply/">Reply</a><ul><li><a href="/documentation/reply/#cookie-">cookie()</a></li><li><a href="/documentation/reply/#download-">download()</a></li><li><a href="/documentation/reply/#header-">header()</a></li><li><a href="/documentation/reply/#json-">json()</a></li><li><a href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a href="/documentation/reply/#redirect-">redirect()</a></li><li><a href="/documentation/reply/#render-">render()</a></li><li><a href="/documentation/reply/#send-">send()</a></li><li><a href="/documentation/reply/#status-">status()</a></li><li><a href="/documentation/reply/#type-">type()</a></li></ul></li></ul></section><div class="main"><h1 id="documentation">Documentation</h1>
+<!DOCTYPE html><html class="initial"><head><title>Documentation - server.js</title><meta property="og:title" content="Documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Full documentation of server.js API and methodologies."/><meta property="og:description" content="Full documentation of server.js API and methodologies."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/code.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex"><section class="toc"><h2><a href="/documentation/">Documentation</a></h2><input class="search" placeholder="search"><div class="searchbox"></div><ul><li><label class="more"></label><a href="/documentation/">Introduction</a><ul><li><a href="/documentation/#getting-started">Getting started</a></li><li><a href="/documentation/#basic-usage">Basic usage</a></li><li><a href="/documentation/#middleware">Middleware</a></li><li><a href="/documentation/#express-middleware">Express middleware</a></li><li><a href="/documentation/#cors">CORS</a></li><li><a href="/documentation/#routing">Routing</a></li><li><a href="/documentation/#advanced-topics">Advanced topics</a></li></ul></li><li><label class="more"></label><a href="/documentation/options/">Options</a><ul><li><a href="/documentation/options/#port">Port</a></li><li><a href="/documentation/options/#secret">Secret</a></li><li><a href="/documentation/options/#public">Public</a></li><li><a href="/documentation/options/#views">Views</a></li><li><a href="/documentation/options/#engine">Engine</a></li><li><a href="/documentation/options/#env">Env</a></li><li><a href="/documentation/options/#favicon">Favicon</a></li><li><a href="/documentation/options/#parse">Parse</a></li><li><a href="/documentation/options/#session">Session</a></li><li><a href="/documentation/options/#security">Security</a></li><li><a href="/documentation/options/#log">Log</a></li></ul></li><li><label class="more"></label><a href="/documentation/context/">Context</a><ul><li><a href="/documentation/context/#-options">.options</a></li><li><a href="/documentation/context/#-data">.data</a></li><li><a href="/documentation/context/#-params">.params</a></li><li><a href="/documentation/context/#-query">.query</a></li><li><a href="/documentation/context/#-session">.session</a></li><li><a href="/documentation/context/#-headers">.headers</a></li><li><a href="/documentation/context/#-cookie">.cookie</a></li><li><a href="/documentation/context/#-files">.files</a></li><li><a href="/documentation/context/#-ip">.ip</a></li><li><a href="/documentation/context/#-url">.url</a></li><li><a href="/documentation/context/#-method">.method</a></li><li><a href="/documentation/context/#-path">.path</a></li><li><a href="/documentation/context/#-secure">.secure</a></li><li><a href="/documentation/context/#-xhr">.xhr</a></li></ul></li><li><label class="more"></label><a href="/documentation/router/">Router</a><ul><li><a href="/documentation/router/#get-">get()</a></li><li><a href="/documentation/router/#post-">post()</a></li><li><a href="/documentation/router/#put-">put()</a></li><li><a href="/documentation/router/#del-">del()</a></li><li><a href="/documentation/router/#error-">error()</a></li><li><a href="/documentation/router/#sub-">sub()</a></li><li><a href="/documentation/router/#socket-">socket()</a></li></ul></li><li><label class="more"></label><a href="/documentation/reply/">Reply</a><ul><li><a href="/documentation/reply/#cookie-">cookie()</a></li><li><a href="/documentation/reply/#download-">download()</a></li><li><a href="/documentation/reply/#header-">header()</a></li><li><a href="/documentation/reply/#json-">json()</a></li><li><a href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a href="/documentation/reply/#redirect-">redirect()</a></li><li><a href="/documentation/reply/#render-">render()</a></li><li><a href="/documentation/reply/#send-">send()</a></li><li><a href="/documentation/reply/#status-">status()</a></li><li><a href="/documentation/reply/#type-">type()</a></li></ul></li></ul></section><div class="main"><h1 id="documentation">Documentation</h1>
 <p>Conceptually <strong>server</strong> is a function that accepts options and other functions. The heavy lifting is already implemented <strong>so you can focus on your project</strong>:</p>
 <pre><code class="lang-js">// Import the variable into the file
 const server = require(&#39;server&#39;);
@@ -233,9 +233,74 @@ const map = { js: 'javascript', jade: 'pug' };
 });
 
 // Display the proper part in the TOC
-u('.toc [href]').filter(el => {
+const tocLinks = u('.toc [href]');
+tocLinks.filter(el => {
   return u(el).attr('href').split('#')[0] === window.location.pathname;
 }).parent().addClass('active');
+
+// Build the search
+if (u('article.documentation').length) {
+  const base = el => u(el).attr('href').split('#')[0];
+  const unique = (value, i, all) => all.indexOf(value) === i;
+  const searchLinks = tocLinks.nodes.map(base).filter(unique);
+  const all = {};
+  const headings = {};
+  Promise.all(searchLinks.map(link => fetch(link).then(res => res.text()).then(html => {
+    u('<div>').html(html).find('article.documentation h1, article.documentation h2, article.documentation h3, article.documentation h4').each(el => {
+      if (el.id) {
+        headings[`${link}#${el.id}`] = u(el).text();
+      }
+    });
+    all[link] = u('<div>').html(html).find('article.documentation .main').text().toLowerCase();
+  }))).then(() => {
+
+    const search = term => {
+      if (!term) {
+        u('.search').removeClass('active');
+        u('.searchbox').html('<ul></ul>');
+        u('.toc > ul').removeClass('hidden');
+        return;
+      }
+      u('.toc > ul').addClass('hidden');
+      u('.search').addClass('active');
+      const value = term.toLowerCase();
+      u('.searchbox').html('<ul></ul>');
+      const found = [];
+      for (let link in headings) {
+        if (headings[link].toLowerCase().includes(value)) {
+          found.push(link.split('#')[0]);
+          u('.searchbox ul').append(`<li><a href="${link}">★ ${headings[link]}</a></li>`);
+        }
+      }
+      let extra = false;
+      for (let link in all) {
+        if (all[link].includes(value) && !found.includes(link)) {
+          if (!extra) {
+            u('.searchbox ul').append('<li class="tip">Also mentioned here:</li>');
+          }
+          extra = true;
+          u('.searchbox ul').append(`<li><a href="${link}">${link}</a></li>`);
+        }
+      }
+      u('.searchbox a').on('click', e => {
+        u('.search').removeClass('active');
+        u('.search').first().value = '';
+        u('.searchbox').html('<ul></ul>');
+        u('.toc > ul').removeClass('hidden');
+      });
+    };
+
+    const initial = u('.search').first().value;
+    if (initial) {
+      search(initial);
+    }
+    u('.search').on('input', e => {
+      search(e.target.value);
+    });
+  });
+}
+
+
 
 // Remove an incorrect "get" that there was highlighted
 Prism.hooks.add('after-highlight', function(env){
@@ -273,8 +338,10 @@ u('.toc .more').handle('click', e => {
 });
 
 // Go to the appropriate part of the page when clicking an internal link
-u('a').on('click', e => {
-  const href = u(e.currentTarget).attr('href');
+// Manual event delegation
+u('article').on('click', e => {
+  if (e.target.nodeName !== 'A') return;
+  const href = u(e.target).attr('href');
   if (!href) return;
   const [url, hash] = href.split('#');
 
