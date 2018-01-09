@@ -79,6 +79,19 @@ article {
     margin: 0;
     padding-top: 25px;
     padding-bottom: 0;
+
+    a {
+      color: inherit;
+    }
+
+    a:hover {
+      color: #0074d9;
+    }
+  }
+
+  .self {
+    float: right;
+    margin-right: 5px;
   }
 
   h1 {
