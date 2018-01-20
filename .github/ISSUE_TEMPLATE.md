@@ -19,3 +19,5 @@
 **OS:** MacOS High Sierra, Windows 10, etc.
 
 **Node Version:** v8.9.1
+
+**Server.js Version:** 1.0.14
