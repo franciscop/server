@@ -145,7 +145,7 @@ Finally, let's implement the database access logic inside each of these 4 functi
 
 ```js
 // todo.js
-const { json } = require('server/reply');
+const { status, json } = require('server/reply');
 const Todo = require('./model');
 
 exports.read = async (ctx) => {

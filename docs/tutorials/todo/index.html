@@ -100,7 +100,7 @@ export.delete = async ctx =&gt; {};
 <p>These are the 4 basic CRUD operations as shown before. This file will export these asynchronous functions, that will take the context argument <a href="https://serverjs.io/documentation/#middleware">as with any server.js middleware</a> and whatever they return will be used for the response.</p>
 <p>Finally, let&#39;s implement the database access logic inside each of these 4 functions:</p>
 <pre><code class="lang-js">// todo.js
-const { json } = require(&#39;server/reply&#39;);
+const { status, json } = require(&#39;server/reply&#39;);
 const Todo = require(&#39;./model&#39;);
 
 exports.read = async (ctx) =&gt; {
