@@ -34,7 +34,7 @@ npm install server mongoose jest
 
 ## Code organization
 
-Since this is a fairly small project we will have all our server files within the root folder. Since this is a back-end project we won't go into detail for the front-end. The project will have these files:
+Since this is a fairly small project focused on the back-end we will have all our server files within the root folder and won't go into detail for the front-end. The project will have these files:
 
 - **public/**: the folder for public assets.
 - **views/**: the folder for the only view.
