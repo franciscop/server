@@ -1,5 +1,6 @@
 $picnic-radius: 0;
 $picnic-breakpoint: 700px;
+$rspacing: 15px;
 
 $primary-color: #f55;
 
@@ -30,10 +31,24 @@ $primary-color: #f55;
 
 pre,
 pre[class*="language-"] {
-  margin-top: 0;
-  padding: .5em .8em;
-  font-size: 1.2em;
-  line-height: 1.3;
+  font-size: 1.1em;
+  // Same as padding
+  margin-left: -$rspacing;
+  padding: 10px $rspacing;
+  width: calc(100% + #{2 * $rspacing});
+}
+
+@media all and (min-width: 900px) {
+  pre,
+  pre[class*="language-"] {
+    font-size: 1em;
+    margin-top: 0;
+    margin-left: 0;
+    width: 100%;
+    padding: .5em .8em;
+    font-size: 1.2em;
+    line-height: 1.3;
+  }
 }
 
 .language-css .token.string,

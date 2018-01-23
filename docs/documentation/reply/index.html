@@ -313,7 +313,13 @@ const mid3 = ctx =&gt; type(&#39;json&#39;);
 const mid4 = ctx =&gt; type(&#39;application/json&#39;);
 const mid5 = ctx =&gt; type(&#39;png&#39;);
 </code></pre>
-<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Add language tag to the code for print
+<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Some super simple heuristics
+const is = {
+  mobile: 'ontouchstart' in document.documentElement && window.innerWidth < 900,
+  desktop: !('ontouchstart' in document.documentElement) && window.innerWidth > 900
+};
+
+// Add language tag to the code for print
 const regName = /lang(uage)?\-/;
 const hasName = name => regName.test(name);
 const map = { js: 'javascript', jade: 'pug' };
@@ -325,9 +331,11 @@ const map = { js: 'javascript', jade: 'pug' };
 
 // Display the proper part in the TOC
 const tocLinks = u('.toc [href]');
-tocLinks.filter(el => {
-  return u(el).attr('href').split('#')[0] === window.location.pathname;
-}).parent().addClass('active');
+if (is.desktop) {
+  tocLinks.filter(el => {
+    return u(el).attr('href').split('#')[0] === window.location.pathname;
+  }).parent().addClass('active');
+}
 
 // Build the search
 if (u('article.documentation').length) {
@@ -390,8 +398,7 @@ if (u('article.documentation').length) {
       search(initial);
     }
     // Autofocus only on desktop
-    var isTouch = 'ontouchstart' in document.documentElement;
-    if (!isTouch) {
+    if (is.desktop) {
       u('.search').first().focus();
     }
     u('.search').on('input', e => {

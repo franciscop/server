@@ -329,7 +329,7 @@ server({ favicon: &#39;public/favicon.png&#39; },
 </code></pre>
 <p>You can <a href="https://github.com/expressjs/session">read more about these options in Express&#39; package documentation</a>.</p>
 <p>All of them are optional. Secret will inherit the secret from the global secret if it is not explicitly set.</p>
-<p>If the session.redis option or <code>REDIS_URL</code> is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in <a href="http://serverjs.io/tutorials/sessions-production/">the tutorial <strong>Sessions in production</strong></a>. Example:</p>
+<p>If the session.redis option or the env <code>REDIS_URL</code> is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in <a href="http://serverjs.io/tutorials/sessions-production/">the tutorial <strong>Sessions in production</strong></a>. Example:</p>
 <pre><code class="lang-bash"># .env
 REDIS_URL=redis://:password@hostname:port/db_number
 </code></pre>
@@ -451,7 +451,13 @@ SECURITY_XSSFILTER
 });
 </code></pre>
 <p>This allows you for instance to handle some specific errors in a different way. It is also useful for testing that the correct data is printed on the console in certain situations.</p>
-<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Add language tag to the code for print
+<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Some super simple heuristics
+const is = {
+  mobile: 'ontouchstart' in document.documentElement && window.innerWidth < 900,
+  desktop: !('ontouchstart' in document.documentElement) && window.innerWidth > 900
+};
+
+// Add language tag to the code for print
 const regName = /lang(uage)?\-/;
 const hasName = name => regName.test(name);
 const map = { js: 'javascript', jade: 'pug' };
@@ -463,9 +469,11 @@ const map = { js: 'javascript', jade: 'pug' };
 
 // Display the proper part in the TOC
 const tocLinks = u('.toc [href]');
-tocLinks.filter(el => {
-  return u(el).attr('href').split('#')[0] === window.location.pathname;
-}).parent().addClass('active');
+if (is.desktop) {
+  tocLinks.filter(el => {
+    return u(el).attr('href').split('#')[0] === window.location.pathname;
+  }).parent().addClass('active');
+}
 
 // Build the search
 if (u('article.documentation').length) {
@@ -528,8 +536,7 @@ if (u('article.documentation').length) {
       search(initial);
     }
     // Autofocus only on desktop
-    var isTouch = 'ontouchstart' in document.documentElement;
-    if (!isTouch) {
+    if (is.desktop) {
       u('.search').first().focus();
     }
     u('.search').on('input', e => {

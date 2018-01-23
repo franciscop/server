@@ -1,3 +1,9 @@
+// Some super simple heuristics
+const is = {
+  mobile: 'ontouchstart' in document.documentElement && window.innerWidth < 900,
+  desktop: !('ontouchstart' in document.documentElement) && window.innerWidth > 900
+};
+
 // Add language tag to the code for print
 const regName = /lang(uage)?\-/;
 const hasName = name => regName.test(name);
@@ -10,9 +16,11 @@ const map = { js: 'javascript', jade: 'pug' };
 
 // Display the proper part in the TOC
 const tocLinks = u('.toc [href]');
-tocLinks.filter(el => {
-  return u(el).attr('href').split('#')[0] === window.location.pathname;
-}).parent().addClass('active');
+if (is.desktop) {
+  tocLinks.filter(el => {
+    return u(el).attr('href').split('#')[0] === window.location.pathname;
+  }).parent().addClass('active');
+}
 
 // Build the search
 if (u('article.documentation').length) {
@@ -75,8 +83,7 @@ if (u('article.documentation').length) {
       search(initial);
     }
     // Autofocus only on desktop
-    var isTouch = 'ontouchstart' in document.documentElement;
-    if (!isTouch) {
+    if (is.desktop) {
       u('.search').first().focus();
     }
     u('.search').on('input', e => {

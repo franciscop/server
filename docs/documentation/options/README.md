@@ -438,7 +438,7 @@ You can [read more about these options in Express' package documentation](https:
 
 All of them are optional. Secret will inherit the secret from the global secret if it is not explicitly set.
 
-If the session.redis option or `REDIS_URL` is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in [the tutorial **Sessions in production**](http://serverjs.io/tutorials/sessions-production/). Example:
+If the session.redis option or the env `REDIS_URL` is set with a Redis URL, a Redis store will be launched to achieve persistence in your sessions. Read more about this in [the tutorial **Sessions in production**](http://serverjs.io/tutorials/sessions-production/). Example:
 
 ```bash
 # .env

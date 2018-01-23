@@ -1,5 +1,3 @@
-$rspacing: 15px;
-
 article {
   width: 100%;
   max-width: 900px;
@@ -147,14 +145,6 @@ article {
     table {
       display: block;
       overflow-x: auto;
-    }
-
-    pre[class*="language-"] {
-      font-size: 1.1em;
-      // Same as padding
-      margin-left: -$rspacing;
-      padding: 10px $rspacing;
-      width: calc(100% + #{2 * $rspacing});
     }
   }
 }
