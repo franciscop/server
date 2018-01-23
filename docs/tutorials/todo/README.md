@@ -1,6 +1,11 @@
+<div>
+  <strong>
+    <a class="button source" href="https://github.com/franciscop/server-tutorial-todo">Source code</a>
+  </strong>
+</div>
+
 # TO-DO list
 
-<a class="button" href="https://github.com/franciscop/server-tutorial-todo">Source code</a>
 
 In this tutorial you will learn to design a basic API to create a list of items. We store them in a MongoDB database using Mongoose and it will be for a single person.
 
@@ -148,17 +153,18 @@ exports.read = async (ctx) => {
 };
 
 exports.create = async (ctx) => {
-  let item = new Todo({ text: ctx.data.text });
+  const item = new Todo({ text: ctx.data.text });
   return status(201).json(await item.save());
 };
 
 exports.update = async (ctx) => {
-  await Todo.findByIdAndUpdate(ctx.req.params.id, { $set: { done: ctx.data.done } }).exec();
+  const set = { $set: { done: ctx.data.done } };
+  await Todo.findByIdAndUpdate(ctx.params.id, set).exec();
   return Todo.find().sort('done').lean().exec();
 };
 
 exports.delete = async (ctx) => {
-  return Todo.findByIdAndRemove(ctx.req.params.id).exec();
+  return Todo.findByIdAndRemove(ctx.params.id).exec();
 };
 ```
 

@@ -1,6 +1,10 @@
-# Spreadsheet database
+<div>
+  <strong>
+    <a class="button source" href="https://github.com/franciscop/server-tutorial-spreadsheet">Source code</a>
+  </strong>
+</div>
 
-<a class="button" href='https://github.com/franciscop/server-tutorial-spreadsheet'>Source code</a>
+# Spreadsheet database
 
 In this tutorial you'll learn how to take a Google Spreadsheet and convert it into a small database for Node.js. We will see some possible applications such as graph statistics and geolocation.
 

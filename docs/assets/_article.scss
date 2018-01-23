@@ -12,6 +12,11 @@ article {
       max-width: 100%;
     }
 
+    .source {
+      float: right;
+      margin: -5px;
+    }
+
     @media all and (min-width: $picnic-breakpoint) {
       margin-top: 50px;
 
