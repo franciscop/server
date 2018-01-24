@@ -9,7 +9,11 @@ const { get, post, put, del, sub, error } = server.router;
 const question = { answer: 42 };
 const mirror = ctx => ctx.data;
 const hello = () => 'Hello 世界';
-const throwError = () => { throw new Error('MockError'); };
+const throwError = () => {
+  const err = new Error('MockError');
+  err.code = 'test';
+  throw err;
+};
 
 
 
@@ -187,9 +191,19 @@ describe('Ends where it should end', () => {
   });
 
 
-  it('does error matching', async () => {
+  it('does generic error matching', async () => {
     let err;
     const res = await run(throwError, error(ctx => {
+      err = ctx.error;
+      return 'Hello world';
+    })).get('/');
+    expect(res.body).toBe('Hello world');
+    expect(err.message).toMatch(/MockError/);
+  });
+
+  it('does path error matching', async () => {
+    let err;
+    const res = await run(throwError, error('test', ctx => {
       err = ctx.error;
       return 'Hello world';
     })).get('/');

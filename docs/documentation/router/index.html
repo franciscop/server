@@ -238,7 +238,7 @@ run(noCsrf, route).del(&#39;/42&#39;);
 // Test it. First let&#39;s define our error in a middleware:
 const throwsError = ctx =&gt; {
   const err = new Error(&#39;This is a test error&#39;);
-  err.name = &#39;special&#39;;
+  err.code = &#39;special&#39;;
   throw err;
 };
 
@@ -249,14 +249,14 @@ run(throwsError, handle).get(&#39;/&#39;);
 <pre><code class="lang-js">// This will be caught since &#39;user&#39; === &#39;user&#39;
 const mid1 = ctx =&gt; {
   const err = new Error(&#39;No username detected&#39;);
-  err.name = &#39;user.noname&#39;;
+  err.code = &#39;user.noname&#39;;
   throw err;
 };
 
 // This will be caught since &#39;user.noname&#39; begins by &#39;user&#39;
 const mid2 = ctx =&gt; {
   const err = new Error(&#39;No username detected&#39;);
-  err.name = &#39;user.noname&#39;;
+  err.code = &#39;user.noname&#39;;
   throw err;
 };
 

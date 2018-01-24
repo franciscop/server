@@ -299,7 +299,7 @@ const handle = error('special', ctx => {
 // Test it. First let's define our error in a middleware:
 const throwsError = ctx => {
   const err = new Error('This is a test error');
-  err.name = 'special';
+  err.code = 'special';
   throw err;
 };
 
@@ -313,14 +313,14 @@ It accepts an optional name and then middleware. If there's no name, it will cat
 // This will be caught since 'user' === 'user'
 const mid1 = ctx => {
   const err = new Error('No username detected');
-  err.name = 'user.noname';
+  err.code = 'user.noname';
   throw err;
 };
 
 // This will be caught since 'user.noname' begins by 'user'
 const mid2 = ctx => {
   const err = new Error('No username detected');
-  err.name = 'user.noname';
+  err.code = 'user.noname';
   throw err;
 };
 
