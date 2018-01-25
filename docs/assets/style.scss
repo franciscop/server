@@ -29,8 +29,8 @@ $primary-color: #f55;
   left: 0;
 }
 
-pre,
-pre[class*="language-"] {
+article pre,
+article pre[class*="language-"] {
   font-size: 1.1em;
   // Same as padding
   margin-left: -$rspacing;
@@ -39,8 +39,8 @@ pre[class*="language-"] {
 }
 
 @media all and (min-width: 900px) {
-  pre,
-  pre[class*="language-"] {
+  article pre,
+  article pre[class*="language-"] {
     font-size: 1em;
     margin-top: 0;
     margin-left: 0;
