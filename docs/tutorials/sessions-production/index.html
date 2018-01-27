@@ -39,6 +39,18 @@ server({ session: { storage } }, [
   // Routes here
 ]);
 </code></pre>
+<p>If you need to use express&#39; session, as some libraries might require you to do, you can access it through <code>server.session</code>:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { modern } = server.utils;
+
+// Mount it on express&#39; session
+const storage = require(&#39;mongodb-store&#39;)(server.session);
+
+server(
+  modern(storage),
+  ...
+);
+</code></pre>
 <h3 id="alternatives">Alternatives</h3>
 <p>Why not just use cookie-session? <a href="http://stackoverflow.com/a/15745086/938236">Here is an explanation of the alternative</a>, but it boils down to:</p>
 <ul>
