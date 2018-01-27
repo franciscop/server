@@ -67,13 +67,13 @@ If you need to use express' session, as some libraries might require you to do, 
 
 ```js
 const server = require('server');
-const { modern } = server.utils;
 
 // Mount it on express' session
-const storage = require('mongodb-store')(server.session);
+const MongoStore = require('connect-mongo')(server.session);
+const store = MongoStore(options);
 
 server(
-  modern(storage),
+  { session: { store } }
   ...
 );
 ```

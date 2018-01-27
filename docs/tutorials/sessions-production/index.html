@@ -41,13 +41,13 @@ server({ session: { storage } }, [
 </code></pre>
 <p>If you need to use express&#39; session, as some libraries might require you to do, you can access it through <code>server.session</code>:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
-const { modern } = server.utils;
 
 // Mount it on express&#39; session
-const storage = require(&#39;mongodb-store&#39;)(server.session);
+const MongoStore = require(&#39;connect-mongo&#39;)(server.session);
+const store = MongoStore(options);
 
 server(
-  modern(storage),
+  { session: { store } }
   ...
 );
 </code></pre>
