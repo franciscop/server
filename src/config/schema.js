@@ -15,8 +15,6 @@ module.exports = {
     clean: (value, option) => {
       if (/^win/.test(process.platform) && value === 'C:\\Users\\Public') {
         value = option.arg.public || option.def.default;
-
-        if (!value) return;
         const fullpath = path.isAbsolute(value) ? value : path.join(process.cwd(), value);
         return path.normalize(fullpath);
       }

@@ -130,12 +130,14 @@ module.exports = function (...middle) {
         ctx: instance
       };
       await cb(api);
-    } catch (err) {
-      if (!instance) {
-        console.log(err);
-      }
-      throw err;
-    } finally {
+    }
+    // catch (err) {
+    //   if (!instance) {
+    //     console.log(err);
+    //   }
+    //   throw err;
+    // }
+    finally {
       instance.close();
     }
   };

@@ -178,9 +178,9 @@ describe('Middleware handles the promise', () => {
 
 describe('validate', () => {
   it('requires a context', async () => {
-    await expect(() => validate()).toThrow();
-    await expect(() => validate({})).toThrow();
-    await expect(() => validate({ req: {} })).toThrow();
-    await expect(() => validate({ res: {} })).toThrow();
+    await expect(() => validate.context()).toThrow();
+    await expect(() => validate.context({})).toThrow();
+    await expect(() => validate.context({ req: {} })).toThrow();
+    await expect(() => validate.context({ res: {} })).toThrow();
   });
 });

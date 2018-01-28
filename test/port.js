@@ -8,12 +8,6 @@ const random = () => 1024 + parseInt(Math.random() * 48151);
 
 // Keep a count of how many times we tried to find a port to avoid infinite loop
 const randPort = (i = 0) => {
-
-  // Too many ports tried and none was available
-  if (i >= limit) {
-    throw new Error('Tried to find a port but none seems available');
-  }
-
   const port = random();
 
   // If "i" is already taken try again

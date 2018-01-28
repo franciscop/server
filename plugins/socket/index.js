@@ -7,6 +7,9 @@ module.exports = {
   options: {},
   router: (path, ...middle) => async ctx => {
     if (ctx.replied) return;
+    if (!path || path === '*') {
+      path = ctx.path;
+    }
     if (ctx.path !== path) return;
 
     ctx.replied = true;
