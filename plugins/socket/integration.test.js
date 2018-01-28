@@ -1,5 +1,5 @@
 const server = require('../../');
-const { socket } = server.router;
+const { socket, error } = server.router;
 
 
 const io = require('socket.io-client');
@@ -33,6 +33,31 @@ describe('socket()', () => {
     }
     expect(hasMessage).toEqual({ hello: 'world' });
     expect(ret).toEqual('Hello');
+  });
+
+  it('can handle errors', async () => {
+    let err;
+    let inst;
+    try {
+      inst = await server({ port: 35454 },
+        socket('*', () => {
+          throw new Error('socketerror');
+        }),
+        error(ctx => {
+          err = ctx.error;
+        })
+      );
+      const client = io('http://localhost:35454/');
+      client.emit('message', { hello: 'world' });
+      await time(300);
+      client.disconnect();
+      await time(300);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      await inst.close();
+    }
+    expect(err.message).toMatch(/socketerror/);
   });
 
   it('can use wildcards', async () => {
