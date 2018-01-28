@@ -4,7 +4,13 @@ const wildcard = require('socketio-wildcard')();
 
 module.exports = {
   name: 'socket',
-  options: {},
+  options: {
+    path: { type: String, env: 'SOCKET_PATH' },
+    serveClient: { type: Boolean, env: 'SOCKET_SERVE_CLIENT' },
+    adapter: {},
+    origins: { type: String, env: 'SOCKET_ORIGINS' },
+    parser: {}
+  },
   router: (path, ...middle) => async ctx => {
     if (ctx.replied) return;
     if (ctx.path !== path && path !== '*') return;
@@ -19,8 +25,7 @@ module.exports = {
     const newCtx = ({ socket, path, data }) => Object.assign({}, ctx, {
       method: 'SOCKET', io: ctx.io, path, socket, data
     });
-
-    ctx.io = socketIO(ctx.server);
+    ctx.io = socketIO(ctx.server, ctx.options.socket);
     ctx.io.use(wildcard);
     ctx.io.on('connect', async socket => {
       socket.on('*', packet => {
