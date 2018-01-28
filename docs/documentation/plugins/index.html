@@ -1,0 +1,384 @@
+<!DOCTYPE html><html class="initial"><head><title>Plugins documentation - server.js</title><meta property="og:title" content="Plugins documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Information about how to create a plugin and why those are useful."/><meta property="og:description" content="Information about how to create a plugin and why those are useful."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/code.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex"><section class="toc"><h2><a href="/documentation/">Documentation</a></h2><form class="searchform"><input class="search" placeholder="search"></form><div class="searchbox"></div><ul><li><label class="more"></label><a href="/documentation/">Introduction</a><ul><li><a href="/documentation/#getting-started">Getting started</a></li><li><a href="/documentation/#basic-usage">Basic usage</a></li><li><a href="/documentation/#middleware">Middleware</a></li><li><a href="/documentation/#express-middleware">Express middleware</a></li><li><a href="/documentation/#cors">CORS</a></li><li><a href="/documentation/#routing">Routing</a></li><li><a href="/documentation/#advanced-topics">Advanced topics</a></li></ul></li><li><label class="more"></label><a href="/documentation/options/">Options</a><ul><li><a href="/documentation/options/#port">Port</a></li><li><a href="/documentation/options/#secret">Secret</a></li><li><a href="/documentation/options/#public">Public</a></li><li><a href="/documentation/options/#views">Views</a></li><li><a href="/documentation/options/#engine">Engine</a></li><li><a href="/documentation/options/#env">Env</a></li><li><a href="/documentation/options/#favicon">Favicon</a></li><li><a href="/documentation/options/#parse">Parse</a></li><li><a href="/documentation/options/#session">Session</a></li><li><a href="/documentation/options/#security">Security</a></li><li><a href="/documentation/options/#log">Log</a></li></ul></li><li><label class="more"></label><a href="/documentation/context/">Context</a><ul><li><a href="/documentation/context/#-options">.options</a></li><li><a href="/documentation/context/#-data">.data</a></li><li><a href="/documentation/context/#-params">.params</a></li><li><a href="/documentation/context/#-query">.query</a></li><li><a href="/documentation/context/#-session">.session</a></li><li><a href="/documentation/context/#-headers">.headers</a></li><li><a href="/documentation/context/#-cookie">.cookie</a></li><li><a href="/documentation/context/#-files">.files</a></li><li><a href="/documentation/context/#-ip">.ip</a></li><li><a href="/documentation/context/#-url">.url</a></li><li><a href="/documentation/context/#-method">.method</a></li><li><a href="/documentation/context/#-path">.path</a></li><li><a href="/documentation/context/#-secure">.secure</a></li><li><a href="/documentation/context/#-xhr">.xhr</a></li></ul></li><li><label class="more"></label><a href="/documentation/router/">Router</a><ul><li><a href="/documentation/router/#get-">get()</a></li><li><a href="/documentation/router/#post-">post()</a></li><li><a href="/documentation/router/#put-">put()</a></li><li><a href="/documentation/router/#del-">del()</a></li><li><a href="/documentation/router/#error-">error()</a></li><li><a href="/documentation/router/#sub-">sub()</a></li><li><a href="/documentation/router/#socket-">socket()</a></li></ul></li><li><label class="more"></label><a href="/documentation/reply/">Reply</a><ul><li><a href="/documentation/reply/#cookie-">cookie()</a></li><li><a href="/documentation/reply/#download-">download()</a></li><li><a href="/documentation/reply/#header-">header()</a></li><li><a href="/documentation/reply/#json-">json()</a></li><li><a href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a href="/documentation/reply/#redirect-">redirect()</a></li><li><a href="/documentation/reply/#render-">render()</a></li><li><a href="/documentation/reply/#send-">send()</a></li><li><a href="/documentation/reply/#status-">status()</a></li><li><a href="/documentation/reply/#type-">type()</a></li></ul></li></ul></section><div class="main"><h1 id="plugins">Plugins</h1>
+<blockquote class="error">
+  If you happen to stumble here, this bit of the documentation is under active construction and should not be used at all. Please help us improve the project and the docs.
+</blockquote>
+
+
+
+
+
+
+<h2 id="create-a-plugin">Create a plugin</h2>
+<h3 id="api">API</h3>
+<p>Here comes the big one, plugins. First, a wish list. I&#39;d like for a plugin to have this API available:</p>
+<pre><code class="lang-js">module.exports = {
+
+  // This is working right now (highly unstable)
+  // String
+  name: &#39;whatever&#39;,
+
+  // Object
+  config: {}
+
+  // Function, Array
+  init: () =&gt; {},
+
+  // Function, Array
+  before: () =&gt; {},
+
+  // Function, Array
+  after: () =&gt; {},
+
+  // Function, Array
+  final: () =&gt; {},
+
+
+  // Not working yet but desirable:
+  // Function (named &#39;whatever&#39; like the plugin), Object with { name: fn } pairs
+  router: () =&gt; {},
+
+  // Function (named &#39;whatever&#39; like the plugin), Object with { name: fn } pairs
+  reply: () =&gt; {}
+};
+</code></pre>
+<p>Now, I am not 100% it makes sense to open <code>router</code> and <code>reply</code> right now. I think there are some situations where it&#39;d be really useful, like sending a PDF back for example:</p>
+<pre><code class="lang-js">// Send a pdf from server
+server(ctx =&gt; pdf(&#39;./readme.pdf&#39;));
+</code></pre>
+<p>But there are many options here and doing it one way might limit some other options. So my first question:</p>
+<h4 id="simple-example-database">Simple example: database</h4>
+<p>Why are these useful? Isn&#39;t is enough with middleware?</p>
+<p>Well no, for instance for database connections it is really useful. Let&#39;s say we develop a <code>@server/mongoose</code> and install it with <code>npm install @server/mongoose</code>. Afterwards, just passing the options and we have access to the db through the context:</p>
+<pre><code class="lang-js">server({ mongoose: &#39;url for mongodb (or in .env)&#39; },
+  get(&#39;/&#39;, ctx =&gt; &#39;Hello world&#39;),
+  get(&#39;/sales&#39;, hasUser, ctx =&gt; ctx.db.sales.find({ user: ctx.user.id }))
+});
+</code></pre>
+<p>This can be applied to anything that has to be connected or configured once initially and later on can be used in the middleware.</p>
+<h4 id="advanced-example-sass">Advanced example: sass</h4>
+<p>It also opens up to new possibilities, let&#39;s see a small example with <code>sass</code>. Let&#39;s say that we want to make a sass plugin that rebuilds the whole thing on each request for dev and only once on production:</p>
+<pre><code class="lang-js">module.exports = {
+  name: &#39;sass&#39;,
+  options: {
+    __root: &#39;source&#39;,
+    source: {
+      default: &#39;style/style.scss&#39;,
+      type: String,
+      file: true
+    },
+    destination: {
+      default: &#39;public/style.css&#39;,
+      type: String
+    }
+  },
+  init: async ctx =&gt; {
+
+    // If `ctx.options.sass.destination` exists and was not generated by @server/sass
+    //   throw an early error and ask for the file to be (re)moved
+
+    // Remove the `ctx.options.sass.destination` file
+
+    if (ctx.options.env === &#39;production&#39;) {
+      // Compile everything and store it in `ctx.options.sass.destination`
+    }
+  },
+
+  // This will only get called in dev+test, since `style.css` will be found in production
+  before: get(&#39;/style.css&#39;, async ctx =&gt; {
+    // Reply with the whole `ctx.options.sass.source` compiled dynamically
+  })
+};
+</code></pre>
+<p>To use it is really simple. First <code>npm install @server/sass</code>, then if your options are the default ones you won&#39;t even need to write any specific javascript for it. Let&#39;s say though that we want to change our source file, which is the <em>root</em> option:</p>
+<pre><code class="lang-js">server({ sass: &#39;./front/style.sass&#39; }, ctx =&gt; render(&#39;index&#39;));
+</code></pre>
+<p>That&#39;s it, with the flexibility of plugins you wouldn&#39;t need any more code to have a sass plugin.</p>
+<p>This is why I think plugins can be really awesome if they are built and documented properly. <strong>What plugin would you like to see?</strong></p>
+<h3 id="options">Options</h3>
+<p>A small exploration about how the options for plugins might look like <strong>for a developer of a plugin</strong>. Now I&#39;ve written quite a few and have a better idea of the possibilities and limitations of them. I will be using <code>log</code> as an example. For the simple way with defaults:</p>
+<pre><code class="lang-js">plugin.options = {
+  level: { default: &#39;info&#39; },
+  reporter: { default: process.stdout },
+  __root: &#39;level&#39;
+};
+</code></pre>
+<p>There are no mandatory fields, however setting a default is strongly recommended. The last root bit would make both of these usages equivalent when using the plugin <code>log</code>:</p>
+<pre><code class="lang-js">server({
+  log: &#39;info&#39;
+});
+
+server({
+  log: { level: &#39;info&#39; }
+});
+</code></pre>
+<p>The <code>.env</code> is also quite straightforward in this situation thanks to the <code>__root</code> option. Both of these are equivalent as well:</p>
+<pre><code class="lang-bash"># Single option
+LOG=info
+
+# Multiple options (note: cannot do a function here though!)
+LOG_LEVEL=info
+</code></pre>
+<p>Now you might want all bells and whistles going on. For instance, let&#39;s define the type of the parameter. This will add a small validate function internally:</p>
+<pre><code class="lang-js">log.options = {
+  level: {
+    default: &#39;info&#39;,
+    type: String
+  }
+};
+</code></pre>
+<p>List of advanced options with their defaults inspired by Mongoose. First, options to use the correct variable:</p>
+<ul>
+<li><code>default</code>: the default to set in case it is not set. Leave it unset and it won&#39;t have a value if it is not explicitly set.</li>
+<li><code>env: NAME || true</code>: defines the name for that variable in the environment variables. If set to false, it will not accept it through the environment.</li>
+<li><code>arg: NAME || true</code>: defines the key of the value for options in <code>server(OPTIONS)</code>. If set to false it will not accept it from the options object (some arguments that MUST only be accepted through the environment).</li>
+<li><code>inherit: NAME || false</code>: passing a name, it inherits the value from a global variable by this order of preference: [validate:] specific environment &gt; global environment &gt; specific argument &gt; global argument &gt; specific default &gt; global default.</li>
+<li><code>find: FN || false</code>: a function that receives the options passed on the main function, then all of the environment and finally the default. It returns the wanted value.</li>
+<li><code>extend: true || false</code>: extend the default value for the unwritten properties with the default props if they are not set. Value passed: <code>{ main: &#39;a&#39;, second: &#39;b&#39; }</code>, <code>{ default: { second: &#39;c&#39;, third: &#39;d&#39; }, extend: true }</code> =&gt; <code>{ main: &#39;a&#39;, second: &#39;b&#39;, third: &#39;d&#39; }</code>.</li>
+</ul>
+<p>Then you can perform several validations:</p>
+<ul>
+<li><code>required: FN || false</code>: make sure the option is set before proceeding. This doesn&#39;t make sense when <code>default</code> is set.</li>
+<li><code>type: false</code>: define the type of the variable. A type or an array of types. Will only check the primitive types <code>Boolean</code>, <code>Number</code>, <code>String</code>, <code>Array</code>, <code>Object</code>. Can be also an array of types.</li>
+<li><code>enum: [&#39;a&#39;, &#39;b&#39;]</code>: the variable should be within the list.</li>
+<li><code>validate: FN || false</code>: defines a function to validate the value. It will accept first the current value, then all the currently set values and must return <code>true</code> for a valid value or <code>false</code> otherwise. Note: this is done AFTER any of the other specific checks like type check or the enumerate check.</li>
+</ul>
+<blockquote>
+<p>Note: all of the functions described here can be either synchronous or asynchronous by returning a Promise (or using the <code>async</code> keyword).</p>
+</blockquote>
+<p>TODO: check the engine for <code>mongoose</code> to see if it makes sense to extract the validation part.</p>
+<h3 id="routes-for-plugins">Routes for Plugins</h3>
+<p>I have long been wondering whether the routes and reply should be extensible. There are advantages and disadvantages to this.</p>
+<p>On one hand, we can stick to more traditional requests workflow: get, post, put, delete and socket seem like a really good scope.</p>
+<p>But then, if you think about plugins and the possibilities there is so much more we can do and make a nice abstraction layer.</p>
+<p>For example, let&#39;s say you are <a href="https://github.com/line/line-bot-sdk-nodejs">making a LINE bot</a> and there is a LINE plugin for server. This plugin can behave as normal:</p>
+<pre><code class="lang-js">server(
+  ..
+  post(&#39;/line&#39;, ctx =&gt; {
+    ctx.line.sendMessage(&#39;Hello world&#39;);
+  })
+);
+</code></pre>
+<p>This is the traditional way. But if we don&#39;t limit ourselves to that, we could be doing it one abstraction level up where the implementation details are invisible:</p>
+<pre><code class="lang-js">const { line } = server.router;
+const { message } = server.reply;
+
+server(
+  line(ctx =&gt; {
+    return message(&#39;Hello world&#39;);
+  })
+);
+</code></pre>
+<p>One of the big issues here would be namespacing. You might want to have a <code>line</code> router but also a <code>line</code> reply, and the same with some of the others I can think right now: <code>sms</code>, <code>email</code>, etc.</p>
+<p>In the example above, you might be tempted to name your reply <code>message()</code>, but so might other plugin.</p>
+<p>Possible solutions: for the plugins you don&#39;t get the router from the main server router, but you get it from the plugin:</p>
+<pre><code class="lang-js">const line = require(&#39;@server/line&#39;);
+
+server(
+  line.router(ctx =&gt; {
+    return line.reply.message();
+  })
+);
+</code></pre>
+<p>This feels too verbose for the otherwise succint server sintax, but right now seems like the best solution.</p>
+<p>Another solution would be namespacing the whole server in general. This would also ease one of the pain points I am finding more and more frequently: having to import every route/reply I want to use manually:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { router, reply } = server;
+
+server(
+  router.get(&#39;/&#39;, ctx =&gt; reply.render(...)),
+  router.post(&#39;/&#39;, ctx =&gt; reply.json(...))
+);
+</code></pre>
+<p>While it is a bit more verbose, it cuts down on the import logic (favoring smaller files), makes things more explicit and clear and it&#39;s really compatible with this idea of plugins:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { router, reply } = server;
+
+server(
+  router.get(&#39;/&#39;, ctx =&gt; reply.render(...)),
+  router.post(&#39;/&#39;, ctx =&gt; reply.json(...)),
+  router.line(ctx =&gt; reply.line(...)),
+  // OR
+  router.line(ctx =&gt; reply.line.message(...))
+);
+</code></pre>
+<h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Some super simple heuristics
+const is = {
+  mobile: 'ontouchstart' in document.documentElement && window.innerWidth < 900,
+  desktop: !('ontouchstart' in document.documentElement) && window.innerWidth > 900
+};
+
+// Add language tag to the code for print
+const regName = /lang(uage)?\-/;
+const hasName = name => regName.test(name);
+const map = { js: 'javascript', jade: 'pug' };
+[].slice.call(document.querySelectorAll('pre code')).forEach(function(pre){
+  if (!regName.test(pre.className)) return;
+  let name = pre.className.split(/\s+/).filter(hasName)[0].replace(regName, '');
+  pre.parentNode.setAttribute('data-language', name in map ? map[name] : name);
+});
+
+// Display the proper part in the TOC
+const tocLinks = u('.toc [href]');
+if (is.desktop) {
+  tocLinks.filter(el => {
+    return u(el).attr('href').split('#')[0] === window.location.pathname;
+  }).parent().addClass('active');
+}
+
+// Build the search
+if (u('article.documentation').length) {
+  const base = el => u(el).attr('href').split('#')[0];
+  const unique = (value, i, all) => all.indexOf(value) === i;
+  const searchLinks = tocLinks.nodes.map(base).filter(unique);
+  const all = {};
+  const headings = {};
+  Promise.all(searchLinks.map(link => fetch(link).then(res => res.text()).then(html => {
+    u('<div>').html(html).find('article.documentation h1, article.documentation h2, article.documentation h3, article.documentation h4').each(el => {
+      if (el.id) {
+        if (el.nodeName === 'H1') {
+          headings[`${link}`] = u(el).text();
+        } else {
+          headings[`${link}#${el.id}`] = u(el).text();
+        }
+      }
+    });
+    all[link] = u('<div>').html(html).find('article.documentation .main').text().toLowerCase();
+  }))).then(() => {
+
+    const search = term => {
+      if (!term) {
+        u('.search').removeClass('active');
+        u('.searchbox').html('<ul></ul>');
+        u('.toc > ul').removeClass('hidden');
+        return;
+      }
+      u('.toc > ul').addClass('hidden');
+      u('.search').addClass('active');
+      const value = term.toLowerCase();
+      u('.searchbox').html('<ul></ul>');
+      const found = [];
+      for (let link in headings) {
+        if (headings[link].toLowerCase().includes(value)) {
+          found.push(link.split('#')[0]);
+          u('.searchbox ul').append(`<li><a href="${link}">★ ${headings[link]}</a></li>`);
+        }
+      }
+      let extra = false;
+      for (let link in all) {
+        if (all[link].includes(value) && !found.includes(link)) {
+          if (!extra) {
+            u('.searchbox ul').append('<li class="tip">Also mentioned here:</li>');
+          }
+          extra = true;
+          u('.searchbox ul').append(`<li><a href="${link}">${link}</a></li>`);
+        }
+      }
+      u('.searchbox a').on('click', e => {
+        u('.search').removeClass('active');
+        u('.search').first().value = '';
+        u('.searchbox').html('<ul></ul>');
+        u('.toc > ul').removeClass('hidden');
+      });
+    };
+
+    const initial = u('.search').first().value;
+    if (initial) {
+      search(initial);
+    }
+    // Autofocus only on desktop
+    if (is.desktop) {
+      u('.search').first().focus();
+    }
+    u('.search').on('input', e => {
+      search(e.target.value);
+    });
+    u('.searchform').handle('submit', e => {
+      search(u('.search').first().value);
+      u('.searchbox a').first().click();
+    });
+  });
+}
+
+u('.main h2, .main h3, .main h4, .main h5').each(el => {
+  const path = `${window.location.pathname.split('#')[0]}#${el.id}`;
+  u(el).html(`<a href="${path}"><span class="self">#</span>${u(el).html()}</a>`);
+});
+
+
+
+// Remove an incorrect "get" that there was highlighted
+Prism.hooks.add('after-highlight', function(env){
+  u('span.token.keyword').each(el => {
+    if (el.innerHTML === 'get') {
+      if (el.nextElementSibling && el.nextElementSibling.innerHTML === '(') {
+        u(el).replace('<span class="token function">get</span>');
+      } else {
+        u(el).replace('get');
+      }
+    }
+    if (el.innerHTML === 'delete') {
+      if (el.previousElementSibling && el.previousElementSibling.innerHTML === '.') {
+        u(el).replace('delete');
+      }
+    }
+    if (el.innerHTML === 'public') u(el).replace('public');
+  });
+});
+
+// Syntax highlighting changes vertical align. This makes it to scroll back
+// to the current hash (if any) after page load+highlight
+const hash = window.location.hash;
+if (hash && u(hash).length) {
+  u(hash).scroll();
+}
+
+// Show more/less when clicking the chevron
+u('.toc .more').handle('click', e => {
+  const container = u(e.currentTarget).closest('li');
+  const child = container.find('ul').nodes[0];
+  const height = container.hasClass('active') ? 0 : child.scrollHeight;
+  child.style.maxHeight = height + 'px';
+  container.toggleClass('active');
+});
+
+// Go to the appropriate part of the page when clicking an internal link
+// Manual event delegation
+u('article').on('click', e => {
+  if (e.target.nodeName !== 'A') return;
+  const href = u(e.target).attr('href');
+  if (!href) return;
+  const [url, hash] = href.split('#');
+
+  // If it is the current URL just go to the top
+  if (url === window.location.pathname && !hash) {
+    e.preventDefault();
+    u('body').scroll();
+    history.replaceState(null, null, window.location.pathname);
+    return;
+  }
+
+  // If it is an internal link go to that part
+  if ((!url || url === window.location.pathname) && u('#' + hash).length) {
+    e.preventDefault();
+    u('#' + hash).scroll();
+    history.replaceState(null, null, '#' + hash);
+  }
+});
+
+
+
+// Google analytics
+(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+})(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+ga('create', 'UA-63739359-2', 'auto');
+ga('send', 'pageview');
+
+
+// Hopefully avoid email scrapping
+setTimeout(function() {
+  u('a.email').attr('href', 'mailto:public' + '@francisco.i' + 'o?subject=server.js');
+}, 2000);
+</script></body></html>
