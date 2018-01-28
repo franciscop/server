@@ -7,10 +7,7 @@ module.exports = {
   options: {},
   router: (path, ...middle) => async ctx => {
     if (ctx.replied) return;
-    if (!path || path === '*') {
-      path = ctx.path;
-    }
-    if (ctx.path !== path) return;
+    if (ctx.path !== path && path !== '*') return;
 
     ctx.replied = true;
     const ret = await ctx.utils.join(middle)(ctx);
@@ -19,24 +16,23 @@ module.exports = {
     }
   },
   listen: ctx => {
+    const newCtx = ({ socket, path, data }) => Object.assign({}, ctx, {
+      method: 'SOCKET', io: ctx.io, path, socket, data
+    });
+
     ctx.io = socketIO(ctx.server);
     ctx.io.use(wildcard);
     ctx.io.on('connect', async socket => {
-
-      const newCtx = ({ path, data } = {}) => Object.assign({}, ctx, {
-        method: 'SOCKET', io: ctx.io, path, socket, data
-      });
-
       socket.on('*', packet => {
         const [path, data] = packet.data;
-        ctx.middle(newCtx({ path, data }));
+        ctx.middle(newCtx({ socket, path, data }));
       });
 
       socket.on('disconnect', () => {
-        ctx.middle(newCtx({ path: 'disconnect' }));
+        ctx.middle(newCtx({ socket, path: 'disconnect' }));
       });
 
-      await ctx.middle(newCtx({ path: 'connect' }));
+      await ctx.middle(newCtx({ socket, path: 'connect' }));
     });
   }
 };

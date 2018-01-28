@@ -35,6 +35,28 @@ describe('socket()', () => {
     expect(ret).toEqual('Hello');
   });
 
+  it('can use wildcards', async () => {
+    let messages = [];
+    let inst;
+    try {
+      inst = await server({ port: 35454 },
+        socket('*', ctx => {
+          messages.push(ctx.path);
+        })
+      );
+      const client = io('http://localhost:35454/');
+      client.emit('message', { hello: 'world' });
+      await time(300);
+      client.disconnect();
+      await time(300);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      await inst.close();
+    }
+    expect(messages).toEqual(['connect', 'message', 'disconnect']);
+  });
+
   it('can perform connection, message and disconnection', async () => {
     const positions = {
 
