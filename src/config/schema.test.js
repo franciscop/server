@@ -1,4 +1,5 @@
 const schema = require('./schema');
+const path = require('path');
 
 const platform = process.platform;
 
@@ -16,16 +17,16 @@ describe('schema', () => {
       arg: { public: './public' },
       def: { default: '/another' }
     });
-    expect(cleaned).toBe(process.cwd() + '/public');
+    expect(cleaned).toBe(process.cwd() + path.sep + 'public');
   });
 
   it('cleans the public from the absolute argument', () => {
     const clean = schema.public.clean;
     const cleaned = clean('C:\\Users\\Public', {
-      arg: { public: process.cwd() + '/public' },
+      arg: { public: process.cwd() + path.sep + 'public' },
       def: { default: '/another' }
     });
-    expect(cleaned).toBe(process.cwd() + '/public');
+    expect(cleaned).toBe(process.cwd() + path.sep + 'public');
   });
 
   it('cleans the public from the relative default', () => {
@@ -34,15 +35,15 @@ describe('schema', () => {
       arg: {},
       def: { default: './another' }
     });
-    expect(cleaned).toBe(process.cwd() + '/another');
+    expect(cleaned).toBe(process.cwd() + path.sep + 'another');
   });
 
   it('cleans the public from the absolute default', () => {
     const clean = schema.public.clean;
     const cleaned = clean('C:\\Users\\Public', {
       arg: {},
-      def: { default: process.cwd() + '/another' }
+      def: { default: process.cwd() + path.sep + 'another' }
     });
-    expect(cleaned).toBe(process.cwd() + '/another');
+    expect(cleaned).toBe(process.cwd() + path.sep + 'another');
   });
 });
