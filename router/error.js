@@ -1,11 +1,10 @@
-const join = require('../src/join');
-const parse = require('./parse');
+const normalize = require('../utils/normalize');
 const params = require('./path-to-regexp-wrap')();
 
 module.exports = (...all) => {
   // Extracted or otherwise it'd shift once per call; also more performant
-  const { path, middle } = parse(all);
-  const match = params(path || '');
+  const { path, middle } = normalize(all);
+  const match = params(path);
 
   const generic = () => {};
   generic.error = async ctx => {

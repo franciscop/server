@@ -1,7 +1,8 @@
 const join = require('../join');
 const modern = require('./index');
+const validate = require('./validate');
 const middle = (req, res, next) => next();
-const ctx = { req: {}, res: {} };
+const ctx = { method: 'GET', req: {}, res: {} };
 
 describe('initializes', () => {
   it('returns a function', () => {
@@ -64,7 +65,7 @@ describe('Middleware handles the promise', () => {
   });
 
   it('keeps the context', async () => {
-    const ctx = { req: 1, res: 2 };
+    const ctx = { method: 'GET', req: 1, res: 2 };
     await modern((req, res, next) => next())(ctx);
     expect(ctx.req).toBe(1);
     expect(ctx.res).toBe(2);
@@ -76,14 +77,14 @@ describe('Middleware handles the promise', () => {
       res.send = 'sending';
       next();
     };
-    const ctx = { req: {}, res: {} };
+    const ctx = { method: 'GET', req: {}, res: {} };
     await modern(middle)(ctx);
     expect(ctx.req.user).toBe('myname');
     expect(ctx.res.send).toBe('sending');
   });
 
   it('has chainable context', async () => {
-    const ctx = { req: { user: 'a' }, res: { send: 'b' } };
+    const ctx = { method: 'GET', req: { user: 'a' }, res: { send: 'b' } };
     const middle = (req, res, next) => {
       req.user += 1;
       res.send += 2;
@@ -98,6 +99,7 @@ describe('Middleware handles the promise', () => {
 
     // The full context
     const ctx = {
+      method: 'GET',
       req: { user: 'a' },
       res: { send: 'b' },
       options: { extra: 1}
@@ -171,5 +173,14 @@ describe('Middleware handles the promise', () => {
     return new Promise(resolve => {
       setTimeout(() => resolve(), 1000);
     });
+  });
+});
+
+describe('validate', () => {
+  it('requires a context', async () => {
+    await expect(() => validate()).toThrow();
+    await expect(() => validate({})).toThrow();
+    await expect(() => validate({ req: {} })).toThrow();
+    await expect(() => validate({ res: {} })).toThrow();
   });
 });

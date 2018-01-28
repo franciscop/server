@@ -3,22 +3,27 @@
 // unhandled error was thrown
 const FinalError = require('./errors');
 
+const { error } = require('../../router');
+const { status } = require('../../reply');
+
 // Make sure that a (404) reply is sent if there was no user reply
-const handler = async ctx => {
-  if (!ctx.res.headersSent) {
+const statusHandler = async ctx => {
+  if (!ctx.res) return;
+  if (ctx.res.headersSent) return;
 
-    // Send the user-set status
-    ctx.res.status(ctx.res.explicitStatus ? ctx.res.statusCode : 404).send();
-
-    // Show it only if there was no status set in a return
-    if (!ctx.res.explicitStatus) {
-      ctx.log.error(new FinalError('noreturn'));
-    }
+  // Send the user-set status
+  if (ctx.res.explicitStatus) {
+    return status(ctx.res.statusCode).send();
   }
+
+  // Show it only if there was no status set in a return
+  const err = new FinalError('noreturn', { status: 404 });
+  ctx.log.error(err.message);
+  return status(404).send();
 };
 
 // Make sure there is a (500) reply if there was an unhandled error thrown
-handler.error = ctx => {
+const errorHandler = ctx => {
   const error = ctx.error;
   ctx.log.warning(FinalError('unhandled'));
   ctx.log.error(error);
@@ -38,6 +43,10 @@ handler.error = ctx => {
 
 module.exports = {
   name: 'final',
-  after: handler
+  // after: handler,
+  after: [
+    statusHandler,
+    error(errorHandler)
+  ]
 };
 // module.exports = handler;

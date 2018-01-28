@@ -1,4 +1,3 @@
-const modern = require('../../src/modern');
 const compress = require('compression');
 
 module.exports = {
@@ -12,5 +11,5 @@ module.exports = {
   },
 
   // The whole plugin won't be loaded if the option is false
-  before: ctx => modern(compress(ctx.options.compress))(ctx)
+  before: ctx => ctx.utils.modern(compress(ctx.options.compress))(ctx)
 };

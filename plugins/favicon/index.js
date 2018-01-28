@@ -1,4 +1,3 @@
-const modern = require('../../src/modern');
 const favicon = require('serve-favicon');
 
 module.exports = {
@@ -14,7 +13,7 @@ module.exports = {
 
   before: [
     ctx => ctx.options.favicon && ctx.options.favicon.location
-      ? modern(favicon(ctx.options.favicon.location))(ctx)
+      ? ctx.utils.modern(favicon(ctx.options.favicon.location))(ctx)
       : false
   ]
 };

@@ -1,4 +1,3 @@
-const modern = require('../../src/modern');
 const csurf = require('csurf');
 const helmet = require('helmet');
 
@@ -49,15 +48,17 @@ module.exports = {
   },
   before: [
     ctx => ctx.options.security && ctx.options.security.csrf
-      ? modern(csurf(ctx.options.security.csrf))(ctx)
+      ? ctx.utils.modern(csurf(ctx.options.security.csrf))(ctx)
       : false,
     ctx => {
       // Set the csrf for render(): https://expressjs.com/en/api.html#res.locals
-      if (ctx.req.csrfToken) {
+      if (ctx.req && ctx.req.csrfToken) {
         ctx.csrf = ctx.req.csrfToken();
         ctx.res.locals.csrf = ctx.csrf;
       }
     },
-    ctx => ctx.options.security ? modern(helmet(ctx.options.security))(ctx) : false
+    ctx => ctx.options.security
+      ? ctx.utils.modern(helmet(ctx.options.security))(ctx)
+      : false
   ]
 };

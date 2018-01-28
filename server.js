@@ -1,67 +1,44 @@
 // server for Node.js (https://serverjs.io/)
 // A simple and powerful server for Node.js.
 
-// Internal modules
+// Parse the configuration
 const config = require('./src/config');
-const router = require('./router');
-const reply = require('./reply');
-const join = require('./src/join/index.js');
-const modern = require('./src/modern');
-
-// Create a context per-request
-const context = (self, req, res) => Object.assign(req, self, { req, res });
 
 // Get the functions from the plugins for a special point
+// This implies a hook can only be a function, not an array of fn
 const hook = (ctx, name) => ctx.plugins.map(p => p[name]).filter(p => p);
 
 
-
 // Main function
-const Server = async (...middle) => {
+const Server = async (...all) => {
 
-  // Initialize the global context
-  const ctx = {};
+  // Initialize the global context from the Server properties
+  const ctx = Object.assign({}, Server);
 
-  // First parameter can be:
-  // - options: Number || Object (cannot be ID'd)
-  // - middleware: undefined || null || Boolean || Function || Array
-  const opts = (
-    typeof middle[0] === 'undefined' ||
-    typeof middle[0] === 'boolean' ||
-    typeof middle[0] === 'string' ||
-    middle[0] === null ||
-    middle[0] instanceof Function ||
-    middle[0] instanceof Array
-  ) ? {} : middle.shift();
+  // Extract the options and middleware
+  const { opts, middle } = ctx.utils.normalize(all);
 
   // Set the options for the context of Server.js
-  ctx.options = await config(opts, module.exports.plugins);
+  ctx.options = await config(opts, Server.plugins);
 
-  // Only enabled plugins through the config
-  ctx.plugins = module.exports.plugins.filter(p => ctx.options[p.name]);
-
-  ctx.utils = { modern: modern };
-  ctx.modern = modern;
+  // Only allow plugins that were manually enabled through the options
+  ctx.plugins = ctx.plugins.filter(p => ctx.options[p.name]);
 
   // All the init beforehand
   for (let init of hook(ctx, 'init')) {
     await init(ctx);
   }
 
+  // Set the whole middleware thing into 'middle'
+  // It has to be here since `init` might modify some of these
+  ctx.middle = ctx.utils.join(hook(ctx, 'before'), middle, hook(ctx, 'after'));
 
+  // Different listening methods in series
+  for (let listen of hook(ctx, 'listen')) {
+    await listen(ctx);
+  }
 
-  // PLUGIN middleware
-  ctx.middle = join(hook(ctx, 'before'), middle, hook(ctx, 'after'));
-
-  // Main thing here
-  ctx.app.use((req, res) => ctx.middle(context(ctx, req, res)));
-
-
-
-  // Different listening methods
-  await Promise.all(hook(ctx, 'listen').map(listen => listen(ctx)));
-
-  // After launching it (already proxified)
+  // Different listening methods in series
   for (let launch of hook(ctx, 'launch')) {
     await launch(ctx);
   }
@@ -70,20 +47,10 @@ const Server = async (...middle) => {
 };
 
 module.exports = Server;
-module.exports.router = router;
-module.exports.reply = reply;
-module.exports.utils = {
-  modern: modern
-};
-module.exports.plugins = [
-  require('./plugins/log'),
-  require('./plugins/express'),
-  require('./plugins/parser'),
-  require('./plugins/static'),
-  require('./plugins/socket'),
-  require('./plugins/session'),
-  require('./plugins/security'),
-  require('./plugins/favicon'),
-  require('./plugins/compress'),
-  require('./plugins/final')
-];
+
+// Internal modules. It has to be after the exports for `session`
+// to be defined, since it is defined in a plugin
+Server.router = require('./router');
+Server.reply = require('./reply');
+Server.utils = require('./utils');
+Server.plugins = require('./plugins');

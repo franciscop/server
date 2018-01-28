@@ -56,6 +56,9 @@ module.exports = {
     }
   },
   listen: ctx => new Promise((resolve, reject) => {
+    const context = (self, req, res) => Object.assign(req, self, { req, res });
+    ctx.app.use((req, res) => ctx.middle(context(ctx, req, res)));
+
     ctx.server = ctx.app.listen(ctx.options.port, () => {
       ctx.log.debug(`Server started on http://localhost:${ctx.options.port}/`);
       resolve();

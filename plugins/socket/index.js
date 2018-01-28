@@ -1,34 +1,39 @@
 // Create a socket plugin
 const socketIO = require('socket.io');
-const extend = require('extend');
-
-const listeners = {};
+const wildcard = require('socketio-wildcard')();
 
 module.exports = {
   name: 'socket',
   options: {},
-  router: (path, middle) => {
-    listeners[path] = listeners[path] || [];
-    listeners[path].push(middle);
+  router: (path, ...middle) => async ctx => {
+    if (ctx.replied) return;
+    if (ctx.path !== path) return;
+
+    ctx.replied = true;
+    const ret = await ctx.utils.join(middle)(ctx);
+    if (ret) {
+      ctx.socket.emit(path, ret);
+    }
   },
-  launch: ctx => {
+  listen: ctx => {
     ctx.io = socketIO(ctx.server);
-    ctx.io.on('connect', socket => {
-      // console.log(socket.client.request.session);
-      for (let path in listeners) {
-        if (path !== 'connect') {
-          listeners[path].forEach(cb => {
-            socket.on(path, data => {
-              cb(extend(socket.client.request, ctx, { path, socket, data }));
-            });
-          });
-        }
-      }
-      if (listeners['connect']) {
-        listeners['connect'].forEach(cb => {
-          cb(extend(socket.client.request, ctx, { path: 'connect', socket }));
-        });
-      }
+    ctx.io.use(wildcard);
+    ctx.io.on('connect', async socket => {
+
+      const newCtx = ({ path, data } = {}) => Object.assign({}, ctx, {
+        method: 'SOCKET', io: ctx.io, path, socket, data
+      });
+
+      socket.on('*', packet => {
+        const [path, data] = packet.data;
+        ctx.middle(newCtx({ path, data }));
+      });
+
+      socket.on('disconnect', () => {
+        ctx.middle(newCtx({ path: 'disconnect' }));
+      });
+
+      await ctx.middle(newCtx({ path: 'connect' }));
     });
   }
 };

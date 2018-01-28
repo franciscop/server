@@ -1,5 +1,3 @@
-const modern = require('../../src/modern');
-
 module.exports = {
   name: 'static',
   options: {
@@ -12,7 +10,7 @@ module.exports = {
   },
   init: ctx => {
     module.exports.before = [
-      modern(ctx.express.static(ctx.options.static.public))
+      ctx.utils.modern(ctx.express.static(ctx.options.static.public))
     ];
   }
 };

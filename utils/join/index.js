@@ -15,7 +15,11 @@ const processReturn = async (ctx, ret) => {
 
   // Create a whole new reply thing
   const fn = typeof ret === 'number' ? 'status' : 'send';
-  return await reply[fn](ret).exec(ctx);
+
+  if (ctx.res) {
+    return await reply[fn](ret).exec(ctx);
+  }
+  return ret;
 };
 
 // Pass an array of modern middleware and return a single modern middleware
@@ -26,6 +30,7 @@ module.exports = (...middles) => {
 
   // Go through each of them
   return async ctx => {
+    let globalReturn = false;
     for (const mid of middle) {
       try {
         // DO NOT MERGE; the else is relevant only for ctx.error
@@ -40,11 +45,12 @@ module.exports = (...middles) => {
         // No error, call next middleware. Skips middleware if there's an error
         else {
           let ret = await mid(ctx);
-          await processReturn(ctx, ret);
+          globalReturn = await processReturn(ctx, ret) || globalReturn;
         }
       } catch (err) {
         ctx.error = err;
       }
     }
+    return globalReturn;
   };
 };

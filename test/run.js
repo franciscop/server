@@ -48,6 +48,8 @@ const serverOptions = async middle => {
   // Create the port when none was specified
   if (synthetic) opts.port = port();
 
+  opts.views = opts.views || process.cwd() + '/test/views/';
+
   // Be able to set global variables from outside
   opts = Object.assign({}, opts, module.exports.options || {}, {
     env: undefined,
@@ -92,6 +94,7 @@ module.exports = function (...middle) {
       res.rawBody = res.body;
       res.body = JSON.parse(res.body);
     }
+    res.data = res.body;
     res.ctx = ctx;
 
     // Close the server once it has all finished

@@ -1,7 +1,8 @@
-const modern = require('../../src/modern');
 const server = require('../../server');
-const session = require('express-session');
-server.session = session;
+
+// THIS IS A BIG EXCEPTION. Do not ever do this:
+server.session = require('express-session');
+
 const RedisStore = require('connect-redis')(server.session);
 let sessionMiddleware;
 
@@ -36,9 +37,9 @@ module.exports = {
     if (!ctx.options.session.store && ctx.options.session.redis) {
       ctx.options.session.store = new RedisStore({ url: ctx.options.session.redis });
     }
-    sessionMiddleware = session(ctx.options.session);
+    sessionMiddleware = server.session(ctx.options.session);
   },
-  before: ctx => modern(sessionMiddleware)(ctx),
+  before: ctx => ctx.utils.modern(sessionMiddleware)(ctx),
   launch: ctx => {
     ctx.io.use(function (socket, next) {
       sessionMiddleware(socket.request, socket.request.res, next);

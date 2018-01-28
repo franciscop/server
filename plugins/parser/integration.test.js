@@ -24,7 +24,22 @@ describe('Default modules', () => {
     expect(res.body).toBe('Hello 世界');
   });
 
-  it('dataParser', async () => {
+  it('uses textParser', async () => {
+    const mid = ctx => ctx.data;
+    const headers = { 'Content-Type': 'text/plain' };
+    const res = await run(mid).post('/', { headers, body: 'Hello 世界' });
+    expect(res.body).toBe('Hello 世界');
+  });
+
+  it('can cancel textParser', async () => {
+    const mid = ctx => ctx.data.length ? 'wrong' : 'right';
+    const headers = { 'Content-Type': 'text/plain' };
+    const options = { parser: { text: false } };
+    const res = await run(options, mid).post('/', { headers, body: 'Hello 世界' });
+    expect(res.body).toBe('right');
+  });
+
+  it('uses dataParser', async () => {
     const mid = ctx => ctx.files.logo;
     const res = await run(mid).post('/', { formData: { logo } });
 
@@ -33,14 +48,31 @@ describe('Default modules', () => {
     expect(res.body.size).toBe(30587);
   });
 
+  it('can cancel dataParser', async () => {
+    const mid = ctx => ctx.data.length ? 'wrong' : 'right';
+    const options = { parser: { data: false }};
+    const res = await run(options, mid).post('/', { formData: { logo } });
+
+    expect(res.body).toBe('right');
+  });
+
   // It can *set* cookies from the server()
   // TODO: it can *get* cookies from the server()
-  it('cookieParser', async () => {
-    const mid = () => cookie('place', '世界').send('Hello 世界');
+  it('uses cookieParser', async () => {
+    const mid = ctx => cookie('hello', ctx.cookies.place).send();
+    const headers = { Cookie: 'place=%E4%B8%96%E7%95%8C' };
+    const res = await run(mid).get('/', { headers });
+    const cookies = res.headers['set-cookie'].join('\n');
+    expect(cookies).toMatch('hello=%E4%B8%96%E7%95%8C');
+  });
 
-    const res = await run(mid).post('/', { body: { place: '世界' } });
-    const cookies = res.headers['set-cookie'].join();
-    expect(cookies).toMatch('place=%E4%B8%96%E7%95%8C');
+  it('can cancel cookieParser', async () => {
+    const mid = ctx => cookie('hello', ctx.cookies.place).send();
+    const headers = { Cookie: 'place=%E4%B8%96%E7%95%8C' };
+    const options = { parser: { cookie: false } };
+    const res = await run(options, mid).get('/', { headers });
+    const cookies = (res.headers['set-cookie'] || []).join('\n');
+    expect(cookies).not.toMatch('hello=%E4%B8%96%E7%95%8C');
   });
 
   // Change the method to the specified one
@@ -53,6 +85,19 @@ describe('Default modules', () => {
 
     const headers = { 'X-HTTP-Method-Override': 'PUT' };
     const res = await run(mid).post('/', { headers });
+    expect(res.body).toBe('Hello 世界');
+  });
+
+  // Change the method to the specified one
+  it('cancel method-override', async () => {
+    const mid = ctx => {
+      expect(ctx.method).toBe('POST');
+      expect(ctx.originalMethod).toBe(undefined);
+      return 'Hello 世界';
+    };
+
+    const headers = { 'X-HTTP-Method-Override': 'PUT' };
+    const res = await run({ parser: { method: false } }, mid).post('/', { headers });
     expect(res.body).toBe('Hello 世界');
   });
 

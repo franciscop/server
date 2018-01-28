@@ -3,7 +3,7 @@ const run = require('server/test/run');
 const { get } = require('server/router');
 const send = require('server/reply/send');
 
-describe('static plugin', () => {
+describe('session plugin', () => {
   it('can handle sessions', async () => {
     return run({ public: 'test' }, [
       get('/a', ctx => {

@@ -67,7 +67,7 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
       }
 
       // Make sure to use the name if we are inheriting with true
-      if (def.env !== false) {
+      if (def.inherit !== false) {
         def.inherit = (def.inherit === true ? name : def.inherit || name);
       }
 

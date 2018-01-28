@@ -1,5 +1,5 @@
 const server = require('../../server');
-const { status } = server.reply;
+const { render, status } = server.reply;
 
 // Test runner:
 const run = require('server/test/run');
@@ -44,13 +44,16 @@ describe('express', () => {
     expect(res.body).toBe('');
   });
 
-  it.skip('uses an engine', async () => {
-    const res = run({
-      express: { engine: {
-        blabla: 'I do not know how to make an engine yet'
-      }}
-    }).get('/');
+  it.only('uses an engine', async () => {
+    const engine = {
+      bla: function (file, options, callback) {
+        callback(null, 'Hello world');
+      }
+    };
+    const res = await run({ engine },
+      () => render('index.bla')
+    ).get('/');
+    expect(res.data).toBe('Hello world');
     expect(res.status).toBe(200);
-    expect(res.body).toBe('');
   });
 });

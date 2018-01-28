@@ -1,31 +1,30 @@
-const join = require('../src/join');
-const parse = require('./parse');
+const normalize = require('../utils/normalize');
 const params = require('./path-to-regexp-wrap')();
 
 // Generic request handler
 module.exports = (method, ...all) => {
 
   // Extracted or otherwise it'd shift once per call; also more performant
-  const { path, middle } = parse(all);
+  const { path, middle } = normalize(all);
 
   const match = params(path || '');
 
   return async ctx => {
 
-    // A route should be solved only once per request
-    if (ctx.req.solved) return;
+    // A route should be replied only once per request
+    if (ctx.replied) return;
 
     // Only for the correct method
-    if (method !== ctx.req.method) return;
+    if (method !== ctx.method) return;
 
     // Only do this if the correct path
-    ctx.req.params = match(ctx.req.path);
-    if (!ctx.req.params) return;
-    ctx.params = ctx.req.params;
+    ctx.params = match(ctx.path);
+    if (!ctx.params) return;
+    ctx.params = ctx.params;
 
     // Perform this promise chain
-    await join(middle)(ctx);
+    await ctx.utils.join(middle)(ctx);
 
-    ctx.req.solved = true;
+    ctx.replied = true;
   };
 };

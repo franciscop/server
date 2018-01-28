@@ -1,16 +1,16 @@
 // Unit - test the router on its own
 const extend = require('extend');
 const loadware = require('loadware');
-const join = require('server/src/join');
 const { get, error } = require('server/router');
 const RouterError = require('./errors');
 
 const run = require('server/test/run');
 
 const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
-  req: { url, path, method },
+  url, path, method,
   res: { send: () => {} },
-  options: {}
+  options: {},
+  utils: require('../utils')
 });
 
 
@@ -55,32 +55,32 @@ describe('server/router works', () => {
     ];
 
     const ctx = createCtx();
-    await join(mid)(ctx);
-    expect(ctx.req.solved).toBe(true);
+    await ctx.utils.join(mid)(ctx);
+    expect(ctx.replied).toBe(true);
   });
 
   it('works even when wrapped with join() and loadware()', async () => {
     const middles = [
       () => new Promise((resolve) => resolve()),
       get('/aaa', () => { throw new Error(); }),
-      join(loadware(get('/', () => 'Hello 世界'))),
+      ctx => ctx.utils.join(loadware(get('/', () => 'Hello 世界')))(ctx),
       get('/sth', () => { throw new Error(); }),
       get('/', () => { throw new Error(); })
     ];
 
     // Returns the promise to be handled async
     const ctx = createCtx();
-    await join(middles)(ctx);
-    expect(ctx.req.solved).toBe(true);
+    await ctx.utils.join(middles)(ctx);
+    expect(ctx.replied).toBe(true);
   });
 
 
   it('works with parameters', async () => {
     const ctx = createCtx({ path: '/test/francisco/presencia/bla' });
     await get('/test/:name/:lastname/bla')(ctx);
-    expect(ctx.req.solved).toBe(true);
-    expect(ctx.req.params.name).toBe('francisco');
-    expect(ctx.req.params.lastname).toBe('presencia');
+    expect(ctx.replied).toBe(true);
+    expect(ctx.params.name).toBe('francisco');
+    expect(ctx.params.lastname).toBe('presencia');
   });
 });
 
