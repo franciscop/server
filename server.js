@@ -1,6 +1,11 @@
 // server for Node.js (https://serverjs.io/)
 // A simple and powerful server for Node.js.
 
+const router = require('./router');
+const reply = require('./reply');
+const utils = require('./utils');
+const plugins = require('./plugins');
+
 // Parse the configuration
 const config = require('./src/config');
 
@@ -13,7 +18,12 @@ const hook = (ctx, name) => ctx.plugins.map(p => p[name]).filter(p => p);
 const Server = async (...all) => {
 
   // Initialize the global context from the Server properties
-  const ctx = Object.assign({}, Server);
+  const ctx = {
+    router,
+    reply,
+    utils,
+    plugins,
+  };
 
   // Extract the options and middleware
   const { opts, middle } = ctx.utils.normalize(all);
@@ -43,14 +53,21 @@ const Server = async (...all) => {
     await launch(ctx);
   }
 
+  ctx.close = async () => {
+    for (let close of hook(ctx, 'close')) {
+      await close(ctx);
+    }
+  };
+
   return ctx;
 };
 
-module.exports = Server;
-
 // Internal modules. It has to be after the exports for `session`
 // to be defined, since it is defined in a plugin
-Server.router = require('./router');
-Server.reply = require('./reply');
-Server.utils = require('./utils');
-Server.plugins = require('./plugins');
+Server.router = router;
+Server.reply = reply;
+Server.utils = utils;
+Server.plugins = plugins;
+Server.session = require('express-session');
+
+module.exports = Server;

@@ -81,9 +81,6 @@ module.exports = function (...middle) {
 
     const ctx = await server(opts, middle, opts.raw ? false : error);
 
-    ctx.close = () => new Promise((resolve, reject) => {
-      ctx.server.close(err => err ? reject(err) : resolve());
-    });
     if (!method) return ctx;
     const res = await request(normalize(method, url, ctx.options.port, reqOpts));
     // Fix small bug. TODO: report it
@@ -118,7 +115,6 @@ module.exports = function (...middle) {
           res.rawBody = res.body;
           res.body = JSON.parse(res.body);
         }
-        // console.log(instance);
         res.ctx = instance;
         return res;
       };
@@ -130,15 +126,11 @@ module.exports = function (...middle) {
         ctx: instance
       };
       await cb(api);
+    } catch (err) {
+      throw err;
     }
-    // catch (err) {
-    //   if (!instance) {
-    //     console.log(err);
-    //   }
-    //   throw err;
-    // }
     finally {
-      instance.close();
+      await instance.close();
     }
   };
   this.get = (url, options) => launch('GET', url, options);
