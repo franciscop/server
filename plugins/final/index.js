@@ -17,7 +17,7 @@ const statusHandler = async ctx => {
   }
 
   // Show it only if there was no status set in a return
-  const err = new FinalError('noreturn', { status: 404 });
+  const err = new FinalError('noreturn', { status: 404, path: ctx.path });
   ctx.log.error(err.message);
   return status(404).send();
 };
