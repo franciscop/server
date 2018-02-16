@@ -3,6 +3,11 @@
 These are the changes for server. Follows semver as long as you use the documented features. If you reach into the internals, make sure to lock the version and follow the changes. Feel free to ask any question in Github :)
 
 
+## 1.0.18 [[reference](https://github.com/franciscop/server/compare/1.0.17...1.0.18)]
+
+- Fixed tag for npm so it doesn't install alphas by default.
+
+
 ## 1.0.17 [[reference](https://github.com/franciscop/server/compare/1.0.16...1.0.17)]
 
 - Forgot a couple of debugging console.log(), so had to re-publish without them.
