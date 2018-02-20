@@ -26,6 +26,10 @@ const normalize = (method, url, port, options) => {
 };
 
 
+const isServer = (potential) => {
+  return potential.close && potential.server && potential.plugins;
+};
+
 
 // Parse the server options
 const serverOptions = async middle => {
@@ -41,14 +45,20 @@ const serverOptions = async middle => {
     middle[0] instanceof Array
   ) ? {} : middle.shift();
 
+  // A server.js instance
+  if (opts instanceof Promise) {
+    opts = await opts;
+  }
+
+  if (isServer(opts)) {
+    return opts;
+  }
+
   // In case the port is the defaults one
-  let synthetic = !opts || !opts.port;
-  await opts;
+  const synthetic = !opts || !opts.port;
 
   // Create the port when none was specified
   if (synthetic) opts.port = port();
-
-  opts.views = opts.views || process.cwd() + '/test/views/';
 
   // Be able to set global variables from outside
   opts = Object.assign({}, opts, module.exports.options || {}, {
@@ -70,16 +80,20 @@ module.exports = function (...middle) {
 
   const launch = async (method, url, reqOpts) => {
 
-    // Parse the server options
-    const opts = await serverOptions(middle);
-
     const error = server.router.error(ctx => {
       if (!ctx.res.headersSent) {
         return server.reply.status(500).send(ctx.error.message);
       }
     });
 
-    const ctx = await server(opts, middle, opts.raw ? false : error);
+    // Parse the server options
+    const opts = await serverOptions(middle);
+
+    // This means it is a server instance
+    // To FIX: it could be just the actual options
+    const ctx = isServer(opts)
+      ? opts
+      : await server(opts, middle, opts.raw ? false : error);
 
     if (!method) return ctx;
     const res = await request(normalize(method, url, ctx.options.port, reqOpts));
@@ -91,7 +105,6 @@ module.exports = function (...middle) {
       res.rawBody = res.body;
       res.body = JSON.parse(res.body);
     }
-    res.data = res.body;
     res.ctx = ctx;
 
     // Close the server once it has all finished
@@ -115,6 +128,7 @@ module.exports = function (...middle) {
           res.rawBody = res.body;
           res.body = JSON.parse(res.body);
         }
+        // console.log(instance);
         res.ctx = instance;
         return res;
       };
@@ -127,10 +141,12 @@ module.exports = function (...middle) {
       };
       await cb(api);
     } catch (err) {
+      if (!instance) {
+        console.log(err);
+      }
       throw err;
-    }
-    finally {
-      await instance.close();
+    } finally {
+      instance.close();
     }
   };
   this.get = (url, options) => launch('GET', url, options);

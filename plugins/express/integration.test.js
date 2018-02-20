@@ -44,7 +44,7 @@ describe('express', () => {
     expect(res.body).toBe('');
   });
 
-  it.only('uses an engine', async () => {
+  it.skip('uses an engine', async () => {
     const engine = {
       bla: function (file, options, callback) {
         callback(null, 'Hello world');
