@@ -1,8 +1,12 @@
+// About disabled eslint: Server uses polymorphism some times to detect
+// express arguments or modern Promise-based functions, so we have to disable this
 const server = require('../../server');
 const { render, status } = server.reply;
 
 // Test runner:
 const run = require('server/test/run');
+
+const views = process.cwd() + '/test/views/';
 
 describe('express', () => {
   it('is defined', () => {
@@ -44,16 +48,49 @@ describe('express', () => {
     expect(res.body).toBe('');
   });
 
-  it.skip('uses an engine', async () => {
+  it('uses an old engine', async () => {
     const engine = {
+      /* eslint-disable */
       bla: function (file, options, callback) {
+      /* eslint-enable */
         callback(null, 'Hello world');
       }
     };
-    const res = await run({ engine },
-      () => render('index.bla')
-    ).get('/');
-    expect(res.data).toBe('Hello world');
+    const res = await run({ views, engine }, () => render('index.bla')).get('/');
+    expect(res.body).toBe('Hello world');
     expect(res.status).toBe(200);
+  });
+
+  it('uses a modern engine', async () => {
+    const engine = {
+      /* eslint-disable */
+      bla: (file, options) => 'Hello world 2'
+      /* eslint-enable */
+    };
+    const res = await run({ views, engine }, () => render('index.bla')).get('/');
+    expect(res.status).toBe(200);
+    expect(res.body).toBe('Hello world 2');
+  });
+
+  it('no engine cannot render anything', async () => {
+    const res = await run({ views, engine: false }, () => render('index.bla')).get('/');
+    expect(res.status).toBe(500);
+    expect(res.body).toMatch(/Cannot find module 'bla'/);
+  });
+
+  it('error in the render propagates', async () => {
+    const engine = { bla: () => { throw new Error('blabla'); } };
+    const res = await run({ views, engine }, () => render('index.bla')).get('/');
+    expect(res.status).toBe(500);
+    expect(res.body).toMatch(/blabla/);
+  });
+
+  it('requires the rendered file in the views folder', async () => {
+    /* eslint-disable */
+    const engine = { blo: (file, options) => 'Hello world' };
+    /* eslint-enable */
+    const res = await run({ views, engine }, () => render('index.blo')).get('/');
+    expect(res.status).toBe(500);
+    expect(res.body).toMatch(/Failed to lookup view "index.blo"/);
   });
 });

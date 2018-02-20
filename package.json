@@ -42,7 +42,7 @@
     "log": "^1.4.0",
     "method-override": "^2.3.10",
     "mz": "^2.6.0",
-    "path-to-regexp": "^0.1.7",
+    "path-to-regexp-wrap": "^1.2.1",
     "pkg-dir": "^2.0.0",
     "pug": "^2.0.0-rc.4",
     "response-time": "^2.3.2",

@@ -57,8 +57,7 @@ module.exports = {
         ctx.res.locals.csrf = ctx.csrf;
       }
     },
-    ctx => ctx.options.security
-      ? ctx.utils.modern(helmet(ctx.options.security))(ctx)
-      : false
+    // The whole plugin will be deactivated if the security is false
+    ctx => ctx.utils.modern(helmet(ctx.options.security))(ctx)
   ]
 };

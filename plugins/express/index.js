@@ -1,5 +1,16 @@
 const express = require('express');
 
+// Transform a modern engine into an old one
+const modernEngine = engine => async (file, opts, cb) => {
+  try {
+    const res = await engine(file, opts);
+    cb(null, res);
+  } catch (err) {
+    cb(err);
+  }
+};
+
+// Main plugin
 module.exports = {
   name: 'express',
   options: {
@@ -34,25 +45,25 @@ module.exports = {
 
     // Go through all of the options and set the right ones
     for (let key in ctx.options.express) {
-      let value = ctx.options.express[key];
-      if (typeof value !== 'undefined') {
-        ctx.app.set(key, value);
-      }
+      ctx.app.set(key, ctx.options.express[key]);
     }
 
     // Accept HTML as a render extension
     ctx.app.engine('html', require('hbs').__express);
 
-    if (ctx.options.engine) {
-      // If it's an object, expect a { engine: { engineName: engineFN } }
-      if (typeof ctx.options.engine === 'object') {
-        for (let name in ctx.options.engine) {
-          ctx.app.engine(name, ctx.options.engine[name]);
-          ctx.app.set('view engine', name);
-        }
-      } else {  // Simple case like { engine: 'pug' }
-        ctx.app.set('view engine', ctx.options.engine);
-      }
+    // No engine, it's easy
+    if (!ctx.options.engine) return;
+
+    // Simple case like { engine: 'pug' }
+    if (typeof ctx.options.engine === 'string') {
+      return ctx.app.set('view engine', ctx.options.engine);
+    }
+
+    // If it's an object, expect a { engine: { engineName: engineFN } }
+    for (let name in ctx.options.engine) {
+      const engine = ctx.options.engine[name];
+      ctx.app.engine(name, engine.length === 3 ? engine : modernEngine(engine));
+      ctx.app.set('view engine', name);
     }
   },
   listen: ctx => new Promise((resolve, reject) => {
@@ -67,6 +78,6 @@ module.exports = {
     ctx.server.on('error', err => reject(err));
   }),
   close: ctx => new Promise((resolve, reject) => {
-    ctx.server.close(err => err ? reject() : resolve());
+    ctx.server.close(err => err ? reject(err) : resolve());
   })
 };

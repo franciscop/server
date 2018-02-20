@@ -1,5 +1,5 @@
 const normalize = require('../utils/normalize');
-const params = require('./path-to-regexp-wrap')();
+const params = require('path-to-regexp-wrap')();
 
 // Generic request handler
 module.exports = (method, ...all) => {
