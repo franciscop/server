@@ -152,7 +152,7 @@ server({ port: 3000 });  // The same as the previous one
 
 /* test */
 const same = ctx =&gt; ({ port: ctx.options.port });
-const res = await run(options, same).get(&#39;/&#39;);
+const res = await test(options, same).get(&#39;/&#39;);
 expect(res.body.port).toBe(5001);
 </code></pre>
 <h2 id="secret">Secret</h2>
@@ -171,7 +171,7 @@ expect(res.body.port).toBe(5001);
 
 /* test */
 const same = ctx =&gt; ({ public: ctx.options.public });
-const res = await run(options, same).get(&#39;/&#39;);
+const res = await test(options, same).get(&#39;/&#39;);
 expect(res.body.public).toBe(path.join(process.cwd() + &#39;/public&#39;));
 </code></pre>
 <p>To set the root folder specify it as <code>&#39;./&#39;</code>:</p>
@@ -181,7 +181,7 @@ expect(res.body.public).toBe(path.join(process.cwd() + &#39;/public&#39;));
 
 /* test */
 const same = ctx =&gt; ({ public: ctx.options.public });
-const res = await run(options, same).get(&#39;/&#39;);
+const res = await test(options, same).get(&#39;/&#39;);
 expect(res.body.public).toBe(process.cwd() + path.sep);
 </code></pre>
 <p>If you don&#39;t want any of your files to be accessible publicly, then you can cancel it through a false or empty value:</p>
@@ -199,7 +199,7 @@ server({ public: &#39;&#39; });
 
 /* test */
 const same = ctx =&gt; ({ views: ctx.options.views });
-const res = await run(options, same).get(&#39;/&#39;);
+const res = await test(options, same).get(&#39;/&#39;);
 expect(res.body.views).toBe(path.join(process.cwd(), &#39;views&#39;) + path.sep);
 </code></pre>
 <p>To set the root folder specify it as <code>&#39;./&#39;</code>:</p>
@@ -209,7 +209,7 @@ expect(res.body.views).toBe(path.join(process.cwd(), &#39;views&#39;) + path.sep
 
 /* test */
 const same = ctx =&gt; ({ views: ctx.options.views });
-const res = await run(options, same).get(&#39;/&#39;);
+const res = await test(options, same).get(&#39;/&#39;);
 expect(res.body.views).toBe(process.cwd() + path.sep);
 </code></pre>
 <p>If you don&#39;t have any view file you don&#39;t have to create the folder. The files within <code>views</code> should all have an extension such as <code>.hbs</code>, <code>.pug</code>, etc. To see how to install and use those keep reading.</p>

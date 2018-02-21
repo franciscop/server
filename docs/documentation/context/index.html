@@ -108,12 +108,12 @@ expect(res.status).toBe(200);
 <pre><code class="lang-bash"># .env
 PORT=80
 </code></pre>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="lang-js">const middle = ctx =&gt; {
   expect(ctx.options.port).toBe(7693);
 };
 
 /* test */
-const res = await test({ port: 7693 }, mid, () =&gt; 200).get(&#39;/&#39;);
+const res = await test({ port: 7693 }, middle, () =&gt; 200).get(&#39;/&#39;);
 expect(res.status).toBe(200);
 </code></pre>
 <h2 id="-data">.data</h2>
@@ -122,9 +122,11 @@ expect(res.status).toBe(200);
   expect(ctx.data).toBe(&#39;Hello 世界&#39;);
 };
 
-// Test it (csrf set to false for testing purposes)
-test(noCsrf, middle).post(&#39;/&#39;, { body: &#39;Hello 世界&#39; });
-test(middle).emit(&#39;message&#39;, &#39;Hello 世界&#39;);
+/* test */
+// Security set to false for testing purposes
+const opts = { body: &#39;Hello 世界&#39; };
+const res = await test({ security: false }, middle, () =&gt; 200).post(&#39;/&#39;, opts);
+expect(res.status).toBe(200);
 </code></pre>
 <p>To handle forms sent normally:</p>
 <pre><code class="lang-pug">//- index.pug
@@ -141,20 +143,21 @@ const { render, redirect } = server.reply;
 server([
   get(ctx =&gt; render(&#39;index.pug&#39;)),
   post(ctx =&gt; {
-    console.log(ctx.data);  // Logs the email
+    console.log(ctx.data.email);  // Logs the email
     return redirect(&#39;/&#39;);
   })
 ]);
 </code></pre>
 <h2 id="-params">.params</h2>
 <p>Parameters from the URL as specified <a href="/documentation/router/">in the route</a>:</p>
-<pre><code class="lang-js">const mid = get(&#39;/:type/:id&#39;, ctx =&gt; {
+<pre><code class="lang-js">const middle = get(&#39;/:type/:id&#39;, ctx =&gt; {
   expect(ctx.params.type).toBe(&#39;dog&#39;);
   expect(ctx.params.id).toBe(&#39;42&#39;);
 });
 
-// Test it
-test(mid).get(&#39;/dog/42&#39;);
+/* test */
+const res = await test(middle, () =&gt; 200).get(&#39;/dog/42&#39;);
+expect(res.status).toBe(200);
 </code></pre>
 <p>They come from parsing <a href="#-path">the <code>ctx.path</code></a> with the <a href="https://www.npmjs.com/package/path-to-regexp">package <code>path-to-regexp</code></a>. Go there to see more information about it.</p>
 <pre><code class="lang-js">const mid = del(&#39;/user/:id&#39;, ctx =&gt; {
