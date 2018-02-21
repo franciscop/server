@@ -19,7 +19,7 @@ describe('Basic router types', () => {
 
     expect(res[0].body).toMatch(/right/);
     expect(res[1].body).toMatch(/wrong/);
-  });
+  }, 50000);
 
   it('accepts several definitions of public correctly', async () => {
     const full = path.join(process.cwd(), 'test');
