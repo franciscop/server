@@ -100,7 +100,7 @@ const { send, json } = require(&#39;server/reply&#39;);
 const middle = ctx =&gt; &#39;Hello 世界&#39;;
 
 // Test it
-const res = await run(middle).get(&#39;/&#39;);
+const res = await test(middle).get(&#39;/&#39;);
 expect(res.body).toBe(&#39;Hello 世界&#39;);
 </code></pre>
 <p>Returning an array or an object will stringify them as JSON:</p>
@@ -121,7 +121,7 @@ server(ctx =&gt; ({ life: 42 }));
 const handler = error(ctx =&gt; ctx.error.message);
 
 // Test it
-const res = await run(middle, handler).get(&#39;/nonexisting&#39;);
+const res = await test(middle, handler).get(&#39;/nonexisting&#39;);
 expect(res.body).toBe(&#39;No body provided&#39;);
 </code></pre>
 <h3 id="multiple-replies">Multiple replies</h3>
@@ -148,7 +148,7 @@ server([
 const setCookie = ctx =&gt; cookie(&#39;foo&#39;, &#39;bar&#39;).send();
 
 // Test
-run(setCookie).get(&#39;/&#39;).then(res =&gt; {
+test(setCookie).get(&#39;/&#39;).then(res =&gt; {
   expect(res.headers[&#39;Set-Cookie:&#39;]).toMatch(/foo\=bar/);
 });
 </code></pre>
@@ -236,7 +236,7 @@ const mid = ctx =&gt; header({
 <pre><code class="lang-js">const mid = ctx =&gt; json({ foo: &#39;bar&#39; });
 
 // Test it
-run(mid).get(&#39;/&#39;).then(res =&gt; {
+test(mid).get(&#39;/&#39;).then(res =&gt; {
   expect(res.body).toEqual(`{&quot;foo&quot;:&quot;bar&quot;}`);
 });
 </code></pre>
@@ -245,7 +245,7 @@ run(mid).get(&#39;/&#39;).then(res =&gt; {
 <pre><code class="lang-js">const mid = ctx =&gt; jsonp({ foo: &#39;bar&#39; });
 
 // Test it
-run(mid).get(&#39;/?callback=callback&#39;).then(res =&gt; {
+test(mid).get(&#39;/?callback=callback&#39;).then(res =&gt; {
   expect(res.body).toMatch(&#39;callback({foo:&quot;bar&quot;})&#39;);
 });
 </code></pre>
@@ -253,7 +253,7 @@ run(mid).get(&#39;/?callback=callback&#39;).then(res =&gt; {
 <pre><code class="lang-js">const mid = ctx =&gt; jsonp({ foo: &#39;bar&#39; });
 
 // Test it
-run(mid).get(&#39;/?callback=foo&#39;).then(res =&gt; {
+test(mid).get(&#39;/?callback=foo&#39;).then(res =&gt; {
   expect(res.body).toMatch(&#39;foo({foo:&quot;bar&quot;})&#39;);
 });
 </code></pre>

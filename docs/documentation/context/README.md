@@ -48,7 +48,7 @@ const mid = ctx => {
 };
 
 /* test */
-const res = await run({ port: 3012 }, mid, () => 200).get('/');
+const res = await test({ port: 3012 }, mid, () => 200).get('/');
 expect(res.status).toBe(200);
 ```
 
@@ -65,7 +65,7 @@ const mid = ctx => {
 };
 
 /* test */
-const res = await run({ port: 7693 }, mid, () => 200).get('/');
+const res = await test({ port: 7693 }, mid, () => 200).get('/');
 expect(res.status).toBe(200);
 ```
 
@@ -82,8 +82,8 @@ const middle = ctx => {
 };
 
 // Test it (csrf set to false for testing purposes)
-run(noCsrf, middle).post('/', { body: 'Hello 世界' });
-run(middle).emit('message', 'Hello 世界');
+test(noCsrf, middle).post('/', { body: 'Hello 世界' });
+test(middle).emit('message', 'Hello 世界');
 ```
 
 To handle forms sent normally:
@@ -125,7 +125,7 @@ const mid = get('/:type/:id', ctx => {
 });
 
 // Test it
-run(mid).get('/dog/42');
+test(mid).get('/dog/42');
 ```
 
 They come from parsing [the `ctx.path`](#-path) with the [package `path-to-regexp`](https://www.npmjs.com/package/path-to-regexp). Go there to see more information about it.
@@ -149,7 +149,7 @@ const mid = ctx => {
 };
 
 // Test it
-run(mid).get('/question?answer=42&name=Francisco');
+test(mid).get('/question?answer=42&name=Francisco');
 ```
 
 
@@ -166,7 +166,7 @@ const mid = ctx => {
 };
 
 // Test that it works
-run(ctx).alive(async ctx => {
+test(ctx).run(async ctx => {
   await api.get('/');
   await api.get('/');
   const res = await api.get('/');
@@ -186,7 +186,7 @@ const mid = ctx => {
 };
 
 // Test it
-run(mid).get('/', { headers: { answer: 42 } });
+test(mid).get('/', { headers: { answer: 42 } });
 ```
 
 
@@ -200,7 +200,7 @@ const mid = ctx => {
   console.log(ctx.cookies);
 };
 
-run(mid).get('/');
+test(mid).get('/');
 ```
 
 
@@ -238,7 +238,7 @@ const mid = ctx => {
   console.log(ctx.ip, '|', ctx.ips);
 };
 
-run(mid).get('/');
+test(mid).get('/');
 ```
 
 
@@ -253,7 +253,7 @@ const mid = ctx => {
   expect(ctx.url).toBe('/hello?answer=42');
 };
 
-run(mid).get('/hello?answer=42');
+test(mid).get('/hello?answer=42');
 ```
 
 
@@ -268,7 +268,7 @@ const mid = ctx => {
 };
 
 // Test it
-run(mid).get('/');
+test(mid).get('/');
 ```
 
 Or other methods:
@@ -279,7 +279,7 @@ const mid = ctx => {
 };
 
 // Test it
-run(noCsrf, mid).post('/');
+test(noCsrf, mid).post('/');
 ```
 
 
@@ -294,7 +294,7 @@ const mid = ctx => {
 };
 
 // Test it
-run(mid).get('/question?answer=42');
+test(mid).get('/question?answer=42');
 ```
 
 
@@ -309,7 +309,7 @@ const mid = ctx => {
 };
 
 // Test it
-run(mid).get('/');
+test(mid).get('/');
 ```
 
 
@@ -323,5 +323,5 @@ const mid = ctx => {
   expect(mid.xhr).toBe(false);
 };
 
-run(mid).get('/');
+test(mid).get('/');
 ```

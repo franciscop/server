@@ -2,7 +2,7 @@
 const { render, json } = require('server/reply');
 const { get, post } = require('server/router');
 const { modern } = require('server').utils;
-const run = require('server/test/run');
+const test = require('server/test');
 const fs = require('mz/fs');
 const path = require('path');
 
@@ -15,7 +15,7 @@ describe('Automatic test from content 3', () => {
     
     /* test */
     const same = ctx => ({ public: ctx.options.public });
-    const res = await run(options, same).get('/');
+    const res = await test(options, same).get('/');
     expect(res.body.public).toBe(path.join(process.cwd() + '/public'));
     // END
   });

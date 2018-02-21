@@ -129,7 +129,7 @@ Handle requests of the type `GET` (loading a webpage):
 const route = get('/', ctx => 'Hello 世界');
 
 // Testing that it actually works
-run(route).get('/').then(res => {
+test(route).get('/').then(res => {
   expect(res.body).toBe('Hello 世界');
 });
 ```
@@ -146,7 +146,7 @@ const route = get('/:page', ctx => {
 });
 
 // Test it
-run(route).get('/hello?name=Francisco').then(res => {
+test(route).get('/hello?name=Francisco').then(res => {
   expect(res.body).toEqual({ page: 'hello', name: 'Francisco' });
 });
 ```
@@ -165,7 +165,7 @@ const route = post('/', ctx => {
 });
 
 // Test our route. Note: csrf disabled for testing purposes
-run(noCsrf, route).post('/', { body: 'Hello 世界' });
+test({ security: false }, route).post('/', { body: 'Hello 世界' });
 ```
 
 The [`data` property](/documentation/context/#data) can be a string or a simple object of `{name: value}` pairs.
@@ -229,7 +229,7 @@ const route = put('/:id', ctx => {
 });
 
 // Test our route. Note: csrf disabled for testing purposes
-run(noCsrf, route).put('/42', { body: 'Hello 世界' });
+test({ security: false }, route).put('/42', { body: 'Hello 世界' });
 ```
 
 The HTML `<form>` does not support `method="PUT"`, however we can overcome this by adding a special field called `_method` to the query:
@@ -264,7 +264,7 @@ const route = del('/:id', ctx => {
 });
 
 // Test our route. Note: csrf disabled for testing purposes
-run(noCsrf, route).del('/42');
+test({ security: false }, route).del('/42');
 ```
 
 The HTML `<form>` does not support `method="DELETE"`, however we can overcome this by adding a special field called `_method` to the query:
@@ -304,7 +304,7 @@ const throwsError = ctx => {
 };
 
 // Then test it faking a request
-run(throwsError, handle).get('/');
+test(throwsError, handle).get('/');
 ```
 
 It accepts an optional name and then middleware. If there's no name, it will catch all of the previously thrown errors. The name will match the **beginning** of the string name, so you can split your errors by domain:

@@ -185,12 +185,12 @@ Then we can import it from the integration tests. Let's create a `test.js`:
 
 ```js
 // test.js
-const run = require('server/test/run');
+const run = require('server/test');
 const server = require('./index.js');
 
 describe('Homepage', () => {
   it('renders the homepage', async () => {
-    const res = await run(server).get('/');
+    const res = await test(server).get('/');
     expect(res.status).toBe(200);
     expect(res.body).toMatch(/\<h1\>TODO list<\/h1>/i);
   });

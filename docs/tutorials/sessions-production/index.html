@@ -13,7 +13,7 @@ const counter = get(&#39;/&#39;, ctx =&gt; {
 });
 
 /* test */
-await run(counter).alive(async api =&gt; {
+await test(counter).run(async api =&gt; {
   let res = await api.get(&#39;/&#39;);
   expect(res.body.views).toBe(1);
   res = await api.get(&#39;/&#39;);

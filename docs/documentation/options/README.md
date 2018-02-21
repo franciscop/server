@@ -134,7 +134,7 @@ const options = {
 
 /* test */
 const same = ctx => ({ port: ctx.options.port });
-const res = await run(options, same).get('/');
+const res = await test(options, same).get('/');
 expect(res.body.port).toBe(5001);
 ```
 
@@ -175,7 +175,7 @@ const options = {
 
 /* test */
 const same = ctx => ({ public: ctx.options.public });
-const res = await run(options, same).get('/');
+const res = await test(options, same).get('/');
 expect(res.body.public).toBe(path.join(process.cwd() + '/public'));
 ```
 
@@ -188,7 +188,7 @@ const options = {
 
 /* test */
 const same = ctx => ({ public: ctx.options.public });
-const res = await run(options, same).get('/');
+const res = await test(options, same).get('/');
 expect(res.body.public).toBe(process.cwd() + path.sep);
 ```
 
@@ -220,7 +220,7 @@ const options = {
 
 /* test */
 const same = ctx => ({ views: ctx.options.views });
-const res = await run(options, same).get('/');
+const res = await test(options, same).get('/');
 expect(res.body.views).toBe(path.join(process.cwd(), 'views') + path.sep);
 ```
 
@@ -233,7 +233,7 @@ const options = {
 
 /* test */
 const same = ctx => ({ views: ctx.options.views });
-const res = await run(options, same).get('/');
+const res = await test(options, same).get('/');
 expect(res.body.views).toBe(process.cwd() + path.sep);
 ```
 

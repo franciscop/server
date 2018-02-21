@@ -22,36 +22,31 @@ module.exports = ctx =&gt; {
 </code></pre>
 <p>Then to test this module:</p>
 <pre><code class="lang-js">// auth/needuser.test.js
-const run = require(&#39;server/test/run&#39;);
+const test = require(&#39;server/test&#39;);
 const needuser = require(&#39;./needuser&#39;);
 
 describe(&#39;auth/needuser.js&#39;, () =&gt; {
   it(&#39;returns a server error without a user&#39;, async () =&gt; {
-    const res = await run(needuser).get(&#39;/&#39;);
+    const res = await test(needuser).get(&#39;/&#39;);
     expect(res.status).toBe(403);
   });
 
   it(&#39;works with a mocked user&#39;, async () =&gt; {
     const mockuser = ctx =&gt; { ctx.user = {}; };
-    const res = await run(mockuser, needuser).get(&#39;/&#39;);
+    const res = await test(mockuser, needuser).get(&#39;/&#39;);
     expect(res.status).toBe(200);
   });
 });
 </code></pre>
-<h2 id="run-">run()</h2>
+<h2 id="test-">test()</h2>
 <p>This function accepts the same arguments as <code>server()</code>, however it will return an API that you can use to test any middleware (and, by extension, any route) that you want. The API that it returns so far is this:</p>
-<pre><code class="lang-js">const run = require(&#39;server/test/run&#39;);
+<pre><code class="lang-js">const test = require(&#39;server/test&#39;);
 
-const api = run(TOTEST);
-
-api.get.then(res =&gt; { ... });
-api.post.then(res =&gt; { ... });
-api.put.then(res =&gt; { ... });
-api.del.then(res =&gt; { ... });
+const api = test(TOTEST).get(&#39;/&#39;);
 </code></pre>
 <h2 id="disable-csrf">Disable CSRF</h2>
 <p>For testing POST, PUT and DELETE methods you might want to disable CSRF. To do that, just pass it the appropriate option:</p>
-<pre><code class="lang-js">run({ security: { csrf: false } }, TOTEST);
+<pre><code class="lang-js">test({ security: { csrf: false } }, TOTEST);
 </code></pre>
 <p>This API accepts as arguments:</p>
 <pre><code class="lang-js">api.get(URL, OPTIONS);

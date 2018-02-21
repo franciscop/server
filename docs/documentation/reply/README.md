@@ -72,7 +72,7 @@ Both in synchronous mode or asyncrhonous mode you can just return a string to cr
 const middle = ctx => 'Hello 世界';
 
 // Test it
-const res = await run(middle).get('/');
+const res = await test(middle).get('/');
 expect(res.body).toBe('Hello 世界');
 ```
 
@@ -103,7 +103,7 @@ const middle = ({ req }) => {
 const handler = error(ctx => ctx.error.message);
 
 // Test it
-const res = await run(middle, handler).get('/nonexisting');
+const res = await test(middle, handler).get('/nonexisting');
 expect(res.body).toBe('No body provided');
 ```
 
@@ -147,7 +147,7 @@ const { cookie } = server.reply;
 const setCookie = ctx => cookie('foo', 'bar').send();
 
 // Test
-run(setCookie).get('/').then(res => {
+test(setCookie).get('/').then(res => {
   expect(res.headers['Set-Cookie:']).toMatch(/foo\=bar/);
 });
 ```
@@ -212,7 +212,7 @@ Sends a JSON response. It accepts a plain object or an array that will be string
 const mid = ctx => json({ foo: 'bar' });
 
 // Test it
-run(mid).get('/').then(res => {
+test(mid).get('/').then(res => {
   expect(res.body).toEqual(`{"foo":"bar"}`);
 });
 ```
@@ -227,7 +227,7 @@ Same as [json()](#json) but wrapped with a callback. [Read more about JSONP](htt
 const mid = ctx => jsonp({ foo: 'bar' });
 
 // Test it
-run(mid).get('/?callback=callback').then(res => {
+test(mid).get('/?callback=callback').then(res => {
   expect(res.body).toMatch('callback({foo:"bar"})');
 });
 ```
@@ -238,7 +238,7 @@ It is useful for loading data Cross-Domain. The query `?callback=foo` **is manda
 const mid = ctx => jsonp({ foo: 'bar' });
 
 // Test it
-run(mid).get('/?callback=foo').then(res => {
+test(mid).get('/?callback=foo').then(res => {
   expect(res.body).toMatch('foo({foo:"bar"})');
 });
 ```

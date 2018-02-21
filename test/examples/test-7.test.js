@@ -2,7 +2,7 @@
 const { render, json } = require('server/reply');
 const { get, post } = require('server/router');
 const { modern } = require('server').utils;
-const run = require('server/test/run');
+const test = require('server/test');
 const fs = require('mz/fs');
 const path = require('path');
 
@@ -16,7 +16,7 @@ describe('Automatic test from content 7', () => {
     });
     
     /* test */
-    await run(counter).alive(async api => {
+    await test(counter).run(async api => {
       let res = await api.get('/');
       expect(res.body.views).toBe(1);
       res = await api.get('/');

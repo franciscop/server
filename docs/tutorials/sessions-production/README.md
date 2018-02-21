@@ -25,7 +25,7 @@ const counter = get('/', ctx => {
 });
 
 /* test */
-await run(counter).alive(async api => {
+await test(counter).run(async api => {
   let res = await api.get('/');
   expect(res.body.views).toBe(1);
   res = await api.get('/');

@@ -3,10 +3,10 @@ const port = require('./port');
 const instance = require('./instance');
 
 // Parse the server options
-module.exports = async (opts, defaults = {}) => {
+module.exports = (opts, defaults = {}) => {
 
   // A server.js instance or the promise of it
-  if (await instance(opts)) {
+  if (instance(opts)) {
     return opts;
   }
 

@@ -131,12 +131,12 @@ module.exports = server(home, api);
 </code></pre>
 <p>Then we can import it from the integration tests. Let&#39;s create a <code>test.js</code>:</p>
 <pre><code class="lang-js">// test.js
-const run = require(&#39;server/test/run&#39;);
+const run = require(&#39;server/test&#39;);
 const server = require(&#39;./index.js&#39;);
 
 describe(&#39;Homepage&#39;, () =&gt; {
   it(&#39;renders the homepage&#39;, async () =&gt; {
-    const res = await run(server).get(&#39;/&#39;);
+    const res = await test(server).get(&#39;/&#39;);
     expect(res.status).toBe(200);
     expect(res.body).toMatch(/\&lt;h1\&gt;TODO list&lt;\/h1&gt;/i);
   });

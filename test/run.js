@@ -2,142 +2,85 @@ const server = require('../');
 const request = require('request-promises');
 const serverOptions = require('./options');
 const instance = require('./instance');
-
-// Make an object with the options as expected by request()
-const normalize = (method, url, port, options) => {
-
-  // Make sure it's a simple object
-  if (typeof options === 'string') options = { url: options };
-
-  // Assign independent parts
-  options = Object.assign({}, options, { url, method });
-
-  // Make sure it has a right URL or localhost otherwise
-  if (!/^https?:\/\//.test(options.url)) {
-    options.url = `http://localhost:${port}${options.url}`;
-  }
-
-  // Set it to send a JSON when appropriate
-  if (options.body && typeof options.body === 'object') {
-    options.json = true;
-  }
-
-  // Finally return the fully formed object
-  return options;
-};
+const generic = require('./generic');
+const handler = require('./handler');
 
 
 
-
+// Prepare a testing instance with the right options and middleware
 const Test = function (...all) {
-
-  // Make sure we are working with an instance
-  if (!(this instanceof Test)) {
-    return new Test(...all);
-  }
 
   // Normalize the request into options and middleware
   const { opts, middle } = server.utils.normalize(all);
-  this.opts = opts;
-  this.middle = middle;
 
-  this.get = (url, options) => this.launch('GET', url, options);
-  this.post = (url, options) => this.launch('POST', url, options);
-  this.put = (url, options) => this.launch('PUT', url, options);
-  this.del = (url, options) => this.launch('DELETE', url, options);
+  // Add options specific to testing like the port number
+  this.opts = serverOptions(opts, module.exports.options);
+
+  // Overload (if wanted) error handler to autorespond with a server error
+  this.middle = this.opts.raw ? middle : [...middle, handler];
+
+  // Some generic requests for quick one-offs
+  this.get = (...req) => this.run(api => api.get(...req));
+  this.post = (...req) => this.run(api => api.post(...req));
+  this.put = (...req) => this.run(api => api.put(...req));
+  this.del = (...req) => this.run(api => api.del(...req));
+
+  // Persistent requests
+  this.request = request.defaults({ jar: request.jar() });
 
   return this;
 };
 
 
 
-// Prepare for testing by overloading the right options and middleware
-Test.prototype.prepare = async function () {
-
-  // Parse the server options
-  this.opts = await serverOptions(this.opts, Test.options);
-
-  // Overload the error handler to autorespond with a server error
-  if (this.opts.raw) return;
-
-  // Final error handler that will respond with 500 and error message if none was set
-  this.middle.push(server.router.error(ctx => {
-    if (ctx.res.headersSent) return;
-    return server.reply.status(500).send(ctx.error.message);
-  }));
-};
-
-
 // Start running the server
 Test.prototype.launch = async function (method, url, reqOpts) {
-
-  // Prepare for testing by overloading the right options and middleware
-  await this.prepare();
 
   const { opts, middle } = this;
 
   // This means it is a server instance
   // To FIX: it could be just the actual options
-  const isServer = await instance(opts);
-  const ctx = isServer ? opts : await server(opts, middle);
-
-  if (!method) return ctx;
-  const res = await request(normalize(method, url, ctx.options.port, reqOpts));
-  // Fix small bug. TODO: report it
-  res.method = res.request.method;
-  res.status = res.statusCode;
-  res.options = ctx.options;
-  if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
-    res.rawBody = res.body;
-    res.body = JSON.parse(res.body);
-  }
-  res.ctx = ctx;
-
-  // Only close it if we launched this instance, otherwise leave it open
-  if (!isServer) {
-    await ctx.close();
-  }
-
-  // Return the response that happened from the server
-  return res;
+  this.launched = instance(opts);
+  return this.launched ? await opts : await server(opts, middle);
 };
 
-Test.prototype.alive = async function (cb) {
-  let instance;
+
+
+// Keep the server alive for as long as the callback is being executed,
+//  then close it if it started within this
+Test.prototype.run = async function (cb) {
+
+  // We want to close the app after launched AND propagate the error
   try {
-    instance = await this.launch();
-    const port = instance.options.port;
-    const requestApi = request.defaults({ jar: request.jar() });
-    const generic = method => async (url, options) => {
-      const res = await requestApi(normalize(method, url, port, options));
-      res.method = res.request.method;
-      res.status = res.statusCode;
-      if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
-        res.rawBody = res.body;
-        res.body = JSON.parse(res.body);
-      }
-      // console.log(instance);
-      res.ctx = instance;
-      return res;
-    };
-    const api = {
-      get: generic('GET'),
-      post: generic('POST'),
-      put: generic('PUT'),
-      del: generic('DELETE'),
-      ctx: instance
-    };
-    await cb(api);
-  } catch (err) {
-    if (!instance) {
-      console.log(err);
-    }
-    throw err;
+
+    // Launch the app and set it to this.app
+    this.app = await this.launch();
+
+    // Need this await since we want to execute the cb within the try/catch. If
+    //   we return a promise then it'd be the parent's responsibility
+    return await cb({
+      get: (...args) => generic(this.app, this.request)('GET', ...args),
+      post: (...args) => generic(this.app, this.request)('POST', ...args),
+      put: (...args) => generic(this.app, this.request)('PUT', ...args),
+      del: (...args) => generic(this.app, this.request)('DELETE', ...args),
+      ctx: this.app
+    });
+
+  // Close it if it was launched from the test runner, otherwise leave it free
   } finally {
-    instance.close();
+    if (!this.launched && this.app) {
+      this.app.close();
+    }
   }
 };
 
-Test.options = {};
 
-module.exports = Test;
+module.exports = (...args) => new Test(...args);
+module.exports.options = {};
+
+
+
+
+
+// test().request('GET', '/bla')
+// const res = test(app).get('/blabla');

@@ -116,7 +116,7 @@ fetch(&#39;/&#39;, {
 const route = get(&#39;/&#39;, ctx =&gt; &#39;Hello 世界&#39;);
 
 // Testing that it actually works
-run(route).get(&#39;/&#39;).then(res =&gt; {
+test(route).get(&#39;/&#39;).then(res =&gt; {
   expect(res.body).toBe(&#39;Hello 世界&#39;);
 });
 </code></pre>
@@ -131,7 +131,7 @@ run(route).get(&#39;/&#39;).then(res =&gt; {
 });
 
 // Test it
-run(route).get(&#39;/hello?name=Francisco&#39;).then(res =&gt; {
+test(route).get(&#39;/hello?name=Francisco&#39;).then(res =&gt; {
   expect(res.body).toEqual({ page: &#39;hello&#39;, name: &#39;Francisco&#39; });
 });
 </code></pre>
@@ -143,7 +143,7 @@ const route = post(&#39;/&#39;, ctx =&gt; {
 });
 
 // Test our route. Note: csrf disabled for testing purposes
-run(noCsrf, route).post(&#39;/&#39;, { body: &#39;Hello 世界&#39; });
+test({ security: false }, route).post(&#39;/&#39;, { body: &#39;Hello 世界&#39; });
 </code></pre>
 <p>The <a href="/documentation/context/#data"><code>data</code> property</a> can be a string or a simple object of <code>{name: value}</code> pairs.</p>
 <p>Example:</p>
@@ -192,7 +192,7 @@ const route = put(&#39;/:id&#39;, ctx =&gt; {
 });
 
 // Test our route. Note: csrf disabled for testing purposes
-run(noCsrf, route).put(&#39;/42&#39;, { body: &#39;Hello 世界&#39; });
+test({ security: false }, route).put(&#39;/42&#39;, { body: &#39;Hello 世界&#39; });
 </code></pre>
 <p>The HTML <code>&lt;form&gt;</code> does not support <code>method=&quot;PUT&quot;</code>, however we can overcome this by adding a special field called <code>_method</code> to the query:</p>
 <pre><code class="lang-html">&lt;form method=&quot;POST&quot; action=&quot;/42?_method=PUT&quot;&gt;
@@ -215,7 +215,7 @@ const route = del(&#39;/:id&#39;, ctx =&gt; {
 });
 
 // Test our route. Note: csrf disabled for testing purposes
-run(noCsrf, route).del(&#39;/42&#39;);
+test({ security: false }, route).del(&#39;/42&#39;);
 </code></pre>
 <p>The HTML <code>&lt;form&gt;</code> does not support <code>method=&quot;DELETE&quot;</code>, however we can overcome this by adding a special field called <code>_method</code> to the query:</p>
 <pre><code class="lang-html">&lt;form method=&quot;POST&quot; action=&quot;/42?_method=DELETE&quot;&gt;
@@ -243,7 +243,7 @@ const throwsError = ctx =&gt; {
 };
 
 // Then test it faking a request
-run(throwsError, handle).get(&#39;/&#39;);
+test(throwsError, handle).get(&#39;/&#39;);
 </code></pre>
 <p>It accepts an optional name and then middleware. If there&#39;s no name, it will catch all of the previously thrown errors. The name will match the <strong>beginning</strong> of the string name, so you can split your errors by domain:</p>
 <pre><code class="lang-js">// This will be caught since &#39;user&#39; === &#39;user&#39;

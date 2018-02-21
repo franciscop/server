@@ -101,7 +101,7 @@ server(middleware);
 };
 
 /* test */
-const res = await run({ port: 3012 }, mid, () =&gt; 200).get(&#39;/&#39;);
+const res = await test({ port: 3012 }, mid, () =&gt; 200).get(&#39;/&#39;);
 expect(res.status).toBe(200);
 </code></pre>
 <p>If we have a variable set in the <code>.env</code> or through some other environment variables, it&#39;ll use that instead as <a href="/documentation/options/">environment options take preference</a>:</p>
@@ -113,7 +113,7 @@ PORT=80
 };
 
 /* test */
-const res = await run({ port: 7693 }, mid, () =&gt; 200).get(&#39;/&#39;);
+const res = await test({ port: 7693 }, mid, () =&gt; 200).get(&#39;/&#39;);
 expect(res.status).toBe(200);
 </code></pre>
 <h2 id="-data">.data</h2>
@@ -123,8 +123,8 @@ expect(res.status).toBe(200);
 };
 
 // Test it (csrf set to false for testing purposes)
-run(noCsrf, middle).post(&#39;/&#39;, { body: &#39;Hello 世界&#39; });
-run(middle).emit(&#39;message&#39;, &#39;Hello 世界&#39;);
+test(noCsrf, middle).post(&#39;/&#39;, { body: &#39;Hello 世界&#39; });
+test(middle).emit(&#39;message&#39;, &#39;Hello 世界&#39;);
 </code></pre>
 <p>To handle forms sent normally:</p>
 <pre><code class="lang-pug">//- index.pug
@@ -154,7 +154,7 @@ server([
 });
 
 // Test it
-run(mid).get(&#39;/dog/42&#39;);
+test(mid).get(&#39;/dog/42&#39;);
 </code></pre>
 <p>They come from parsing <a href="#-path">the <code>ctx.path</code></a> with the <a href="https://www.npmjs.com/package/path-to-regexp">package <code>path-to-regexp</code></a>. Go there to see more information about it.</p>
 <pre><code class="lang-js">const mid = del(&#39;/user/:id&#39;, ctx =&gt; {
@@ -169,7 +169,7 @@ run(mid).get(&#39;/dog/42&#39;);
 };
 
 // Test it
-run(mid).get(&#39;/question?answer=42&amp;name=Francisco&#39;);
+test(mid).get(&#39;/question?answer=42&amp;name=Francisco&#39;);
 </code></pre>
 <h2 id="-session">.session</h2>
 <p>After following the <a href="localhost:3000/tutorials/sessions-production/">sessions in production tutorial</a>, sessions should be ready to get rolling. This is an object that persist among the user refreshing the page and navigation:</p>
@@ -180,7 +180,7 @@ const mid = ctx =&gt; {
 };
 
 // Test that it works
-run(ctx).alive(async ctx =&gt; {
+test(ctx).run(async ctx =&gt; {
   await api.get(&#39;/&#39;);
   await api.get(&#39;/&#39;);
   const res = await api.get(&#39;/&#39;);
@@ -194,7 +194,7 @@ run(ctx).alive(async ctx =&gt; {
 };
 
 // Test it
-run(mid).get(&#39;/&#39;, { headers: { answer: 42 } });
+test(mid).get(&#39;/&#39;, { headers: { answer: 42 } });
 </code></pre>
 <h2 id="-cookie">.cookie</h2>
 <p>Object that holds the cookies sent by the client:</p>
@@ -202,7 +202,7 @@ run(mid).get(&#39;/&#39;, { headers: { answer: 42 } });
   console.log(ctx.cookies);
 };
 
-run(mid).get(&#39;/&#39;);
+test(mid).get(&#39;/&#39;);
 </code></pre>
 <h2 id="-files">.files</h2>
 <p>Contains any and all of the files sent by a request. It would normally be sent through a form with an <code>&lt;input type=&quot;file&quot;&gt;</code> field or through a <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData"><code>FormData</code> in front-end  javascript</a>:</p>
@@ -225,7 +225,7 @@ run(mid).get(&#39;/&#39;);
   console.log(ctx.ip, &#39;|&#39;, ctx.ips);
 };
 
-run(mid).get(&#39;/&#39;);
+test(mid).get(&#39;/&#39;);
 </code></pre>
 <h2 id="-url">.url</h2>
 <p>The full cuantified URL:</p>
@@ -233,7 +233,7 @@ run(mid).get(&#39;/&#39;);
   expect(ctx.url).toBe(&#39;/hello?answer=42&#39;);
 };
 
-run(mid).get(&#39;/hello?answer=42&#39;);
+test(mid).get(&#39;/hello?answer=42&#39;);
 </code></pre>
 <h2 id="-method">.method</h2>
 <p>The request method, it can be <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>:</p>
@@ -242,7 +242,7 @@ run(mid).get(&#39;/hello?answer=42&#39;);
 };
 
 // Test it
-run(mid).get(&#39;/&#39;);
+test(mid).get(&#39;/&#39;);
 </code></pre>
 <p>Or other methods:</p>
 <pre><code class="lang-js">const mid = ctx =&gt; {
@@ -250,7 +250,7 @@ run(mid).get(&#39;/&#39;);
 };
 
 // Test it
-run(noCsrf, mid).post(&#39;/&#39;);
+test(noCsrf, mid).post(&#39;/&#39;);
 </code></pre>
 <h2 id="-path">.path</h2>
 <p>Only the path part from the URL. It is the full URL except for the query:</p>
@@ -259,7 +259,7 @@ run(noCsrf, mid).post(&#39;/&#39;);
 };
 
 // Test it
-run(mid).get(&#39;/question?answer=42&#39;);
+test(mid).get(&#39;/question?answer=42&#39;);
 </code></pre>
 <h2 id="-secure">.secure</h2>
 <p>Returns true if the request is made through HTTPS. Take into account that if you are behind Cloudflare or similar it might be reported as false even though your clients see <code>https</code>:</p>
@@ -268,7 +268,7 @@ run(mid).get(&#39;/question?answer=42&#39;);
 };
 
 // Test it
-run(mid).get(&#39;/&#39;);
+test(mid).get(&#39;/&#39;);
 </code></pre>
 <h2 id="-xhr">.xhr</h2>
 <p>A boolean set to true if the request was done through AJAX. Specifically, if <code>X-Requested-With</code> is <code>“XMLHttpRequest”</code>:</p>
@@ -276,7 +276,7 @@ run(mid).get(&#39;/&#39;);
   expect(mid.xhr).toBe(false);
 };
 
-run(mid).get(&#39;/&#39;);
+test(mid).get(&#39;/&#39;);
 </code></pre>
 <h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Some super simple heuristics
 const is = {

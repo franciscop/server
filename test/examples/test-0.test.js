@@ -2,7 +2,7 @@
 const { render, json } = require('server/reply');
 const { get, post } = require('server/router');
 const { modern } = require('server').utils;
-const run = require('server/test/run');
+const test = require('server/test');
 const fs = require('mz/fs');
 const path = require('path');
 
@@ -14,7 +14,7 @@ describe('Automatic test from content 0', () => {
     };
     
     /* test */
-    const res = await run({ port: 3012 }, mid, () => 200).get('/');
+    const res = await test({ port: 3012 }, mid, () => 200).get('/');
     expect(res.status).toBe(200);
     // END
   });
