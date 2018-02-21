@@ -9,6 +9,15 @@ const time = num => new Promise((resolve) => setTimeout(resolve, num));
 const timeToClose = 500;
 const timeToExit = 200;
 
+const until = async (total = 10000, cb) => {
+  const step = 100;
+  let counter = 0;
+  while (!cb() && step * counter < total) {
+    counter++;
+    await new Promise((resolve) => setTimeout(resolve, step));
+  }
+};
+
 describe('socket()', () => {
 
   it('can listen to a simple call', async () => {
@@ -22,7 +31,7 @@ describe('socket()', () => {
       console.log('Calling');
       client.emit('message', { hello: 'world' });
       console.log('Calling ended');
-      await time(timeToClose * 5);
+      await until(10000, () => called.length);
       console.log('Closing');
       client.disconnect();
       console.log('Closing ended');
