@@ -4,7 +4,7 @@ const server = require('../../server');
 const { render, status } = server.reply;
 
 // Test runner:
-const run = require('server/test/run');
+const test = require('server/test');
 
 const views = process.cwd() + '/test/views/';
 
@@ -28,7 +28,7 @@ describe('express', () => {
       'x-powered-by': false
     };
 
-    const res = await run({ express: options }, ctx => {
+    const res = await test({ express: options }, ctx => {
       for (let key in options) {
         expect(ctx.app.get(key)).toBe(options[key]);
       }
@@ -39,7 +39,7 @@ describe('express', () => {
   });
 
   it('ignores the view engine (use .engine instead)', async () => {
-    const res = await run({ express: { 'view engine': 'abc' } }, ctx => {
+    const res = await test({ express: { 'view engine': 'abc' } }, ctx => {
       expect(ctx.app.get('env')).toBe('test');
       expect(ctx.app.get('view engine')).toBe('pug');
       return status(200);
@@ -56,7 +56,7 @@ describe('express', () => {
         callback(null, 'Hello world');
       }
     };
-    const res = await run({ views, engine }, () => render('index.bla')).get('/');
+    const res = await test({ views, engine }, () => render('index.bla')).get('/');
     expect(res.body).toBe('Hello world');
     expect(res.status).toBe(200);
   });
@@ -67,20 +67,20 @@ describe('express', () => {
       bla: (file, options) => 'Hello world 2'
       /* eslint-enable */
     };
-    const res = await run({ views, engine }, () => render('index.bla')).get('/');
+    const res = await test({ views, engine }, () => render('index.bla')).get('/');
     expect(res.status).toBe(200);
     expect(res.body).toBe('Hello world 2');
   });
 
   it('no engine cannot render anything', async () => {
-    const res = await run({ views, engine: false }, () => render('index.bla')).get('/');
+    const res = await test({ views, engine: false }, () => render('index.bla')).get('/');
     expect(res.status).toBe(500);
     expect(res.body).toMatch(/Cannot find module 'bla'/);
   });
 
   it('error in the render propagates', async () => {
     const engine = { bla: () => { throw new Error('blabla'); } };
-    const res = await run({ views, engine }, () => render('index.bla')).get('/');
+    const res = await test({ views, engine }, () => render('index.bla')).get('/');
     expect(res.status).toBe(500);
     expect(res.body).toMatch(/blabla/);
   });
@@ -89,7 +89,7 @@ describe('express', () => {
     /* eslint-disable */
     const engine = { blo: (file, options) => 'Hello world' };
     /* eslint-enable */
-    const res = await run({ views, engine }, () => render('index.blo')).get('/');
+    const res = await test({ views, engine }, () => render('index.blo')).get('/');
     expect(res.status).toBe(500);
     expect(res.body).toMatch(/Failed to lookup view "index.blo"/);
   });

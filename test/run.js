@@ -1,6 +1,7 @@
 const server = require('../');
 const request = require('request-promises');
-const port = require('./port');
+const serverOptions = require('./options');
+const instance = require('./instance');
 
 // Make an object with the options as expected by request()
 const normalize = (method, url, port, options) => {
@@ -26,135 +27,117 @@ const normalize = (method, url, port, options) => {
 };
 
 
-const isServer = (potential) => {
-  return potential.close && potential.server && potential.plugins;
-};
 
 
-// Parse the server options
-const serverOptions = async middle => {
-  // First parameter can be:
-  // - options: Number || Object (cannot be ID'd)
-  // - middleware: undefined || null || Boolean || Function || Array
-  let opts = (
-    typeof middle[0] === 'undefined' ||
-    typeof middle[0] === 'boolean' ||
-    typeof middle[0] === 'string' ||
-    middle[0] === null ||
-    middle[0] instanceof Function ||
-    middle[0] instanceof Array
-  ) ? {} : middle.shift();
-
-  // A server.js instance
-  if (opts instanceof Promise) {
-    opts = await opts;
-  }
-
-  if (isServer(opts)) {
-    return opts;
-  }
-
-  // In case the port is the defaults one
-  const synthetic = !opts || !opts.port;
-
-  // Create the port when none was specified
-  if (synthetic) opts.port = port();
-
-  // Be able to set global variables from outside
-  opts = Object.assign({}, opts, module.exports.options || {}, {
-    env: undefined,
-    secret: undefined
-  });
-
-  return opts;
-};
-
-
-
-module.exports = function (...middle) {
+const Test = function (...all) {
 
   // Make sure we are working with an instance
-  if (!(this instanceof (module.exports))) {
-    return new (module.exports)(...middle);
+  if (!(this instanceof Test)) {
+    return new Test(...all);
   }
 
-  const launch = async (method, url, reqOpts) => {
+  // Normalize the request into options and middleware
+  const { opts, middle } = server.utils.normalize(all);
+  this.opts = opts;
+  this.middle = middle;
 
-    const error = server.router.error(ctx => {
-      if (!ctx.res.headersSent) {
-        return server.reply.status(500).send(ctx.error.message);
-      }
-    });
+  this.get = (url, options) => this.launch('GET', url, options);
+  this.post = (url, options) => this.launch('POST', url, options);
+  this.put = (url, options) => this.launch('PUT', url, options);
+  this.del = (url, options) => this.launch('DELETE', url, options);
 
-    // Parse the server options
-    const opts = await serverOptions(middle);
-
-    // This means it is a server instance
-    // To FIX: it could be just the actual options
-    const ctx = isServer(opts)
-      ? opts
-      : await server(opts, middle, opts.raw ? false : error);
-
-    if (!method) return ctx;
-    const res = await request(normalize(method, url, ctx.options.port, reqOpts));
-    // Fix small bug. TODO: report it
-    res.method = res.request.method;
-    res.status = res.statusCode;
-    res.options = ctx.options;
-    if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
-      res.rawBody = res.body;
-      res.body = JSON.parse(res.body);
-    }
-    res.ctx = ctx;
-
-    // Close the server once it has all finished
-    await ctx.close();
-
-    // Return the response that happened from the server
-    return res;
-  }
-
-  this.alive = async cb => {
-    let instance;
-    try {
-      instance = await launch();
-      const port = instance.options.port;
-      const requestApi = request.defaults({ jar: request.jar() });
-      const generic = method => async (url, options) => {
-        const res = await requestApi(normalize(method, url, port, options));
-        res.method = res.request.method;
-        res.status = res.statusCode;
-        if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
-          res.rawBody = res.body;
-          res.body = JSON.parse(res.body);
-        }
-        // console.log(instance);
-        res.ctx = instance;
-        return res;
-      };
-      const api = {
-        get: generic('GET'),
-        post: generic('POST'),
-        put: generic('PUT'),
-        del: generic('DELETE'),
-        ctx: instance
-      };
-      await cb(api);
-    } catch (err) {
-      if (!instance) {
-        console.log(err);
-      }
-      throw err;
-    } finally {
-      instance.close();
-    }
-  };
-  this.get = (url, options) => launch('GET', url, options);
-  this.post = (url, options) => launch('POST', url, options);
-  this.put = (url, options) => launch('PUT', url, options);
-  this.del = (url, options) => launch('DELETE', url, options);
   return this;
 };
 
 
-module.exports.options = {};
+
+// Prepare for testing by overloading the right options and middleware
+Test.prototype.prepare = async function () {
+
+  // Parse the server options
+  this.opts = await serverOptions(this.opts, Test.options);
+
+  // Overload the error handler to autorespond with a server error
+  if (this.opts.raw) return;
+
+  // Final error handler that will respond with 500 and error message if none was set
+  this.middle.push(server.router.error(ctx => {
+    if (ctx.res.headersSent) return;
+    return server.reply.status(500).send(ctx.error.message);
+  }));
+};
+
+
+// Start running the server
+Test.prototype.launch = async function (method, url, reqOpts) {
+
+  // Prepare for testing by overloading the right options and middleware
+  await this.prepare();
+
+  const { opts, middle } = this;
+
+  // This means it is a server instance
+  // To FIX: it could be just the actual options
+  const isServer = await instance(opts);
+  const ctx = isServer ? opts : await server(opts, middle);
+
+  if (!method) return ctx;
+  const res = await request(normalize(method, url, ctx.options.port, reqOpts));
+  // Fix small bug. TODO: report it
+  res.method = res.request.method;
+  res.status = res.statusCode;
+  res.options = ctx.options;
+  if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
+    res.rawBody = res.body;
+    res.body = JSON.parse(res.body);
+  }
+  res.ctx = ctx;
+
+  // Only close it if we launched this instance, otherwise leave it open
+  if (!isServer) {
+    await ctx.close();
+  }
+
+  // Return the response that happened from the server
+  return res;
+};
+
+Test.prototype.alive = async function (cb) {
+  let instance;
+  try {
+    instance = await this.launch();
+    const port = instance.options.port;
+    const requestApi = request.defaults({ jar: request.jar() });
+    const generic = method => async (url, options) => {
+      const res = await requestApi(normalize(method, url, port, options));
+      res.method = res.request.method;
+      res.status = res.statusCode;
+      if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
+        res.rawBody = res.body;
+        res.body = JSON.parse(res.body);
+      }
+      // console.log(instance);
+      res.ctx = instance;
+      return res;
+    };
+    const api = {
+      get: generic('GET'),
+      post: generic('POST'),
+      put: generic('PUT'),
+      del: generic('DELETE'),
+      ctx: instance
+    };
+    await cb(api);
+  } catch (err) {
+    if (!instance) {
+      console.log(err);
+    }
+    throw err;
+  } finally {
+    instance.close();
+  }
+};
+
+Test.options = {};
+
+module.exports = Test;

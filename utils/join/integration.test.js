@@ -23,11 +23,6 @@ describe('join', () => {
     }).get('/');
     expect(res.body).toBe('true:true:true');
   });
-
-  it('loads as a relative file', async () => {
-    const res = await run('./test/a.js').get('/');
-    expect(res.body).toBe('世界');
-  });
 });
 
 

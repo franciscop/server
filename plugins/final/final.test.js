@@ -10,7 +10,7 @@ describe('final', () => {
     const out = {};
     const res = await run({ raw: true, log: storeLog(out) }, simple).get('/');
     expect(res.statusCode).toBe(500);
-    expect(res.body).toBe('Internal Server Error');
+    expect(res.body).toBe('Hello Error');
     expect(out.log).toMatch('Hello Error');
   });
 
@@ -45,7 +45,7 @@ describe('final', () => {
     const out = {};
     const res = await run({ raw: true, log: storeLog(out) }, simple).get('/');
     expect(res.statusCode).toBe(500);
-    expect(res.body).toBe('Internal Server Error');
+    expect(res.body).toBe('Hello Error');
     expect(out.log).toMatch('Hello Error');
   });
 
@@ -54,7 +54,8 @@ describe('final', () => {
       ctx.res.send('Error 世界');
       throw new Error('Hello');
     };
-    const res = await run(simple).get('/');
+    const out = {};
+    const res = await run({ log: storeLog(out) }, simple).get('/');
     expect(res.body).toBe('Error 世界');
   });
 

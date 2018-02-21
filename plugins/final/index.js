@@ -25,20 +25,19 @@ const statusHandler = async ctx => {
 // Make sure there is a (500) reply if there was an unhandled error thrown
 const errorHandler = ctx => {
   const error = ctx.error;
-  ctx.log.warning(FinalError('unhandled'));
   ctx.log.error(error);
-  if (!ctx.res.headersSent) {
-    let status = error.status || error.code || 500;
-    if (typeof status !== 'number') status = 500;
+  if (ctx.res.headersSent) return;
 
-    // Display the error message if this error is marked as public
-    if (error.public) {
-      return ctx.res.status(status).send(error.message);
-    }
+  let status = error.status || error.code || 500;
+  if (typeof status !== 'number') status = 500;
 
-    // Otherwise just display the default error for that code
-    ctx.res.sendStatus(status);
+  // Display the error message if this error is marked as public
+  if (error.public || ctx.options.env === 'test') {
+    return ctx.res.status(status).send(error.message);
   }
+
+  // Otherwise just display the default error for that code
+  ctx.res.sendStatus(status);
 };
 
 module.exports = {
