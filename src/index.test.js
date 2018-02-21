@@ -13,5 +13,5 @@ describe('Default modules', () => {
       return 'Good!';
     }).get('/');
     expect(res.body).toBe('Good!');
-  });
+  }, 50000);
 });
