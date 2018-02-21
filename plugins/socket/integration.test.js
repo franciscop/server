@@ -22,7 +22,7 @@ describe('socket()', () => {
       console.log('Calling');
       client.emit('message', { hello: 'world' });
       console.log('Calling ended');
-      await time(timeToClose);
+      await time(timeToClose * 5);
       console.log('Closing');
       client.disconnect();
       console.log('Closing ended');
