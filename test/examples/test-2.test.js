@@ -9,14 +9,15 @@ const path = require('path');
 describe('Automatic test from content 2', () => {
   it('works', async () => {
     // START
-    const options = {
-      port: 5001
+    const middle = ctx => {
+      expect(ctx.data).toBe('Hello 世界');
     };
     
     /* test */
-    const same = ctx => ({ port: ctx.options.port });
-    const res = await test(options, same).get('/');
-    expect(res.body.port).toBe(5001);
+    // Security set to false for testing purposes
+    const opts = { body: 'Hello 世界' };
+    const res = await test({ security: false }, middle, () => 200).post('/', opts);
+    expect(res.status).toBe(200);
     // END
   });
 });

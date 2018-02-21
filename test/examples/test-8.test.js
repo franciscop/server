@@ -6,17 +6,17 @@ const test = require('server/test');
 const fs = require('mz/fs');
 const path = require('path');
 
-describe('Automatic test from content 5', () => {
+describe('Automatic test from content 8', () => {
   it('works', async () => {
     // START
     const options = {
-      public: 'public'
+      views: './'
     };
     
     /* test */
-    const same = ctx => ({ public: ctx.options.public });
+    const same = ctx => ({ views: ctx.options.views });
     const res = await test(options, same).get('/');
-    expect(res.body.public).toBe(path.join(process.cwd() + '/public'));
+    expect(res.body.views).toBe(process.cwd() + path.sep);
     // END
   });
 });

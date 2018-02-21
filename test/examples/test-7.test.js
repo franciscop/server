@@ -9,21 +9,14 @@ const path = require('path');
 describe('Automatic test from content 7', () => {
   it('works', async () => {
     // START
-    // Simple visit counter for the main page
-    const counter = get('/', ctx => {
-      ctx.session.views = (ctx.session.views || 0) + 1;
-      return { views: ctx.session.views };
-    });
+    const options = {
+      views: 'views'
+    };
     
     /* test */
-    await test(counter).run(async api => {
-      let res = await api.get('/');
-      expect(res.body.views).toBe(1);
-      res = await api.get('/');
-      expect(res.body.views).toBe(2);
-      res = await api.get('/');
-      expect(res.body.views).toBe(3);
-    });
+    const same = ctx => ({ views: ctx.options.views });
+    const res = await test(options, same).get('/');
+    expect(res.body.views).toBe(path.join(process.cwd(), 'views') + path.sep);
     // END
   });
 });

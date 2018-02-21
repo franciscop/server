@@ -10,13 +10,13 @@ describe('Automatic test from content 4', () => {
   it('works', async () => {
     // START
     const options = {
-      public: './'
+      port: 5001
     };
     
     /* test */
-    const same = ctx => ({ public: ctx.options.public });
+    const same = ctx => ({ port: ctx.options.port });
     const res = await test(options, same).get('/');
-    expect(res.body.public).toBe(process.cwd() + path.sep);
+    expect(res.body.port).toBe(5001);
     // END
   });
 });

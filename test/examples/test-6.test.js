@@ -10,13 +10,13 @@ describe('Automatic test from content 6', () => {
   it('works', async () => {
     // START
     const options = {
-      views: './'
+      public: './'
     };
     
     /* test */
-    const same = ctx => ({ views: ctx.options.views });
+    const same = ctx => ({ public: ctx.options.public });
     const res = await test(options, same).get('/');
-    expect(res.body.views).toBe(process.cwd() + path.sep);
+    expect(res.body.public).toBe(process.cwd() + path.sep);
     // END
   });
 });

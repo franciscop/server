@@ -9,14 +9,14 @@ const path = require('path');
 describe('Automatic test from content 3', () => {
   it('works', async () => {
     // START
-    const options = {
-      public: 'public'
-    };
+    const middle = get('/:type/:id', ctx => {
+      expect(ctx.params.type).toBe('dog');
+      expect(ctx.params.id).toBe('42');
+    });
     
     /* test */
-    const same = ctx => ({ public: ctx.options.public });
-    const res = await test(options, same).get('/');
-    expect(res.body.public).toBe(path.join(process.cwd() + '/public'));
+    const res = await test(middle, () => 200).get('/dog/42');
+    expect(res.status).toBe(200);
     // END
   });
 });

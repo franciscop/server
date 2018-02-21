@@ -60,12 +60,12 @@ PORT=80
 ```
 
 ```js
-const mid = ctx => {
+const middle = ctx => {
   expect(ctx.options.port).toBe(7693);
 };
 
 /* test */
-const res = await test({ port: 7693 }, mid, () => 200).get('/');
+const res = await test({ port: 7693 }, middle, () => 200).get('/');
 expect(res.status).toBe(200);
 ```
 
@@ -81,9 +81,11 @@ const middle = ctx => {
   expect(ctx.data).toBe('Hello 世界');
 };
 
-// Test it (csrf set to false for testing purposes)
-test(noCsrf, middle).post('/', { body: 'Hello 世界' });
-test(middle).emit('message', 'Hello 世界');
+/* test */
+// Security set to false for testing purposes
+const opts = { body: 'Hello 世界' };
+const res = await test({ security: false }, middle, () => 200).post('/', opts);
+expect(res.status).toBe(200);
 ```
 
 To handle forms sent normally:
@@ -106,7 +108,7 @@ const { render, redirect } = server.reply;
 server([
   get(ctx => render('index.pug')),
   post(ctx => {
-    console.log(ctx.data);  // Logs the email
+    console.log(ctx.data.email);  // Logs the email
     return redirect('/');
   })
 ]);
@@ -119,13 +121,14 @@ server([
 Parameters from the URL as specified [in the route](/documentation/router/):
 
 ```js
-const mid = get('/:type/:id', ctx => {
+const middle = get('/:type/:id', ctx => {
   expect(ctx.params.type).toBe('dog');
   expect(ctx.params.id).toBe('42');
 });
 
-// Test it
-test(mid).get('/dog/42');
+/* test */
+const res = await test(middle, () => 200).get('/dog/42');
+expect(res.status).toBe(200);
 ```
 
 They come from parsing [the `ctx.path`](#-path) with the [package `path-to-regexp`](https://www.npmjs.com/package/path-to-regexp). Go there to see more information about it.

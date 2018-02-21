@@ -9,12 +9,12 @@ const path = require('path');
 describe('Automatic test from content 1', () => {
   it('works', async () => {
     // START
-    const mid = ctx => {
+    const middle = ctx => {
       expect(ctx.options.port).toBe(7693);
     };
     
     /* test */
-    const res = await test({ port: 7693 }, mid, () => 200).get('/');
+    const res = await test({ port: 7693 }, middle, () => 200).get('/');
     expect(res.status).toBe(200);
     // END
   });
