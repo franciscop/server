@@ -23,21 +23,15 @@ describe('socket()', () => {
   it('can listen to a simple call', async () => {
     let called = [];
     const middle = socket('message', () => {
-      console.log('Route called');
       called.push('message');
     });
     await test(middle).run(async api => {
       const client = io(`http://localhost:${api.ctx.options.port}/`);
-      console.log('Calling');
       client.emit('message', { hello: 'world' });
-      console.log('Calling ended');
       await until(10000, () => called.length);
-      console.log('Closing');
       client.disconnect();
-      console.log('Closing ended');
       await time(timeToExit);
     });
-    console.log('After', called);
     expect(called).toEqual(['message']);
   });
 
