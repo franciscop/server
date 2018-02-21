@@ -1,38 +1,25 @@
 const server = require('../../');
 const { socket, error } = server.router;
-
+const test = require('../../test');
 
 const io = require('socket.io-client');
 
+// For some reason we have to wait a bit until closing/exiting
 const time = num => new Promise((resolve) => setTimeout(resolve, num));
-
-
-const run = (...middle) => ({
-  alive: async operation => {
-    let inst;
-    try {
-      inst = await server({ port: 1000 + parseInt(Math.random() * 10000) }, ...middle);
-      const client = io(`http://localhost:${inst.options.port}/`);
-      await operation(client);
-      await time(300);
-      client.disconnect();
-      await time(300);
-    } catch (err) {
-      console.log(err);
-    } finally {
-      await inst.close();
-    }
-  }
-});
-
+const timeToClose = 500;
+const timeToExit = 200;
 
 describe('socket()', () => {
 
   it('can listen to a simple call', async () => {
     let called = [];
     const middle = socket('message', () => { called.push('message'); });
-    await run(middle).alive(api => {
-      api.emit('message', { hello: 'world' });
+    await test(middle).run(async api => {
+      const client = io(`http://localhost:${api.ctx.options.port}/`);
+      client.emit('message', { hello: 'world' });
+      await time(timeToClose);
+      client.disconnect();
+      await time(timeToExit);
     });
     expect(called).toEqual(['message']);
   });
@@ -43,9 +30,13 @@ describe('socket()', () => {
       called.push(ctx.data);
       return 'Hello';
     });
-    await run(middle).alive(api => {
-      api.emit('message', { hello: 'world' });
-      api.on('message', data => { called.push(data); });
+    await test(middle).run(async api => {
+      const client = io(`http://localhost:${api.ctx.options.port}/`);
+      client.emit('message', { hello: 'world' });
+      client.on('message', data => { called.push(data); });
+      await time(timeToClose);
+      client.disconnect();
+      await time(timeToExit);
     });
     expect(called).toEqual([{ hello: 'world' }, 'Hello']);
   });
@@ -60,8 +51,12 @@ describe('socket()', () => {
         err = ctx.error;
       })
     ];
-    await run(middle).alive(api => {
-      api.emit('message', { hello: 'world' });
+    await test(middle).run(async api => {
+      const client = io(`http://localhost:${api.ctx.options.port}/`);
+      client.emit('message', { hello: 'world' });
+      await time(timeToClose);
+      client.disconnect();
+      await time(timeToExit);
     });
     expect(err.message).toMatch(/socketerror/);
   });
@@ -69,8 +64,12 @@ describe('socket()', () => {
   it('can use wildcards', async () => {
     const called = [];
     const middle = socket('*', ctx => { called.push(ctx.path); });
-    await run(middle).alive(api => {
-      api.emit('message', { hello: 'world' });
+    await test(middle).run(async api => {
+      const client = io(`http://localhost:${api.ctx.options.port}/`);
+      client.emit('message', { hello: 'world' });
+      await time(timeToClose);
+      client.disconnect();
+      await time(timeToExit);
     });
     expect(called).toEqual(['connect', 'message', 'disconnect']);
   });
@@ -82,8 +81,12 @@ describe('socket()', () => {
       socket('message', () => { called.push('message'); }),
       socket('disconnect', () => { called.push('disconnect'); })
     ];
-    await run(middle).alive(api => {
-      api.emit('message', { hello: 'world' });
+    await test(middle).run(async api => {
+      const client = io(`http://localhost:${api.ctx.options.port}/`);
+      client.emit('message', { hello: 'world' });
+      await time(timeToClose);
+      client.disconnect();
+      await time(timeToExit);
     });
     expect(called).toEqual(['connect', 'message', 'disconnect']);
   });
@@ -92,8 +95,12 @@ describe('socket()', () => {
     let total = 0;
     const addOne = () => { total++; };
     const middle = socket('message', addOne, addOne, addOne);
-    await run(middle).alive(api => {
-      api.emit('message', { hello: 'world' });
+    await test(middle).run(async api => {
+      const client = io(`http://localhost:${api.ctx.options.port}/`);
+      client.emit('message', { hello: 'world' });
+      await time(timeToClose);
+      client.disconnect();
+      await time(timeToExit);
     });
     expect(total).toBe(3);
   });
@@ -105,9 +112,13 @@ describe('socket()', () => {
       socket('message', () => { called.push('message'); }),
       socket('disconnect', () => { called.push('disconnect'); })
     ];
-    await run(middle).alive(api => {
-      api.emit('message', { hello: 'world' });
-      api.emit('message', { hello: 'world' });
+    await test(middle).run(async api => {
+      const client = io(`http://localhost:${api.ctx.options.port}/`);
+      client.emit('message', { hello: 'world' });
+      client.emit('message', { hello: 'world' });
+      await time(timeToClose);
+      client.disconnect();
+      await time(timeToExit);
     });
     expect(called).toEqual(['connect', 'message', 'message', 'disconnect']);
   });
