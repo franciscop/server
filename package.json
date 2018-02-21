@@ -42,12 +42,14 @@
     "log": "^1.4.0",
     "method-override": "^2.3.10",
     "mz": "^2.6.0",
-    "path-to-regexp": "^0.1.7",
+    "path-to-regexp-wrap": "^1.2.1",
+    "pkg-dir": "^2.0.0",
     "pug": "^2.0.0-rc.4",
     "response-time": "^2.3.2",
     "serve-favicon": "^2.3.2",
     "serve-index": "^1.8.0",
-    "socket.io": "^2.0.3"
+    "socket.io": "^2.0.3",
+    "socketio-wildcard": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^4.7.2",
