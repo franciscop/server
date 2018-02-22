@@ -1,13 +1,14 @@
 // External libraries used
 const { cookie } = require('server/reply');
-const run = require('server/test/run');
+const test = require('server/test');
 const fs = require('fs');
-run.options = { security: false };
 
 // Local helpers and data
 const logo = fs.createReadStream(__dirname + '/../../test/logo.png');
 const content = ctx => ctx.headers['content-type'];
 
+beforeAll(() => { test.options = { security: false }; });
+afterAll(() => { test.options = {}; });
 
 describe('Default modules', () => {
 
@@ -20,14 +21,14 @@ describe('Default modules', () => {
       return 'Hello 世界';
     };
 
-    const res = await run(mid).post('/', { form: 'hello=世界' });
+    const res = await test(mid).post('/', { form: 'hello=世界' });
     expect(res.body).toBe('Hello 世界');
   });
 
   it('uses textParser', async () => {
     const mid = ctx => ctx.data;
     const headers = { 'Content-Type': 'text/plain' };
-    const res = await run(mid).post('/', { headers, body: 'Hello 世界' });
+    const res = await test(mid).post('/', { headers, body: 'Hello 世界' });
     expect(res.body).toBe('Hello 世界');
   });
 
@@ -35,13 +36,13 @@ describe('Default modules', () => {
     const mid = ctx => ctx.data.length ? 'wrong' : 'right';
     const headers = { 'Content-Type': 'text/plain' };
     const options = { parser: { text: false } };
-    const res = await run(options, mid).post('/', { headers, body: 'Hello 世界' });
+    const res = await test(options, mid).post('/', { headers, body: 'Hello 世界' });
     expect(res.body).toBe('right');
   });
 
   it('uses dataParser', async () => {
     const mid = ctx => ctx.files.logo;
-    const res = await run(mid).post('/', { formData: { logo } });
+    const res = await test(mid).post('/', { formData: { logo } });
 
     expect(res.body.name).toBe('logo.png');
     expect(res.body.type).toBe('image/png');
@@ -51,7 +52,7 @@ describe('Default modules', () => {
   it('can cancel dataParser', async () => {
     const mid = ctx => ctx.data.length ? 'wrong' : 'right';
     const options = { parser: { data: false }};
-    const res = await run(options, mid).post('/', { formData: { logo } });
+    const res = await test(options, mid).post('/', { formData: { logo } });
 
     expect(res.body).toBe('right');
   });
@@ -61,7 +62,7 @@ describe('Default modules', () => {
   it('uses cookieParser', async () => {
     const mid = ctx => cookie('hello', ctx.cookies.place).send();
     const headers = { Cookie: 'place=%E4%B8%96%E7%95%8C' };
-    const res = await run(mid).get('/', { headers });
+    const res = await test(mid).get('/', { headers });
     const cookies = res.headers['set-cookie'].join('\n');
     expect(cookies).toMatch('hello=%E4%B8%96%E7%95%8C');
   });
@@ -70,7 +71,7 @@ describe('Default modules', () => {
     const mid = ctx => cookie('hello', ctx.cookies.place).send();
     const headers = { Cookie: 'place=%E4%B8%96%E7%95%8C' };
     const options = { parser: { cookie: false } };
-    const res = await run(options, mid).get('/', { headers });
+    const res = await test(options, mid).get('/', { headers });
     const cookies = (res.headers['set-cookie'] || []).join('\n');
     expect(cookies).not.toMatch('hello=%E4%B8%96%E7%95%8C');
   });
@@ -84,7 +85,7 @@ describe('Default modules', () => {
     };
 
     const headers = { 'X-HTTP-Method-Override': 'PUT' };
-    const res = await run(mid).post('/', { headers });
+    const res = await test(mid).post('/', { headers });
     expect(res.body).toBe('Hello 世界');
   });
 
@@ -97,7 +98,7 @@ describe('Default modules', () => {
     };
 
     const headers = { 'X-HTTP-Method-Override': 'PUT' };
-    const res = await run({ parser: { method: false } }, mid).post('/', { headers });
+    const res = await test({ parser: { method: false } }, mid).post('/', { headers });
     expect(res.body).toBe('Hello 世界');
   });
 
@@ -110,7 +111,7 @@ describe('Default modules', () => {
     };
 
     const headers = { 'X-HTTP-Method-Override': 'PUT' };
-    const res = await run({ parser: {
+    const res = await test({ parser: {
       method: 'X-HTTP-Method-Override'
     } }, mid).post('/', { headers });
     expect(res.body).toBe('Hello 世界');
@@ -125,7 +126,7 @@ describe('Default modules', () => {
     };
 
     const headers = { 'X-HTTP-Method-Override': 'PUT' };
-    const res = await run({ parser: {
+    const res = await test({ parser: {
       method: ['X-HTTP-Method-Override']
     } }, mid).post('/', { headers });
     expect(res.body).toBe('Hello 世界');
@@ -146,7 +147,7 @@ describe('Cancel parts through options', () => {
       return 'Hello 世界';
     };
 
-    const res = await run(options, mid).post('/', { form: 'hello=世界' });
+    const res = await test(options, mid).post('/', { form: 'hello=世界' });
     expect(res.body).toBe('Hello 世界');
   });
 
@@ -158,7 +159,7 @@ describe('Cancel parts through options', () => {
       return 'Hello 世界';
     };
 
-    const res = await run({ parser: { json: false }}, mid).post('/', { body: { hello: '世界' }});
+    const res = await test({ parser: { json: false }}, mid).post('/', { body: { hello: '世界' }});
     expect(res.body).toBe('Hello 世界');
   });
 

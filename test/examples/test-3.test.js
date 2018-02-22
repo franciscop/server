@@ -9,7 +9,7 @@ const path = require('path');
 describe('Automatic test from content 3', () => {
   it('works', async () => {
     // START
-    const middle = get('/:type/:id', ctx => {
+        const middle = get('/:type/:id', ctx => {
       expect(ctx.params.type).toBe('dog');
       expect(ctx.params.id).toBe('42');
     });
@@ -20,4 +20,3 @@ describe('Automatic test from content 3', () => {
     // END
   });
 });
-      

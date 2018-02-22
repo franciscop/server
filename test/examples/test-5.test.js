@@ -9,7 +9,7 @@ const path = require('path');
 describe('Automatic test from content 5', () => {
   it('works', async () => {
     // START
-    const options = {
+        const options = {
       public: 'public'
     };
     
@@ -20,4 +20,3 @@ describe('Automatic test from content 5', () => {
     // END
   });
 });
-      

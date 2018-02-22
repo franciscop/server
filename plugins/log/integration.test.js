@@ -1,9 +1,7 @@
 const server = require('../../server');
 const { status } = server.reply;
 const ConfigError = require('server/src/config/errors');
-
-// Test runner:
-const run = require('server/test/run');
+const test = require('server/test');
 
 describe('log()', () => {
   it('is defined', () => {
@@ -14,12 +12,12 @@ describe('log()', () => {
   });
 
   it('is inside the middleware', async () => {
-    const res = await run(ctx => status(ctx.log ? 200 : 500)).get('/');
+    const res = await test(ctx => status(ctx.log ? 200 : 500)).get('/');
     expect(res.statusCode).toBe(200);
   });
 
   it('has the right methods', async () => {
-    const res = await run(ctx => {
+    const res = await test(ctx => {
       expect(ctx.log.emergency).toBeDefined();
       expect(ctx.log.alert).toBeDefined();
       expect(ctx.log.critical).toBeDefined();
@@ -34,7 +32,7 @@ describe('log()', () => {
   });
 
   it('rejects invalid log levels', async () => {
-    const res = run({ log: 'abc' }).get('/');
+    const res = test({ log: 'abc' }).get('/');
 
     // Now errors must be fully qualified with Jest
     expect(res).rejects.toMatchObject(new ConfigError('enum', {

@@ -9,7 +9,7 @@ const path = require('path');
 describe('Automatic test from content 2', () => {
   it('works', async () => {
     // START
-    const middle = ctx => {
+        const middle = ctx => {
       expect(ctx.data).toBe('Hello 世界');
     };
     
@@ -21,4 +21,3 @@ describe('Automatic test from content 2', () => {
     // END
   });
 });
-      

@@ -1,30 +1,24 @@
-// Test automatically retrieved. Do not edit manually
-const { render, json } = require('server/reply');
-const { get, post } = require('server/router');
-const { modern } = require('server').utils;
-const test = require('server/test');
-const fs = require('mz/fs');
-const path = require('path');
-
-describe('Automatic test from content 9', () => {
-  it('works', async () => {
-    // START
-    // Simple visit counter for the main page
-    const counter = get('/', ctx => {
-      ctx.session.views = (ctx.session.views || 0) + 1;
-      return { views: ctx.session.views };
+    const test = require('server/test');
+    
+    // The middleware function that we want to test
+    // in this example, find a user in the list
+    const validTokens = ['t353459821389', 't547432523454', 't564352424223'];
+    const mid = ctx => {
+      if (validTokens.includes(ctx.query.token)) {
+        return 'Valid!';
+      }
+      return 'Invalid :(';
+    };
+    
+    describe('auth', () => {
+      it('correctly handles admin or user emails', async () => {
+        const validRes = await test(mid).get('/?token=t353459821389');
+        expect(validRes.body).toBe('Valid!');
+    
+        const invalidRes = await test(mid).get('/?token=madeuptoken');
+        expect(invalidRes.body).toBe('Invalid :(');
+      });
     });
     
     /* test */
-    await test(counter).run(async api => {
-      let res = await api.get('/');
-      expect(res.body.views).toBe(1);
-      res = await api.get('/');
-      expect(res.body.views).toBe(2);
-      res = await api.get('/');
-      expect(res.body.views).toBe(3);
-    });
-    // END
-  });
-});
-      
+    // ...

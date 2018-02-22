@@ -9,7 +9,7 @@ const path = require('path');
 describe('Automatic test from content 4', () => {
   it('works', async () => {
     // START
-    const options = {
+        const options = {
       port: 5001
     };
     
@@ -20,4 +20,3 @@ describe('Automatic test from content 4', () => {
     // END
   });
 });
-      

@@ -9,7 +9,7 @@ const path = require('path');
 describe('Automatic test from content 0', () => {
   it('works', async () => {
     // START
-    const mid = ctx => {
+        const mid = ctx => {
       expect(ctx.options.port).toBe(3012);
     };
     
@@ -19,4 +19,3 @@ describe('Automatic test from content 0', () => {
     // END
   });
 });
-      

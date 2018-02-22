@@ -33,14 +33,7 @@ const getExamples = async () => {
 
 
 
-describe('fn', () => {
-  it('loads', async () => {
-    const matches = await getExamples();
-    // console.log('Total tests found:', matches.length);
-    for (let i in matches) {
-      const filename = `${process.cwd()}/test/examples/test-${i}.test.js`;
-      let code = matches[i];
-      const content = `// Test automatically retrieved. Do not edit manually
+const simple = ({ id, text }) => `// Test automatically retrieved. Do not edit manually
 const { render, json } = require('server/reply');
 const { get, post } = require('server/router');
 const { modern } = require('server').utils;
@@ -48,14 +41,25 @@ const test = require('server/test');
 const fs = require('mz/fs');
 const path = require('path');
 
-describe('Automatic test from content ${i}', () => {
+describe('Automatic test from content ${id}', () => {
   it('works', async () => {
     // START
-${matches[i]}
+    ${text}
     // END
   });
-});
-      `;
+});`;
+
+
+
+describe('fn', () => {
+  it('loads', async () => {
+    const matches = await getExamples();
+    // console.log('Total tests found:', matches.length);
+    for (let i in matches) {
+      const filename = `${process.cwd()}/test/examples/test-${i}.test.js`;
+      let code = matches[i];
+      const content = /it\(/.test(matches[i]) ? matches[i]
+        : simple({ id: i, text: matches[i] });
       try {
         const retrieved = await fs.readFile(filename, 'utf-8');
         if (retrieved !== content) {

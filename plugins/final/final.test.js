@@ -1,4 +1,4 @@
-const run = require('server/test/run');
+const test = require('server/test');
 
 // Note: the `raw` option only works for tests
 
@@ -8,7 +8,7 @@ describe('final', () => {
   it('gets called with an unhandled error', async () => {
     const simple = () => { throw new Error('Hello Error'); };
     const out = {};
-    const res = await run({ raw: true, log: storeLog(out) }, simple).get('/');
+    const res = await test({ raw: true, log: storeLog(out) }, simple).get('/');
     expect(res.statusCode).toBe(500);
     expect(res.body).toBe('Hello Error');
     expect(out.log).toMatch('Hello Error');
@@ -17,7 +17,7 @@ describe('final', () => {
   it('just logs it if the headers were already sent', async () => {
     const simple = () => { throw new Error('Hello Error'); };
     const out = {};
-    const res = await run({ raw: true, log: storeLog(out) }, () => 'Hello world', simple).get('/');
+    const res = await test({ raw: true, log: storeLog(out) }, () => 'Hello world', simple).get('/');
     expect(res.statusCode).toBe(200);
     expect(res.body).toBe('Hello world');
     expect(out.log).toMatch('Hello Error');
@@ -30,7 +30,7 @@ describe('final', () => {
       throw err;
     };
     const out = {};
-    const res = await run({ raw: true, log: storeLog(out) }, simple).get('/');
+    const res = await test({ raw: true, log: storeLog(out) }, simple).get('/');
     expect(res.statusCode).toBe(500);
     expect(res.body).toBe('Hello Error: display to the public');
     expect(out.log).toMatch('Hello Error');
@@ -43,7 +43,7 @@ describe('final', () => {
       throw err;
     };
     const out = {};
-    const res = await run({ raw: true, log: storeLog(out) }, simple).get('/');
+    const res = await test({ raw: true, log: storeLog(out) }, simple).get('/');
     expect(res.statusCode).toBe(500);
     expect(res.body).toBe('Hello Error');
     expect(out.log).toMatch('Hello Error');
@@ -55,13 +55,13 @@ describe('final', () => {
       throw new Error('Hello');
     };
     const out = {};
-    const res = await run({ log: storeLog(out) }, simple).get('/');
+    const res = await test({ log: storeLog(out) }, simple).get('/');
     expect(res.body).toBe('Error 世界');
   });
 
   it('handles non-existing requests to a 404', async () => {
     const out = {};
-    const res = await run({ log: storeLog(out) }).get('/non-existing');
+    const res = await test({ log: storeLog(out) }).get('/non-existing');
 
     expect(res.statusCode).toBe(404);
     expect(out.log).toMatch(/did not return anything/);

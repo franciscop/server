@@ -1,4 +1,4 @@
-const run = require('server/test/run');
+const test = require('server/test');
 const stat = require('./');
 
 const storeLog = out => ({ report: { write: log => { out.log = log; } } });
@@ -11,7 +11,7 @@ describe('static plugin', () => {
   });
 
   it('static', async () => {
-    const res = await run({ public: 'test' }).get('/logo.png');
+    const res = await test({ public: 'test' }).get('/logo.png');
     expect(res.statusCode).toBe(200);
     expect(res.headers['content-type']).toBe('image/png');
   });
@@ -19,7 +19,7 @@ describe('static plugin', () => {
   it('non-existing static', async () => {
     let out = {};
     const log = storeLog(out);
-    const res = await run({ public: 'test', log }).get('/non-existing.png');
+    const res = await test({ public: 'test', log }).get('/non-existing.png');
 
     expect(res.statusCode).toBe(404);
     expect(out.log).toMatch(/did not return anything/);

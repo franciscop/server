@@ -9,7 +9,7 @@ const path = require('path');
 describe('Automatic test from content 7', () => {
   it('works', async () => {
     // START
-    const options = {
+        const options = {
       views: 'views'
     };
     
@@ -20,4 +20,3 @@ describe('Automatic test from content 7', () => {
     // END
   });
 });
-      
