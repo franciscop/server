@@ -3,6 +3,118 @@
   If you happen to stumble here, this bit of the documentation is outdated and follows some old code. Please help us improve the project and the docs so we can make it into the official release.
 </blockquote>
 
+<blockquote>
+<p>To create tests with server/test, make sure you read the section Closing the Server.</p>
+</blockquote>
+<p>There is an advanced test suite included which is used internally to test server.js extensively:</p>
+<pre><code class="lang-js">// index.test.js
+const server = require(&#39;server&#39;);
+const test = require(&#39;server/test&#39;);
+
+const app = server(() =&gt; &#39;Hello world&#39;);
+
+describe(&#39;a simple website&#39;, () =&gt; {
+  it(&#39;says hello world&#39;, async () =&gt; {
+    const res = await test(app).get(&#39;/&#39;);
+    expect(res.body).toBe(&#39;Hello world&#39;);
+  });
+});
+</code></pre>
+<p>But this proof of concept is not good enough, since we are launching and testing our server from the same file. In the real world, we want to be able to test it independently so we&#39;ll do:</p>
+<pre><code class="lang-js">// index.js - our main file where the server is launch
+const server = require(&#39;server&#39;);
+
+// Same as always, just export it with `module.exports =`
+module.exports = server(() =&gt; &#39;Hello world&#39;);
+</code></pre>
+<p>Then for our testing we do:</p>
+<pre><code class="lang-js">// index.test.js - our main testing file
+const app = require(&#39;./&#39;);
+const test = require(&#39;server/test&#39;);
+
+describe(&#39;a simple website&#39;, () =&gt; {
+  it(&#39;says hello world&#39;, async () =&gt; {
+    const res = await test(app).get(&#39;/&#39;);
+    expect(res.body).toBe(&#39;Hello world&#39;);
+  });
+});
+</code></pre>
+<p>That way we can either launch it or test it from the console with these two commands:</p>
+<pre><code class="lang-bash">node index.js
+jest --coverage --forceExit
+</code></pre>
+<p>We can write those on our <code>package.json</code> so we don&#39;t even have to remember them:</p>
+<pre><code class="lang-js">  &quot;scripts&quot;: {
+    &quot;start&quot;: &quot;node index.js&quot;,
+    &quot;test&quot;: &quot;jest --coverage --forceExit&quot;
+  }
+</code></pre>
+<p>Then we can start it and test it with <code>npm start</code> and <code>npm test</code> respectively.</p>
+<h2 id="close-the-server">Close the server</h2>
+<p>There are two ways of running tests. We can let <code>server/test</code> launch its own server on each tests, so it&#39;ll clean after itself, or we can provide a global server instance to it but then we are responsible to clean up after ourselves. This mimics nicely the expected situations for unit/integration testing respectively.</p>
+<h3 id="auto-closing">Auto closing</h3>
+<p>For these, you provide a middleware or some options and <code>test()</code> will automatically launch a server with these and close them:</p>
+<pre><code class="lang-js">/* test */
+const test = require(&#39;server/test&#39;);
+
+// The middleware function that we want to test
+// in this example, find a user in the list
+const validTokens = [&#39;t353459821389&#39;, &#39;t547432523454&#39;, &#39;t564352424223&#39;];
+const mid = ctx =&gt; {
+  if (validTokens.includes(ctx.query.token)) {
+    return &#39;Valid!&#39;;
+  }
+  return &#39;Invalid :(&#39;;
+};
+
+describe(&#39;auth&#39;, () =&gt; {
+  it(&#39;correctly handles admin or user emails&#39;, async () =&gt; {
+    const validRes = await test(mid).get(&#39;/?token=t353459821389&#39;);
+    expect(validRes.body).toBe(&#39;Valid!&#39;);
+
+    const invalidRes = await test(mid).get(&#39;/?token=madeuptoken&#39;);
+    expect(invalidRes.body).toBe(&#39;Invalid :(&#39;);
+  });
+});
+</code></pre>
+<h3 id="manual-closing">Manual closing</h3>
+<p>However if you start the server in a separate file like <code>index.js</code> and want to test that, you&#39;d normally export it like this:</p>
+<pre><code class="lang-js">// index.js
+const server = require(&#39;server&#39;);
+
+module.exports = server(() =&gt; &#39;Hello world&#39;);
+</code></pre>
+<p>Then you import it from your testing file and test that:</p>
+<pre><code class="lang-js">// index.test.js
+const app = require(&#39;./index&#39;);
+
+describe(&#39;auth&#39;, () =&gt; {
+  it(&#39;correctly handles admin or user emails&#39;, async () =&gt; {
+    const res = await test(app).get(&#39;/&#39;);
+    expect(res.body).toBe(&#39;Hello world&#39;);
+  });
+});
+</code></pre>
+<p>But in this situation test() will <strong>not</strong> close the session, so any further test will reuse the same instance. This is great for integration testing! But not so good for unit testing or when you want to restart things from scratch.</p>
+<pre><code class="lang-json">{
+  ...
+  &quot;globalTeardown&quot;: &quot;./close.js&quot;
+}
+</code></pre>
+<h2 id="unit-testing">Unit testing</h2>
+<p>With a unit testing you want to see a small portion of</p>
+<blockquote>
+<p>OLD DOCS BELOW! PLEASE IGNORE THEM</p>
+</blockquote>
+<blockquote>
+<p>OLD DOCS BELOW! PLEASE IGNORE THEM</p>
+</blockquote>
+<blockquote>
+<p>OLD DOCS BELOW! PLEASE IGNORE THEM</p>
+</blockquote>
+<blockquote>
+<p>OLD DOCS BELOW! PLEASE IGNORE THEM</p>
+</blockquote>
 <p>There&#39;s a small test suite included, but you probably want to use something more specific to your use-case.</p>
 <p>Testing that a middleware correctly handles the lack of a user:</p>
 <pre><code class="lang-js">// auth/errors.js (more info in /documentation/errors/)

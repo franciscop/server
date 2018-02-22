@@ -1,3 +1,4 @@
+    /* test */
     const test = require('server/test');
     
     // The middleware function that we want to test
@@ -19,6 +20,3 @@
         expect(invalidRes.body).toBe('Invalid :(');
       });
     });
-    
-    /* test */
-    // ...

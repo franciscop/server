@@ -103,10 +103,40 @@ describe('auth', () => {
 ```
 
 
+### Manual closing
 
-Finally we have to create a file to actually close the server, since it won't be closed naturally. We can do this in two different ways:
+However if you start the server in a separate file like `index.js` and want to test that, you'd normally export it like this:
 
-globalTeardown
+```js
+// index.js
+const server = require('server');
+
+module.exports = server(() => 'Hello world');
+```
+
+Then you import it from your testing file and test that:
+
+```js
+// index.test.js
+const app = require('./index');
+
+describe('auth', () => {
+  it('correctly handles admin or user emails', async () => {
+    const res = await test(app).get('/');
+    expect(res.body).toBe('Hello world');
+  });
+});
+```
+
+But in this situation test() will **not** close the session, so any further test will reuse the same instance. This is great for integration testing! But not so good for unit testing or when you want to restart things from scratch.
+
+```json
+{
+  ...
+  "globalTeardown": "./close.js"
+}
+```
+
 
 
 
