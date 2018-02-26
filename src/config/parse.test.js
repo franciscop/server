@@ -377,7 +377,7 @@ describe('parsing', () => {
 
 describe('validation', () => {
 
-  describe('required', () => {;
+  describe('required', () => {
     it('throws with no value for required', async () => {
       const env = parse({ public: { required: true } });
       await expect(env).rejects.toHaveProperty('code', '/server/options/required');
