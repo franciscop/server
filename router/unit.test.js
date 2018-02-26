@@ -4,7 +4,7 @@ const loadware = require('loadware');
 const { get, error } = require('server/router');
 const RouterError = require('./errors');
 
-const run = require('server/test/run');
+const test = require('server/test');
 
 const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
   url, path, method,
@@ -91,7 +91,7 @@ describe('Error routes', () => {
     const generate = () => { throw new Error('Should be caught'); };
     const handle = error(() => 'Error 世界');
 
-    const res = await run([generate, handle]).get('/');
+    const res = await test([generate, handle]).get('/');
     expect(res.body).toBe('Error 世界');
   });
 
@@ -100,7 +100,7 @@ describe('Error routes', () => {
     const handle = error('/server/test/router', ctx => {
       return ctx.error.code;
     });
-    const res = await run([generate, handle]).get('/');
+    const res = await test([generate, handle]).get('/');
     expect(res.body).toBe('/server/test/router');
   });
 
@@ -109,7 +109,7 @@ describe('Error routes', () => {
     const handle = error('/server/test', ctx => {
       return ctx.error.code;
     });
-    const res = await run([generate, handle]).get('/');
+    const res = await test([generate, handle]).get('/');
     expect(res.body).toBe('/server/test/router');
   });
 
@@ -128,7 +128,7 @@ describe('Error routes', () => {
       return ctx.error.code;
     });
 
-    const res = await run({ errors }, [generate, handle]).get('/');
+    const res = await test({ errors }, [generate, handle]).get('/');
     expect(res.body).toBe('/server/test/router');
   });
 
@@ -140,7 +140,7 @@ describe('Error routes', () => {
       return ctx.error.message;
     });
 
-    const res = await run({ errors }, [generate, handle]).get('/');
+    const res = await test({ errors }, [generate, handle]).get('/');
     expect(res.body).toBe(`Simple message: ABC`);
   });
 });

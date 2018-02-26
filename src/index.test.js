@@ -1,9 +1,9 @@
 // Test runner:
-const run = require('server/test/run');
+const test = require('server/test');
 
 describe('Default modules', () => {
   it('can log the context', async () => {
-    const res = await run(ctx => {
+    const res = await test(ctx => {
 
       try {
         require('util').inspect(ctx);

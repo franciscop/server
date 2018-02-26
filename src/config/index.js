@@ -7,11 +7,11 @@ const env = require('./env');
 module.exports = async (user = {}, plugins = []) => {
 
   // First and most important is the core and the user-defined options
-  const options = await parse(schema, user, env);
+  const options = await parse(schema, env, user);
 
   // Then load plugin options namespaced with the name in parallel
   await Promise.all(plugins.map(async ({ name, options: def = {}} = {}) => {
-    options[name] = await parse(def, user[name], env, options);
+    options[name] = await parse(def, env, user[name], options);
   }));
 
   return options;

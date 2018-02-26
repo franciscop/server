@@ -61,7 +61,7 @@
     "grunt-contrib-pug": "^1.0.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "jest": "^21.2.1",
+    "jest": "^22.4.2",
     "jstransformer-marked": "^1.0.2",
     "picnic": "^6.4.0",
     "request-promises": "^1.0.1",

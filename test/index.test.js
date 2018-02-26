@@ -52,4 +52,16 @@ describe('test() main function', () => {
     expect(res2.body).toBe('Hello world');
   });
 
+  it('can do all types of calls', async () => {
+    const res = () => 'Hello world';
+    const getter = await test({ security: false }, res).get('/');
+    const poster = await test({ security: false }, res).post('/');
+    const putter = await test({ security: false }, res).put('/');
+    const deller = await test({ security: false }, res).del('/');
+
+    expect(getter.body).toBe('Hello world');
+    expect(poster.body).toBe('Hello world');
+    expect(putter.body).toBe('Hello world');
+    expect(deller.body).toBe('Hello world');
+  });
 });

@@ -10,24 +10,43 @@ const path = require('path');
 // - arg: user options from the argument in the main server() function
 // - env: the environment variables as read from env.js
 // - parent: if it's a submodule, the global configuration
-const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) => {
+const parse = module.exports = async (schema, ...args) => {
 
-  // Fully parsed options will be stored here
-  const options = {};
-
-  // For plugins, accept "false" as an option to nuke a full plugin
-  if (arg === false && parent) {
+  // For plugins, accept "false" to nuke a full plugin
+  if (args.includes(false)) {
     return false;
   }
 
-  // Accepts a single option instead of an object and it will be mapped to its
-  // root value. Example: server(2000) === server({ port: 2000 })
-  if (typeof arg !== 'object') {
-    if (!schema.__root) {
-      throw new OptionsError('notobject');
+  // Clean them and put them into their names
+  const [env = {}, arg = {}, parent = {}] = args.map((dirty = {}) => {
+
+    // Accepts a single option instead of an object and it will be mapped to its
+    // root value. Example: server(2000) === server({ port: 2000 })
+    if (typeof dirty !== 'object') {
+      if (!schema.__root) {
+        throw new OptionsError('notobject');
+      }
+      if (typeof schema.__root !== 'string') {
+        throw new OptionsError('rootnotstring');
+      }
+      dirty = { [schema.__root.toLowerCase()]: dirty };
     }
-    arg = { [schema.__root]: arg };
-  }
+
+    // Clone them to remove the references
+    let opts = {};
+
+    // Loop and assign them with lowercase. Everything should be lowercase:
+    for (const key in dirty) {
+      opts[key.toLowerCase()] = dirty[key];
+    }
+
+    return opts;
+  });
+
+
+
+  // Fully parsed options will be stored here
+  const options = {};
 
   // Loop each of the defined options
   for (let name in schema) {
@@ -42,7 +61,7 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
 
     // Make sure we are dealing with a valid schema definition for this option
     if (typeof def !== 'object') {
-      throw new Error('Invalid option definition: ' + JSON.stringify(def));
+      throw new OptionsError('noobjectdef', { name, type: typeof def });
     }
 
     // The user defined a function to find the actual value manually
@@ -53,17 +72,15 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
       // Use the user-passed option unles explictly told not to
       if (def.arg !== false) {
         def.arg = def.arg === true ? name : def.arg || name;
-      } else if (arg[name] && process.env.NODE_ENV === 'test') {
+      } else if (arg[name] && env.node_env === 'test') {
         throw new OptionsError('noarg', { name });
       }
 
       // Use the environment variable unless explicitly told not to
       if (def.env !== false) {
-        def.env = (def.env === true ? name : def.env || name).toUpperCase();
-      } else if (env[name.toUpperCase()] && process.env.NODE_ENV === 'test') {
-        if (!/^win/.test(process.platform) || name !== 'public') {
-          throw new OptionsError('noenv', { name });
-        }
+        def.env = (def.env === true ? name : def.env || name).toLowerCase();
+      } else if (env[name] && env.node_env === 'test') {
+        throw new OptionsError('noenv', { name });
       }
 
       // Make sure to use the name if we are inheriting with true
@@ -85,11 +102,8 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
     }
 
     // Extend the base object or user object with new values if these are not set
-    if (def.extend && (typeof value === 'undefined' || typeof value === 'object')) {
-      if (typeof value === 'undefined') {
-        value = {};
-      }
-      value = Object.assign({}, def.default, value);
+    if (def.extend && typeof value === 'object') {
+      value = Object.assign({}, def.default || {}, value);
     }
 
     // Normalize the "public" folder or file
@@ -113,17 +127,14 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
 
     // VALIDATION
     // Validate that it is set
-    if (def.required) {
-      if (typeof value === 'undefined') {
-        throw new OptionsError('required', { name });
-      }
+    if (def.required && typeof value === 'undefined') {
+      throw new OptionsError('required', { name });
+
       // TODO: check that the file and folder exist
     }
 
-    if (def.enum) {
-      if (!def.enum.includes(value)) {
-        throw new OptionsError('enum', { name, value, possible: def.enum });
-      }
+    if (def.enum && value && !def.enum.includes(value)) {
+      throw new OptionsError('enum', { name, value, possible: def.enum });
     }
 
     // Validate the type (only if there's a value)
@@ -157,7 +168,7 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
   for (let name in schema) {
     const def = schema[name];
     if (def.options) {
-      options[name] = await parse(def.options, arg[name], env, options);
+      options[name] = await parse(def.options, env, arg[name], options);
     }
   }
 

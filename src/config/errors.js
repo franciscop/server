@@ -8,6 +8,16 @@ error.notobject = `
   to use the '__root' property.
 `;
 
+error.rootnotstring = `
+  The __root property in your schema must be a string. If you are not developing
+  a plugin, please report this as a bug.
+`;
+
+error.noobjectdef = ({ name, type }) => `
+  The schema for the option "${name}" must be an object but instead received
+  a ${type}
+`;
+
 error.noarg = ({ name }) => `
   The option '${name}' cannot be passed through the arguments of server. This
   might be because it's sensitive and it has to be set in the environment.

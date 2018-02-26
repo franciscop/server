@@ -37,7 +37,7 @@ const errorHandler = ctx => {
   }
 
   // Otherwise just display the default error for that code
-  ctx.res.sendStatus(status);
+  ctx.res.status(status).send();
 };
 
 module.exports = {

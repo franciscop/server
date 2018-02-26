@@ -2,6 +2,7 @@
 const server = require('../');
 const request = require('request-promises');
 const port = require('./port');
+const wait = require('./wait');
 const serverOptions = require('./options');
 const instance = require('./instance');
 const generic = require('./generic');
@@ -81,3 +82,4 @@ module.exports.options = {};
 
 // Generate a random port that is not already in use
 module.exports.port = port;
+module.exports.wait = wait;
