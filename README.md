@@ -98,6 +98,23 @@ server(
 );
 ```
 
+Server can handle most templating frameworks including Handlebars, Pug, Nunjucks, others.  For Nunjucks, simply include the nunjucks library in your heading and use a slighly modified get() request with nunjucks.render() as your ctx =>.
+
+```js
+const nunjucks = require('nunjucks');
+
+server([
+  get('/', ctx => nunjucks.render('home.hbs', Object.assign({}, ctx.locals, 
+     { key: "value" }
+  )))
+
+]);
+```
+
+### Templating
+
+Server can handle most templating
+
 
 
 ### API design
