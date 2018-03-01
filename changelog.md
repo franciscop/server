@@ -3,6 +3,17 @@
 These are the changes for server. Follows semver as long as you use the documented features. If you reach into the internals, make sure to lock the version and follow the changes. Feel free to ask any question in Github :)
 
 
+## 1.2.0 [planned]
+
+Performance tuning (if needed).
+
+
+## 1.1.0 [planned] [[tracking](https://github.com/franciscop/server/milestone/4)]
+
+Making Plugin API. Integrate websockets in production. This requires some serious modifications, but in exchange will make websockets easily accessible to everyone.
+
+
+
 ## 1.0.18 [[reference](https://github.com/franciscop/server/compare/1.0.17...1.0.18)]
 
 - Fixed tag for npm so it doesn't install alphas by default.
@@ -123,3 +134,13 @@ server(
 ## 1.0.0
 
 **First major release.**
+
+Retrieve the old functionality of Express to make it easy to launch a server in Node.js:
+
+- Testing testing and more testing.
+- Good documentation and tutorials.
+- Include all of the libraries.
+- Created the base.
+- Implemented some of the libraries.
+- Use it in real-world projects.
+- Make sure that the express-session is secure with the secret (session usage depend on whether the token is provided or not).
