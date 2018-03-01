@@ -57,26 +57,18 @@ jest --coverage --forceExit
 <pre><code class="lang-js">/* test */
 const test = require(&#39;server/test&#39;);
 
-// The middleware function that we want to test
-// in this example, find a user in the list
-const validTokens = [&#39;t353459821389&#39;, &#39;t547432523454&#39;, &#39;t564352424223&#39;];
-const mid = ctx =&gt; {
-  if (validTokens.includes(ctx.query.token)) {
-    return &#39;Valid!&#39;;
-  }
-  return &#39;Invalid :(&#39;;
-};
+// The middleware function that we want to test. Just renders &#39;Hello world&#39;
+const mid = ctx =&gt; &#39;Hello world&#39;;
 
-describe(&#39;auth&#39;, () =&gt; {
-  it(&#39;correctly handles admin or user emails&#39;, async () =&gt; {
-    const validRes = await test(mid).get(&#39;/?token=t353459821389&#39;);
-    expect(validRes.body).toBe(&#39;Valid!&#39;);
-
-    const invalidRes = await test(mid).get(&#39;/?token=madeuptoken&#39;);
-    expect(invalidRes.body).toBe(&#39;Invalid :(&#39;);
+describe(&#39;simple route&#39;, () =&gt; {
+  it(&#39;correctly returns a Hello world&#39;, async () =&gt; {
+    const res = await test(mid).get(&#39;/&#39;);
+    expect(res.body).toBe(&#39;Hello world&#39;);
+    expect(res.status).toBe(200);
   });
 });
 </code></pre>
+<p>You can see how we could be rendering something and testing that with <code>expect(res.body).toMatch()</code> for example.</p>
 <h3 id="manual-closing">Manual closing</h3>
 <p>However if you start the server in a separate file like <code>index.js</code> and want to test that, you&#39;d normally export it like this:</p>
 <pre><code class="lang-js">// index.js
