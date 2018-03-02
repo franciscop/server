@@ -1,9 +1,12 @@
 version: 2
 
-machine:
-  node:
-    version: 8.0.0
+jobs:
+  build:
 
-general:
-  artifacts:
-    - ./coverage
+    machine:
+      node:
+        version: 8.0.0
+
+    general:
+      artifacts:
+        - ./coverage
