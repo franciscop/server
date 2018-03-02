@@ -6,8 +6,8 @@ const io = require('socket.io-client');
 
 // For some reason we have to wait a bit until closing/exiting
 const time = num => new Promise((resolve) => setTimeout(resolve, num));
-const timeToClose = 500;
-const timeToExit = 200;
+const timeToClose = 1000;
+const timeToExit = 500;
 
 const until = async (total = 10000, cb) => {
   const step = 100;
