@@ -1,0 +1,377 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <title>Code coverage report for server/plugins/middle/index.js</title>
+    <meta charset="utf-8" />
+    <link rel="stylesheet" href="../../../prettify.css" />
+    <link rel="stylesheet" href="../../../base.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style type='text/css'>
+        .coverage-summary .sorter {
+            background-image: url(../../../sort-arrow-sprite.png);
+        }
+    </style>
+</head>
+<body>
+<div class='wrapper'>
+  <div class='pad1'>
+    <h1>
+      <a href="../../../index.html">All files</a> / <a href="index.html">server/plugins/middle</a> index.js
+    </h1>
+    <div class='clearfix'>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">93.55% </span>
+        <span class="quiet">Statements</span>
+        <span class='fraction'>29/31</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">60.71% </span>
+        <span class="quiet">Branches</span>
+        <span class='fraction'>17/28</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">100% </span>
+        <span class="quiet">Functions</span>
+        <span class='fraction'>12/12</span>
+      </div>
+      <div class='fl pad1y space-right2'>
+        <span class="strong">93.1% </span>
+        <span class="quiet">Lines</span>
+        <span class='fraction'>27/29</span>
+      </div>
+    </div>
+  </div>
+  <div class='status-line high'></div>
+<pre><table class="coverage">
+<tr><td class="line-count quiet">1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-yes">50x</span>
+<span class="cline-any cline-yes">208x</span>
+<span class="cline-any cline-yes">208x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-yes">21x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-yes">20x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">5x</span>
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">// Modules - All of the modules that are loaded by default
+const modern = require('../../src/modern');
+const renaissance = mod =&gt; ctx =&gt; {
+  let res = mod(ctx);
+  return res ? modern(res)(ctx) : Promise.resolve();
+}
+&nbsp;
+const plugin = {
+  name: 'middle',
+  options: {
+    public: 'public',
+    bodyParser: { extended: true },
+    jsonParser: {},
+    dataParser: {},
+    cookieParser: {},
+    compress: {},
+    session: {
+      resave: false,
+      saveUninitialized: true,
+      cookie: {}
+    },
+    responseTime: {},
+    methodOverride: {},
+  }
+};
+&nbsp;
+plugin.middle = [
+&nbsp;
+  // Public folder
+  renaissance(ctx =&gt; {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (ctx.options.middle.public) {
+      return ctx.express.static(ctx.options.middle.public);
+    }
+  }),
+&nbsp;
+  // Body Parser
+  renaissance(ctx =&gt; {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (ctx.options.middle.bodyParser) {
+      return require('body-parser').urlencoded(ctx.options.middle.bodyParser)
+    }
+  }),
+&nbsp;
+  // JSON parser
+  renaissance(ctx =&gt; {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (ctx.options.middle.jsonParser) {
+      return require('body-parser').json(ctx.options.middle.jsonParser);
+    }
+  }),
+&nbsp;
+  // Data parser
+  renaissance(ctx =&gt; {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (ctx.options.middle.dataParser) {
+      return require('express-data-parser')(ctx.options.middle.dataParser);
+    }
+  }),
+&nbsp;
+  // Cookie parser
+  renaissance(ctx =&gt; {
+    const opts = ctx.options.middle.cookieParser || <span class="branch-1 cbranch-no" title="branch not covered" >ctx.options.cookieParser;</span>
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (opts &amp;&amp; opts.secret) {
+<span class="cstat-no" title="statement not covered" >      return require('cookie-parser')(ctx.options.middle.cookieParser);</span>
+    }
+  }),
+&nbsp;
+  // Compress
+  renaissance(ctx =&gt; {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (ctx.options.middle.compress) {
+      return require('compression')(ctx.options.middle.compress);
+    }
+  }),
+&nbsp;
+  // Session
+  renaissance(ctx =&gt; {
+    let opts = ctx.options.middle.session;
+    <span class="missing-if-branch" title="if path not taken" >I</span>if (opts.session &amp;&amp; <span class="branch-1 cbranch-no" title="branch not covered" >opts.secret)</span> {
+<span class="cstat-no" title="statement not covered" >      return require('express-session')(opts);</span>
+    }
+  }),
+&nbsp;
+  // Favicon
+  renaissance(ctx =&gt; {
+    let opt = ctx.options.middle.favicon;
+    if (opt) return require('serve-favicon')(opt);
+  }),
+&nbsp;
+  renaissance(ctx =&gt; {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (ctx.options.middle.responseTime) {
+      return require('response-time')(ctx.options.responseTime);
+    }
+  }),
+&nbsp;
+  renaissance(ctx =&gt; {
+    <span class="missing-if-branch" title="else path not taken" >E</span>if (ctx.options.middle.methodOverride) {
+      return require('method-override')(ctx.options.methodOverride);
+    }
+  }),
+&nbsp;
+  // TODO: connectTimeout: require('connect-timeout'),
+  // TODO: vhost: require('vhost'),
+  // TODO: csurf: require('csurf'),
+  // ?TODO: serveIndex: (opt, all) =&gt; require('serve-index')(all.public)
+];
+&nbsp;
+module.exports = plugin;
+&nbsp;</pre></td></tr>
+</table></pre>
+<div class='push'></div><!-- for sticky footer -->
+</div><!-- /wrapper -->
+<div class='footer quiet pad2 space-top1 center small'>
+  Code coverage
+  generated by <a href="http://istanbul-js.org/" target="_blank">istanbul</a> at Tue Feb 07 2017 17:57:36 GMT+0100 (CET)
+</div>
+</div>
+<script src="../../../prettify.js"></script>
+<script>
+window.onload = function () {
+        if (typeof prettyPrint === 'function') {
+            prettyPrint();
+        }
+};
+</script>
+<script src="../../../sorter.js"></script>
+</body>
+</html>
