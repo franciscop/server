@@ -54,6 +54,7 @@
     "socketio-wildcard": "^2.0.0"
   },
   "devDependencies": {
+    "codecov": "^3.0.0",
     "eslint": "^4.7.2",
     "eslint-plugin-jasmine": "^2.2.0",
     "grunt": "^1.0.1",
