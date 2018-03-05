@@ -1,6 +1,6 @@
 // Test automatically retrieved. Do not edit manually
-const { render, json } = require('server/reply');
-const { get, post } = require('server/router');
+const { render, json, redirect } = require('server/reply');
+const { get, post, put, del, error } = require('server/router');
 const { modern } = require('server').utils;
 const test = require('server/test');
 const fs = require('mz/fs');

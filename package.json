@@ -64,6 +64,7 @@
     "grunt-contrib-watch": "^1.0.0",
     "jest": "^22.4.2",
     "jstransformer-marked": "^1.0.2",
+    "nunjucks": "^3.1.2",
     "picnic": "^6.4.0",
     "request-promises": "^1.0.1",
     "supertest": "^3.0.0"

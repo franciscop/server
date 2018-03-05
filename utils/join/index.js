@@ -11,6 +11,11 @@ const processReturn = async (ctx, ret) => {
     return await ret.exec(ctx);
   }
 
+  // Errors should be thrown to trickle down
+  if (ret instanceof Error) {
+    throw ret;
+  }
+
   // TODO: make a check for only accepting the right types of return values
 
   // Create a whole new reply thing

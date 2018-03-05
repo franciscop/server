@@ -289,7 +289,35 @@ fetch('/42', {
 
 ## error()
 
-It handles an error thrown by a previous middleware:
+It handles an error returned or thrown by a previous middleware:
+
+```js
+// Require the user to be authenticated
+const isAuth = ctx => ctx.user ? null : new Error('No user :(');
+
+// Handle any kind of error that wasn't handled
+const handler = error(ctx => redirect('/'));
+
+// The protected route
+const protectedRoute = get('/hello', isAuth, ctx => 'Protected', handler);
+
+/* test */
+const home = get('/', ctx => 'Good!');
+const res = await test(home, protectedRoute).get('/hello');
+expect(res.body).toBe('Good!');
+```
+
+The function `isAuth` could also have thrown the error and it'd behave the same way:
+
+```js
+const isAuth = ctx => {
+  if (!ctx.user) throw new Error('No user :(');
+};
+```
+
+
+
+You can handle specific types of errors if you define their code:
 
 ```js
 const handle = error('special', ctx => {
@@ -304,7 +332,7 @@ const throwsError = ctx => {
 };
 
 // Then test it faking a request
-test(throwsError, handle).get('/');
+run(throwsError, handle).get('/');
 ```
 
 It accepts an optional name and then middleware. If there's no name, it will catch all of the previously thrown errors. The name will match the **beginning** of the string name, so you can split your errors by domain:

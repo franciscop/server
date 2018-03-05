@@ -5,7 +5,7 @@ module.exports = {
     public: {
       type: String,
       inherit: 'public',
-      env: false
+      env: 'STATIC_PUBLIC'
     }
   },
   init: ctx => {

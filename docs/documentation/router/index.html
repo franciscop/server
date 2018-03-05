@@ -230,7 +230,27 @@ test({ security: false }, route).del(&#39;/42&#39;);
 });
 </code></pre>
 <h2 id="error-">error()</h2>
-<p>It handles an error thrown by a previous middleware:</p>
+<p>It handles an error returned or thrown by a previous middleware:</p>
+<pre><code class="lang-js">// Require the user to be authenticated
+const isAuth = ctx =&gt; ctx.user ? null : new Error(&#39;No user :(&#39;);
+
+// Handle any kind of error that wasn&#39;t handled
+const handler = error(ctx =&gt; redirect(&#39;/&#39;));
+
+// The protected route
+const protectedRoute = get(&#39;/hello&#39;, isAuth, ctx =&gt; &#39;Protected&#39;, handler);
+
+/* test */
+const home = get(&#39;/&#39;, ctx =&gt; &#39;Good!&#39;);
+const res = await test(home, protectedRoute).get(&#39;/hello&#39;);
+expect(res.body).toBe(&#39;Good!&#39;);
+</code></pre>
+<p>The function <code>isAuth</code> could also have thrown the error and it&#39;d behave the same way:</p>
+<pre><code class="lang-js">const isAuth = ctx =&gt; {
+  if (!ctx.user) throw new Error(&#39;No user :(&#39;);
+};
+</code></pre>
+<p>You can handle specific types of errors if you define their code:</p>
 <pre><code class="lang-js">const handle = error(&#39;special&#39;, ctx =&gt; {
   console.log(ctx.error);
 });
@@ -243,7 +263,7 @@ const throwsError = ctx =&gt; {
 };
 
 // Then test it faking a request
-test(throwsError, handle).get(&#39;/&#39;);
+run(throwsError, handle).get(&#39;/&#39;);
 </code></pre>
 <p>It accepts an optional name and then middleware. If there&#39;s no name, it will catch all of the previously thrown errors. The name will match the <strong>beginning</strong> of the string name, so you can split your errors by domain:</p>
 <pre><code class="lang-js">// This will be caught since &#39;user&#39; === &#39;user&#39;
