@@ -64,7 +64,7 @@ describe('server/error', () => {
     });
 
     it('can define an error with a function', () => {
-      TestError.bbb = () => `Function error`;
+      TestError.bbb = () => 'Function error';
       expect(TestError('bbb').message).toBe('Function error');
     });
 

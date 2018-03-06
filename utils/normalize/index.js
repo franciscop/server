@@ -11,7 +11,7 @@ module.exports = middle => (typeof middle[0] === 'string') ? ({
   middle[0] instanceof Function ||
   middle[0] instanceof Array
 ) ? ({
-  path: '*', opts: {}, middle
-}) : ({
-  path: '*', opts: middle.shift(), middle
-});
+    path: '*', opts: {}, middle
+  }) : ({
+    path: '*', opts: middle.shift(), middle
+  });

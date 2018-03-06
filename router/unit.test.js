@@ -96,7 +96,7 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with full path', async () => {
-    const generate = ctx => { throw new RouterError('router'); };
+    const generate = () => { throw new RouterError('router'); };
     const handle = error('/server/test/router', ctx => {
       return ctx.error.code;
     });
@@ -105,7 +105,7 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with partial path', async () => {
-    const generate = ctx => { throw new RouterError('router'); };
+    const generate = () => { throw new RouterError('router'); };
     const handle = error('/server/test', ctx => {
       return ctx.error.code;
     });
@@ -121,7 +121,7 @@ describe('Error routes', () => {
   };
 
   it('can generate errors', async () => {
-    const generate = ctx => {
+    const generate = () => {
       throw new RouterError('router');
     };
     const handle = error('/server/test/router', ctx => {
@@ -133,7 +133,7 @@ describe('Error routes', () => {
   });
 
   it('can generate errors with options', async () => {
-    const generate = ctx => {
+    const generate = () => {
       throw new RouterError('simplerouter', { text: 'ABC' });
     };
     const handle = error('/server/test/simplerouter', ctx => {
@@ -141,6 +141,6 @@ describe('Error routes', () => {
     });
 
     const res = await test({ errors }, [generate, handle]).get('/');
-    expect(res.body).toBe(`Simple message: ABC`);
+    expect(res.body).toBe('Simple message: ABC');
   });
 });

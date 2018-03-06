@@ -13,11 +13,27 @@ const lint = src => new Promise((resolve, reject) => {
 });
 
 describe('linter', () => {
-  it('lints the src', async () => {
-    return await lint('src');
+  it('lints the error', async () => {
+    return await lint('error');
   }, 100000);
 
   it('lints the plugins', async () => {
     return await lint('plugins');
+  }, 100000);
+
+  it('lints the reply', async () => {
+    return await lint('reply');
+  }, 100000);
+
+  it('lints the router', async () => {
+    return await lint('router');
+  }, 100000);
+
+  it('lints the src', async () => {
+    return await lint('src');
+  }, 100000);
+
+  it('lints the utils', async () => {
+    return await lint('utils');
   }, 100000);
 });

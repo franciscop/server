@@ -7,7 +7,6 @@ const { get, post, put, del, sub, error } = server.router;
 
 // Mock middlewares and data:
 const question = { answer: 42 };
-const mirror = ctx => ctx.data;
 const hello = () => 'Hello 世界';
 const throwError = () => {
   const err = new Error('MockError');
@@ -45,7 +44,7 @@ describe('Basic router types', () => {
   });
 
   it('can do a DELETE request', async () => {
-    const mid = del('/', ctx => 'Hello 世界');
+    const mid = del('/', () => 'Hello 世界');
 
     const res = await test(mid).del('/', { body: question });
     expect(res.body).toEqual('Hello 世界');
@@ -182,11 +181,13 @@ describe('Ends where it should end', () => {
   // A bug shifted the router's middleware on each request so now we test for
   // multiple request to make sure the middleware remains the same
   it('does not modify the router', async () => {
-    const inst = test(get('/', hello)).run(async api => {
-      for (let url of [0, 1, 2]) {
-        const res = await api.get('/');
-        expect(res.body).toBe('Hello 世界');
-      }
+    return test(get('/', hello)).run(async api => {
+      const res1 = await api.get('/');
+      expect(res1.body).toBe('Hello 世界');
+      const res2 = await api.get('/');
+      expect(res2.body).toBe('Hello 世界');
+      const res3 = await api.get('/');
+      expect(res3.body).toBe('Hello 世界');
     });
   });
 
@@ -212,7 +213,6 @@ describe('Ends where it should end', () => {
   });
 
   it('does empty error matching', async () => {
-    let err;
     const res = await test(throwError).get('/');
     expect(res.status).toBe(500);
   });

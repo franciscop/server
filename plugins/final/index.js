@@ -28,11 +28,11 @@ const errorHandler = ctx => {
   ctx.log.error(error);
   if (ctx.res.headersSent) return;
 
-  let status = error.status || error.code || 500;
+  let status = error.status || error.code;
   if (typeof status !== 'number') status = 500;
 
-  // Display the error message if this error is marked as public
-  if (error.public || ctx.options.env === 'test') {
+  // Display the error message if this error is marked as public or not in production
+  if (error.public || ctx.options.env !== 'production') {
     return ctx.res.status(status).send(error.message);
   }
 

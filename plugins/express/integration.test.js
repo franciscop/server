@@ -93,4 +93,10 @@ describe('express', () => {
     expect(res.status).toBe(500);
     expect(res.body).toMatch(/Failed to lookup view "index.blo"/);
   });
+
+  it('throws when closing it when already closed', async () => {
+    const app = await server({ port: test.port() });
+    await app.close();
+    await expect(app.close()).rejects.toMatchObject({ message: 'Not running' });
+  });
 });

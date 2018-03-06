@@ -2,7 +2,7 @@
   "parserOptions": {
     "ecmaVersion": 8
   },
-  "plugins": ["jasmine"],
+  "plugins": ["jest"],
   "env": {
     "browser": true,
     "commonjs": true,

@@ -23,6 +23,19 @@ describe('final', () => {
     expect(out.log).toMatch('Hello Error');
   });
 
+  it('can return a custom code from the Error', async () => {
+    const simple = () => {
+      const err = new Error('Hello Error: display to the public');
+      err.status = 401;
+      throw err;
+    };
+    const out = {};
+    const res = await test({ raw: true, log: storeLog(out) }, simple).get('/');
+    expect(res.statusCode).toBe(401);
+    expect(res.body).toBe('Hello Error: display to the public');
+    expect(out.log).toMatch('Hello Error');
+  });
+
   it('displays the appropriate error to the public', async () => {
     const simple = () => {
       const err = new Error('Hello Error: display to the public');
@@ -36,14 +49,34 @@ describe('final', () => {
     expect(out.log).toMatch('Hello Error');
   });
 
-  it('makes the status 500 if it is invalid', async () => {
-    const simple = () => {
-      const err = new Error('Hello Error');
-      err.status = 'pepito';
-      throw err;
-    };
+  it('display the error to the public in dev/test', async () => {
+    const simple = () => new Error('Hello Error');
     const out = {};
     const res = await test({ raw: true, log: storeLog(out) }, simple).get('/');
+    expect(res.statusCode).toBe(500);
+    expect(res.body).toBe('Hello Error');
+    expect(out.log).toMatch('Hello Error');
+  });
+
+  it('does not display private (default) errors in production', async () => {
+    const simple = () => new Error('Hello Error');
+    const out = {};
+    const overloadEnv = ctx => { ctx.options.env = 'production'; };
+    const res = await test({ raw: true, log: storeLog(out) }, overloadEnv, simple).get('/');
+    expect(res.statusCode).toBe(500);
+    expect(res.body).toBe('');
+    expect(out.log).toMatch('Hello Error');
+  });
+
+  it('display error to the public even in dev/prod if set to public', async () => {
+    const simple = () => {
+      const err = new Error('Hello Error');
+      err.public = true;
+      return err;
+    };
+    const out = {};
+    const overloadEnv = ctx => { ctx.options.env = 'production'; };
+    const res = await test({ raw: true, log: storeLog(out) }, overloadEnv, simple).get('/');
     expect(res.statusCode).toBe(500);
     expect(res.body).toBe('Hello Error');
     expect(out.log).toMatch('Hello Error');

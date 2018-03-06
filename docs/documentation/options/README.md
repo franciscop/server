@@ -62,6 +62,25 @@ NODE_ENV=development
 
 To set them in remote server it will depend on the hosting that you use ([see Heroku example](https://devcenter.heroku.com/articles/config-vars)).
 
+The environment variables will **only** be set after doing `require('server')`. You *do not* need to manually use the package `dotenv`:
+
+```js
+// > undefined
+console.log(process.env.SECRET);
+
+// Require server, loading the environment variables from `.env`
+const server = require('server');
+
+// Whatever your secret is ;)
+console.log(process.env.SECRET);
+```
+
+An exception is when the variables are overloaded from the command line, in which case they will be available everywhere, both before and after:
+
+```bash
+PORT=3000 node .
+```
+
 
 
 ### Argument
@@ -249,7 +268,7 @@ If you don't have any view file you don't have to create the folder. The files w
 The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines). To use an engine you normally have to install it first except for the pre-installed ones [pug](https://pugjs.org/) and [handlebars](http://handlebarsjs.com/):
 
 ```
-npm install [ejs|nunjucks|emblem] --save
+npm install [blade|ejs|emblem] --save
 ```
 
 Then to use that engine you just have to add the extension to the [`render()` method](/documentation/reply/#render-):
@@ -271,6 +290,43 @@ Or through the corresponding option in javascript:
 
 ```js
 server({ engine: 'pug' }, ctx => render('index'));
+```
+
+
+### Writing an engine
+
+If any of the express engines don't work out of the box, you can also make your own engine very easily. All you need is to specify the engine as an object with a key and a function. Let's see it for nunjucks, since it notably does not support express:
+
+```js
+const engine = {
+  nunjucks: (file, options) => require('nunjucks').render(file, options)
+};
+
+server({ engine }, () => render('index'));
+```
+
+That's it. The function accepts **2** arguments (or less), first the fully qualified filename and second the options (also known as *locals*). The value that it returns or the resolved value if it returns a promise is what it will render.
+
+Nunjucks **will be set as default** so in that case `index.nunjucks` will be loaded. If there are several properties/engines, you should specify the extension like `render('index.nunjucks')`, where the key of the engine is the extension.
+
+You can set several engines, in which case the latest one will be the default. To use them separately, just indicate the extension:
+
+```js
+const engine = {
+  nunjucks: (file, options) => require('nunjucks').render(file, options),
+  custom: async (file, options) => {
+    await someOp();
+    return 'Hey there :)';
+  })
+};
+
+server({ engine }, [
+  // Render whatever is in ./views/index.nunjucks
+  get('/', () => render('index.nunjucks')),
+
+  // Say "Hey there :)". Note: ./views/another.custom *must* exist
+  get('/another', () => render('another.custom'))
+]);
 ```
 
 

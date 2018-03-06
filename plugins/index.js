@@ -12,7 +12,7 @@ try {
   const isPlugin = name => /^@server\//.test(name);
   client = Object.keys(pack.dependencies).filter(isPlugin).map(require);
 } catch (err) {
-  console.log('Error trying to read your "package.json", please report it in github:', err);
+  throw new Error('Error trying to read your "package.json", please report it in github: ' + err);
 }
 
 // Export all of the plugins, both internally and autoloaded

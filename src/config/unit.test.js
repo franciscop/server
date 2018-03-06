@@ -31,7 +31,7 @@ describe('options', () => {
     expect(opts.democ).toBe(undefined);
   });
 
-  it.skip('throws when secret is passed manually', async () => {
+  it('throws when secret is passed manually', async () => {
     const opts = config({ secret: 'your-random-string-here' });
     await expect(opts).rejects.toHaveProperty('code', '/server/options/noarg');
   });

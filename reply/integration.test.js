@@ -1,4 +1,3 @@
-const server = require('server');
 const test = require('server/test');
 const {
   cookie, download, end, file, header, json,
@@ -13,7 +12,7 @@ describe('reply', () => {
       const mid = () => cookie('hello', 'world').end();
       const res = await test(mid).get('/');
       expect(res.status).toBe(200);
-      expect(res.headers['set-cookie'][0]).toMatch(/hello\=world/);
+      expect(res.headers['set-cookie'][0]).toMatch(/hello=world/);
     });
   });
 
@@ -177,20 +176,20 @@ describe('reply', () => {
 
   describe('render', () => {
     it('renders a demo file', async () => {
-      const mid = (ctx) => render('index.hbs');
+      const mid = () => render('index.hbs');
       const res = await test({ views: 'test/views' }, mid).get('/');
       expect(res.status).toBe(200);
-      expect(res.body).toMatch(/\<h1\>Hello world\<\/h1\>/);
+      expect(res.body).toMatch(/<h1>Hello world<\/h1>/);
     });
 
     it('requires to specify a file', async () => {
-      const mid = (ctx) => render();
+      const mid = () => render();
       const res = await test({ views: 'test/views' }, mid).get('/');
       expect(res.status).toBe(500);
     });
 
     it('does not expect many things', async () => {
-      const mid = (ctx) => render('index.hbs', {}, 'should not be here');
+      const mid = () => render('index.hbs', {}, 'should not be here');
       const res = await test({ views: 'test/views' }, mid).get('/');
       expect(res.status).toBe(500);
     });
@@ -220,7 +219,7 @@ describe('reply', () => {
 
   describe('status', () => {
     it('can change the status', async () => {
-      const mid = (ctx) => status(505).end();
+      const mid = () => status(505).end();
       const res = await test(mid).get('/');
       expect(res.status).toBe(505);
     });
@@ -232,7 +231,7 @@ describe('reply', () => {
 
   describe('type', () => {
     it('can set the response type', async () => {
-      const mid = (ctx) => type('png').send('Hello');
+      const mid = () => type('png').send('Hello');
       const res = await test(mid).get('/');
       expect(res.status).toBe(200);
       expect(res.headers['content-type']).toBe('image/png; charset=utf-8');

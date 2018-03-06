@@ -74,8 +74,6 @@ module.exports = {
       ctx.log.debug(`Server started on http://localhost:${ctx.options.port}/`);
       resolve();
     });
-
-    ctx.server.on('error', err => reject(err));
   }),
   close: ctx => new Promise((resolve, reject) => {
     ctx.server.close(err => err ? reject(err) : resolve());
