@@ -1,10 +1,10 @@
 # **server.js** for Node.js
 
-[![[Subscribe]](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH)
-[![[Downloads]](https://img.shields.io/npm/dm/server.svg)](https://npm-stat.com/charts.html?package=server)
-[![[Status]](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server) [![Codecov](https://codecov.io/gh/franciscop/server/branch/master/graph/badge.svg)](https://codecov.io/gh/franciscop/server)
-[![[Windows Build]](https://img.shields.io/appveyor/ci/franciscop/server.svg?label=windows)](https://ci.appveyor.com/project/franciscop/server)
-[![[Dependencies status]](https://david-dm.org/franciscop/server/status.svg)](https://david-dm.org/franciscop/server)
+[![Subscribe](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH)
+[![Downloads](https://img.shields.io/npm/dm/server.svg)](https://npm-stat.com/charts.html?package=server)
+[![Status](https://circleci.com/gh/franciscop/server.svg?style=shield)](https://circleci.com/gh/franciscop/server)
+[![Windows Build](https://img.shields.io/appveyor/ci/franciscop/server.svg?label=windows)](https://ci.appveyor.com/project/franciscop/server)
+[![Dependencies status](https://david-dm.org/franciscop/server/status.svg)](https://david-dm.org/franciscop/server)
 
 Powerful server for Node.js that just works so **you can focus on your awesome project**:
 
@@ -19,6 +19,8 @@ server({ port: 8080 }, [
   post('/', ctx => console.log(ctx.data))
 ]);
 ```
+
+<div class="ad inline sponsored">If you want to quickly add authentication to Node.js apps, feel free to check out Auth0's Node.js SDK and free plan at [auth0.com/overview](https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=serverjs&utm_content=auth). [sponsored]</div>
 
 <blockquote class="external">
   <p>Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.</p>
@@ -138,9 +140,12 @@ module.exports = [
 
 
 
-## License
+## Sponsors
 
-Licensed under the MIT License. See [LICENSE](https://github.com/franciscop/server/blob/master/LICENSE) for the full license.
+So far we have one sponsor, [Auth0](https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=serverjs&utm_content=auth)! Thank you so much ❤. They *are* an awesome service and I'm using it at my job so I was really happy when they reached out. I fully agree with their message:
+
+If you want to quickly add authentication to Node.js apps, feel free to check out Auth0's Node.js SDK and free plan at [auth0.com/overview](https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=serverjs&utm_content=auth).
+
 
 
 

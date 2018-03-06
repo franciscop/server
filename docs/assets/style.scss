@@ -212,6 +212,11 @@ blockquote *:last-child {
 }
 
 
+// The ad above the quote should only be shown in the README.md but in the website there are other sponsoring rules (as per our agreement).
+.ad.inline {
+  display: none;
+}
+
 
 button.secret {
   display: none;
