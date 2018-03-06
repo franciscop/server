@@ -66,7 +66,7 @@ module.exports = {
       ctx.app.set('view engine', name);
     }
   },
-  listen: ctx => new Promise((resolve, reject) => {
+  listen: ctx => new Promise(resolve => {
     const context = (self, req, res) => Object.assign(req, self, { req, res });
     ctx.app.use((req, res) => ctx.middle(context(ctx, req, res)));
 

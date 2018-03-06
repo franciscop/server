@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1520337872504" clover="3.2.0">
-  <project timestamp="1520337872504" name="All files">
-    <metrics statements="604" coveredstatements="603" conditionals="328" coveredconditionals="313" methods="169" coveredmethods="167" elements="1101" coveredelements="1083" complexity="0" loc="604" ncloc="604" packages="21" files="56" classes="56">
+<coverage generated="1520338192797" clover="3.2.0">
+  <project timestamp="1520338192797" name="All files">
+    <metrics statements="603" coveredstatements="602" conditionals="328" coveredconditionals="313" methods="168" coveredmethods="167" elements="1099" coveredelements="1082" complexity="0" loc="603" ncloc="603" packages="21" files="56" classes="56">
       <package name="server">
         <metrics statements="28" coveredstatements="28" conditionals="0" coveredconditionals="0" methods="6" coveredmethods="6"/>
         <file name="server.js" path="/home/francisco/projects/server/server.js">
@@ -82,9 +82,9 @@
         </file>
       </package>
       <package name="server.plugins.express">
-        <metrics statements="28" coveredstatements="28" conditionals="8" coveredconditionals="8" methods="12" coveredmethods="11"/>
+        <metrics statements="27" coveredstatements="27" conditionals="8" coveredconditionals="8" methods="11" coveredmethods="11"/>
         <file name="index.js" path="/home/francisco/projects/server/plugins/express/index.js">
-          <metrics statements="28" coveredstatements="28" conditionals="8" coveredconditionals="8" methods="12" coveredmethods="11"/>
+          <metrics statements="27" coveredstatements="27" conditionals="8" coveredconditionals="8" methods="11" coveredmethods="11"/>
           <line num="1" count="31" type="stmt"/>
           <line num="4" count="31" type="stmt"/>
           <line num="5" count="2" type="stmt"/>
@@ -110,9 +110,8 @@
           <line num="73" count="146" type="stmt"/>
           <line num="74" count="146" type="stmt"/>
           <line num="75" count="146" type="stmt"/>
-          <line num="78" count="146" type="stmt"/>
-          <line num="80" count="143" type="stmt"/>
-          <line num="81" count="143" type="cond" truecount="2" falsecount="0"/>
+          <line num="78" count="143" type="stmt"/>
+          <line num="79" count="143" type="cond" truecount="2" falsecount="0"/>
         </file>
       </package>
       <package name="server.plugins.favicon">
@@ -506,21 +505,21 @@
           <metrics statements="18" coveredstatements="18" conditionals="12" coveredconditionals="11" methods="4" coveredmethods="4"/>
           <line num="2" count="33" type="stmt"/>
           <line num="5" count="33" type="stmt"/>
-          <line num="6" count="7656" type="stmt"/>
-          <line num="7" count="6666" type="stmt"/>
-          <line num="8" count="6006" type="cond" truecount="2" falsecount="0"/>
+          <line num="6" count="7689" type="stmt"/>
+          <line num="7" count="6699" type="stmt"/>
+          <line num="8" count="6039" type="cond" truecount="2" falsecount="0"/>
           <line num="11" count="33" type="stmt"/>
-          <line num="12" count="9603" type="cond" truecount="2" falsecount="0"/>
-          <line num="13" count="7656" type="cond" truecount="1" falsecount="1"/>
-          <line num="14" count="7656" type="cond" truecount="2" falsecount="0"/>
-          <line num="15" count="6666" type="cond" truecount="2" falsecount="0"/>
-          <line num="16" count="6006" type="stmt"/>
-          <line num="17" count="6006" type="cond" truecount="2" falsecount="0"/>
+          <line num="12" count="9636" type="cond" truecount="2" falsecount="0"/>
+          <line num="13" count="7689" type="cond" truecount="1" falsecount="1"/>
+          <line num="14" count="7689" type="cond" truecount="2" falsecount="0"/>
+          <line num="15" count="6699" type="cond" truecount="2" falsecount="0"/>
+          <line num="16" count="6039" type="stmt"/>
+          <line num="17" count="6039" type="cond" truecount="2" falsecount="0"/>
           <line num="19" count="33" type="stmt"/>
-          <line num="21" count="5808" type="stmt"/>
+          <line num="21" count="5841" type="stmt"/>
           <line num="24" count="33" type="stmt"/>
           <line num="25" count="33" type="stmt"/>
-          <line num="26" count="9603" type="stmt"/>
+          <line num="26" count="9636" type="stmt"/>
           <line num="29" count="33" type="stmt"/>
         </file>
         <file name="errors.js" path="/home/francisco/projects/server/src/config/errors.js">
@@ -568,7 +567,7 @@
           <line num="32" count="10" type="stmt"/>
           <line num="36" count="4739" type="stmt"/>
           <line num="39" count="4739" type="stmt"/>
-          <line num="40" count="471594" type="stmt"/>
+          <line num="40" count="473178" type="stmt"/>
           <line num="43" count="4739" type="stmt"/>
           <line num="49" count="1679" type="stmt"/>
           <line num="52" count="1679" type="stmt"/>
