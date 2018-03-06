@@ -134,13 +134,3 @@ server(
 ## 1.0.0
 
 **First major release.**
-
-Retrieve the old functionality of Express to make it easy to launch a server in Node.js:
-
-- Testing testing and more testing.
-- Good documentation and tutorials.
-- Include all of the libraries.
-- Created the base.
-- Implemented some of the libraries.
-- Use it in real-world projects.
-- Make sure that the express-session is secure with the secret (session usage depend on whether the token is provided or not).
