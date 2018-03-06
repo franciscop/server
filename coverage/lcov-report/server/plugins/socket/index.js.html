@@ -20,28 +20,28 @@
     </h1>
     <div class='clearfix'>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">30.43% </span>
         <span class="quiet">Statements</span>
-        <span class='fraction'>23/23</span>
+        <span class='fraction'>7/23</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">0% </span>
         <span class="quiet">Branches</span>
-        <span class='fraction'>8/8</span>
+        <span class='fraction'>0/8</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">14.29% </span>
         <span class="quiet">Functions</span>
-        <span class='fraction'>7/7</span>
+        <span class='fraction'>1/7</span>
       </div>
       <div class='fl pad1y space-right2'>
-        <span class="strong">100% </span>
+        <span class="strong">35% </span>
         <span class="quiet">Lines</span>
-        <span class='fraction'>20/20</span>
+        <span class='fraction'>7/20</span>
       </div>
     </div>
   </div>
-  <div class='status-line high'></div>
+  <div class='status-line low'></div>
 <pre><table class="coverage">
 <tr><td class="line-count quiet">1
 2
@@ -87,45 +87,45 @@
 42
 43
 44</td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-yes">31x</span>
+<span class="cline-any cline-yes">2x</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">31x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">2x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">36x</span>
-<span class="cline-any cline-yes">29x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">16x</span>
-<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">146x</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">146x</span>
-<span class="cline-any cline-yes">146x</span>
-<span class="cline-any cline-yes">146x</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">8x</span>
-<span class="cline-any cline-yes">8x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-yes">24x</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-yes">7x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-yes">24x</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -142,33 +142,33 @@ module.exports = {
     origins: { type: String, env: 'SOCKET_ORIGINS' },
     parser: {}
   },
-  router: (path, ...middle) =&gt; async ctx =&gt; {
-    if (ctx.replied) return;
-    if (ctx.path !== path &amp;&amp; path !== '*') return;
+  router: <span class="fstat-no" title="function not covered" >(p</span>ath, ...middle) =&gt; <span class="cstat-no" title="statement not covered" ><span class="fstat-no" title="function not covered" >as</span>ync ctx =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >    if (ctx.replied) <span class="cstat-no" title="statement not covered" >return;</span></span>
+<span class="cstat-no" title="statement not covered" >    if (ctx.path !== path &amp;&amp; path !== '*') <span class="cstat-no" title="statement not covered" >return;</span></span>
 &nbsp;
-    ctx.replied = true;
-    const ret = await ctx.utils.join(middle)(ctx);
-    if (ret) {
-      ctx.socket.emit(path, ret);
+<span class="cstat-no" title="statement not covered" >    ctx.replied = true;</span>
+    const ret = <span class="cstat-no" title="statement not covered" >await ctx.utils.join(middle)(ctx);</span>
+<span class="cstat-no" title="statement not covered" >    if (ret) {</span>
+<span class="cstat-no" title="statement not covered" >      ctx.socket.emit(path, ret);</span>
     }
   },
   listen: ctx =&gt; {
-    const newCtx = ({ socket, path, data }) =&gt; Object.assign({}, ctx, {
+    const newCtx = <span class="fstat-no" title="function not covered" >({</span> socket, path, data }) =&gt; <span class="cstat-no" title="statement not covered" >Object.assign({}, ctx, {</span>
       method: 'SOCKET', io: ctx.io, path, socket, data
     });
     ctx.io = socketIO(ctx.server, ctx.options.socket);
     ctx.io.use(wildcard);
-    ctx.io.on('connect', async socket =&gt; {
-      socket.on('*', packet =&gt; {
-        const [path, data] = packet.data;
-        ctx.middle(newCtx({ socket, path, data }));
+    ctx.io.on('connect', <span class="fstat-no" title="function not covered" >as</span>ync socket =&gt; {
+<span class="cstat-no" title="statement not covered" >      socket.on('*', <span class="fstat-no" title="function not covered" >pa</span>cket =&gt; {</span>
+        const [path, data] = <span class="cstat-no" title="statement not covered" >packet.data;</span>
+<span class="cstat-no" title="statement not covered" >        ctx.middle(newCtx({ socket, path, data }));</span>
       });
 &nbsp;
-      socket.on('disconnect', () =&gt; {
-        ctx.middle(newCtx({ socket, path: 'disconnect' }));
+<span class="cstat-no" title="statement not covered" >      socket.on('disconnect', <span class="fstat-no" title="function not covered" >()</span> =&gt; {</span>
+<span class="cstat-no" title="statement not covered" >        ctx.middle(newCtx({ socket, path: 'disconnect' }));</span>
       });
 &nbsp;
-      await ctx.middle(newCtx({ socket, path: 'connect' }));
+<span class="cstat-no" title="statement not covered" >      await ctx.middle(newCtx({ socket, path: 'connect' }));</span>
     });
   }
 };
@@ -178,7 +178,7 @@ module.exports = {
 </div><!-- /wrapper -->
 <div class='footer quiet pad2 space-top1 center small'>
   Code coverage
-  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Mar 06 2018 21:09:52 GMT+0900 (JST)
+  generated by <a href="https://istanbul.js.org/" target="_blank">istanbul</a> at Tue Mar 06 2018 21:21:59 GMT+0900 (JST)
 </div>
 </div>
 <script src="../../../prettify.js"></script>

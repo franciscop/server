@@ -6,9 +6,6 @@ const reply = require('./reply');
 const utils = require('./utils');
 const plugins = require('./plugins');
 
-// Parse the configuration
-const config = require('./src/config');
-
 // Get the functions from the plugins for a special point
 // This implies a hook can only be a function, not an array of fn
 const hook = (ctx, name) => ctx.plugins.map(p => p[name]).filter(p => p);
@@ -29,7 +26,7 @@ const Server = async (...all) => {
   const { opts, middle } = ctx.utils.normalize(all);
 
   // Set the options for the context of Server.js
-  ctx.options = await config(opts, Server.plugins);
+  ctx.options = await utils.options(opts, Server.plugins);
 
   // Only allow plugins that were manually enabled through the options
   ctx.plugins = ctx.plugins.filter(p => ctx.options[p.name]);

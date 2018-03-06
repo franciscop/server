@@ -212,6 +212,19 @@ describe('Ends where it should end', () => {
     expect(err.message).toMatch(/MockError/);
   });
 
+  it('ignores wrong path', async () => {
+    let err;
+    const res = await test(throwError, error('/wrong/', () => {
+      err = { message: 'Wrong error :(' };
+      throw new Error('Wrong error :(');
+    }), error('test', ctx => {
+      if (!err) err = ctx.error;
+      return 'Hello world';
+    })).get('/');
+    expect(res.body).toBe('Hello world');
+    expect(err.message).toMatch(/MockError/);
+  });
+
   it('does empty error matching', async () => {
     const res = await test(throwError).get('/');
     expect(res.status).toBe(500);
