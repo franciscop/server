@@ -18,7 +18,7 @@ describe('reply', () => {
 
 
   describe('download', () => {
-    it('can download a file with an absolute path', async () => {
+    it('can download with an absolute path', async () => {
       const mid = async () => download(logo, 'logo.png');
       const res = await test(mid).get('/');
       expect(res.status).toBe(200);
@@ -26,7 +26,7 @@ describe('reply', () => {
       expect(res.headers['content-type']).toBe('image/png');
     });
 
-    it('can download a file with a relative path', async () => {
+    it('can download with a relative path', async () => {
       const mid = async () => download('test/logo.png', 'logo.png');
       const res = await test(mid).get('/');
       expect(res.status).toBe(200);
@@ -80,7 +80,7 @@ describe('reply', () => {
 
 
   describe('file', () => {
-    it('can download a file with an absolute path', async () => {
+    it('can get a file with an absolute path', async () => {
       const mid = async () => file(logo, 'logo.png');
       const res = await test(mid).get('/');
       expect(res.status).toBe(200);

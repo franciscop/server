@@ -7,7 +7,7 @@ module.exports = (method, ...all) => {
   // Extracted or otherwise it'd shift once per call; also more performant
   const { path, middle } = normalize(all);
 
-  const match = params(path || '');
+  const match = params(path);
 
   return async ctx => {
 

@@ -1,5 +1,6 @@
 const path = require('path');
 const fs = require('mz/fs');
+const { promisify } = require('util');
 
 
 const Reply = function (name, ...args) {
@@ -39,13 +40,11 @@ Reply.prototype.download = function (...args) {
     file = path.resolve(process.cwd(), file);
   }
 
-  this.stack.push(async ctx => {
+  this.stack.push(async ({ res }) => {
     if (!await fs.exists(file)) {
       throw new Error(`The file "${file}" does not exist. Make sure that you set an absolute path or a relative path to the root of your project`);
     }
-    return new Promise((resolve, reject) => {
-      ctx.res.download(file, opts, err => err ? reject(err) : resolve());
-    });
+    return promisify(res.download.bind(res))(file, opts);
   });
 
   return this;
@@ -78,13 +77,11 @@ Reply.prototype.file = function (...args) {
     file = path.resolve(process.cwd(), file);
   }
 
-  this.stack.push(async ctx => {
+  this.stack.push(async ({ res }) => {
     if (!await fs.exists(file)) {
       throw new Error(`The file "${file}" does not exist. Make sure that you set an absolute path or a relative path to the root of your project`);
     }
-    return new Promise((resolve, reject) => {
-      ctx.res.sendFile(file, opts, err => err ? reject(err) : resolve());
-    });
+    return promisify(res.sendFile.bind(res))(file, opts);
   });
 
   return this;
@@ -133,11 +130,12 @@ Reply.prototype.render = function (...args) {
 
   let [file, opts = {}] = args;
 
-  this.stack.push(ctx => new Promise((resolve, reject) => {
-    // Note: if callback is provided, it does not send() automatically
-    const cb = (err, html) => err ? reject(err) : resolve(ctx.res.send(html));
-    ctx.res.render(file, opts, cb);
-  }));
+
+  this.stack.push(async ({ res }) => {
+    const html = await promisify(res.render.bind(res))(file, opts);
+    res.send(html);
+  });
+
   return this;
 };
 

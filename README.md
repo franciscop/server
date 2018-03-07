@@ -38,7 +38,7 @@ There's a [whole tutorial on getting started for beginners](https://serverjs.io/
 npm install server
 ```
 
-> Server requires **Node.js 7.6.0** or newer. **Node.js 8.9.x** LTS is recommended for long-term support from Node.js.
+> Server requires **Node.js 8.0.0** or newer.
 
 Then you can create a file called `index.js` with this code:
 

@@ -8,7 +8,7 @@ const processReturn = async (ctx, ret) => {
 
   // Use the returned reply instance
   if (ret.constructor.name === 'Reply') {
-    return await ret.exec(ctx);
+    return ret.exec(ctx);
   }
 
   // Errors should be thrown to trickle down
@@ -24,6 +24,7 @@ const processReturn = async (ctx, ret) => {
   if (ctx.res) {
     return await reply[fn](ret).exec(ctx);
   }
+
   return ret;
 };
 
