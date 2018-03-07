@@ -1,3 +1,9 @@
+<div>
+  <strong>
+    <a class="button source" href="https://github.com/franciscop/tokyochat">Source code</a>
+  </strong>
+</div>
+
 # Real-time chat
 
 In this tutorial you will learn how websockets work, the specifics of socket.io and how to create a real-time chat with server.js.
