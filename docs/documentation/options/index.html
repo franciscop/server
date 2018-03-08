@@ -110,6 +110,19 @@ NODE_ENV=development
 <p>Remember to <strong>add <code>.env</code> to your <code>.gitignore</code></strong>.</p>
 </blockquote>
 <p>To set them in remote server it will depend on the hosting that you use (<a href="https://devcenter.heroku.com/articles/config-vars">see Heroku example</a>).</p>
+<p>The environment variables will <strong>only</strong> be set after doing <code>require(&#39;server&#39;)</code>. You <em>do not</em> need to manually use the package <code>dotenv</code>:</p>
+<pre><code class="lang-js">// &gt; undefined
+console.log(process.env.SECRET);
+
+// Require server, loading the environment variables from `.env`
+const server = require(&#39;server&#39;);
+
+// Whatever your secret is ;)
+console.log(process.env.SECRET);
+</code></pre>
+<p>An exception is when the variables are overloaded from the command line, in which case they will be available everywhere, both before and after:</p>
+<pre><code class="lang-bash">PORT=3000 node .
+</code></pre>
 <h3 id="argument">Argument</h3>
 <p>The alternative to the environment variables is to pass them <strong>as the first argument</strong> when calling <code>server()</code>. Each option is a combination of key/value in the object and they all go in lowercase. See some options with their defaults:</p>
 <pre><code class="lang-js">const server = require(&#39;server&#39;);
@@ -218,7 +231,7 @@ expect(res.body.views).toBe(process.cwd() + path.sep);
 <p>Note: this option can be ignored and server.js will work with both <code>.pug</code> and <code>.hbs</code> (Handlebars) file types.</p>
 </blockquote>
 <p>The view engine that you want to use to render your templates. <a href="https://github.com/expressjs/express/wiki#template-engines">See all the available engines</a>. To use an engine you normally have to install it first except for the pre-installed ones <a href="https://pugjs.org/">pug</a> and <a href="http://handlebarsjs.com/">handlebars</a>:</p>
-<pre><code>npm install [ejs|nunjucks|emblem] --save
+<pre><code>npm install [blade|ejs|emblem] --save
 </code></pre><p>Then to use that engine you just have to add the extension to the <a href="/documentation/reply/#render-"><code>render()</code> method</a>:</p>
 <pre><code class="lang-js">// No need to specify the engine if you are using the extension
 server(ctx =&gt; render(&#39;index.pug&#39;));
@@ -229,6 +242,33 @@ server(ctx =&gt; render(&#39;index.hbs&#39;));
 <pre><code>ENGINE=pug
 </code></pre><p>Or through the corresponding option in javascript:</p>
 <pre><code class="lang-js">server({ engine: &#39;pug&#39; }, ctx =&gt; render(&#39;index&#39;));
+</code></pre>
+<h3 id="writing-an-engine">Writing an engine</h3>
+<p>If any of the express engines don&#39;t work out of the box, you can also make your own engine very easily. All you need is to specify the engine as an object with a key and a function. Let&#39;s see it for nunjucks, since it notably does not support express:</p>
+<pre><code class="lang-js">const engine = {
+  nunjucks: (file, options) =&gt; require(&#39;nunjucks&#39;).render(file, options)
+};
+
+server({ engine }, () =&gt; render(&#39;index&#39;));
+</code></pre>
+<p>That&#39;s it. The function accepts <strong>2</strong> arguments (or less), first the fully qualified filename and second the options (also known as <em>locals</em>). The value that it returns or the resolved value if it returns a promise is what it will render.</p>
+<p>Nunjucks <strong>will be set as default</strong> so in that case <code>index.nunjucks</code> will be loaded. If there are several properties/engines, you should specify the extension like <code>render(&#39;index.nunjucks&#39;)</code>, where the key of the engine is the extension.</p>
+<p>You can set several engines, in which case the latest one will be the default. To use them separately, just indicate the extension:</p>
+<pre><code class="lang-js">const engine = {
+  nunjucks: (file, options) =&gt; require(&#39;nunjucks&#39;).render(file, options),
+  custom: async (file, options) =&gt; {
+    await someOp();
+    return &#39;Hey there :)&#39;;
+  })
+};
+
+server({ engine }, [
+  // Render whatever is in ./views/index.nunjucks
+  get(&#39;/&#39;, () =&gt; render(&#39;index.nunjucks&#39;)),
+
+  // Say &quot;Hey there :)&quot;. Note: ./views/another.custom *must* exist
+  get(&#39;/another&#39;, () =&gt; render(&#39;another.custom&#39;))
+]);
 </code></pre>
 <h2 id="env">Env</h2>
 <p>Define the context in which the server is running. The most common and accepted cases are <code>&#39;development&#39;</code>, <code>&#39;test&#39;</code> and <code>&#39;production&#39;</code>. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc.</p>

@@ -475,4 +475,21 @@ describe('validation', () => {
       await expect(parsed4).rejects.toHaveProperty('code', '/server/options/type');
     });
   });
+
+  describe('required', () => {
+    const schema = { prop: { extend: true, default: {} } };
+    it('cannot extend a number', async () => {
+      const parsed = parse(schema, { prop: true });
+      await expect(parsed).rejects.toHaveProperty('code', '/server/options/noextend');
+
+      const parsed2 = parse(schema, { prop: 20 });
+      await expect(parsed2).rejects.toHaveProperty('code', '/server/options/noextend');
+
+      const parsed3 = parse(schema, { prop: 'hello' });
+      await expect(parsed3).rejects.toHaveProperty('code', '/server/options/noextend');
+
+      const parsed4 = parse(schema, { prop: () => {} });
+      await expect(parsed4).rejects.toHaveProperty('code', '/server/options/noextend');
+    });
+  });
 });
