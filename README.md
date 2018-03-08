@@ -20,7 +20,7 @@ server({ port: 8080 }, [
 ]);
 ```
 
-<div class="ad inline sponsored">If you want to quickly add authentication to Node.js apps, feel free to check out Auth0's Node.js SDK and free plan at [auth0.com/overview](https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=serverjs&utm_content=auth). [sponsored]</div>
+<div class="ad inline sponsored">If you want to quickly add authentication to Node.js apps, feel free to check out Auth0's Node.js SDK and free plan at <a href="https://auth0.com/overview?utm_source=GHsponsor&utm_medium=GHsponsor&utm_campaign=serverjs&utm_content=auth">auth0.com/overview</a> [sponsored]</div>
 
 <blockquote class="external">
   <p>Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.</p>
