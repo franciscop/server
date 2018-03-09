@@ -63,16 +63,4 @@ describe('Options', () => {
     expect(typeof serv1.a).toBe('undefined');
     expect(serv2.a).toBe('abc');
   });
-
-  // // NOT PART OF THE STABLE API
-  // it('logs init string', async () => {
-  //   const logs = [];
-  //   const index = server.plugins.push({
-  //     name: 'log', launch: ctx => { ctx.log = msg => logs.push(msg) }
-  //   });
-  //   const ctx = await server({ port: port(), verbose: true });
-  //   ctx.close();
-  //   delete server.plugins[index];
-  //   expect(logs.filter(one => /started on/.test(one)).length).toBe(1);
-  // });
 });

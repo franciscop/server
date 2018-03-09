@@ -10,7 +10,7 @@ module.exports = async (user = {}, plugins = []) => {
   const options = await parse(schema, env, user);
 
   // Then load plugin options namespaced with the name in parallel
-  await Promise.all(plugins.map(async ({ name, options: def = {}} = {}) => {
+  await Promise.all(plugins.map(async ({ name, options: def = {}}) => {
     options[name] = await parse(def, env, user[name], options);
   }));
 

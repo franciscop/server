@@ -102,12 +102,11 @@ const parse = module.exports = async (schema, ...args) => {
     }
 
     // Extend the base object or user object with new values if these are not set
-    if (def.extend) {
-      if (typeof value === 'object') {
-        value = Object.assign({}, def.default || {}, value);
-      } else {
-        throw new OptionsError('noextend', { type: typeof value, name });
-      }
+    // Extend only if it's an object
+    // Note: some times it accepts object (to extend) or boolean, so it cannot
+    // force to always be object
+    if (def.extend && typeof value === 'object') {
+      value = Object.assign({}, def.default || {}, value);
     }
 
     // Normalize the "public" folder or file

@@ -29,15 +29,6 @@ error.noenv = ({ name }) => `
   Please read the documentation for '${name}' and make sure to set it correctly.
 `;
 
-error.cannotextend = ({ type, name }) => `
-  The option "${name}" must be an object but it received "${type}".
-  Please check your options to make sure you are passing an object.
-${type === 'undefined' ? `
-  If you are the creator of the plugin and you are receiving 'undefined', you
-  could allow for the default behaviour to be an empty object 'default: {}'
-` : ''}
-`;
-
 error.required = ({ name }) => `
   The option '${name}' is required but it was not set neither as an argument nor
   in the environment. Please make sure to set it.

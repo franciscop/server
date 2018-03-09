@@ -1,7 +1,7 @@
 const normalize = require('./normalize');
 
-module.exports = (app, request) => async (method, url, options) => {
-  const res = await request(normalize(method, url, app.options.port, options));
+module.exports = (app, request) => async (method, path, options) => {
+  const res = await request(normalize(method, path, app.options.port, options));
   res.method = res.request.method;
   res.status = res.statusCode;
   if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {

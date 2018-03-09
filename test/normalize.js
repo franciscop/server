@@ -1,12 +1,17 @@
 
-// Make an object with the options as expected by request()
-module.exports = (method, url, port, options) => {
+// Make an object with the options as expected by `request()` library
+module.exports = (method = 'GET', url = '/', port = 3000, options) => {
 
   // Make sure it's a simple object
-  if (typeof options === 'string') options = { url: options };
+  if (typeof options === 'string') {
+    options = options.replace(/\/$/, '');
+    url = url.replace(/^\//, '');
+    options = { url: options + '/' + url };
+  }
 
   // Assign independent parts
-  options = Object.assign({}, { headers: {} }, options, { url, method });
+  options = Object.assign({}, { headers: {} }, { url, method }, options);
+
   if (options && options.body && typeof options.body === 'string') {
     options.headers['Content-Type'] = 'text/plain';
   }

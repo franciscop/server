@@ -10,7 +10,6 @@ const is = {
 
 const type = str => {
   if (!str) return;
-  if (typeof str !== 'string') return str;
   if (is.numeric(str)) return +str;
   if (is.boolean(str)) return /true/i.test(str);
   try {
