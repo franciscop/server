@@ -8,4 +8,4 @@ general:
 
 dependencies:
   pre:
-    - sudo apt-get update; sudo apt-get install redis-server; redis-server; redis-cli ping
+    - sudo apt-get update; sudo apt-get install redis-server; redis-server &; redis-cli ping
