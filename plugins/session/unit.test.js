@@ -63,10 +63,12 @@ describe('store', () => {
     expect(res.body.store).toBe(false);
   });
 
-  it('connects to redis', async () => {
-    const res = await test({ session: { redis: 'redis://127.0.0.1:6379/0' } }, ctx => {
-      return { store: !!ctx.options.session.store };
-    }).get('/');
-    expect(res.body.store).toBe(true);
-  });
+  if (!/^win/.test(process.platform)) {
+    it('connects to redis', async () => {
+      const res = await test({ session: { redis: 'redis://127.0.0.1:6379/0' } }, ctx => {
+        return { store: !!ctx.options.session.store };
+      }).get('/');
+      expect(res.body.store).toBe(true);
+    });
+  }
 });
