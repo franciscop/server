@@ -1,0 +1,9 @@
+{
+  "title": "Upload files",
+  "description": "Learn how to store your user files safely with different vendors.",
+  "sections": [
+    "Secret",
+    "Storage",
+    "Alternatives"
+  ]
+}
