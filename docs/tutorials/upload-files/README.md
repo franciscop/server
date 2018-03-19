@@ -65,7 +65,7 @@ We will have [this file structure in the repository](https://github.com/francisc
 
 ## Interface
 
-Our interface is going to be a simple text field and a `file` input. We'll use [Picnic CSS](https://picnicss.com/documentation#dropimage) to make it look like this:
+Our interface is going to be a simple text field and a `file` input. We'll use [Picnic CSS' Dropimage](https://picnicss.com/documentation#dropimage) to make it look like this:
 
 ![Upload Gallery](./img/upload-gallery.png)
 
@@ -163,8 +163,8 @@ const saveToDatabase = async ({ data }) => {
   await new Image(data).save();
 };
 
-// Launch the server, load the middleware and the two routes
-server(3000, uploadAll, [
+// Load the middleware, the two routes and launch the server
+server(uploadAll, [
   get('/', renderHome),
   post('/', saveToDatabase, ctx => redirect('/')),
   error(ctx => status(500).send(ctx.error.message))

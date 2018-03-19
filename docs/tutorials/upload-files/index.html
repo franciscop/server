@@ -46,7 +46,7 @@ MONGODB_URI=mongodb://localhost/image
 <li><code>upload-all.js</code>: the middleware that will handle file uploads.</li>
 </ul>
 <h2 id="interface">Interface</h2>
-<p>Our interface is going to be a simple text field and a <code>file</code> input. We&#39;ll use <a href="https://picnicss.com/documentation#dropimage">Picnic CSS</a> to make it look like this:</p>
+<p>Our interface is going to be a simple text field and a <code>file</code> input. We&#39;ll use <a href="https://picnicss.com/documentation#dropimage">Picnic CSS&#39; Dropimage</a> to make it look like this:</p>
 <p><img src="./img/upload-gallery.png" alt="Upload Gallery"></p>
 <p>Since the objective of this tutorial is not to learn how to make interfaces, let&#39;s go ahead and <a href="https://github.com/franciscop/server-tutorial-upload/blob/master/views/index.hbs">put the code for this</a> in <code>views/index.hbs</code>:</p>
 <pre><code class="lang-html">&lt;!DOCTYPE html&gt;
@@ -133,8 +133,8 @@ const saveToDatabase = async ({ data }) =&gt; {
   await new Image(data).save();
 };
 
-// Launch the server, load the middleware and the two routes
-server(3000, uploadAll, [
+// Load the middleware, the two routes and launch the server
+server(uploadAll, [
   get(&#39;/&#39;, renderHome),
   post(&#39;/&#39;, saveToDatabase, ctx =&gt; redirect(&#39;/&#39;)),
   error(ctx =&gt; status(500).send(ctx.error.message))
