@@ -14,25 +14,21 @@ For persistence we are going to use Cloudinary for images, and MongoDB with Mong
 
 
 
-## Create account
+## Installation
 
 Head over [to Cloudinary website](https://cloudinary.com/) and create a new account with "Sign up for Free":
 
 [![Cloudinary Signup](./img/signup.png)](https://cloudinary.com/)
 
-You can skip the setup without any problem **but you have to confirm the email** for it to work. Afterwards your account is ready to go! Let's integrate it into server.js.
+You can skip the setup without any problem **but you have to confirm the email** for it to work. Afterwards your account is ready to go! Have a look [at the full documentation for Node.js](https://cloudinary.com/documentation/node_integration), but we will be using the very basics in this tutorial.
 
+You will also need to [install and run MongoDB locally](https://docs.mongodb.com/manual/installation/). Make sure that it is installed correctly by running `mongod --version`.
 
-
-## Installation
-
-After [getting started](https://serverjs.io/tutorials/getting-started/) we install server.js and the packages we'll be using:
+With those dependencies out of the way and after [getting started](https://serverjs.io/tutorials/getting-started/) we install server.js and the packages we'll be using:
 
 ```js
 npm install server cloudinary mongoose time-ago
 ```
-
-You will also need to [install and run MongoDB locally](https://docs.mongodb.com/manual/installation/). Make sure that it is installed by running `mongod --version`. For Cloudinary [here is the full documentation for Node.js](https://cloudinary.com/documentation/node_integration) but we will be using the very basics in this tutorial.
 
 Since we are [handling our secrets](https://serverjs.io/documentation/options/#environment) correctly (right?), we edit our `.env` to add:
 
@@ -69,7 +65,7 @@ Our interface is going to be a simple text field and a `file` input. We'll use [
 
 ![Upload Gallery](./img/upload-gallery.png)
 
-Since the objective of this tutorial is not to learn how to make interfaces, let's go ahead and [put the code for this](https://github.com/franciscop/server-tutorial-upload/blob/master/views/index.hbs) in `views/index.hbs`:
+Since the objective of this tutorial is *not* to learn how to the interface, just [put the code](https://github.com/franciscop/server-tutorial-upload/blob/master/views/index.hbs) in `views/index.hbs`:
 
 ```html
 <!DOCTYPE html>
@@ -141,9 +137,7 @@ Just a couple of notes on this:
 
 ## Uploading user files
 
-Now we get to the fun part, using server.js to actually upload the pictures. Let's say we want to upload **every** picture that gets uploaded to our site automatically. First we set up our main script.
-
-It has two parts, the homepage rendering all the images from the database and the handler for storing the images into the database. But we are also including a middleware that will automatically upload the image to Cloudinary:
+Now we get to the fun part, using server.js to actually upload the pictures. Let's say we want to upload **every** picture that gets uploaded to our site automatically. Our entry point has two routes: the homepage rendering all the images and the handler for storing the images into the database. We are also including a middleware that will automatically upload the image to Cloudinary:
 
 ```js
 const server = require('server');
@@ -152,7 +146,7 @@ const { render, redirect, status } = server.reply;
 const uploadAll = require('./upload-all');
 const Image = require('./image');
 
-// Render the homepage with any picture you have in *session*
+// Render the homepage with all pictures from the DB
 const renderHome = async ctx => {
   const pictures = await Image.find().sort('-_id').exec();
   return render('index.hbs', { pictures });
