@@ -7,7 +7,7 @@ const processReturn = async (ctx, ret) => {
   if (!ret) return;
 
   // Use the returned reply instance
-  if (ret.constructor.name === 'Reply') {
+  if (ret.constructor && ret.constructor.name === 'Reply') {
     return ret.exec(ctx);
   }
 

@@ -73,11 +73,17 @@ describe('express', () => {
   });
 
   it('has a default locals', async () => {
-    const res = await test(ctx => {
-      ctx.locals.a = 5;
-    }, ctx => ctx.locals).get('/');
-    expect(res.status).toBe(200);
+    const res = await test(ctx => { ctx.locals.a = 5; }, ctx => ctx.locals).get('/');
     expect(res.body).toMatchObject({ a: 5 });
+    expect(res.status).toBe(200);
+  });
+
+  it('the root locals works with views', async () => {
+    const res = await test({ views: 'test/views' }, ctx => {
+      ctx.locals.world = 'you';
+    }, ctx => render('variable.hbs')).get('/');
+    expect(res.body).toMatch(/<h1>Hello you<\/h1>/);
+    expect(res.status).toBe(200);
   });
 
   it('no engine cannot render anything', async () => {
