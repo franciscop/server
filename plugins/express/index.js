@@ -67,7 +67,7 @@ module.exports = {
     }
   },
   listen: ctx => new Promise(resolve => {
-    const context = (self, req, res) => Object.assign(req, self, { req, res });
+    const context = (self, req, res) => Object.assign(req, self, { req, res }, { locals: {} });
     ctx.app.use((req, res) => ctx.middle(context(ctx, req, res)));
 
     ctx.server = ctx.app.listen(ctx.options.port, () => {

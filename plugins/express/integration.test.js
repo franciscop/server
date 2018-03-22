@@ -72,6 +72,14 @@ describe('express', () => {
     expect(res.body).toBe('Hello world 2');
   });
 
+  it('has a default locals', async () => {
+    const res = await test(ctx => {
+      ctx.locals.a = 5;
+    }, ctx => ctx.locals).get('/');
+    expect(res.status).toBe(200);
+    expect(res.body).toMatchObject({ a: 5 });
+  });
+
   it('no engine cannot render anything', async () => {
     const res = await test({ views, engine: false }, () => render('index.bla')).get('/');
     expect(res.status).toBe(500);

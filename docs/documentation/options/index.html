@@ -151,12 +151,13 @@ SSL_KEY=test/fixtures/keys/agent2-key.pem
 SSL_CERT=test/fixtures/keys/agent2-cert.cert
 </code></pre><p>The converse is not true; a <code>_</code> separated string in the <code>.env</code> does not necessarily become an object as a parameter. You&#39;ll have to read the documentation of each option and plugin for the specific details.</p>
 <h2 id="port">Port</h2>
-<p>The port where you want to launch the server. Defaults to <code>3000</code> and it&#39;s the only option that can be specified as a single option:</p>
+<p>The port where you want to launch the server. Defaults to <code>process.env.PORT</code> or <code>3000</code> if not found, and it&#39;s the only option that can be specified as a single option:</p>
 <pre><code class="lang-js">server();        // Use the default port 3000
 server(3000);    // Specify the port
 server({ port: 3000 });  // The same as the previous one
 </code></pre>
-<p>Some hosts such as Heroku will define an environment variable called <code>PORT</code>, so it will work smoothly there. You can also set it instead in your <code>.env</code> if you prefer it:</p>
+<p>If you are setting the port in your environment that will take preference over the argument <a href="#environment">as all environment variables</a>. So it will work seamlessly in Heroku and other hosts that define a <code>PORT</code> environment variable.</p>
+<p>Or you can leave it empty and just use your <code>.env</code> file:</p>
 <pre><code>PORT=3000
 </code></pre><p>Example: setting the port to some other number. For numbers 1-1024 you&#39;d need administrator permission, so we&#39;re testing it with higher ports:</p>
 <pre><code class="lang-js">const options = {
@@ -172,9 +173,38 @@ expect(res.body.port).toBe(5001);
 <p>It is <a href="https://serverjs.io/tutorials/sessions-production/"><strong>highly recommended</strong></a> that you set this in your environment variable for both development and production before you start coding. It should be a random and long string. It can be used by middleware for storing secrets and keeping cookies/sessions:</p>
 <pre><code>SECRET=your-random-string-here
 </code></pre><p>The <em>default</em> provided will be different each time the server is launched. This is not suitable for production, since you want persistent sessions even with server restarts. See the <a href="https://serverjs.io/tutorials/sessions-production/">session in production tutorial</a> to set it up properly (includes some extras such as Redis sessions).</p>
-<p>Please <strong>do not</strong> set this as a variable <strike><code>server({ secret: &#39;whatever&#39; });</code></strike>.</p>
+<p>It <strong>cannot</strong> be set as a variable: <strike><code>server({ secret: &#39;whatever&#39; });</code></strike>.</p>
+<p>If you have other secrets it is recommended that you prepend those by their respective vendor names:</p>
+<pre><code class="lang-js"># Used by server.js for sessions
+SECRET=your-random-string-here
+
+# Used by different middleware
+GITHUB_SECRET=your-github-secret
+CLOUDINARY_SECRET=your-cloudinary-secret
+# ...
+</code></pre>
 <h2 id="public">Public</h2>
-<p>The folder where your static assets are and defaults to <code>public</code>. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through the browser such as <code>example.com/myfile.pdf</code> should be in this folder. You can set it to any folder within your project.</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>default</th>
+<th><a href="#environment">.env</a></th>
+<th>type</th>
+<th>notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>public</code></td>
+<td><code>public</code></td>
+<td><code>PUBLIC=public</code></td>
+<td>String</td>
+<td>Folder path</td>
+</tr>
+</tbody>
+</table>
+<p>The folder where your <strong>static assets</strong> are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through the browser such as <code>example.com/myfile.pdf</code> should be in this folder. You can set it to any folder within your project.</p>
 <p>To set the public folder in the environment add this to <a href="#environment">your <code>.env</code></a>:</p>
 <pre><code>PUBLIC=public
 </code></pre><p>Through the initialization parameter:</p>
@@ -202,10 +232,30 @@ expect(res.body.public).toBe(process.cwd() + path.sep);
 server({ public: &#39;&#39; });
 </code></pre>
 <h2 id="views">Views</h2>
-<p>The folder where your views and templates are, defaulting to <code>views</code>. These are the files used by the <a href="/documentation/reply/#render-"><code>render()</code> method</a>. You can set it to any folder within your project.</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>default</th>
+<th><a href="#environment">.env</a></th>
+<th>type</th>
+<th>notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>views</code></td>
+<td><code>views</code></td>
+<td><code>VIEWS=views</code></td>
+<td>String</td>
+<td>Folder path</td>
+</tr>
+</tbody>
+</table>
+<p>The folder where you put your view files and templates. These are the files used by the <a href="/documentation/reply/#render-"><code>render()</code> method</a>. You can set it to any folder within your project.</p>
 <p>To set the views folder in the environment add this to <a href="#environment">your <code>.env</code></a>:</p>
 <pre><code>VIEWS=views
-</code></pre><p>Through the initialization parameter:</p>
+</code></pre><p>Or pass it as another option:</p>
 <pre><code class="lang-js">const options = {
   views: &#39;views&#39;
 };
@@ -227,8 +277,28 @@ expect(res.body.views).toBe(process.cwd() + path.sep);
 </code></pre>
 <p>If you don&#39;t have any view file you don&#39;t have to create the folder. The files within <code>views</code> should all have an extension such as <code>.hbs</code>, <code>.pug</code>, etc. To see how to install and use those keep reading.</p>
 <h2 id="engine">Engine</h2>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>default</th>
+<th><a href="#environment">.env</a></th>
+<th>type</th>
+<th>notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>engine</code></td>
+<td><code>engine</code></td>
+<td><code>ENGINE=engine</code></td>
+<td>String, Object</td>
+<td><a href="https://github.com/expressjs/express/wiki#template-engines">engine</a></td>
+</tr>
+</tbody>
+</table>
 <blockquote>
-<p>Note: this option can be ignored and server.js will work with both <code>.pug</code> and <code>.hbs</code> (Handlebars) file types.</p>
+<p>Note: this option, as all options, can be ignored and server.js will work with both <code>.pug</code> and <code>.hbs</code> (Handlebars) file types.</p>
 </blockquote>
 <p>The view engine that you want to use to render your templates. <a href="https://github.com/expressjs/express/wiki#template-engines">See all the available engines</a>. To use an engine you normally have to install it first except for the pre-installed ones <a href="https://pugjs.org/">pug</a> and <a href="http://handlebarsjs.com/">handlebars</a>:</p>
 <pre><code>npm install [blade|ejs|emblem] --save
@@ -243,6 +313,35 @@ server(ctx =&gt; render(&#39;index.hbs&#39;));
 </code></pre><p>Or through the corresponding option in javascript:</p>
 <pre><code class="lang-js">server({ engine: &#39;pug&#39; }, ctx =&gt; render(&#39;index&#39;));
 </code></pre>
+<h3 id="writing-your-own-engine">Writing your own engine</h3>
+<p>Engines are really easy to write with server.js. They must be a function that receives the file path and the options (or locals) and returns the text to render from the engine. It can be either sync or async. To configure it for handling a specific extension, just put that as the key in an object for <code>engine</code>.</p>
+<p>As an example of how to handle nunjucks, in a single file for it:</p>
+<pre><code class="lang-js">// nunjucks-engine.js
+const nunjucks = require(&#39;nunjucks&#39;);
+
+// The .render() in Nunjucks is sync, so no need to wait
+module.exports = (file, options) =&gt; nunjucks.render(file, options);
+</code></pre>
+<p>Then in your main file:</p>
+<pre><code class="lang-js">const server = require(&#39;server&#39;);
+const { get } = server.router;
+const { render } = server.reply;
+const nunjucks = require(&#39;./nunjucks&#39;);
+
+const options = {
+  engine: {
+    // Register two keys for the same render function
+    nunjucks,
+    njk: nunjucks
+  }
+};
+
+server(options, [
+  get(&#39;/&#39;, () =&gt; render(&#39;index.njk&#39;, { a: &#39;b&#39; })),
+  get(&#39;/hello&#39;, () =&gt; render(&#39;hello.nunjucks&#39;))
+]);
+</code></pre>
+<p>You can also set the function to <code>async</code> and it will wait until it is resolved, and return the result to the browser as expected.</p>
 <h3 id="writing-an-engine">Writing an engine</h3>
 <p>If any of the express engines don&#39;t work out of the box, you can also make your own engine very easily. All you need is to specify the engine as an object with a key and a function. Let&#39;s see it for nunjucks, since it notably does not support express:</p>
 <pre><code class="lang-js">const engine = {
@@ -271,7 +370,27 @@ server({ engine }, [
 ]);
 </code></pre>
 <h2 id="env">Env</h2>
-<p>Define the context in which the server is running. The most common and accepted cases are <code>&#39;development&#39;</code>, <code>&#39;test&#39;</code> and <code>&#39;production&#39;</code>. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc.</p>
+<table>
+<thead>
+<tr>
+<th>name</th>
+<th>default</th>
+<th><a href="#environment">.env</a></th>
+<th>type</th>
+<th>notes</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>env</code></td>
+<td><code>development</code></td>
+<td><strong><code>NODE_ENV=development</code></strong></td>
+<td>String, Object</td>
+<td>[&#39;development&#39;, &#39;test&#39;, &#39;production&#39;]</td>
+</tr>
+</tbody>
+</table>
+<p>Define the context in which the server is running. It <strong>has to be</strong> one of those: <code>&#39;development&#39;</code>, <code>&#39;test&#39;</code> and <code>&#39;production&#39;</code>. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc. so it is recommended that you set these appropriately.</p>
 <blockquote>
 <p>Note: The environment variable is called <strong>NODE_ENV</strong> while the option as a parameter is <strong>env</strong>.</p>
 </blockquote>
@@ -279,7 +398,7 @@ server({ engine }, [
 <pre><code>NODE_ENV=development
 </code></pre><p>Then in your hosting environment you&#39;d set it to production (some hosts like Heroku do so automatically):</p>
 <pre><code>NODE_ENV=production
-</code></pre><p>These are the most common and recommended types for NODE_ENV:</p>
+</code></pre><p>These are the only accepted types for NODE_ENV:</p>
 <pre><code class="lang-js">development
 test
 production
@@ -298,6 +417,7 @@ server({ favicon: &#39;public/favicon.png&#39; },
 );
 </code></pre>
 <p>The path can be absolute or relative to the root of your project.</p>
+<p>Most browsers require <code>/favicon.ico</code> automatically, so you might be seeing 404 errors if the favicon is not returned for this situation.</p>
 <h2 id="parse">Parse</h2>
 <p>The parsing middleware is included by default. It uses few of them under the hood and these are the options for all of them. They should all work by default, but still give access to the options if you want to make some more advanced modifications.</p>
 <h3 id="body-parser">Body parser</h3>

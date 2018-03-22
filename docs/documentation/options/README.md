@@ -130,7 +130,7 @@ The converse is not true; a `_` separated string in the `.env` does not necessar
 
 ## Port
 
-The port where you want to launch the server. Defaults to `3000` and it's the only option that can be specified as a single option:
+The port where you want to launch the server. Defaults to `process.env.PORT` or `3000` if not found, and it's the only option that can be specified as a single option:
 
 ```js
 server();        // Use the default port 3000
@@ -138,7 +138,9 @@ server(3000);    // Specify the port
 server({ port: 3000 });  // The same as the previous one
 ```
 
-Some hosts such as Heroku will define an environment variable called `PORT`, so it will work smoothly there. You can also set it instead in your `.env` if you prefer it:
+If you are setting the port in your environment that will take preference over the argument [as all environment variables](#environment). So it will work seamlessly in Heroku and other hosts that define a `PORT` environment variable.
+
+Or you can leave it empty and just use your `.env` file:
 
 ```
 PORT=3000
@@ -169,15 +171,29 @@ SECRET=your-random-string-here
 
 The *default* provided will be different each time the server is launched. This is not suitable for production, since you want persistent sessions even with server restarts. See the [session in production tutorial](https://serverjs.io/tutorials/sessions-production/) to set it up properly (includes some extras such as Redis sessions).
 
-Please **do not** set this as a variable <strike>`server({ secret: 'whatever' });`</strike>.
+It **cannot** be set as a variable: <strike>`server({ secret: 'whatever' });`</strike>.
 
+If you have other secrets it is recommended that you prepend those by their respective vendor names:
 
+```js
+# Used by server.js for sessions
+SECRET=your-random-string-here
+
+# Used by different middleware
+GITHUB_SECRET=your-github-secret
+CLOUDINARY_SECRET=your-cloudinary-secret
+# ...
+```
 
 
 
 ## Public
 
-The folder where your static assets are and defaults to `public`. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through the browser such as `example.com/myfile.pdf` should be in this folder. You can set it to any folder within your project.
+|name     |default  |[.env](#environment) |type   |notes       |
+|---------|---------|---------------------|-------|------------|
+|`public` |`public` |`PUBLIC=public`      |String |Folder path |
+
+The folder where your **static assets** are. This includes images, styles, javascript for the browser, etc. Any file that you want directly accessible through the browser such as `example.com/myfile.pdf` should be in this folder. You can set it to any folder within your project.
 
 To set the public folder in the environment add this to [your `.env`](#environment):
 
@@ -222,7 +238,11 @@ server({ public: '' });
 
 ## Views
 
-The folder where your views and templates are, defaulting to `views`. These are the files used by the [`render()` method](/documentation/reply/#render-). You can set it to any folder within your project.
+|name     |default  |[.env](#environment) |type   |notes       |
+|---------|---------|---------------------|-------|------------|
+|`views`  |`views`  |`VIEWS=views`        |String |Folder path |
+
+The folder where you put your view files and templates. These are the files used by the [`render()` method](/documentation/reply/#render-). You can set it to any folder within your project.
 
 To set the views folder in the environment add this to [your `.env`](#environment):
 
@@ -230,7 +250,7 @@ To set the views folder in the environment add this to [your `.env`](#environmen
 VIEWS=views
 ```
 
-Through the initialization parameter:
+Or pass it as another option:
 
 ```js
 const options = {
@@ -260,10 +280,13 @@ If you don't have any view file you don't have to create the folder. The files w
 
 
 
-
 ## Engine
 
-> Note: this option can be ignored and server.js will work with both `.pug` and `.hbs` (Handlebars) file types.
+|name     |default  |[.env](#environment) |type           |notes       |
+|---------|---------|---------------------|---------------|------------|
+|`engine` |`engine` |`ENGINE=engine`      |String, Object |[engine](https://github.com/expressjs/express/wiki#template-engines)  |
+
+> Note: this option, as all options, can be ignored and server.js will work with both `.pug` and `.hbs` (Handlebars) file types.
 
 The view engine that you want to use to render your templates. [See all the available engines](https://github.com/expressjs/express/wiki#template-engines). To use an engine you normally have to install it first except for the pre-installed ones [pug](https://pugjs.org/) and [handlebars](http://handlebarsjs.com/):
 
@@ -292,6 +315,43 @@ Or through the corresponding option in javascript:
 server({ engine: 'pug' }, ctx => render('index'));
 ```
 
+### Writing your own engine
+
+Engines are really easy to write with server.js. They must be a function that receives the file path and the options (or locals) and returns the text to render from the engine. It can be either sync or async. To configure it for handling a specific extension, just put that as the key in an object for `engine`.
+
+As an example of how to handle nunjucks, in a single file for it:
+
+```js
+// nunjucks-engine.js
+const nunjucks = require('nunjucks');
+
+// The .render() in Nunjucks is sync, so no need to wait
+module.exports = (file, options) => nunjucks.render(file, options);
+```
+
+Then in your main file:
+
+```js
+const server = require('server');
+const { get } = server.router;
+const { render } = server.reply;
+const nunjucks = require('./nunjucks');
+
+const options = {
+  engine: {
+    // Register two keys for the same render function
+    nunjucks,
+    njk: nunjucks
+  }
+};
+
+server(options, [
+  get('/', () => render('index.njk', { a: 'b' })),
+  get('/hello', () => render('hello.nunjucks'))
+]);
+```
+
+You can also set the function to `async` and it will wait until it is resolved, and return the result to the browser as expected.
 
 ### Writing an engine
 
@@ -334,7 +394,11 @@ server({ engine }, [
 
 ## Env
 
-Define the context in which the server is running. The most common and accepted cases are `'development'`, `'test'` and `'production'`. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc.
+|name  |default       |[.env](#environment)       |type           |notes                |
+|------|--------------|---------------------------|---------------|---------------------|
+|`env` |`development` |**`NODE_ENV=development`** |String, Object |['development', 'test', 'production']  |
+
+Define the context in which the server is running. It **has to be** one of those: `'development'`, `'test'` and `'production'`. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc. so it is recommended that you set these appropriately.
 
 > Note: The environment variable is called **NODE_ENV** while the option as a parameter is **env**.
 
@@ -350,7 +414,7 @@ Then in your hosting environment you'd set it to production (some hosts like Her
 NODE_ENV=production
 ```
 
-These are the most common and recommended types for NODE_ENV:
+These are the only accepted types for NODE_ENV:
 
 ```js
 development
@@ -381,6 +445,8 @@ server({ favicon: 'public/favicon.png' },
 ```
 
 The path can be absolute or relative to the root of your project.
+
+Most browsers require `/favicon.ico` automatically, so you might be seeing 404 errors if the favicon is not returned for this situation.
 
 
 
