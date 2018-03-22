@@ -16,7 +16,7 @@ describe('Automatic test from content 4', () => {
     /* test */
     const same = ctx => ({ public: ctx.options.public });
     const res = await run(options, same).get('/');
-    expect(res.body.public).toBe(process.cwd() + '/');
+    expect(res.body.public).toBe(process.cwd() + path.sep);
     // END
   });
 });
