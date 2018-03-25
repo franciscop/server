@@ -20,6 +20,24 @@ const until = async (total = 10000, cb) => {
 
 describe('socket()', () => {
 
+  it('will ignore different methods', async () => {
+    let called = [];
+    const middle = [
+      socket('/message', () => { called.push('message'); }),
+      () => 'hello'
+    ];
+    await test(middle).run(async api => {
+      const client = io(`http://localhost:${api.ctx.options.port}/`);
+      client.emit('/message', { hello: 'world' });
+      await until(10000, () => called.length);
+      const res = await api.get('/message');
+      called.push(res.body);
+      client.disconnect();
+      await time(timeToExit);
+    });
+    expect(called).toEqual(['message', 'hello']);
+  });
+
   it('can listen to a simple call', async () => {
     let called = [];
     const middle = socket('message', () => {

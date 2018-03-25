@@ -13,6 +13,7 @@ module.exports = {
   },
   router: (path, ...middle) => async ctx => {
     if (ctx.replied) return;
+    if (ctx.method !== 'SOCKET') return;
     if (ctx.path !== path && path !== '*') return;
 
     ctx.replied = true;
