@@ -201,6 +201,35 @@ server(
   router.line(ctx =&gt; reply.line.message(...))
 );
 </code></pre>
+<h2 id="router">Router</h2>
+<p>You can export a new router to handle a specific kind of request by adding the <code>router</code> key in the plugin:</p>
+<pre><code class="lang-js">module.exports = {
+  name: &#39;some-name&#39;,
+  router: (path, ...middle) =&gt; {
+    ...
+  }
+};
+</code></pre>
+<p>The router can take several values, but we recommend to make it a single function if possible. It will <strong>always</strong> receive a string first and an array of middleware later. The string will be <code>&#39;*&#39;</code> if the user does not set anything when using your middleware.</p>
+<p>It has to return a middleware, which can be sync or async as usual. Let&#39;s say that we want to treat emails through a middleware and we create an email plugin. We explain how to set it up properly, so our route will be the part before the <code>@</code> with strict matching:</p>
+<pre><code class="lang-js">// @server/line/index.js
+module.exports = {
+  name: &#39;email&#39;,
+  router: (path, ...middle) =&gt; async ctx =&gt; {
+    if (ctx.method !== &#39;LINE&#39;) return;
+    if (ctx.path !== path &amp;&amp; path !== &#39;*&#39;) return;
+
+    ctx.replied = true;
+    const ret = await ctx.utils.join(middle)(ctx);
+    if (ret) {
+      ctx.socket.emit(path, ret);
+    }
+  }
+};
+
+
+const { line } = server.routes;
+</code></pre>
 <h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Some super simple heuristics
 const is = {
   mobile: 'ontouchstart' in document.documentElement && window.innerWidth < 900,

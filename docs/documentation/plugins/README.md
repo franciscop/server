@@ -269,3 +269,42 @@ server(
   router.line(ctx => reply.line.message(...))
 );
 ```
+
+
+
+## Router
+
+You can export a new router to handle a specific kind of request by adding the `router` key in the plugin:
+
+```js
+module.exports = {
+  name: 'some-name',
+  router: (path, ...middle) => {
+    ...
+  }
+};
+```
+
+The router can take several values, but we recommend to make it a single function if possible. It will **always** receive a string first and an array of middleware later. The string will be `'*'` if the user does not set anything when using your middleware.
+
+It has to return a middleware, which can be sync or async as usual. Let's say that we want to treat emails through a middleware and we create an email plugin. We explain how to set it up properly, so our route will be the part before the `@` with strict matching:
+
+```js
+// @server/line/index.js
+module.exports = {
+  name: 'email',
+  router: (path, ...middle) => async ctx => {
+    if (ctx.method !== 'LINE') return;
+    if (ctx.path !== path && path !== '*') return;
+
+    ctx.replied = true;
+    const ret = await ctx.utils.join(middle)(ctx);
+    if (ret) {
+      ctx.socket.emit(path, ret);
+    }
+  }
+};
+
+
+const { line } = server.routes;
+```
