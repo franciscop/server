@@ -15,7 +15,7 @@ Since server is maintained mainly only by [Francisco Presencia](https://francisc
 - [ ] Try to find an answer by searching the Web.
 - [ ] Try to find an answer by inspection or experimentation.
 - [ ] Try to find an answer by asking a skilled friend.
-- [ ] If you're a programmer, try to find an answer by reading the source code.
+- [ ] Try to find an answer by reading the source code.
 
 **Ask your question**
 A clear and concise description of what you want to achieve and the issues you are facing.
