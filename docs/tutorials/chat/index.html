@@ -235,8 +235,10 @@ $(&#39;form&#39;).submit(function (e) {
 
 </code></pre>
 <h2 id="server-handling">Server handling</h2>
-<p>This library is included by default from <code>server</code>, so let&#39;s take advantage of it! First we create a simple server that will render our HTML page:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<p>This library is included by default from <code>server</code>, so let&#39;s take advantage of it! First we create a simple server that will render our HTML page. Create a file in the root of your project called <code>index.js</code>:</p>
+<pre><code class="lang-js">// /index.js
+
+const server = require(&#39;server&#39;);
 const { get, socket } = server.router;
 const { render } = server.reply;
 
@@ -246,7 +248,9 @@ server([
 </code></pre>
 <p>We can run in the terminal <code>node .</code> and access to <a href="http://localhost:3000/">localhost:3000</a> to see our chat interface.</p>
 <p>Then we will add <code>connect</code> and <code>disconnect</code> routes. We want to update everyone with the current amount of users when someone joins or leaves. We can use the same function for both of them that will send a message to everyone with <a href="https://socket.io/docs/emit-cheatsheet/">socket.io&#39;s <code>io.emit()</code></a>:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="lang-js">// /index.js
+
+const server = require(&#39;server&#39;);
 const { get, socket } = server.router;
 const { render } = server.reply;
 
@@ -264,7 +268,9 @@ server([
 ]);
 </code></pre>
 <p>Finally let&#39;s create a new socket router that, when it receives a message, it will push the same message to everyone in a similar way as before:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="lang-js">// /index.js
+
+const server = require(&#39;server&#39;);
 const { get, socket } = server.router;
 const { render } = server.reply;
 
