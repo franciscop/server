@@ -286,9 +286,11 @@ $('form').submit(function (e) {
 
 ## Server handling
 
-This library is included by default from `server`, so let's take advantage of it! First we create a simple server that will render our HTML page:
+This library is included by default from `server`, so let's take advantage of it! First we create a simple server that will render our HTML page. Create a file in the root of your project called `index.js`:
 
 ```js
+// /index.js
+
 const server = require('server');
 const { get, socket } = server.router;
 const { render } = server.reply;
@@ -303,6 +305,8 @@ We can run in the terminal `node .` and access to [localhost:3000](http://localh
 Then we will add `connect` and `disconnect` routes. We want to update everyone with the current amount of users when someone joins or leaves. We can use the same function for both of them that will send a message to everyone with [socket.io's `io.emit()`](https://socket.io/docs/emit-cheatsheet/):
 
 ```js
+// /index.js
+
 const server = require('server');
 const { get, socket } = server.router;
 const { render } = server.reply;
@@ -324,6 +328,8 @@ server([
 Finally let's create a new socket router that, when it receives a message, it will push the same message to everyone in a similar way as before:
 
 ```js
+// /index.js
+
 const server = require('server');
 const { get, socket } = server.router;
 const { render } = server.reply;
