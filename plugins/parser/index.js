@@ -1,6 +1,7 @@
 // Parser plugin
 // Get the raw request and transform it into something usable
 // Examples: ctx.body, ctx.files, etc
+const pkg = require('../../packages');
 
 const plugin = {
   name: 'parser',
@@ -43,27 +44,27 @@ const plugin = {
     ctx => {
       if (!ctx.options.parser.method) return;
       return ctx.utils.join(ctx.options.parser.method.map(one => {
-        return ctx.utils.modern(require('method-override')(one));
+        return ctx.utils.modern(pkg.methodOverride(one));
       }))(ctx);
     },
 
     ctx => {
       if (!ctx.options.parser.body) return;
-      const body = require('body-parser').urlencoded(ctx.options.parser.body);
+      const body = pkg.bodyParser.urlencoded(ctx.options.parser.body);
       return ctx.utils.modern(body)(ctx);
     },
 
     // JSON parser
     ctx => {
       if (!ctx.options.parser.json) return;
-      const json = require('body-parser').json(ctx.options.parser.json);
+      const json = pkg.bodyParser.json(ctx.options.parser.json);
       return ctx.utils.modern(json)(ctx);
     },
 
     // Text parser
     ctx => {
       if (!ctx.options.parser.text) return;
-      const text = require('body-parser').text(ctx.options.parser.text);
+      const text = pkg.bodyParser.text(ctx.options.parser.text);
       return ctx.utils.modern(text)(ctx);
     },
 
@@ -77,7 +78,7 @@ const plugin = {
     // Cookie parser
     ctx => {
       if (!ctx.options.parser.cookie) return;
-      const cookie = require('cookie-parser')(
+      const cookie = pkg.cookieParser(
         ctx.options.secret,
         ctx.options.parser.cookie
       );

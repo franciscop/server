@@ -1,4 +1,5 @@
-const compress = require('compression');
+// const compress = require('compression');
+const { compression } = require('../../packages');
 
 module.exports = {
   name: 'compress',
@@ -11,5 +12,5 @@ module.exports = {
   },
 
   // The whole plugin won't be loaded if the option is false
-  before: ctx => ctx.utils.modern(compress(ctx.options.compress))(ctx)
+  before: ctx => ctx.utils.modern(compression(ctx.options.compress))(ctx)
 };

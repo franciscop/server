@@ -42,10 +42,8 @@ const errorHandler = ctx => {
 
 module.exports = {
   name: 'final',
-  // after: handler,
   after: [
     statusHandler,
     error(errorHandler)
   ]
 };
-// module.exports = handler;

@@ -2,7 +2,9 @@
 
 // No 'package.json' inside ./test
 // eslint-disable-next-line no-undef
-jest.mock('pkg-dir', () => ({ sync: () => process.cwd() + '/test' }));
+jest.mock('../packages', () => ({
+  pkgDir: ({ sync: () => process.cwd() + '/test' })
+}));
 
 describe('loading from package.json', () => {
 

@@ -1,7 +1,7 @@
 const server = require('../../server');
 
 // THIS IS A BIG EXCEPTION. Do not ever do this:
-server.session = require('express-session');
+server.session = require('../../packages').expressSession;
 
 const RedisStore = require('connect-redis')(server.session);
 let sessionMiddleware;

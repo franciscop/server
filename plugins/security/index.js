@@ -1,5 +1,4 @@
-const csurf = require('csurf');
-const helmet = require('helmet');
+const { csurf, helmet } = require('../../packages');
 
 module.exports = {
   name: 'security',

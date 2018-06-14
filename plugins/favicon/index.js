@@ -1,4 +1,4 @@
-const favicon = require('serve-favicon');
+const { serveFavicon } = require('../../packages');
 
 module.exports = {
   name: 'favicon',
@@ -13,7 +13,7 @@ module.exports = {
 
   before: [
     ctx => ctx.options.favicon && ctx.options.favicon.location
-      ? ctx.utils.modern(favicon(ctx.options.favicon.location))(ctx)
+      ? ctx.utils.modern(serveFavicon(ctx.options.favicon.location))(ctx)
       : false
   ]
 };

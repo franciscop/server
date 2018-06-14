@@ -65,6 +65,6 @@ Server.router = router;
 Server.reply = reply;
 Server.utils = utils;
 Server.plugins = plugins;
-Server.session = require('express-session');
+Server.session = require('./packages').expressSession;
 
 module.exports = Server;

@@ -1,5 +1,5 @@
-const load = require('loadware');
 const assert = require('assert');
+const load = require('../../packages').loadware;
 const reply = require('../../reply');
 
 // Recursively resolve possible function returns

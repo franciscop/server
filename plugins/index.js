@@ -4,7 +4,7 @@
 // one to be found, do nothing
 
 // Get the root directory for the currently running process
-const dir = require('pkg-dir').sync();
+const dir = require('../packages').pkgDir.sync();
 
 let client = [];
 try {

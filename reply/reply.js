@@ -1,5 +1,5 @@
 const path = require('path');
-const fs = require('mz/fs');
+const fs = require('../packages').mz.fs;
 const { promisify } = require('util');
 
 
