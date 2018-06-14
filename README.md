@@ -32,8 +32,6 @@ server({ port: 8080 }, [
 
 There's a [whole tutorial on getting started for beginners](https://serverjs.io/tutorials/getting-started/) but the quick version is to first install `server` as a dependency:
 
-> Security Incident: if you have installed server.js between January 15th and February 15th, make sure to read [the incident report](https://github.com/franciscop/server/issues/73) and update server by doing `npm install server@1.0`.
-
 ```bash
 npm install server
 ```
