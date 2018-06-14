@@ -35,7 +35,7 @@ https://serverjs.io/documentation/reply/
 
 
 error.unhandled = `
-Some middleware threw an error that was not handled properly.
+Some middleware threw an error.
 
 Furthermore, that error was not handled properly - To catch and handle these types of errors, add a route to the end of your middlewares to handle errors like this:
 
