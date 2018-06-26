@@ -23,10 +23,23 @@ const plugin = {
     },
     report: {
       default: process.stdout
+    },
+    instance: {
+      type: Object,
+      validate(value) {
+        if (!value) {
+          return true;
+        }
+        const expectedMethods = ['emergency', 'alert', 'critical', 'error', 'warning', 'notice', 'info', 'debug'];
+        const missingMethods = expectedMethods.filter(name => typeof value[name] !== 'function');
+        return missingMethods.length === 0 || new Error(
+          `Missing log.instance method${missingMethods.length > 1 ? 's': ''}: ${missingMethods.join(', ')}`
+        );
+      }
     }
   },
   init: ctx => {
-    ctx.log = new Log(ctx.options.log.level, ctx.options.log.report);
+    ctx.log = ctx.options.log.instance || new Log(ctx.options.log.level, ctx.options.log.report);
   }
 };
 
