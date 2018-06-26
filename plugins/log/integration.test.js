@@ -36,4 +36,30 @@ describe('log()', () => {
     // Now errors must be fully qualified with Jest
     await expect(res).rejects.toMatchObject({ code: '/server/options/enum' });
   });
+
+  it('uses the given instance, if any', async () => {
+    const instance = {
+      emergency() {}, alert() {}, critical() {}, error() {}, warning() {},
+      notice() {}, info() {}, debug() {}
+    };
+    const res = await test(
+      { log: { instance } },
+      ctx => status(ctx.log === instance ? 200 : 500)
+    ).get('/');
+    expect(res.statusCode).toBe(200);
+  });
+
+  it('rejects instance with missing methods', async () => {
+    const missingMany = test({ log: { instance: {} } }).get('/');
+    await expect(missingMany).rejects.toThrow(
+      'Missing log.instance methods: emergency, alert, critical, error, warning, notice, info, debug'
+    );
+
+    const instance = {
+      emergency() {}, alert() {}, critical() {}, error() {}, warning() {},
+      notice() {}, info() {}, /* missing debug() */
+    };
+    const missingOne = test({ log: { instance } }).get('/');
+    await expect(missingOne).rejects.toThrow('Missing log.instance method: debug');
+  });
 });
