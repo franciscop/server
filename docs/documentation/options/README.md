@@ -745,3 +745,28 @@ server({
 ```
 
 This allows you for instance to handle some specific errors in a different way. It is also useful for testing that the correct data is printed on the console in certain situations.
+
+Alternatively, you can pass a `instance` variable, that allows you to use your own logger instead of
+the default one ([log](https://www.npmjs.com/package/log)).
+
+```js
+const myCustomLog = {
+  emergency(...args) { console.error(...args); },
+  alert(...args) { console.error(...args); },
+  critical(...args) { console.error(...args); },
+  error(...args) { console.error(...args); },
+  warning(...args) { console.warn(...args); },
+  notice(...args) { console.log(...args); },
+  info(...args) { console.info(...args); },
+  debug(...args) { console.debug(...args); },
+};
+
+server({
+  log: {
+    instance: myCustomLog
+  }
+});
+```
+
+**Note:** make sure it implements at least the following methods: `emergency`, `alert`, `critical`,
+`error`, `warning`, `notice`, `info`, `debug`.
