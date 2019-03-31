@@ -342,7 +342,7 @@ You can also set the function to `async` and it will wait until it is resolved, 
 |------|--------------|---------------------------|---------------|---------------------|
 |`env` |`development` |**`NODE_ENV=development`** |String, Object |['development', 'test', 'production']  |
 
-Define the context in which the server is running. It **has to be** one of those: `'development'`, `'test'` and `'production'`. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc. so it is recommended that you set these appropriately.
+Define the context in which the server is running. It **has to be** one of these: `'development'`, `'test'` and `'production'`. Some functionality might vary depending on the environment, such as live/hot reloading, cache, etc. so it is recommended that you set these appropriately.
 
 > Note: The environment variable is called **NODE_ENV** while the option as a parameter is **env**.
 
