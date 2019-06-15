@@ -1,38 +1,15 @@
-const error = require('../../error')('/plugin/final/');
+const error = require("../../error")("/plugin/final/");
 
-error.noreturn = `
-Your middleware did not return anything to the user. This normally happens when no route was matched or if the router did not reply with anything.
+error.noreturn = ({ method, url }) => `
+Your middleware did not return anything for this request:
 
-This won't return anything:
+${method} ${url}
 
-~~~
-// BAD
-server(ctx => {
-  console.log('Hello world');
-});
-~~~
+This normally happens when no route was matched or if the router did not reply with anything. Make sure to return something, even if it's a catch-all error.
 
-Make sure that something is returned from your middlware so a reply is sent to the user:
-
-~~~
-// GOOD:
-// Return with an arrow function
-server(ctx => 'Hello world');
-
-// Return with a explicit return
-server(ctx => {
-  // ...
-  return 'Hello world';
-});
-
-// Return a simple status code:
-server(ctx => 200);
-~~~
-
-Read the full documentation for reply here:
-https://serverjs.io/documentation/reply/
+Documentation for reply: https://serverjs.io/documentation/reply/
+Relevant issue: https://github.com/franciscop/server/issues/118
 `;
-
 
 error.unhandled = `
 Some middleware threw an error that was not handled properly. This can happen when you do this:

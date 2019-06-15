@@ -166,6 +166,7 @@ const { header } = server.reply;  // OR server.reply;
 const cors = [
   ctx =&gt; header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;),
   ctx =&gt; header(&quot;Access-Control-Allow-Headers&quot;, &quot;Origin, X-Requested-With, Content-Type, Accept&quot;),
+  ctx =&gt; header(&quot;Access-Control-Allow-Methods&quot;, &quot;GET, PUT, PATCH, POST, DELETE, HEAD&quot;),
   ctx =&gt; ctx.method.toLowerCase() === &#39;options&#39; ? 200 : false
 ];
 

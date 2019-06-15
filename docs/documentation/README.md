@@ -234,6 +234,7 @@ const { header } = server.reply;  // OR server.reply;
 const cors = [
   ctx => header("Access-Control-Allow-Origin", "*"),
   ctx => header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept"),
+  ctx => header("Access-Control-Allow-Methods", "GET, PUT, PATCH, POST, DELETE, HEAD"),
   ctx => ctx.method.toLowerCase() === 'options' ? 200 : false
 ];
 
