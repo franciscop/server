@@ -3,8 +3,8 @@ extends _layout/index
 block content
   .hero
     .content
-      h1 
-        strong server.js 
+      h1
+        strong server.js
         | for Node
       div
         pre.sub npm install server
@@ -46,16 +46,15 @@ block content
           img(src="/img/lego.svg")
           h2 Extensible
           p [upcoming in 1.1]
-    
+
     div.flex.one.three-600
-      div.third-600
-        a.sponsor(href="https://auth0.com/overview?utm_source=serverjs&utm_medium=devsponsor&utm_campaign=serverjs")
-          img(src="/img/logo-auth0.png")
       div
         a.become-sponsor(href="mailto:public@francisco.io?subject=Sponsor-1st-spot") Become a Sponsor
+      div
+        a.become-sponsor(href="mailto:public@francisco.io?subject=Sponsor-2nd-spot") Support Server.js
       div.none.third-600
-        a.become-sponsor(href="mailto:public@francisco.io?subject=Sponsor-2nd-spot") Your logo here
-    
+        a.become-sponsor(href="mailto:public@francisco.io?subject=Sponsor-3rd-spot") Your logo here
+
     include:marked:noheader ../README.md
 
 
