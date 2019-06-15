@@ -1,4 +1,4 @@
-const error = require("../../error")("/plugin/final/");
+const error = require('../../error')('/plugin/final/');
 
 error.noreturn = ({ method, url }) => `
 Your middleware did not return anything for this request:
