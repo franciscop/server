@@ -12,7 +12,7 @@
     "kill": "kill $(lsof -t -i:$PORT) && echo '> KILLED!' || echo '> The port was already dead'"
   },
   "engines": {
-    "node": ">=7.6.0"
+    "node": ">=10.0.0"
   },
   "engineStrict": true,
   "directories": {
@@ -39,7 +39,7 @@
     "express-data-parser": "^1.2.0",
     "express-session": "^1.14.2",
     "extend": "^3.0.0",
-    "hbs": "^4.0.1",
+    "hbs": "^4.0.5",
     "helmet": "^3.9.0",
     "loadware": "^2.0.0",
     "log": "^1.4.0",
@@ -62,7 +62,7 @@
     "grunt-contrib-pug": "^1.0.0",
     "grunt-contrib-sass": "^1.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "jest": "^21.2.1",
+    "jest": "^25.0.0",
     "jstransformer-marked": "^1.0.2",
     "picnic": "^6.4.0",
     "request-promises": "^1.0.1",
