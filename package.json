@@ -67,5 +67,10 @@
     "picnic": "^6.4.0",
     "request-promises": "^1.0.1",
     "supertest": "^3.0.0"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/"
+    ]
   }
 }
