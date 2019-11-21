@@ -24,4 +24,9 @@ describe('static plugin', () => {
     expect(res.statusCode).toBe(404);
     expect(out.log).toMatch(/did not return anything/);
   });
+  
+  it('does not serve if set to false', async () => {
+    const res = await run({ public: false }).get('/logo.png');
+    expect(res.statusCode).toBe(404);
+  });
 });
