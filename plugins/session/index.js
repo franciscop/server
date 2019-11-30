@@ -1,14 +1,14 @@
-const modern = require("../../src/modern");
-const server = require("../../server");
-const session = require("express-session");
+const modern = require('../../src/modern');
+const server = require('../../server');
+const session = require('express-session');
 server.session = session;
-const RedisStore = require("connect-redis")(server.session);
+const RedisStore = require('connect-redis')(server.session);
 let sessionMiddleware;
 
 module.exports = {
-  name: "session",
+  name: 'session',
   options: {
-    __root: "secret",
+    __root: 'secret',
     resave: {
       default: false
     },
@@ -20,8 +20,8 @@ module.exports = {
     },
     secret: {
       type: String,
-      inherit: "secret",
-      env: "SESSION_SECRET"
+      inherit: 'secret',
+      env: 'SESSION_SECRET'
     },
     store: {
       env: false
@@ -29,7 +29,7 @@ module.exports = {
     redis: {
       type: String,
       inherit: true,
-      env: "REDIS_URL"
+      env: 'REDIS_URL'
     }
   },
   init: ctx => {
