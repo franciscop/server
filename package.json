@@ -2,7 +2,12 @@
   "name": "server",
   "version": "1.0.21",
   "description": "A modern and powerful server for Node.js",
-  "main": "server.js",
+  "homepage": "https://serverjs.io/",
+  "repository": "https://github.com/franciscop/server.git",
+  "bugs": "https://github.com/franciscop/server/issues",
+  "funding": "https://www.paypal.me/franciscopresencia/19",
+  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
+  "license": "MIT",
   "scripts": {
     "start": "node .",
     "dev": "grunt watch",
@@ -11,23 +16,25 @@
     "kill-comment": "Kill a process running in a specific port: PORT=3000 npm run kill",
     "kill": "kill $(lsof -t -i:$PORT) && echo '> KILLED!' || echo '> The port was already dead'"
   },
-  "engines": {
-    "node": ">=10.0.0"
-  },
-  "engineStrict": true,
+  "keywords": [
+    "server",
+    "node.js",
+    "http",
+    "websocket",
+    "socket",
+    "async"
+  ],
+  "main": "server.js",
   "directories": {
     "Documentation": "./docs/documentation",
     "Code": "./src",
     "Plugins": "./plugins",
     "Examples": "./examples"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/franciscop/server"
+  "engines": {
+    "node": ">=10.0.0"
   },
-  "author": "Francisco Presencia <public@francisco.io>",
-  "license": "MIT",
-  "homepage": "https://serverjs.io/",
+  "engineStrict": true,
   "dependencies": {
     "body-parser": "^1.15.2",
     "compression": "^1.6.2",
