@@ -46,7 +46,7 @@
     "express-data-parser": "^1.2.0",
     "express-session": "^1.14.2",
     "extend": "^3.0.0",
-    "hbs": "^4.0.5",
+    "hbs": "^4.1.0",
     "helmet": "^3.9.0",
     "loadware": "^2.0.0",
     "log": "^1.4.0",
