@@ -11,7 +11,9 @@
 
   <script src="https://unpkg.com/socket.io-client@2.0.3/dist/socket.io.slim.js"></script>
   <script>
-    const socket = new io();
+    const socket = new io(window.location.href, {
+      path: '/custompath'
+    });
 
     socket.on('connect', () => {
       document.querySelector('h1').innerText = 'Connected!';

@@ -2,7 +2,11 @@ const server = require('../../server');
 const { get, socket } = server.router;
 const { render } = server.reply;
 
-server(
+server({
+  socket: {
+    path: '/custompath'
+  }
+},
   get('/', ctx => {
     ctx.session.counter = ctx.session.counter || 0;
     return render('index.html');
