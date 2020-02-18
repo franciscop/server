@@ -13,8 +13,9 @@ module.exports = {
   },
 
   before: [
-    ctx => ctx.options.favicon && ctx.options.favicon.location
-      ? modern(favicon(ctx.options.favicon.location))(ctx)
-      : false
+    ctx => {
+      if (!ctx.options.favicon.location) return false;
+      return modern(favicon(ctx.options.favicon.location))(ctx);
+    }
   ]
 };

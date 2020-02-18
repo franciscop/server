@@ -19,7 +19,7 @@ describe('static plugin', () => {
   it('non-existing static', async () => {
     let out = {};
     const log = storeLog(out);
-    const res = await run({ public: 'test', log }).get('/non-existing.png');
+    const res = await run({ public: 'xxxx', log }).get('/non-existing.png');
 
     expect(res.statusCode).toBe(404);
     expect(out.log).toMatch(/did not return anything/);
@@ -34,7 +34,7 @@ describe('static plugin', () => {
     expect(out.log).toMatch(/did not return anything/);
   });
 
-  it('does not serve if set to false', async () => {
+  it('does not serve if set to empty string', async () => {
     let out = {};
     const log = storeLog(out);
     const res = await run({ public: '', log }).get('/logo.png');

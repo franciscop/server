@@ -6,13 +6,36 @@ const listeners = {};
 
 module.exports = {
   name: 'socket',
-  options: {},
+  options: {
+    path: {
+      env: false
+    },
+    serveClient: {},
+    adapter: {},
+    origins: {},
+    parser: {},
+    pingTimeout: {},
+    pingInterval: {},
+    upgradeTimeout: {},
+    maxHttpBufferSize: {},
+    allowRequest: {},
+    transports: {},
+    allowUpgrades: {},
+    perMessageDeflate: {},
+    httpCompression: {},
+    cookie: {},
+    cookiePath: {},
+    cookieHttpOnly: {},
+    wsEngine: {}
+  },
   router: (path, middle) => {
     listeners[path] = listeners[path] || [];
     listeners[path].push(middle);
   },
   launch: ctx => {
-    ctx.io = socketIO(ctx.server);
+    if (!ctx.options.socket) return;
+    console.log(ctx.options.socket);
+    ctx.io = socketIO(ctx.server, ctx.options.socket);
     ctx.io.on('connect', socket => {
       // console.log(socket.client.request.session);
       for (let path in listeners) {

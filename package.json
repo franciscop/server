@@ -12,6 +12,7 @@
     "start": "node .",
     "dev": "grunt watch",
     "build": "grunt",
+    "pretest": "cp .env.demo .env",
     "test": "jest --coverage --forceExit",
     "kill-comment": "Kill a process running in a specific port: PORT=3000 npm run kill",
     "kill": "kill $(lsof -t -i:$PORT) && echo '> KILLED!' || echo '> The port was already dead'"
