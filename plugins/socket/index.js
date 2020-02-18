@@ -8,7 +8,7 @@ module.exports = {
   name: 'socket',
   options: {
     path: {
-      env: false
+      env: 'SOCKET_PATH'
     },
     serveClient: {},
     adapter: {},
@@ -34,7 +34,6 @@ module.exports = {
   },
   launch: ctx => {
     if (!ctx.options.socket) return;
-    console.log(ctx.options.socket);
     ctx.io = socketIO(ctx.server, ctx.options.socket);
     ctx.io.on('connect', socket => {
       // console.log(socket.client.request.session);
