@@ -11,7 +11,7 @@ Context is the **only** parameter that middleware receives and contains all the 
 |[.query](#-query)     | `{ search: '42' }`                           |Object  |
 |[.session](#-session) | `{ user: { firstName: 'Francisco' } }`       |Object  |
 |[.headers](#-headers) | `{ 'Content-Type': 'application/json' }`     |Object  |
-|[.cookie](#-cookie)   | `{ acceptCookieLaw: true }`                  |Object  |
+|[.cookies](#-cookies) | `{ acceptCookieLaw: true }`                  |Object  |
 |[.files](#-files)     | `{ profilepic: { ... } }`                    |Object  |
 |[.ip](#-ip)           | `'192.168.1.1'`                              |String  |
 |[.url](#-url)         | `'/cats/?type=cute'`                         |String  |
@@ -191,7 +191,7 @@ run(mid).get('/', { headers: { answer: 42 } });
 
 
 
-## .cookie
+## .cookies
 
 Object that holds the cookies sent by the client:
 
