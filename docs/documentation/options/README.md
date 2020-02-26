@@ -13,6 +13,7 @@ Available options, their defaults, types and names in `.env`:
 |[`favicon`](#favicon)  |`false`            |`FAVICON=public/logo.png` |String|
 |[`parse`](#parse)      |[[info]](#parse)   |[[info]](#parse)          |Object|
 |[`session`](#session)  |[[info]](#session) |[[info]](#session)        |Object|
+|[`socket`](#socket)    |[[info]](#socket)  |[[info]](#socket)         |Object|
 |[`security`](#security)|[[info]](#security)|[[info]](#security)       |Object|
 |[`log`](#log)          |`'info'`           |`LOG=info`                |String|
 
@@ -555,6 +556,28 @@ const store = RedisStore({ ... });
 
 server({ session: { store } }, ...);
 ```
+
+
+## Socket
+
+You can pass here the [options for socket.io](https://socket.io/docs/server-api/#new-Server-httpServer-options):
+
+```js
+server({
+  socket: {
+    path: '/custompath'
+  }
+});
+```
+
+This is the equivalent of doing this with socket.io:
+
+```js
+const io = socket(server, { path: '/custompath' });
+```
+
+You can see an example on how it's used [in the *websocket example*](https://github.com/franciscop/server/blob/master/examples/websocket/index.js).
+
 
 
 
