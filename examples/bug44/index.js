@@ -6,8 +6,8 @@ const CustomError = require('./custom-error');
 const homePageRouter = get('/',
   // Validation and checks
   ctx => {
-    if (1 < 2) throw new CustomError('Some custom error', 400);
-    if (2 < 3) throw new CustomError('Some other custom error', 402);
+    throw new CustomError('Some custom error', 400);
+    throw new CustomError('Some other custom error', 402);
   },
 
   // Normal middleware here
