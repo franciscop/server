@@ -2,9 +2,7 @@
 
 [![Subscribe](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH)
 [![Downloads](https://img.shields.io/npm/dm/server.svg)](https://npm-stat.com/charts.html?package=server)
-[![Status](https://github.com/franciscop/server/workflows/tests/badge.svg)](https://github.com/franciscop/server/actions)
-[![Windows Build](https://img.shields.io/appveyor/ci/franciscop/server.svg?label=windows)](https://ci.appveyor.com/project/franciscop/server)
-[![Dependencies status](https://david-dm.org/franciscop/server/status.svg)](https://david-dm.org/franciscop/server)
+[![Status](https://github.com/franciscop/server/workflows/tests/badge.svg)](https://github.com/franciscop/server/actions) [![Dependencies status](https://david-dm.org/franciscop/server/status.svg)](https://david-dm.org/franciscop/server)
 
 Powerful server for Node.js that just works so **you can focus on your awesome project**:
 
