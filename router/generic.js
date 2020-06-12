@@ -1,6 +1,8 @@
 const join = require('../src/join');
 const parse = require('./parse');
-const params = require('./path-to-regexp-wrap')();
+const { match } = require('path-to-regexp');
+
+const decode = decodeURIComponent;
 
 // Generic request handler
 module.exports = (method, ...all) => {
@@ -8,7 +10,8 @@ module.exports = (method, ...all) => {
   // Extracted or otherwise it'd shift once per call; also more performant
   const { path, middle } = parse(all);
 
-  const match = params(path || '');
+  // Convert to the proper path, since the new ones use `(.*)` instead of `*`
+  const parsePath = match(path.replace(/\*/g, '(.*)'), { decode: decode });
 
   return async ctx => {
 
@@ -19,7 +22,7 @@ module.exports = (method, ...all) => {
     if (method !== ctx.req.method) return;
 
     // Only do this if the correct path
-    ctx.req.params = match(ctx.req.path);
+    ctx.req.params = parsePath(ctx.req.path).params;
     if (!ctx.req.params) return;
     ctx.params = ctx.req.params;
 
