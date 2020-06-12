@@ -182,7 +182,7 @@ describe('Ends where it should end', () => {
   // A bug shifted the router's middleware on each request so now we test for
   // multiple request to make sure the middleware remains the same
   it('does not modify the router', async () => {
-    const inst = run(get('/', hello)).alive(async api => {
+    await run(get('/', hello)).alive(async api => {
       for (let url of [0, 1, 2]) {
         const res = await api.get('/');
         expect(res.body).toBe('Hello 世界');
