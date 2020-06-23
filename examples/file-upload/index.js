@@ -1,15 +1,28 @@
-const server = require('../../server');
+const server = require("../../server");
 const { get, post } = server.router;
-const { render, redirect } = server.reply;
 
-server(3000,
-  get('/', ctx => render('index')),
-  post('/upload', ctx => {
+const form = `
+  <!DOCTYPE html>
+  <html lang="en">
+    <head><meta charset="UTF-8"><title>File Upload Demo</title></head>
+    <body>
+      <form action="/" method="POST" enctype='multipart/form-data'>
+        <input type="text" name="name" required />
+        <input type="file" name="picture" required />
+        <button>Send</button>
+      </form>
+    </body>
+  </html>
+`;
 
-    // Here is your file, "userimage" as in name="userimage" in the form:
-    console.log(ctx.req.files.userimage);
-    console.log("Path:", ctx.req.files.userimage.path);
+server(
+  { security: { csrf: false } },
+  get("/", () => form),
+  post("/", (ctx) => {
+    // Here is your file, "picture" as in name="picture" in the form:
+    console.log(ctx.files.picture);
+    console.log("Path:", ctx.files.picture.path);
 
-    redirect('/#goodjob');
+    return ctx.files.picture;
   })
 );
