@@ -42,6 +42,8 @@ module.exports = {
   },
   before: ctx => modern(sessionMiddleware)(ctx),
   launch: ctx => {
+    // Return early if the Socket plugin is not enabled
+    if (!ctx.io || !ctx.io.use) return;
     ctx.io.use(function(socket, next) {
       sessionMiddleware(socket.request, socket.request.res || {}, next);
     });
