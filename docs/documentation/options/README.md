@@ -224,7 +224,9 @@ server({ public: '' });
 |---------|---------|---------------------|-------|------------|
 |`views`  |`views`  |`VIEWS=views`        |String |Folder path |
 
-The folder where you put your view files and templates. These are the files used by the [`render()` method](/documentation/reply/#render-). You can set it to any folder within your project.
+The folder where you put your view files, partials and templates. These are the files used by the [`render()` method](/documentation/reply/#render-). You can set it to any folder within your project.
+
+It walks the given directory so please make sure not to include the e.g. root directory since then it'll attempt to walk `node_modules` and that might delay the time to to launch the server significantly.
 
 To set the views folder in the environment add this to [your `.env`](#environment):
 
@@ -245,17 +247,18 @@ const res = await run(options, same).get('/');
 expect(res.body.views).toBe(path.join(process.cwd(), 'views') + path.sep);
 ```
 
-To set the root folder specify it as `'./'`:
+You can set it to any folder, like `./templates`:
 
 ```js
 const options = {
-  views: './'
+  views: './templates'
 };
 
 /* test */
+options.views = './test/views';
 const same = ctx => ({ views: ctx.options.views });
 const res = await run(options, same).get('/');
-expect(res.body.views).toBe(process.cwd() + path.sep);
+expect(res.body.views).toBe(process.cwd() + path.sep + 'test/views' + path.sep);
 ```
 
 If you don't have any view file you don't have to create the folder. The files within `views` should all have an extension such as `.hbs`, `.pug`, etc. To see how to install and use those keep reading.
@@ -296,6 +299,23 @@ Or through the corresponding option in javascript:
 ```js
 server({ engine: 'pug' }, ctx => render('index'));
 ```
+
+The files will be relative to your `views` folder. When using `hbs`, the `views` folder will also be used to load your partials, so you can write them like this:
+
+```html
+<!-- `views/index.hbs` -->
+<html>
+  <!-- This file is in `views/head.hbs`. Note how we also pass a variable -->
+  {{> head title="Hello world" }}
+  <body>
+    <!-- This file is in `views/partials/nav.hbs` -->
+    {{> partials/nav }}
+    ...
+  </body>
+</html>
+```
+
+
 
 ### Writing your own engine
 

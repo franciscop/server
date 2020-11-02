@@ -1,4 +1,6 @@
 const express = require('express');
+const hbs = require('hbs');
+const path = require('path');
 
 module.exports = {
   name: 'express',
@@ -28,7 +30,7 @@ module.exports = {
     },
     'x-powered-by': {}
   },
-  init: ctx => {
+  init: async ctx => {
     ctx.express = express;
     ctx.app = ctx.express();
 
@@ -40,8 +42,21 @@ module.exports = {
       }
     }
 
+    // Add the views into the core
+    if (path.resolve(ctx.options.views) === path.resolve(process.cwd())) {
+      throw new Error(
+        'The "views" option should point to a subfolder of the project and not the root of it'
+      );
+    }
+    await new Promise(function(resolve, reject) {
+      hbs.registerPartials(ctx.options.views, function(err) {
+        if (err) reject(err);
+        resolve();
+      });
+    });
+
     // Accept HTML as a render extension
-    ctx.app.engine('html', require('hbs').__express);
+    ctx.app.engine('html', hbs.__express);
 
     if (ctx.options.engine) {
       // If it's an object, expect a { engine: { engineName: engineFN } }

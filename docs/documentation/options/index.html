@@ -245,7 +245,8 @@ server({ public: &#39;&#39; });
 </tr>
 </tbody>
 </table>
-<p>The folder where you put your view files and templates. These are the files used by the <a href="/documentation/reply/#render-"><code>render()</code> method</a>. You can set it to any folder within your project.</p>
+<p>The folder where you put your view files, partials and templates. These are the files used by the <a href="/documentation/reply/#render-"><code>render()</code> method</a>. You can set it to any folder within your project.</p>
+<p>It walks the given directory so please make sure not to include the e.g. root directory since then it&#39;ll attempt to walk <code>node_modules</code> and that might delay the time to to launch the server significantly.</p>
 <p>To set the views folder in the environment add this to <a href="#environment">your <code>.env</code></a>:</p>
 <pre><code>VIEWS=views
 </code></pre><p>Or pass it as another option:</p>
@@ -258,15 +259,16 @@ const same = ctx =&gt; ({ views: ctx.options.views });
 const res = await run(options, same).get(&#39;/&#39;);
 expect(res.body.views).toBe(path.join(process.cwd(), &#39;views&#39;) + path.sep);
 </code></pre>
-<p>To set the root folder specify it as <code>&#39;./&#39;</code>:</p>
+<p>You can set it to any folder, like <code>./templates</code>:</p>
 <pre><code class="lang-js">const options = {
-  views: &#39;./&#39;
+  views: &#39;./templates&#39;
 };
 
 /* test */
+options.views = &#39;./test/views&#39;;
 const same = ctx =&gt; ({ views: ctx.options.views });
 const res = await run(options, same).get(&#39;/&#39;);
-expect(res.body.views).toBe(process.cwd() + path.sep);
+expect(res.body.views).toBe(process.cwd() + path.sep + &#39;test/views&#39; + path.sep);
 </code></pre>
 <p>If you don&#39;t have any view file you don&#39;t have to create the folder. The files within <code>views</code> should all have an extension such as <code>.hbs</code>, <code>.pug</code>, etc. To see how to install and use those keep reading.</p>
 <h2 id="engine">Engine</h2>
@@ -305,6 +307,18 @@ server(ctx =&gt; render(&#39;index.hbs&#39;));
 <pre><code>ENGINE=pug
 </code></pre><p>Or through the corresponding option in javascript:</p>
 <pre><code class="lang-js">server({ engine: &#39;pug&#39; }, ctx =&gt; render(&#39;index&#39;));
+</code></pre>
+<p>The files will be relative to your <code>views</code> folder. When using <code>hbs</code>, the <code>views</code> folder will also be used to load your partials, so you can write them like this:</p>
+<pre><code class="lang-html">&lt;!-- `views/index.hbs` --&gt;
+&lt;html&gt;
+  &lt;!-- This file is in `views/head.hbs`. Note how we also pass a variable --&gt;
+  {{&gt; head title=&quot;Hello world&quot; }}
+  &lt;body&gt;
+    &lt;!-- This file is in `views/partials/nav.hbs` --&gt;
+    {{&gt; partials/nav }}
+    ...
+  &lt;/body&gt;
+&lt;/html&gt;
 </code></pre>
 <h3 id="writing-your-own-engine">Writing your own engine</h3>
 <p>Engines are really easy to write with server.js. They must be a function that receives the file path and the options (or locals) and returns the text to render from the engine. It can be either sync or async. To configure it for handling a specific extension, just put that as the key in an object for <code>engine</code>.</p>
