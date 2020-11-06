@@ -233,9 +233,9 @@ const mid = ctx =&gt; header({
 </code></pre>
 <p>This <a href="#chainable">can be chained</a> with other methods to e.g. prompt for a download:</p>
 <pre><code class="lang-js">const mid = async ctx =&gt; {
-  const data = await readFileAsync(&#39;./hello.pdf&#39;, &#39;utf-8prettier&#39;);
-  return header({ &quot;Content-Disposition&quot;: `filename=&quot;welcome.pdf&quot;` })
-    .type(&quot;application/pdf&quot;)
+  const data = await readFileAsync(&#39;./hello.pdf&#39;, &#39;utf-8&#39;);
+  return header({ &#39;Content-Disposition&#39;: `filename=&#39;welcome.pdf&#39;` })
+    .type(&#39;application/pdf&#39;)
     .send(new Buffer(data));
 };
 </code></pre>

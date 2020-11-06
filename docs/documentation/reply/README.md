@@ -206,9 +206,9 @@ This [can be chained](#chainable) with other methods to e.g. prompt for a downlo
 
 ```js
 const mid = async ctx => {
-  const data = await readFileAsync('./hello.pdf', 'utf-8prettier');
-  return header({ "Content-Disposition": `filename="welcome.pdf"` })
-    .type("application/pdf")
+  const data = await readFileAsync('./hello.pdf', 'utf-8');
+  return header({ 'Content-Disposition': `filename='welcome.pdf'` })
+    .type('application/pdf')
     .send(new Buffer(data));
 };
 ```
