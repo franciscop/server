@@ -202,6 +202,17 @@ const mid = ctx => header({
 });
 ```
 
+This [can be chained](#chainable) with other methods to e.g. prompt for a download:
+
+```js
+const mid = async ctx => {
+  const data = await readFileAsync('./hello.pdf', 'utf-8prettier');
+  return header({ "Content-Disposition": `filename="welcome.pdf"` })
+    .type("application/pdf")
+    .send(new Buffer(data));
+};
+```
+
 
 
 ## json()
