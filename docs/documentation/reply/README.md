@@ -6,6 +6,7 @@ A reply is a method **returned from a middleware** that creates the response. Th
 |-------------------------------------------|----------------------------|-----|
 |[`cookie(name, value, opts)`](#cookie-)    |cookie('name', 'Francisco') |false|
 |[`download(path[, filename])`](#download-) |download('resume.pdf')      |true |
+|[`file(path)`](#file-)                     |file('resume.pdf')          |true |
 |[`header(field[, value])`](#header-)       |header('ETag': '12345')     |false|
 |[`json([data])`](#json-)                   |json({ hello: 'world' })    |true |
 |[`jsonp([data])`](#jsonp-)                 |jsonp({ hello: 'world' })   |true |
@@ -185,6 +186,28 @@ server([
   error(ctx => { console.log(ctx.error); })
 ]);
 ```
+
+
+
+## file()
+
+Send a file to the browser with the correct mime type:
+
+```js
+server(ctx => file('user-profile-5674354.png'));
+```
+
+It does not accept a name since the user is not prompted for download. It will stream the file, so that no files are read fully into memory.
+
+You can handle errors for this method downstream:
+
+```js
+server([
+  ctx => file('user-profile-5674354.png'),
+  error(ctx => { console.log(ctx.error); })
+]);
+```
+
 
 
 ## header()
