@@ -14,13 +14,14 @@ describe('final', () => {
     expect(out.log).toMatch('Hello Error');
   });
 
-  it('just logs it if the headers were already sent', async () => {
-    const simple = () => { throw new Error('Hello Error'); };
+  it('is not called if the previous one finishes', async () => {
+    let called = false;
+    const simple = () => { called = true; };
     const out = {};
     const res = await run({ raw: true, log: storeLog(out) }, () => 'Hello world', simple).get('/');
     expect(res.statusCode).toBe(200);
     expect(res.body).toBe('Hello world');
-    expect(out.log).toMatch('Hello Error');
+    expect(called).toBe(false);
   });
 
   it('displays the appropriate error to the public', async () => {

@@ -2,7 +2,7 @@
 const server = require('server');
 const run = require('server/test/run');
 const { get, post, put, del, sub, error } = server.router;
-
+const { status } = server.reply;
 
 
 // Mock middlewares and data:
@@ -26,6 +26,17 @@ describe('Basic router types', () => {
 
     const res = await run(mid).get('/');
     expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
+  });
+
+  it('can skip a request', async () => {
+    let called = false;
+    const notCalled = ctx => {
+      called = true;
+    };
+    const mid = get('/', () => status(200).send('Done'), notCalled);
+
+    await run(mid).get('/');
+    expect(called).toBe(false);
   });
 
   it('can do a POST request', async () => {
