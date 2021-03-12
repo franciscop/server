@@ -225,6 +225,14 @@ const mid = ctx => header({
 });
 ```
 
+You can also send multiple headers with the same name by passing an array as the second parameter:
+
+```js
+const mid = ctx => header({
+  'Link': ['Fake Value', 'Another Fake Value']
+});
+```
+
 This [can be chained](#chainable) with other methods to e.g. prompt for a download:
 
 ```js

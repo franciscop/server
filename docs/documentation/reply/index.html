@@ -247,6 +247,11 @@ const mid = ctx =&gt; header({
   &#39;Content-Length&#39;: &#39;123&#39;
 });
 </code></pre>
+<p>You can also send multiple headers with the same name by passing an array as the second parameter:</p>
+<pre><code class="lang-js">const mid = ctx =&gt; header({
+  &#39;Link&#39;: [&#39;Fake Value&#39;, &#39;Another Fake Value&#39;]
+});
+</code></pre>
 <p>This <a href="#chainable">can be chained</a> with other methods to e.g. prompt for a download:</p>
 <pre><code class="lang-js">const mid = async ctx =&gt; {
   const data = await readFileAsync(&#39;./hello.pdf&#39;, &#39;utf-8&#39;);
