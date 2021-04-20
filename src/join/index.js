@@ -8,14 +8,14 @@ const processReturn = async (ctx, ret) => {
 
   // Use the returned reply instance
   if (ret.constructor.name === 'Reply') {
-    return await ret.exec(ctx);
+    return ret.exec(ctx);
   }
 
   // TODO: make a check for only accepting the right types of return values
 
   // Create a whole new reply thing
   const fn = typeof ret === 'number' ? 'status' : 'send';
-  return await reply[fn](ret).exec(ctx);
+  return reply[fn](ret).exec(ctx);
 };
 
 // Pass an array of modern middleware and return a single modern middleware
