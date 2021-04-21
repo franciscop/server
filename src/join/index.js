@@ -3,7 +3,7 @@ const assert = require('assert');
 const reply = require('../../reply');
 
 // Recursively resolve possible function returns
-const processReturn = async (ctx, ret) => {
+const processReturn = (ctx, ret) => {
   if (!ret) return;
 
   // Use the returned reply instance
