@@ -30,5 +30,8 @@ module.exports = (method, ...all) => {
     await join(middle)(ctx);
 
     ctx.req.solved = true;
+    if (!ctx.res.headersSent) {
+      ctx.res.end();
+    }
   };
 };
