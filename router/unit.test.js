@@ -9,7 +9,7 @@ const run = require('server/test/run');
 
 const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
   req: { url, path, method },
-  res: { send: () => {} },
+  res: { send: () => {}, end: () => {} },
   options: {}
 });
 

@@ -6,5 +6,8 @@ module.exports = (path, ...middle) => async ctx => {
       (path instanceof RegExp && path.test(full))) {
     await join(middle)(ctx);
     ctx.req.solved = true;
+    if (!ctx.res.headersSent) {
+      ctx.res.end();
+    }
   }
 };
