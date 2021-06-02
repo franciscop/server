@@ -148,7 +148,17 @@ server([
 </code></pre>
 <p>Then each of those URLs will use a different language.</p>
 <h2 id="cookie-">cookie()</h2>
-<p>Set a cookie on the browser. It will send the Set-Cookie headers:</p>
+<p>Send one or multiple cookies to the browser:</p>
+<pre><code class="lang-js">cookie(name, value, [options])
+</code></pre>
+<p>By default it will <em>just</em> set a cookie and not finish the request, so if you want to also send the body you need to do it explicitly:</p>
+<pre><code class="lang-js">server(
+  ctx =&gt; cookie(&#39;foo&#39;, &#39;bar&#39;),  // Set a cookie
+  ctx =&gt; cookie(&#39;xyz&#39;, { obj: &#39;okay&#39; }), // Stringify the object
+  ctx =&gt; cookie(&#39;abc&#39;, &#39;def&#39;, { maxAge: 100000 }),  // Pass some options
+  ctx =&gt; cookie(&#39;fizz&#39;, &#39;buzz&#39;).send(), // Set the cookie AND finish the request
+);
+</code></pre>
 <pre><code class="lang-js">const { cookie } = server.reply;
 const setCookie = ctx =&gt; cookie(&#39;foo&#39;, &#39;bar&#39;).send();
 
@@ -157,6 +167,8 @@ run(setCookie).get(&#39;/&#39;).then(res =&gt; {
   expect(res.headers[&#39;Set-Cookie:&#39;]).toMatch(/foo\=bar/);
 });
 </code></pre>
+<h3 id="cookie-options">Cookie Options</h3>
+<p>The options is an optional object with these keys/values:</p>
 <table>
 <thead>
 <tr>

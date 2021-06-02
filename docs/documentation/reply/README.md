@@ -141,7 +141,22 @@ Then each of those URLs will use a different language.
 
 ## cookie()
 
-Set a cookie on the browser. It will send the Set-Cookie headers:
+Send one or multiple cookies to the browser:
+
+```js
+cookie(name, value, [options])
+```
+
+By default it will _just_ set a cookie and not finish the request, so if you want to also send the body you need to do it explicitly:
+
+```js
+server(
+  ctx => cookie('foo', 'bar'),  // Set a cookie
+  ctx => cookie('xyz', { obj: 'okay' }), // Stringify the object
+  ctx => cookie('abc', 'def', { maxAge: 100000 }),  // Pass some options
+  ctx => cookie('fizz', 'buzz').send(), // Set the cookie AND finish the request
+);
+```
 
 ```js
 const { cookie } = server.reply;
@@ -152,6 +167,10 @@ run(setCookie).get('/').then(res => {
   expect(res.headers['Set-Cookie:']).toMatch(/foo\=bar/);
 });
 ```
+
+### Cookie Options
+
+The options is an optional object with these keys/values:
 
 | Key         | Default                |  Type             |
 |-------------|------------------------|-------------------|
