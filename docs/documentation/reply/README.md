@@ -154,7 +154,7 @@ server(
   ctx => cookie('foo', 'bar'),  // Set a cookie
   ctx => cookie('xyz', { obj: 'okay' }), // Stringify the object
   ctx => cookie('abc', 'def', { maxAge: 100000 }),  // Pass some options
-  ctx => cookie('fizz', 'buzz').send(), // Set the cookie AND finish the request
+  ctx => cookie('fizz', 'buzz').send(), // Set cookie AND finish the request
 );
 ```
 

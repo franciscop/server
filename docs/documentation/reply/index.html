@@ -156,7 +156,7 @@ server([
   ctx =&gt; cookie(&#39;foo&#39;, &#39;bar&#39;),  // Set a cookie
   ctx =&gt; cookie(&#39;xyz&#39;, { obj: &#39;okay&#39; }), // Stringify the object
   ctx =&gt; cookie(&#39;abc&#39;, &#39;def&#39;, { maxAge: 100000 }),  // Pass some options
-  ctx =&gt; cookie(&#39;fizz&#39;, &#39;buzz&#39;).send(), // Set the cookie AND finish the request
+  ctx =&gt; cookie(&#39;fizz&#39;, &#39;buzz&#39;).send(), // Set cookie AND finish the request
 );
 </code></pre>
 <pre><code class="lang-js">const { cookie } = server.reply;
