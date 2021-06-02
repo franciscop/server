@@ -1,0 +1,12 @@
+{
+  "name": "@server/supertest",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "devDependencies": {
+    "jest": "^27.0.3",
+    "supertest": "^6.1.3"
+  }
+}
