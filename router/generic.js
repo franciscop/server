@@ -6,7 +6,6 @@ const decode = decodeURIComponent;
 
 // Generic request handler
 module.exports = (method, ...all) => {
-
   // Extracted or otherwise it'd shift once per call; also more performant
   const { path, middle } = parse(all);
 
@@ -14,7 +13,6 @@ module.exports = (method, ...all) => {
   const parsePath = match(path.replace(/\*/g, '(.*)'), { decode: decode });
 
   return async ctx => {
-
     // A route should be solved only once per request
     if (ctx.req.solved) return;
 
@@ -27,11 +25,12 @@ module.exports = (method, ...all) => {
     ctx.params = ctx.req.params;
 
     // Perform this promise chain
-    await join(middle)(ctx);
-
-    ctx.req.solved = true;
-    if (!ctx.res.headersSent) {
-      ctx.res.end();
-    }
+    await join(middle, ctx => {
+      // Only solve it if all the previous middleware succeeded
+      ctx.req.solved = true;
+      if (!ctx.res.headersSent) {
+        ctx.res.end();
+      }
+    })(ctx);
   };
 };
