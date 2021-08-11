@@ -1,5 +1,4 @@
 // Unit - test the router on its own
-const extend = require('extend');
 const loadware = require('loadware');
 const join = require('server/src/join');
 const { get, error } = require('server/router');
@@ -7,15 +6,13 @@ const RouterError = require('./errors');
 
 const run = require('server/test/run');
 
-const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => extend({
+const createCtx = ({ url = '/', path = '/', method = 'GET' } = {}) => ({
   req: { url, path, method },
   res: { send: () => {}, end: () => {} },
   options: {}
 });
 
-
 const router = require('.');
-
 
 describe('server/router definition', () => {
   it('loads the main router', () => {
@@ -24,22 +21,22 @@ describe('server/router definition', () => {
   });
 
   it('has the right methods defined', () => {
-    expect(router.get  ).toEqual(jasmine.any(Function));
-    expect(router.get  ).toEqual(jasmine.any(Function));
-    expect(router.post ).toEqual(jasmine.any(Function));
-    expect(router.put  ).toEqual(jasmine.any(Function));
-    expect(router.del  ).toEqual(jasmine.any(Function));
-    expect(router.sub  ).toEqual(jasmine.any(Function));
+    expect(router.get).toEqual(jasmine.any(Function));
+    expect(router.get).toEqual(jasmine.any(Function));
+    expect(router.post).toEqual(jasmine.any(Function));
+    expect(router.put).toEqual(jasmine.any(Function));
+    expect(router.del).toEqual(jasmine.any(Function));
+    expect(router.sub).toEqual(jasmine.any(Function));
     expect(router.error).toEqual(jasmine.any(Function));
   });
 
   it('can load all the methods manually', () => {
-    expect(require('server/router/get'  )).toEqual(jasmine.any(Function));
-    expect(require('server/router/get'  )).toEqual(jasmine.any(Function));
-    expect(require('server/router/post' )).toEqual(jasmine.any(Function));
-    expect(require('server/router/put'  )).toEqual(jasmine.any(Function));
-    expect(require('server/router/del'  )).toEqual(jasmine.any(Function));
-    expect(require('server/router/sub'  )).toEqual(jasmine.any(Function));
+    expect(require('server/router/get')).toEqual(jasmine.any(Function));
+    expect(require('server/router/get')).toEqual(jasmine.any(Function));
+    expect(require('server/router/post')).toEqual(jasmine.any(Function));
+    expect(require('server/router/put')).toEqual(jasmine.any(Function));
+    expect(require('server/router/del')).toEqual(jasmine.any(Function));
+    expect(require('server/router/sub')).toEqual(jasmine.any(Function));
     expect(require('server/router/error')).toEqual(jasmine.any(Function));
   });
 });
@@ -47,11 +44,17 @@ describe('server/router definition', () => {
 describe('server/router works', () => {
   it('works', async () => {
     const mid = [
-      () => new Promise((resolve) => resolve()),
-      get('/aaa', () => { throw new Error(); }),
+      () => new Promise(resolve => resolve()),
+      get('/aaa', () => {
+        throw new Error();
+      }),
       get('/', () => 'Hello 世界'),
-      get('/sth', () => { throw new Error(); }),
-      get('/', () => { throw new Error(); })
+      get('/sth', () => {
+        throw new Error();
+      }),
+      get('/', () => {
+        throw new Error();
+      })
     ];
 
     const ctx = createCtx();
@@ -61,11 +64,17 @@ describe('server/router works', () => {
 
   it('works even when wrapped with join() and loadware()', async () => {
     const middles = [
-      () => new Promise((resolve) => resolve()),
-      get('/aaa', () => { throw new Error(); }),
+      () => new Promise(resolve => resolve()),
+      get('/aaa', () => {
+        throw new Error();
+      }),
       join(loadware(get('/', () => 'Hello 世界'))),
-      get('/sth', () => { throw new Error(); }),
-      get('/', () => { throw new Error(); })
+      get('/sth', () => {
+        throw new Error();
+      }),
+      get('/', () => {
+        throw new Error();
+      })
     ];
 
     // Returns the promise to be handled async
@@ -73,7 +82,6 @@ describe('server/router works', () => {
     await join(middles)(ctx);
     expect(ctx.req.solved).toBe(true);
   });
-
 
   it('works with parameters', async () => {
     const ctx = createCtx({ path: '/test/francisco/presencia/bla' });
@@ -84,11 +92,11 @@ describe('server/router works', () => {
   });
 });
 
-
-
 describe('Error routes', () => {
   it('can catch errors', async () => {
-    const generate = () => { throw new Error('Should be caught'); };
+    const generate = () => {
+      throw new Error('Should be caught');
+    };
     const handle = error(() => 'Error 世界');
 
     const res = await run([generate, handle]).get('/');
@@ -96,7 +104,9 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with full path', async () => {
-    const generate = ctx => { throw new RouterError('router'); };
+    const generate = ctx => {
+      throw new RouterError('router');
+    };
     const handle = error('/server/test/router', ctx => {
       return ctx.error.code;
     });
@@ -105,7 +115,9 @@ describe('Error routes', () => {
   });
 
   it('can catch errors with partial path', async () => {
-    const generate = ctx => { throw new RouterError('router'); };
+    const generate = ctx => {
+      throw new RouterError('router');
+    };
     const handle = error('/server/test', ctx => {
       return ctx.error.code;
     });
@@ -141,6 +153,6 @@ describe('Error routes', () => {
     });
 
     const res = await run({ errors }, [generate, handle]).get('/');
-    expect(res.body).toBe(`Simple message: ABC`);
+    expect(res.body).toBe('Simple message: ABC');
   });
 });

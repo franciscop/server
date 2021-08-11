@@ -1,6 +1,5 @@
 // Create a socket plugin
 const socketIO = require('socket.io');
-const extend = require('extend');
 
 const listeners = {};
 
@@ -34,22 +33,30 @@ module.exports = {
   },
   launch: ctx => {
     if (!ctx.options.socket) return;
+    if (listeners.ping) {
+      ctx.log.warning('socket("ping") has a special meaning, please avoid it');
+    }
     ctx.io = socketIO(ctx.server, ctx.options.socket);
     ctx.io.on('connect', socket => {
-      // console.log(socket.client.request.session);
+      // Create a new context assigned to each connected socket
+      const createContext = extra => {
+        return Object.assign({}, socket.client.request, ctx, extra);
+      };
+
+      // Attach a `socket.on('name', cb)` to each of the callbacks
       for (let path in listeners) {
         if (path !== 'connect') {
           listeners[path].forEach(cb => {
-            socket.on(path, data => {
-              cb(extend(socket.client.request, ctx, { path, socket, data }));
-            });
+            socket.on(path, data => cb(createContext({ path, socket, data })));
           });
         }
       }
+
+      // This is not a callback and should be called straight away since we are
+      // already inside `io.on('connect')`
+      const path = 'connect';
       if (listeners['connect']) {
-        listeners['connect'].forEach(cb => {
-          cb(extend(socket.client.request, ctx, { path: 'connect', socket }));
-        });
+        listeners[path].forEach(cb => cb(createContext({ path, socket })));
       }
     });
   }
