@@ -71,7 +71,7 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-pug": "^3.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-sass": "^1.0.0",
+    "grunt-sass": "^3.1.0",
     "jest": "^25.0.0",
     "jstransformer-marked": "^1.0.2",
     "node-sass": "^4.13.1",
