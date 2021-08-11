@@ -1,6 +1,6 @@
 const filters = require("./docs/filters.js");
 const files = require("./docs/files.js");
-const sass = require("node-sass");
+const sass = require("sass");
 
 const fs = require("fs");
 
