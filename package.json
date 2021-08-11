@@ -71,10 +71,10 @@
     "grunt-contrib-jshint": "^1.1.0",
     "grunt-contrib-pug": "^3.0.0",
     "grunt-contrib-watch": "^1.0.0",
-    "grunt-sass": "^3.1.0",
+    "grunt-sass": "^1.0.0",
     "jest": "^25.0.0",
     "jstransformer-marked": "^1.0.2",
-    "node-sass": "^6.0.1",
+    "node-sass": "^4.13.1",
     "picnic": "^6.4.0",
     "request-promises": "^1.0.1",
     "supertest": "^3.4.2"
