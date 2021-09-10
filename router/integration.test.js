@@ -1,9 +1,8 @@
 // Integration - test the router within the whole server functionality
 const server = require('server');
 const run = require('server/test/run');
-const { get, post, put, del, sub, error } = server.router;
+const { get, head, post, put, del, sub, error } = server.router;
 const { status } = server.reply;
-
 
 // Mock middlewares and data:
 const question = { answer: 42 };
@@ -14,8 +13,6 @@ const throwError = () => {
   err.code = 'test';
   throw err;
 };
-
-
 
 // CSRF validation is checked in another place; disable it for these tests
 run.options = { security: false };
@@ -37,6 +34,13 @@ describe('Basic router types', () => {
 
     await run(mid).get('/');
     expect(called).toBe(false);
+  });
+
+  it('can do a HEAD request', async () => {
+    const mid = head('/', hello);
+
+    const res = await run(mid).head('/');
+    expect(res).toMatchObject({ status: 200, body: '' });
   });
 
   it('can do a POST request', async () => {
@@ -63,7 +67,6 @@ describe('Basic router types', () => {
     expect(res.status).toBe(200);
   });
 });
-
 
 describe('Generic paths', () => {
   it('can do a GET request', async () => {
@@ -105,12 +108,11 @@ describe('Generic paths', () => {
   // });
 });
 
-
 describe('Subdomain router', () => {
   it('can do a request to a subdomain', async () => {
     const mid = sub('api', get('/', hello));
 
-    const res = await run((ctx) => {
+    const res = await run(ctx => {
       ctx.headers.host = 'api.example.com';
     }, mid).get('/');
     expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
@@ -119,7 +121,7 @@ describe('Subdomain router', () => {
   it('can handle regex', async () => {
     const mid = sub(/^api$/, get('/', hello));
 
-    const res = await run((ctx) => {
+    const res = await run(ctx => {
       ctx.headers.host = 'api.example.com';
     }, mid).get('/');
     expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
@@ -128,25 +130,27 @@ describe('Subdomain router', () => {
   it('does not do partial match', async () => {
     const mid = sub(/^api$/, get('/', hello));
 
-    const res = await run((ctx) => {
-      ctx.headers.host = 'bla.api.example.com';
-    }, mid, () => 'Did not match').get('/');
+    const res = await run(
+      ctx => {
+        ctx.headers.host = 'bla.api.example.com';
+      },
+      mid,
+      () => 'Did not match'
+    ).get('/');
     expect(res).toMatchObject({ status: 200, body: 'Did not match' });
   });
 
   it('can do a request to a multi-level subdomain', async () => {
     const mid = sub('api.local', get('/', hello));
 
-    const res = await run((ctx) => {
+    const res = await run(ctx => {
       ctx.headers.host = 'api.local.example.com';
     }, mid).get('/');
     expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
   });
 });
 
-
 describe('Ends where it should end', () => {
-
   it('uses the matching method', async () => {
     const mid = [
       post('/', throwError),
@@ -159,7 +163,6 @@ describe('Ends where it should end', () => {
     expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
   });
 
-
   it('uses the matching path', async () => {
     const mid = [
       get('/bla', throwError),
@@ -171,17 +174,12 @@ describe('Ends where it should end', () => {
     expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
   });
 
-
   it('uses a route only once', async () => {
-    const mid = [
-      get('/', hello),
-      get('/', throwError)
-    ];
+    const mid = [get('/', hello), get('/', throwError)];
 
     const res = await run(mid).get('/');
     expect(res).toMatchObject({ status: 200, body: 'Hello 世界' });
   });
-
 
   it('parses params correctly', async () => {
     const mid = get('/:id', ctx => ctx.params.id);
@@ -201,23 +199,28 @@ describe('Ends where it should end', () => {
     });
   });
 
-
   it('does generic error matching', async () => {
     let err;
-    const res = await run(throwError, error(ctx => {
-      err = ctx.error;
-      return 'Hello world';
-    })).get('/');
+    const res = await run(
+      throwError,
+      error(ctx => {
+        err = ctx.error;
+        return 'Hello world';
+      })
+    ).get('/');
     expect(res.body).toBe('Hello world');
     expect(err.message).toMatch(/MockError/);
   });
 
   it('does path error matching', async () => {
     let err;
-    const res = await run(throwError, error('test', ctx => {
-      err = ctx.error;
-      return 'Hello world';
-    })).get('/');
+    const res = await run(
+      throwError,
+      error('test', ctx => {
+        err = ctx.error;
+        return 'Hello world';
+      })
+    ).get('/');
     expect(res.body).toBe('Hello world');
     expect(err.message).toMatch(/MockError/);
   });

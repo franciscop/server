@@ -4,7 +4,6 @@ const port = require('./port');
 
 // Make an object with the options as expected by request()
 const normalize = (method, url, port, options) => {
-
   // Make sure it's a simple object
   if (typeof options === 'string') options = { url: options };
 
@@ -25,21 +24,20 @@ const normalize = (method, url, port, options) => {
   return options;
 };
 
-
-
 // Parse the server options
 const serverOptions = async middle => {
   // First parameter can be:
   // - options: Number || Object (cannot be ID'd)
   // - middleware: undefined || null || Boolean || Function || Array
-  let opts = (
+  let opts =
     typeof middle[0] === 'undefined' ||
     typeof middle[0] === 'boolean' ||
     typeof middle[0] === 'string' ||
     middle[0] === null ||
     middle[0] instanceof Function ||
     middle[0] instanceof Array
-  ) ? {} : middle.shift();
+      ? {}
+      : middle.shift();
 
   // In case the port is the defaults one
   let synthetic = !opts || !opts.port;
@@ -57,17 +55,13 @@ const serverOptions = async middle => {
   return opts;
 };
 
-
-
-module.exports = function (...middle) {
-
+module.exports = function(...middle) {
   // Make sure we are working with an instance
-  if (!(this instanceof (module.exports))) {
-    return new (module.exports)(...middle);
+  if (!(this instanceof module.exports)) {
+    return new module.exports(...middle);
   }
 
   const launch = async (method, url, reqOpts) => {
-
     // Parse the server options
     const opts = await serverOptions(middle);
 
@@ -79,16 +73,22 @@ module.exports = function (...middle) {
 
     const ctx = await server(opts, middle, opts.raw ? false : error);
 
-    ctx.close = () => new Promise((resolve, reject) => {
-      ctx.server.close(err => err ? reject(err) : resolve());
-    });
+    ctx.close = () =>
+      new Promise((resolve, reject) => {
+        ctx.server.close(err => (err ? reject(err) : resolve()));
+      });
     if (!method) return ctx;
-    const res = await request(normalize(method, url, ctx.options.port, reqOpts));
+    const res = await request(
+      normalize(method, url, ctx.options.port, reqOpts)
+    );
     // Fix small bug. TODO: report it
     res.method = res.request.method;
     res.status = res.statusCode;
     res.options = ctx.options;
-    if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
+    if (
+      /application\/json/.test(res.headers['content-type']) &&
+      typeof res.body === 'string'
+    ) {
       res.rawBody = res.body;
       res.body = JSON.parse(res.body);
     }
@@ -99,7 +99,7 @@ module.exports = function (...middle) {
 
     // Return the response that happened from the server
     return res;
-  }
+  };
 
   this.alive = async cb => {
     let instance;
@@ -111,7 +111,10 @@ module.exports = function (...middle) {
         const res = await requestApi(normalize(method, url, port, options));
         res.method = res.request.method;
         res.status = res.statusCode;
-        if (/application\/json/.test(res.headers['content-type']) && typeof res.body === 'string') {
+        if (
+          /application\/json/.test(res.headers['content-type']) &&
+          typeof res.body === 'string'
+        ) {
           res.rawBody = res.body;
           res.body = JSON.parse(res.body);
         }
@@ -121,6 +124,7 @@ module.exports = function (...middle) {
       };
       const api = {
         get: generic('GET'),
+        head: generic('HEAD'),
         post: generic('POST'),
         put: generic('PUT'),
         del: generic('DELETE'),
@@ -137,11 +141,11 @@ module.exports = function (...middle) {
     }
   };
   this.get = (url, options) => launch('GET', url, options);
+  this.head = (url, options) => launch('HEAD', url, options);
   this.post = (url, options) => launch('POST', url, options);
   this.put = (url, options) => launch('PUT', url, options);
   this.del = (url, options) => launch('DELETE', url, options);
   return this;
 };
-
 
 module.exports.options = {};

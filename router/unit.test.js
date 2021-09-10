@@ -22,7 +22,7 @@ describe('server/router definition', () => {
 
   it('has the right methods defined', () => {
     expect(router.get).toEqual(jasmine.any(Function));
-    expect(router.get).toEqual(jasmine.any(Function));
+    expect(router.head).toEqual(jasmine.any(Function));
     expect(router.post).toEqual(jasmine.any(Function));
     expect(router.put).toEqual(jasmine.any(Function));
     expect(router.del).toEqual(jasmine.any(Function));
@@ -32,7 +32,7 @@ describe('server/router definition', () => {
 
   it('can load all the methods manually', () => {
     expect(require('server/router/get')).toEqual(jasmine.any(Function));
-    expect(require('server/router/get')).toEqual(jasmine.any(Function));
+    expect(require('server/router/head')).toEqual(jasmine.any(Function));
     expect(require('server/router/post')).toEqual(jasmine.any(Function));
     expect(require('server/router/put')).toEqual(jasmine.any(Function));
     expect(require('server/router/del')).toEqual(jasmine.any(Function));

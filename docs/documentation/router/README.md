@@ -5,6 +5,7 @@ Available methods and their parameters for `server.router`:
 |route name                                 |example                          |
 |-------------------------------------------|---------------------------------|
 |[`get(PATH, FN1, FN2, ...)`](#get-)        |`get('/', ctx => { ... })`       |
+|[`head(PATH, FN1, FN2, ...)`](#head-)      |`head('/', ctx => { ... })`      |
 |[`post(PATH, FN1, FN2, ...)`](#post-)      |`post('/', ctx => { ... })`      |
 |[`put(PATH, FN1, FN2, ...)`](#put-)        |`put('/', ctx => { ... })`       |
 |[`del(PATH, FN1, FN2, ...)`](#del-)        |`del('/', ctx => { ... })`       |
@@ -148,6 +149,23 @@ const route = get('/:page', ctx => {
 // Test it
 run(route).get('/hello?name=Francisco').then(res => {
   expect(res.body).toEqual({ page: 'hello', name: 'Francisco' });
+});
+```
+
+
+
+## head()
+
+Handle requests of the type `HEAD`, which never contain a body:
+
+```js
+// Create a single route for GET /
+const route = head('/', ctx => 'Hello 世界');
+
+// Testing that it actually works
+run(route).head('/').then(res => {
+  // Body is empty
+  expect(res.body).toBe('');
 });
 ```
 
