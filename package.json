@@ -1,6 +1,6 @@
 {
   "name": "server",
-  "version": "1.0.35",
+  "version": "1.0.36",
   "description": "A modern and powerful server for Node.js",
   "homepage": "https://serverjs.io/",
   "repository": "https://github.com/franciscop/server.git",
