@@ -220,8 +220,15 @@ server(getHome, getGallery);
 <h2 id="advanced-topics">Advanced topics</h2>
 <p>There is a lot of basic to mid-difficulty documentation to do until we even get here. Just a quick note so far:</p>
 <p>The main function returns a promise that will be fulfilled when the server is running and can be accessed. It will receive a more primitive context. So this is perfectly valid:</p>
-<pre><code class="lang-js">server(ctx =&gt; &#39;Hello world&#39;).then(ctx =&gt; {
-  console.log(`Server launched on http://localhost:${ctx.options.port}/`);
+<pre><code class="lang-js">server(ctx =&gt; &#39;Hello world&#39;).then(app =&gt; {
+  console.log(`Server launched on http://localhost:${app.options.port}/`);
+});
+</code></pre>
+<p>If you need to stop the server manually, you can do so by invoking the <code>.close()</code> function:</p>
+<pre><code class="lang-js">server(ctx =&gt; &#39;Hello world&#39;).then(async app =&gt; {
+  console.log(&#39;Launched&#39;);
+  await app.close();
+  console.log(&#39;Closed&#39;);
 });
 </code></pre>
 <h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Some super simple heuristics

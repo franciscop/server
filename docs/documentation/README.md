@@ -316,7 +316,17 @@ There is a lot of basic to mid-difficulty documentation to do until we even get 
 The main function returns a promise that will be fulfilled when the server is running and can be accessed. It will receive a more primitive context. So this is perfectly valid:
 
 ```js
-server(ctx => 'Hello world').then(ctx => {
-  console.log(`Server launched on http://localhost:${ctx.options.port}/`);
+server(ctx => 'Hello world').then(app => {
+  console.log(`Server launched on http://localhost:${app.options.port}/`);
+});
+```
+
+If you need to stop the server manually, you can do so by invoking the `.close()` function:
+
+```js
+server(ctx => 'Hello world').then(async app => {
+  console.log('Launched');
+  await app.close();
+  console.log('Closed');
 });
 ```
