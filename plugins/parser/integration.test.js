@@ -56,6 +56,18 @@ describe('Default modules', () => {
     expect(res.body).toBe('Hello 世界');
   });
 
+  // Can overwrite the IP
+  it.only('method-override through header', async () => {
+    const mid = ctx => {
+      expect(ctx.ip).toBe('123.123.123.123');
+      return 'Hello 世界';
+    };
+
+    const headers = { 'X-Forwarded-For': '123.123.123.123, 111.111.111.111' };
+    const res = await run(mid).post('/', { headers });
+    expect(res.body).toBe('Hello 世界');
+  });
+
   // Change the method to the specified one
   it('override-method works with a string', async () => {
     const mid = ctx => {

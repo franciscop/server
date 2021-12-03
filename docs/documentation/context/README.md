@@ -231,16 +231,38 @@ const mid = post('/profilepic', ctx => {
 
 ## .ip
 
-The IP of the remote client. If it's behind a proxy that displays its proxy condition then the `ips` field will also be filled with the respective ips:
+The IP of the client. If your server is running behind a proxy, it uses [the de-facto standard `x-forwarded-for` header](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For) to get the right client IP:
 
 ```js
 const mid = ctx => {
-  console.log(ctx.ip, '|', ctx.ips);
+  console.log(ctx.ip);
 };
 
 run(mid).get('/');
 ```
 
+It can be useful with services like `geoip-lite` to find the user's location:
+
+```js
+// Localize user depending on their IP
+const geoip = require('geoip-lite');
+
+module.exports = ctx => {
+  ctx.geo = geoip.lookup(ctx.ip);
+};
+
+// {
+//   range: [ 3531655168, 3531657215 ],
+//   country: 'JP',
+//   region: '24',
+//   eu: '0',
+//   timezone: 'Asia/Tokyo',
+//   city: 'Yokkaichi',
+//   ll: [ 34.9667, 136.6167 ],
+//   metro: 0,
+//   area: 50
+// }
+```
 
 
 

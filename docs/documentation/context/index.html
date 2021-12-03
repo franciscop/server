@@ -220,12 +220,32 @@ run(mid).get(&#39;/&#39;);
 });
 </code></pre>
 <h2 id="-ip">.ip</h2>
-<p>The IP of the remote client. If it&#39;s behind a proxy that displays its proxy condition then the <code>ips</code> field will also be filled with the respective ips:</p>
+<p>The IP of the client. If your server is running behind a proxy, it uses <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For">the de-facto standard <code>x-forwarded-for</code> header</a> to get the right client IP:</p>
 <pre><code class="lang-js">const mid = ctx =&gt; {
-  console.log(ctx.ip, &#39;|&#39;, ctx.ips);
+  console.log(ctx.ip);
 };
 
 run(mid).get(&#39;/&#39;);
+</code></pre>
+<p>It can be useful with services like <code>geoip-lite</code> to find the user&#39;s location:</p>
+<pre><code class="lang-js">// Localize user depending on their IP
+const geoip = require(&#39;geoip-lite&#39;);
+
+module.exports = ctx =&gt; {
+  ctx.geo = geoip.lookup(ctx.ip);
+};
+
+// {
+//   range: [ 3531655168, 3531657215 ],
+//   country: &#39;JP&#39;,
+//   region: &#39;24&#39;,
+//   eu: &#39;0&#39;,
+//   timezone: &#39;Asia/Tokyo&#39;,
+//   city: &#39;Yokkaichi&#39;,
+//   ll: [ 34.9667, 136.6167 ],
+//   metro: 0,
+//   area: 50
+// }
 </code></pre>
 <h2 id="-url">.url</h2>
 <p>The full cuantified URL:</p>

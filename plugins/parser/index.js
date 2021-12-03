@@ -91,6 +91,15 @@ const plugin = {
     ctx => {
       ctx.data = ctx.body;
     },
+
+    // Fix the IP for heroku and similars
+    ctx => {
+      const forwarded = ctx.headers['x-forwarded-for'];
+      if (!forwarded) return;
+
+      const ip = forwarded.trim().split(/,\s?/g).shift();
+      Object.defineProperty(ctx, 'ip', { enumerable: true, value: ip });
+    },
   ]
 };
 
