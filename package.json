@@ -51,6 +51,7 @@
     "extend": "^3.0.2",
     "hbs": "^4.2.0",
     "helmet": "^5.1.0",
+    "ioredis": "^5.2.3",
     "loadware": "^2.0.0",
     "log": "^1.4.0",
     "method-override": "^3.0.0",
