@@ -5,9 +5,7 @@
   "homepage": "https://serverjs.io/",
   "repository": "https://github.com/franciscop/server.git",
   "bugs": "https://github.com/franciscop/server/issues",
-  "funding": {
-    "url": "https://www.paypal.me/franciscopresencia/19"
-  },
+  "funding": "https://www.paypal.me/franciscopresencia/19",
   "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
   "license": "MIT",
   "scripts": {
