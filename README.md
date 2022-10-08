@@ -141,6 +141,4 @@ module.exports = [
 
 This package was created by [Francisco Presencia](http://francisco.io/) but hopefully developed and maintained by many others. See the [the list of contributors here](https://github.com/franciscop/server/graphs/contributors).
 
-I love using my work and I'm available for contractor work. Freelancing helps maintain `server` and [my other open source projects](https://github.com/franciscop/) up to date! I am also on [Codementor](https://www.codementor.io/franciscop) so if you want to learn more Javascript/Node.js/etc contact me there.
-
 You can also [sponsor the project](https://serverjs.io/sponsor), get your logo in here and some other perks with tons of ♥
