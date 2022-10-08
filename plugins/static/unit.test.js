@@ -1,7 +1,11 @@
 const run = require('server/test/run');
 const stat = require('./');
 
-const storeLog = out => ({ report: { write: log => { out.log = log; } } });
+const storeLog = out => ({
+  report: log => {
+    out.log = log.toString();
+  }
+});
 
 describe('static plugin', () => {
   it('exists', () => {

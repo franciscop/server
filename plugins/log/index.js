@@ -1,14 +1,14 @@
-const Log = require('log');
+const log = require('npmlog');
 
 const valid = [
-  'emergency',
-  'alert',
-  'critical',
-  'error',
-  'warning',
-  'notice',
+  'debug',
   'info',
-  'debug'
+  'notice',
+  'warning',
+  'error',
+  'critical',
+  'alert',
+  'emergency'
 ];
 
 // Log plugin
@@ -26,7 +26,25 @@ const plugin = {
     }
   },
   init: ctx => {
-    ctx.log = Log.get(ctx.options.log.level, ctx.options.log.report);
+    valid.forEach((level, n) => {
+      log.addLevel(level, n);
+    });
+    log.level = 'info';
+    if (ctx.options.log.level) {
+      log.level = ctx.options.log.level;
+    }
+    ctx.log = {};
+    valid.forEach(type => {
+      ctx.log[type] = content => {
+        if (
+          ctx.options.log.report &&
+          typeof ctx.options.log.report === 'function'
+        ) {
+          ctx.options.log.report(content, type);
+        }
+        log.log(type, '', content);
+      };
+    });
   }
 };
 
