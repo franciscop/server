@@ -1,4 +1,4 @@
-const Log = require('log');
+const Log = require('log')
 
 const valid = [
   'emergency',
@@ -9,7 +9,7 @@ const valid = [
   'notice',
   'info',
   'debug'
-];
+]
 
 // Log plugin
 const plugin = {
@@ -26,8 +26,8 @@ const plugin = {
     }
   },
   init: ctx => {
-    ctx.log = new Log(ctx.options.log.level, ctx.options.log.report);
+    ctx.log = Log.get(ctx.options.log.level, ctx.options.log.report)
   }
-};
+}
 
-module.exports = plugin;
+module.exports = plugin
