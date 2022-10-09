@@ -2,11 +2,17 @@ const run = require('server/test/run');
 
 // Note: the `raw` option only works for tests
 
-const storeLog = out => ({ report: { write: log => { out.log = log; } } });
+const storeLog = out => ({
+  report: log => {
+    out.log = log.toString();
+  }
+});
 
 describe('final', () => {
   it('gets called with an unhandled error', async () => {
-    const simple = () => { throw new Error('Hello Error'); };
+    const simple = () => {
+      throw new Error('Hello Error');
+    };
     const out = {};
     const res = await run({ raw: true, log: storeLog(out) }, simple).get('/');
     expect(res.statusCode).toBe(500);
@@ -16,9 +22,15 @@ describe('final', () => {
 
   it('is not called if the previous one finishes', async () => {
     let called = false;
-    const simple = () => { called = true; };
+    const simple = () => {
+      called = true;
+    };
     const out = {};
-    const res = await run({ raw: true, log: storeLog(out) }, () => 'Hello world', simple).get('/');
+    const res = await run(
+      { raw: true, log: storeLog(out) },
+      () => 'Hello world',
+      simple
+    ).get('/');
     expect(res.statusCode).toBe(200);
     expect(res.body).toBe('Hello world');
     expect(called).toBe(false);

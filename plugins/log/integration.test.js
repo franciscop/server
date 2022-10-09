@@ -37,11 +37,22 @@ describe('log()', () => {
     const res = run({ log: 'abc' }).get('/');
 
     // Now errors must be fully qualified with Jest
-    expect(res).rejects.toMatchObject(new ConfigError('enum', {
-      name: 'level',
-      value: 'abc',
-      possible: ['emergency','alert','critical','error','warning','notice','info','debug'],
-      status: 500
-    }));
+    expect(res).rejects.toMatchObject(
+      new ConfigError('enum', {
+        name: 'level',
+        value: 'abc',
+        possible: [
+          'debug',
+          'info',
+          'notice',
+          'warning',
+          'error',
+          'critical',
+          'alert',
+          'emergency'
+        ],
+        status: 500
+      })
+    );
   });
 });
