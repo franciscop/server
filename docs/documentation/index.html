@@ -1,6 +1,6 @@
 <!DOCTYPE html><html class="initial"><head><title>Documentation - server.js</title><meta property="og:title" content="Documentation - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Full documentation of server.js API and methodologies."/><meta property="og:description" content="Full documentation of server.js API and methodologies."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/code.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="documentation"><div class="flex"><section class="toc"><h2><a href="/documentation/">Documentation</a></h2><form class="searchform"><input class="search" placeholder="search"></form><div class="searchbox"></div><ul><li><label class="more"></label><a href="/documentation/">Introduction</a><ul><li><a href="/documentation/#getting-started">Getting started</a></li><li><a href="/documentation/#basic-usage">Basic usage</a></li><li><a href="/documentation/#middleware">Middleware</a></li><li><a href="/documentation/#express-middleware">Express middleware</a></li><li><a href="/documentation/#cors">CORS</a></li><li><a href="/documentation/#routing">Routing</a></li><li><a href="/documentation/#advanced-topics">Advanced topics</a></li></ul></li><li><label class="more"></label><a href="/documentation/options/">Options</a><ul><li><a href="/documentation/options/#port">Port</a></li><li><a href="/documentation/options/#secret">Secret</a></li><li><a href="/documentation/options/#public">Public</a></li><li><a href="/documentation/options/#views">Views</a></li><li><a href="/documentation/options/#engine">Engine</a></li><li><a href="/documentation/options/#env">Env</a></li><li><a href="/documentation/options/#favicon">Favicon</a></li><li><a href="/documentation/options/#parse">Parse</a></li><li><a href="/documentation/options/#session">Session</a></li><li><a href="/documentation/options/#socket">Socket</a></li><li><a href="/documentation/options/#security">Security</a></li><li><a href="/documentation/options/#log">Log</a></li></ul></li><li><label class="more"></label><a href="/documentation/context/">Context</a><ul><li><a href="/documentation/context/#-options">.options</a></li><li><a href="/documentation/context/#-data">.data</a></li><li><a href="/documentation/context/#-params">.params</a></li><li><a href="/documentation/context/#-query">.query</a></li><li><a href="/documentation/context/#-session">.session</a></li><li><a href="/documentation/context/#-headers">.headers</a></li><li><a href="/documentation/context/#-cookies">.cookies</a></li><li><a href="/documentation/context/#-files">.files</a></li><li><a href="/documentation/context/#-ip">.ip</a></li><li><a href="/documentation/context/#-url">.url</a></li><li><a href="/documentation/context/#-method">.method</a></li><li><a href="/documentation/context/#-path">.path</a></li><li><a href="/documentation/context/#-secure">.secure</a></li><li><a href="/documentation/context/#-xhr">.xhr</a></li></ul></li><li><label class="more"></label><a href="/documentation/router/">Router</a><ul><li><a href="/documentation/router/#get-">get()</a></li><li><a href="/documentation/router/#head-">head()</a></li><li><a href="/documentation/router/#post-">post()</a></li><li><a href="/documentation/router/#put-">put()</a></li><li><a href="/documentation/router/#del-">del()</a></li><li><a href="/documentation/router/#error-">error()</a></li><li><a href="/documentation/router/#sub-">sub()</a></li><li><a href="/documentation/router/#socket-">socket()</a></li></ul></li><li><label class="more"></label><a href="/documentation/reply/">Reply</a><ul><li><a href="/documentation/reply/#cookie-">cookie()</a></li><li><a href="/documentation/reply/#download-">download()</a></li><li><a href="/documentation/reply/#file-">file()</a></li><li><a href="/documentation/reply/#header-">header()</a></li><li><a href="/documentation/reply/#json-">json()</a></li><li><a href="/documentation/reply/#jsonp-">jsonp()</a></li><li><a href="/documentation/reply/#redirect-">redirect()</a></li><li><a href="/documentation/reply/#render-">render()</a></li><li><a href="/documentation/reply/#send-">send()</a></li><li><a href="/documentation/reply/#status-">status()</a></li><li><a href="/documentation/reply/#type-">type()</a></li></ul></li></ul></section><div class="main"><h1 id="documentation">Documentation</h1>
 <p>Conceptually <strong>server</strong> is a function that accepts options and other functions. The heavy lifting is already implemented <strong>so you can focus on your project</strong>:</p>
-<pre><code class="lang-js">// Import the variable into the file
+<pre><code class="language-js">// Import the variable into the file
 const server = require(&#39;server&#39;);
 
 // All of the arguments are optional
@@ -11,27 +11,27 @@ server(options, fn1, fn2, fn3, ...);
 </blockquote>
 <h2 id="getting-started">Getting started</h2>
 <p>There&#39;s <a href="/tutorials/getting-started/">a getting started tutorial for beginners</a>. If you know your way around:</p>
-<pre><code class="lang-bash">npm install server
+<pre><code class="language-bash">npm install server
 </code></pre>
 <p>Then create some demo code in your <code>index.js</code>:</p>
-<pre><code class="lang-js">// Import the library
+<pre><code class="language-js">// Import the library
 const server = require(&#39;server&#39;);
 
 // Answers to any request
 server(ctx =&gt; &#39;Hello world&#39;);
 </code></pre>
 <p>Run it from the terminal:</p>
-<pre><code class="lang-bash">node .
+<pre><code class="language-bash">node .
 </code></pre>
 <p>And open your browser on <a href="http://localhost:3000/">localhost:3000</a> to see it in action.</p>
 <h2 id="basic-usage">Basic usage</h2>
 <p>Some of the components are the main function on itself, <a href="/documentation/router/">router</a> and <a href="/documentation/reply/">reply</a>. The main function accepts first an optional object for <a href="/documentation/options/">the options</a>, and then as many <a href="#middleware">middleware</a> or arrays of middleware as wanted:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 
 server({ port: 3000 }, ctx =&gt; &#39;Hello 世界&#39;);
 </code></pre>
 <p>To use the router and reply extract their methods as needed:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 const { render, json } = server.reply;
 
@@ -42,24 +42,24 @@ server([
 ]);
 </code></pre>
 <p>Then when you are splitting your files into different parts and don&#39;t have access to the global server you can import only the corresponding parts:</p>
-<pre><code class="lang-js">const { get, post } = require(&#39;server/router&#39;);
+<pre><code class="language-js">const { get, post } = require(&#39;server/router&#39;);
 const { render, json } = require(&#39;server/reply&#39;);
 </code></pre>
 <h2 id="middleware">Middleware</h2>
 <p>A <em>middleware</em> is plain function that will be called on each request. It receives <a href="/documentation/context">a context object</a> and <a href="/documentation/reply/">returns a reply</a>, a <a href="/documentation/reply/#return-value">basic type</a> or nothing. A couple of examples:</p>
-<pre><code class="lang-js">const setname = ctx =&gt; { ctx.user = &#39;Francisco&#39;; };
+<pre><code class="language-js">const setname = ctx =&gt; { ctx.user = &#39;Francisco&#39;; };
 const sendname = ctx =&gt; send(ctx.user);
 server(setname, sendname);
 </code></pre>
 <p>They can be placed as <code>server()</code> arguments, combined into an array or imported/exported from other files:</p>
-<pre><code class="lang-js">server(
+<pre><code class="language-js">server(
   ctx =&gt; send(ctx.user),
   [ ctx =&gt; console.log(ctx.data) ],
   require(&#39;./comments/router.js&#39;)
 );
 </code></pre>
 <p>Then in <code>./comments/router.js</code>:</p>
-<pre><code class="lang-js">const { get, post, put, del } = require(&#39;server/router&#39;);
+<pre><code class="language-js">const { get, post, put, del } = require(&#39;server/router&#39;);
 const { json } = require(&#39;server/reply&#39;);
 
 module.exports = [
@@ -70,7 +70,7 @@ module.exports = [
 ];
 </code></pre>
 <p>The main difference between synchronous and asynchronous functions is that you use  <code>async</code> keyword to then be able to use the keyword <code>await</code> within the function, avoiding <a href="http://callbackhell.com/">callback hell</a>. Some examples of middleware:</p>
-<pre><code class="lang-js">// Some simple logging
+<pre><code class="language-js">// Some simple logging
 const mid = () =&gt; {
   console.log(&#39;Hello 世界&#39;);
 };
@@ -94,7 +94,7 @@ const mid = ctx =&gt; {
 };
 </code></pre>
 <p>In this way you can <code>await</code> inside of your function. Server.js will also await to your middleware before proceeding to the next one:</p>
-<pre><code class="lang-js">server(async ctx =&gt; {
+<pre><code class="language-js">server(async ctx =&gt; {
   await someAsyncOperation();
   console.log(&#39;I am first&#39;);
 }, ctx =&gt; {
@@ -102,19 +102,19 @@ const mid = ctx =&gt; {
 });
 </code></pre>
 <p>If you find an error in an async function you can throw it. It will be caught, a 500 error will be displayed to the user and the error will be logged:</p>
-<pre><code class="lang-js">const middle = async ctx =&gt; {
+<pre><code class="language-js">const middle = async ctx =&gt; {
   if (!ctx.user) {
     throw new Error(&#39;No user :(&#39;);
   }
 };
 </code></pre>
-<blockquote class="warning"><strong>Avoid callback-based functions</strong>: error propagation is problematic and they have to be converted to promises. Strongly prefer an async/await workflow.</blockquote>
+<blockquote class="warning">**Avoid callback-based functions**: error propagation is problematic and they have to be converted to promises. Strongly prefer an async/await workflow.</blockquote>
 
 
 
 <h2 id="express-middleware">Express middleware</h2>
 <p>Server.js is using express as the underlying library (we &lt;3 express!). You can import middleware designed for express with <code>modern</code>:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 
 // Require it and initialize it with some options
 const legacy = require(&#39;helmet&#39;)({ ... });
@@ -129,7 +129,7 @@ server(mid, ...);
 <p>Note: the <code>{ ... }</code> represent the options for that middleware since many of <a href="https://expressjs.com/en/guide/writing-middleware.html">express libraries</a> follow the <a href="https://github.com/expressjs/express/issues/3150">factory pattern</a>.</p>
 </blockquote>
 <p>To simplify it, we can also perform this operation inline:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { modern } = server.utils;
 
 server(
@@ -139,7 +139,7 @@ server(
 );
 </code></pre>
 <p>Or just keep the whole middleware in a separated file/folder:</p>
-<pre><code class="lang-js">// index.js
+<pre><code class="language-js">// index.js
 const server = require(&#39;server&#39;);
 const middleware = require(&#39;./middleware&#39;);
 const routes = require(&#39;./routes&#39;);
@@ -147,7 +147,7 @@ const routes = require(&#39;./routes&#39;);
 server(middleware, routes);
 </code></pre>
 <p>Then in our <code>middleware.js</code>:</p>
-<pre><code class="lang-js">// middleware.js
+<pre><code class="language-js">// middleware.js
 const server = require(&#39;server&#39;);
 const { modern } = server.utils;
 
@@ -160,7 +160,7 @@ module.exports = [
 <h2 id="cors">CORS</h2>
 <p>To allow requesting a resource from another domain you must enable <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS">Cross-Origin Resource Sharing (CORS)</a>. To do so, you have two options: do it manually or through a great library. Both of them end up setting some headers.</p>
 <p>Let&#39;s see how to do it manually for any domain:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { header } = server.reply;  // OR server.reply;
 
 const cors = [
@@ -173,7 +173,7 @@ const cors = [
 server({}, cors, ...);
 </code></pre>
 <p>If you want to whitelist some domains it&#39;s not easy manually, so we can use the great package <a href="https://www.npmjs.com/package/cors"><code>cors</code> from npm</a>:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 
 // Load it with the options
 const corsExpress = require(&#39;cors&#39;)({
@@ -189,7 +189,7 @@ server({}, cors, ...);
 <h2 id="routing">Routing</h2>
 <p>This is the concept of redirecting each request to our server to the right place. For instance, if the user requests our homepage <code>/</code> we want to render the homepage, but if they request an image gallery <code>/gallery/67546</code> we want to render the gallery <code>67546</code>.</p>
 <p>For this we will be creating routes using server&#39;s routers. We can import it like this:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 
 // OR
@@ -197,14 +197,14 @@ const { get, post } = server.router;
 const { get, post } = require(&#39;server/router&#39;);
 </code></pre>
 <p>There are some other ways, but these are the recommended ones. Then we say the path of the request for the method that we want to listen to and a middleware:</p>
-<pre><code class="lang-js">const getHome = get(&#39;/&#39;, () =&gt; render(&#39;index.pug&#39;));
+<pre><code class="language-js">const getHome = get(&#39;/&#39;, () =&gt; render(&#39;index.pug&#39;));
 const getGallery = get(&#39;/gallery/:id&#39;, async ctx =&gt; {
   const images = await db.find({ id: ctx.params.id }).exec();
   return render(&#39;gallery.pug&#39;, { images });
 });
 </code></pre>
 <p>Let&#39;s put it all together to see how they work:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 
 const getHome = get(&#39;/&#39;, () =&gt; render(&#39;index.pug&#39;));
@@ -220,12 +220,12 @@ server(getHome, getGallery);
 <h2 id="advanced-topics">Advanced topics</h2>
 <p>There is a lot of basic to mid-difficulty documentation to do until we even get here. Just a quick note so far:</p>
 <p>The main function returns a promise that will be fulfilled when the server is running and can be accessed. It will receive a more primitive context. So this is perfectly valid:</p>
-<pre><code class="lang-js">server(ctx =&gt; &#39;Hello world&#39;).then(app =&gt; {
+<pre><code class="language-js">server(ctx =&gt; &#39;Hello world&#39;).then(app =&gt; {
   console.log(`Server launched on http://localhost:${app.options.port}/`);
 });
 </code></pre>
 <p>If you need to stop the server manually, you can do so by invoking the <code>.close()</code> function:</p>
-<pre><code class="lang-js">server(ctx =&gt; &#39;Hello world&#39;).then(async app =&gt; {
+<pre><code class="language-js">server(ctx =&gt; &#39;Hello world&#39;).then(async app =&gt; {
   console.log(&#39;Launched&#39;);
   await app.close();
   console.log(&#39;Closed&#39;);

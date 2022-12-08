@@ -44,7 +44,6 @@
     "csurf": "^1.11.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.1",
-    "express-data-parser": "^1.2.0",
     "express-session": "^1.17.3",
     "extend": "^3.0.2",
     "hbs": "^4.2.0",
@@ -59,7 +58,8 @@
     "response-time": "^2.3.2",
     "serve-favicon": "^2.5.0",
     "serve-index": "^1.9.1",
-    "socket.io": "^4.5.2"
+    "socket.io": "^4.5.2",
+    "upload-files-express": "^0.4.0"
   },
   "devDependencies": {
     "eslint": "^8.25.0",

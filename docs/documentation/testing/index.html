@@ -5,13 +5,13 @@
 
 <p>There&#39;s a small test suite included, but you probably want to use something more specific to your use-case.</p>
 <p>Testing that a middleware correctly handles the lack of a user:</p>
-<pre><code class="lang-js">// auth/errors.js (more info in /documentation/errors/)
+<pre><code class="language-js">// auth/errors.js (more info in /documentation/errors/)
 const error = require(&#39;server/error&#39;);
 error[&#39;/app/auth/nouser&#39;] = &#39;You must be authenticated to do this&#39;;
 module.exports = error;
 </code></pre>
 <p>Our main module:</p>
-<pre><code class="lang-js">// auth/needuser.js
+<pre><code class="language-js">// auth/needuser.js
 const AuthError = require(&#39;./errors&#39;);
 
 module.exports = ctx =&gt; {
@@ -21,7 +21,7 @@ module.exports = ctx =&gt; {
 };
 </code></pre>
 <p>Then to test this module:</p>
-<pre><code class="lang-js">// auth/needuser.test.js
+<pre><code class="language-js">// auth/needuser.test.js
 const run = require(&#39;server/test/run&#39;);
 const needuser = require(&#39;./needuser&#39;);
 
@@ -38,9 +38,9 @@ describe(&#39;auth/needuser.js&#39;, () =&gt; {
   });
 });
 </code></pre>
-<h2 id="run-">run()</h2>
+<h2 id="run">run()</h2>
 <p>This function accepts the same arguments as <code>server()</code>, however it will return an API that you can use to test any middleware (and, by extension, any route) that you want. The API that it returns so far is this:</p>
-<pre><code class="lang-js">const run = require(&#39;server/test/run&#39;);
+<pre><code class="language-js">const run = require(&#39;server/test/run&#39;);
 
 const api = run(TOTEST);
 
@@ -51,10 +51,10 @@ api.del.then(res =&gt; { ... });
 </code></pre>
 <h2 id="disable-csrf">Disable CSRF</h2>
 <p>For testing POST, PUT and DELETE methods you might want to disable CSRF. To do that, just pass it the appropriate option:</p>
-<pre><code class="lang-js">run({ security: { csrf: false } }, TOTEST);
+<pre><code class="language-js">run({ security: { csrf: false } }, TOTEST);
 </code></pre>
 <p>This API accepts as arguments:</p>
-<pre><code class="lang-js">api.get(URL, OPTIONS);
+<pre><code class="language-js">api.get(URL, OPTIONS);
 </code></pre>
 <p>It is using <a href="https://github.com/request/request"><code>request</code></a> underneath, so the options are the same as for this module. There are few small differences:</p>
 <ul>

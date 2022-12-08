@@ -8,7 +8,7 @@
 <h3 id="define-an-error">Define an error</h3>
 <p>To define an error in your code the best way to do it is to use the package <code>human-error</code> (by the author of server), since it&#39;s made to combine perfectly with server.js. In the future we might integrate it, but so far they are kept separated.</p>
 <p>To define an error, create a different file that will contain all or part of your errors, here called <code>errors.js</code> for our site <code>mycat.com</code>:</p>
-<pre><code class="lang-js">// errors.js
+<pre><code class="language-js">// errors.js
 const errors = require(&#39;human-error&#39;)();  // &lt;-- notice this
 
 errors[&#39;/mycat/nogithubsecret&#39;] = `
@@ -21,7 +21,7 @@ module.exports = errors;
 </code></pre>
 <h3 id="throw-the-error">Throw the error</h3>
 <p>Now let&#39;s use it, to do so we&#39;ll just need to import this file and throw the corresponding error:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const HumanError = require(&#39;./errors&#39;);
 
 server(ctx =&gt; {
@@ -34,7 +34,7 @@ server(ctx =&gt; {
 <h3 id="error-handling">Error handling</h3>
 <p>Now this was an error for the developers where we want to be explicit and show the error clearly. For users thought things change a bit and are greatly improved by server&#39;s error handling.</p>
 <p>First let&#39;s deal with super type checking:</p>
-<pre><code class="lang-js">const route = get(&#39;/post/:id&#39;, ctx =&gt; {
+<pre><code class="language-js">const route = get(&#39;/post/:id&#39;, ctx =&gt; {
   if (!/^\d+$/.test(ctx.params.id)) {
     throw new HumanError(&#39;/mycat/type/invalid&#39;, { base: &#39;/post&#39; });
   }
@@ -56,7 +56,7 @@ const handleAll = error(&#39;/mycat&#39;, () =&gt; {
 });
 </code></pre>
 <p>Let&#39;s say that someone is trying to access something they don&#39;t have access to. Like deleting a comment that is not theirs:</p>
-<pre><code class="lang-js">// comments.js
+<pre><code class="language-js">// comments.js
 module.exports = [
   ...
   del(&#39;/comment/:id&#39;, async ctx =&gt; {
@@ -69,7 +69,7 @@ module.exports = [
 </code></pre>
 <p>Later on you can handle this specific error, we could log these specific kind of errors, etc.</p>
 <h2 id="native">Native</h2>
-<h3 id="-server-native-portused">/server/native/portused</h3>
+<h3 id="servernativeportused">/server/native/portused</h3>
 <p>This happens when you try to launch <code>server</code> in a port that is already being used by another process. It can be another server process or a totally independent process. To fix it you can do:</p>
 <ul>
 <li>Check that there are no other terminals running this process already.</li>
@@ -77,31 +77,31 @@ module.exports = [
 <li>Find out what process is already using the port and stop it. In Linux: <code>fuser -k -n tcp 3000</code>.</li>
 </ul>
 <p>Example on when this error is happening:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 // DO NOT DO THIS:
 server(3000);
 server(3000);
 </code></pre>
 <p>To fix it, invoke it with a different port:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 server(2000);
 server(3000);
 </code></pre>
 <h2 id="options">Options</h2>
 <p>These errors are related to server&#39;s options.</p>
-<h3 id="-server-options-portnotanumber">/server/options/portnotanumber</h3>
+<h3 id="serveroptionsportnotanumber">/server/options/portnotanumber</h3>
 <h2 id="core">Core</h2>
 <p>These errors occur when handling a specific part of server.js.</p>
-<h3 id="-server-core-missingmiddleware">/server/core/missingmiddleware</h3>
+<h3 id="servercoremissingmiddleware">/server/core/missingmiddleware</h3>
 <p>This will normally happen if you are trying to create a <code>server</code> middleware from an <code>express</code> middleware but forget to actually pass express&#39; middleware.</p>
 <p>This error happens when you call <code>modern()</code> with an empty or falsy value:</p>
-<pre><code class="lang-js">const { modern } = server.utils;
+<pre><code class="language-js">const { modern } = server.utils;
 const middle = modern();  // Error
 </code></pre>
-<h3 id="-server-core-invalidmiddleware">/server/core/invalidmiddleware</h3>
+<h3 id="servercoreinvalidmiddleware">/server/core/invalidmiddleware</h3>
 <p>This happens when you try to call <code>modern()</code> with an argument that is not an old-style middleware. The first and only argument for <code>modern()</code> is a function with <code>express</code>&#39; middleware signature.</p>
 <p>This error should also tell you dynamically which type of argument you passed.</p>
-<pre><code class="lang-js">const { modern } = server.utils;
+<pre><code class="language-js">const { modern } = server.utils;
 const middle = modern(&#39;hello&#39;);
 </code></pre>
 <h2 id="keep-reading">Keep reading</h2><p>List of all the topics:</p><div class="pages"><a class="button" href="/documentation/">Introduction</a><a class="button" href="/documentation/options/">Options</a><a class="button" href="/documentation/context/">Context</a><a class="button" href="/documentation/router/">Router</a><a class="button" href="/documentation/reply/">Reply</a></div></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Some super simple heuristics

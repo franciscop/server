@@ -1,9 +1,9 @@
-<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta property="og:title" content="Server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"/><meta property="og:description" content="Flexible and powerful server for Node.js"/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/code.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><nav><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1><strong>server.js </strong>for Node</h1><div><pre class="sub">npm install server</pre></div><a class="button docs" href="/documentation">Documentation<span class="arrow"> 〉</span></a><a class="button docs" href="/tutorials">Tutorials<span class="arrow"> 〉</span></a><!-- Just having some fun (;--><button class="secret">super secret button</button></div></div><article class="home"><div class="features"><div class="flex two three-600"><div><img src="/img/battery.svg"><h2>Batteries on</h2><p>Everything you need is loaded by default</p></div><div><img src="/img/socketio.svg"><h2>socket.io</h2><p>Realtime channels in a couple of lines</p></div><div><img src="/img/modern.svg"><h2>Modern ES7+</h2><p>Use async/await and forget Callback Hell</p></div><div><img src="/img/document.svg"><h2>Documented</h2><p>Many tutorials and docs for productivity</p></div><div><img src="/img/lock.svg"><h2>Secure</h2><p>Sane defaults & great libraries underneath</p></div><div><img src="/img/lego.svg"><h2>Extensible</h2><p>Fully compatible with Express middleware</p></div></div></div><h1 id="server-js-for-node-js"><strong>server.js</strong> for Node.js</h1>
+<!DOCTYPE html><html class="initial"><head><title>Server.js</title><meta property="og:title" content="Server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Flexible and powerful server for Node.js"/><meta property="og:description" content="Flexible and powerful server for Node.js"/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/code.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><nav><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><div class="hero"><div class="content"><h1><strong>server.js </strong>for Node</h1><div><pre class="sub">npm install server</pre></div><a class="button docs" href="/documentation">Documentation<span class="arrow"> 〉</span></a><a class="button docs" href="/tutorials">Tutorials<span class="arrow"> 〉</span></a><!-- Just having some fun (;--><button class="secret">super secret button</button></div></div><article class="home"><div class="features"><div class="flex two three-600"><div><img src="/img/battery.svg"><h2>Batteries on</h2><p>Everything you need is loaded by default</p></div><div><img src="/img/socketio.svg"><h2>socket.io</h2><p>Realtime channels in a couple of lines</p></div><div><img src="/img/modern.svg"><h2>Modern ES7+</h2><p>Use async/await and forget Callback Hell</p></div><div><img src="/img/document.svg"><h2>Documented</h2><p>Many tutorials and docs for productivity</p></div><div><img src="/img/lock.svg"><h2>Secure</h2><p>Sane defaults & great libraries underneath</p></div><div><img src="/img/lego.svg"><h2>Extensible</h2><p>Fully compatible with Express middleware</p></div></div></div><h1 id="serverjs-for-nodejs"><strong>server.js</strong> for Node.js</h1>
 <p><a href="http://eepurl.com/cGRggH"><img src="https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg" alt="Subscribe"></a>
 <a href="https://npm-stat.com/charts.html?package=server"><img src="https://img.shields.io/npm/dm/server.svg" alt="Downloads"></a>
 <a href="https://github.com/franciscop/server/actions"><img src="https://github.com/franciscop/server/workflows/tests/badge.svg" alt="Status"></a> <a href="https://david-dm.org/franciscop/server"><img src="https://david-dm.org/franciscop/server/status.svg" alt="Dependencies status"></a></p>
 <p>Powerful server for Node.js that just works so <strong>you can focus on your awesome project</strong>:</p>
-<pre><code class="lang-js">// Include it and extract some methods for convenience
+<pre><code class="language-js">// Include it and extract some methods for convenience
 const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 
@@ -24,13 +24,13 @@ server({ port: 8080 }, [
 
 <h2 id="getting-started">Getting started</h2>
 <p>There&#39;s a <a href="https://serverjs.io/tutorials/getting-started/">whole tutorial on getting started for beginners</a> but the quick version is to first install <code>server</code> as a dependency:</p>
-<pre><code class="lang-bash">npm install server
+<pre><code class="language-bash">npm install server
 </code></pre>
 <blockquote>
 <p>Server requires <strong>Node.js 7.6.0</strong> or newer. <strong>Node.js 8.x.y</strong> LTS is recommended.</p>
 </blockquote>
 <p>Then you can create a file called <code>index.js</code> with this code:</p>
-<pre><code class="lang-js">// Include the server in your file
+<pre><code class="language-js">// Include the server in your file
 const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 
@@ -40,7 +40,7 @@ server([
 ]);
 </code></pre>
 <p>Execute this in the terminal to get the server started:</p>
-<pre><code class="lang-bash">node .
+<pre><code class="language-bash">node .
 </code></pre>
 <p>And finally, open your browser on <a href="http://localhost:3000/">localhost:3000</a> and you should see &#39;Hello world!&#39; on your browser.</p>
 <h2 id="documentation">Documentation</h2>
@@ -55,7 +55,7 @@ server([
 <h3 id="small-to-medium-projects">Small to medium projects</h3>
 <p>Everything works out of the box, you get great support for most features and you can easily tap into Express&#39; middleware ecosystem. What&#39;s not to love?</p>
 <p>Some of the included features: body and file parsers, cookies, sessions, websockets, Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project. Get a simple form going:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 const { render, redirect } = server.reply;
 
@@ -69,7 +69,7 @@ server(
 </code></pre>
 <h3 id="api-design">API design</h3>
 <p>From the flexibility and expressivity of the bundle, designing APIs is a breeze:</p>
-<pre><code class="lang-js">// books/router.js
+<pre><code class="language-js">// books/router.js
 const { get, post, put, del } = require(&#39;server/router&#39;);
 const ctrl = require(&#39;./controller&#39;);
 
@@ -83,7 +83,7 @@ module.exports = [
 </code></pre>
 <h3 id="real-time">Real time</h3>
 <p>Websockets were never this easy to use! With socket.io on the front-end, you can simply do this in the back-end to handle those events:</p>
-<pre><code class="lang-js">// chat/router.js
+<pre><code class="language-js">// chat/router.js
 const { socket } = require(&#39;server/router&#39;);
 const ctrl = require(&#39;./controller&#39;);
 
@@ -93,9 +93,8 @@ module.exports = [
   socket(&#39;disconnect&#39;, ctrl.leave)
 ];
 </code></pre>
-<h2 id="author-support">Author &amp; support</h2>
+<h2 id="author--support">Author &amp; support</h2>
 <p>This package was created by <a href="http://francisco.io/">Francisco Presencia</a> but hopefully developed and maintained by many others. See the <a href="https://github.com/franciscop/server/graphs/contributors">the list of contributors here</a>.</p>
-<p>I love using my work and I&#39;m available for contractor work. Freelancing helps maintain <code>server</code> and <a href="https://github.com/franciscop/">my other open source projects</a> up to date! I am also on <a href="https://www.codementor.io/franciscop">Codementor</a> so if you want to learn more Javascript/Node.js/etc contact me there.</p>
 <p>You can also <a href="https://serverjs.io/sponsor">sponsor the project</a>, get your logo in here and some other perks with tons of ♥</p>
 </article><script>function $(sel) { return document.querySelector(sel); }
 $('button.secret').onclick = function () {

@@ -15,11 +15,11 @@
 <p><img src="img/todo_screenshot.png" alt="Screenshot of the final project"></p>
 <h2 id="install-dependencies">Install dependencies</h2>
 <p>After <a href="/tutorials/getting-started">getting your project ready</a> you&#39;ll have to make sure that you have MongoDB installed following <a href="https://docs.mongodb.com/manual/administration/install-community/">the official guide</a> and run it (will depend on your installation process). To check that you have it on Ubuntu do:</p>
-<pre><code class="lang-bash">mongod --version   # Should display a number
+<pre><code class="language-bash">mongod --version   # Should display a number
 mongod
 </code></pre>
 <p>Then we install the two libraries that we will be using <strong>within our project folder</strong>:</p>
-<pre><code class="lang-bash">npm install server mongoose jest
+<pre><code class="language-bash">npm install server mongoose jest
 </code></pre>
 <h2 id="code-organization">Code organization</h2>
 <p>Since this is a fairly small project focused on the back-end we will have all our server files within the root folder and won&#39;t go into detail for the front-end. The project will have these files:</p>
@@ -33,14 +33,17 @@ mongod
 <li><strong>todo.js</strong>: interaction with the database and main logic.</li>
 </ul>
 <p>You can see the whole working project in the repository:</p>
-<p><strong>
+<strong>
   <a href="https://github.com/franciscop/server-tutorial-todo" class="button">
     Github Repository
   </a>
-</strong></p>
+</strong>
+
+
+
 <h2 id="rest-api">REST API</h2>
 <p>Let&#39;s first of all define our API. Let&#39;s keep it simple! Within index.js we write:</p>
-<pre><code class="lang-js">// index.js
+<pre><code class="language-js">// index.js
 const server = require(&#39;server&#39;);
 const { get, post, put, del } = server.router;
 const { render } = server.reply;
@@ -70,7 +73,7 @@ server(home, api);
 </ul>
 <h2 id="database">Database</h2>
 <p>We are using Mongoose (a layer on top of MongoDB) to implement database access. For this, we first have to create a small <code>model.js</code> where we define how our schema and model data looks like:</p>
-<pre><code class="lang-js">// model.js
+<pre><code class="language-js">// model.js
 const mongoose = require(&#39;mongoose&#39;);
 
 // Configure the Mongoose plugin
@@ -88,7 +91,7 @@ module.exports = mongoose.model(&#39;Todo&#39;, TodoSchema);
 <p>The mongoose configuration <code>MONGODB_URI</code> <a href="https://serverjs.io/documentation/options/#environment">comes from the environment</a>.</p>
 <h2 id="todos-logic">Todos logic</h2>
 <p>Now, to write this code we create the file <code>todo.js</code> with this code:</p>
-<pre><code class="lang-js">// todo.js
+<pre><code class="language-js">// todo.js
 const { json } = require(&#39;server/reply&#39;);
 const model = require(&#39;./schema&#39;);
 
@@ -99,7 +102,7 @@ export.delete = async ctx =&gt; {};
 </code></pre>
 <p>These are the 4 basic CRUD operations as shown before. This file will export these asynchronous functions, that will take the context argument <a href="https://serverjs.io/documentation/#middleware">as with any server.js middleware</a> and whatever they return will be used for the response.</p>
 <p>Finally, let&#39;s implement the database access logic inside each of these 4 functions:</p>
-<pre><code class="lang-js">// todo.js
+<pre><code class="language-js">// todo.js
 const { status, json } = require(&#39;server/reply&#39;);
 const Todo = require(&#39;./model&#39;);
 
@@ -123,14 +126,14 @@ exports.delete = async (ctx) =&gt; {
 };
 </code></pre>
 <h2 id="testing">Testing</h2>
-<blockquote class="error">This section describes a future API and <strong>it is not available yet</strong>. Now please use more traditional testing method.</blockquote>
+<blockquote class="error">This section describes a future API and **it is not available yet**. Now please use more traditional testing method.</blockquote>
 
 <p>We will be using <a href="https://facebook.github.io/jest/">Jest</a> for testing, but you can use any library or framework that you prefer. We have to make a small change in our main <code>index.js</code>: we export the return value from server():</p>
-<pre><code class="lang-js">// ...
+<pre><code class="language-js">// ...
 module.exports = server(home, api);
 </code></pre>
 <p>Then we can import it from the integration tests. Let&#39;s create a <code>test.js</code>:</p>
-<pre><code class="lang-js">// test.js
+<pre><code class="language-js">// test.js
 const run = require(&#39;server/test/run&#39;);
 const server = require(&#39;./index.js&#39;);
 

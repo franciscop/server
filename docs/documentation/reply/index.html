@@ -8,8 +8,7 @@
 <th>final</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td><a href="#cookie-"><code>cookie(name, value, opts)</code></a></td>
 <td>cookie(&#39;name&#39;, &#39;Francisco&#39;)</td>
 <td>false</td>
@@ -64,10 +63,9 @@
 <td>type(&#39;html&#39;)</td>
 <td>false</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>Examples:</p>
-<pre><code class="lang-js">const { get, post } = require(&#39;server/router&#39;);
+<pre><code class="language-js">const { get, post } = require(&#39;server/router&#39;);
 const { render, redirect, file } = require(&#39;server/reply&#39;);
 
 module.exports = [
@@ -76,13 +74,13 @@ module.exports = [
 ];
 </code></pre>
 <blockquote class="warning">
-  Make sure to <strong>return</strong> the reply that you want to use. It won&#39;t work otherwise.
+  Make sure to **return** the reply that you want to use. It won't work otherwise.
 </blockquote>
 
 
 
 <p>The <code>ctx</code> argument is <a href="/documentation/context">explained in middleware&#39;s Context</a>. The reply methods can be imported in several ways:</p>
-<pre><code class="lang-js">// For whenever you have previously defined `server`
+<pre><code class="language-js">// For whenever you have previously defined `server`
 const { send, json } = server.reply;
 
 // For standalone files:
@@ -101,7 +99,7 @@ const { send, json } = require(&#39;server/reply&#39;);
 <p>The <code>status()</code> reply can be used as final or as chainable if something else is added.</p>
 <h3 id="return-value">Return value</h3>
 <p>Both in synchronous mode or asyncrhonous mode you can just return a string to create a response:</p>
-<pre><code class="lang-js">// Send a string
+<pre><code class="language-js">// Send a string
 const middle = ctx =&gt; &#39;Hello 世界&#39;;
 
 // Test it
@@ -109,15 +107,15 @@ const res = await run(middle).get(&#39;/&#39;);
 expect(res.body).toBe(&#39;Hello 世界&#39;);
 </code></pre>
 <p>Returning an array or an object will stringify them as JSON:</p>
-<pre><code class="lang-js">server(ctx =&gt; [&#39;life&#39;, 42]);
+<pre><code class="language-js">server(ctx =&gt; [&#39;life&#39;, 42]);
 // Note: extra parenthesis needed by the arrow function to return an object
 server(ctx =&gt; ({ life: 42 }));
 </code></pre>
 <p>A single number will be interpreted as a status code and the corresponding body for that status will be returned:</p>
-<pre><code class="lang-js">server(get(&#39;/nonexisting&#39;, =&gt; 404));
+<pre><code class="language-js">server(get(&#39;/nonexisting&#39;, =&gt; 404));
 </code></pre>
 <p>You can also throw anything to trigger an error:</p>
-<pre><code class="lang-js">const middle = ({ req }) =&gt; {
+<pre><code class="language-js">const middle = ({ req }) =&gt; {
   if (!req.body) {
     throw new Error(&#39;No body provided&#39;);
   }
@@ -131,7 +129,7 @@ expect(res.body).toBe(&#39;No body provided&#39;);
 </code></pre>
 <h3 id="multiple-replies">Multiple replies</h3>
 <p>Another important thing is that the first reply used is the one that will be used. However, you should try to avoid this and we might make it more strict in the future:</p>
-<pre><code class="lang-js">// I hope you speak Spanish
+<pre><code class="language-js">// I hope you speak Spanish
 server([
   ctx =&gt; &#39;Hola mundo&#39;,
   ctx =&gt; &#39;Hello world&#39;,
@@ -139,7 +137,7 @@ server([
 ]);
 </code></pre>
 <p>To avoid this, just specify the url for each request in a <a href="/documentation/router">router</a>:</p>
-<pre><code class="lang-js">// I hope you speak Spanish
+<pre><code class="language-js">// I hope you speak Spanish
 server([
   get(&#39;/es&#39;, ctx =&gt; &#39;Hola mundo&#39;),
   get(&#39;/en&#39;, ctx =&gt; &#39;Hello world&#39;),
@@ -147,19 +145,19 @@ server([
 ]);
 </code></pre>
 <p>Then each of those URLs will use a different language.</p>
-<h2 id="cookie-">cookie()</h2>
+<h2 id="cookie">cookie()</h2>
 <p>Send one or multiple cookies to the browser:</p>
-<pre><code class="lang-js">cookie(name, value, [options])
+<pre><code class="language-js">cookie(name, value, [options])
 </code></pre>
 <p>By default it will <em>just</em> set a cookie and not finish the request, so if you want to also send the body you need to do it explicitly:</p>
-<pre><code class="lang-js">server(
+<pre><code class="language-js">server(
   ctx =&gt; cookie(&#39;foo&#39;, &#39;bar&#39;),  // Set a cookie
   ctx =&gt; cookie(&#39;xyz&#39;, { obj: &#39;okay&#39; }), // Stringify the object
   ctx =&gt; cookie(&#39;abc&#39;, &#39;def&#39;, { maxAge: 100000 }),  // Pass some options
   ctx =&gt; cookie(&#39;fizz&#39;, &#39;buzz&#39;).send(), // Set cookie AND finish the request
 );
 </code></pre>
-<pre><code class="lang-js">const { cookie } = server.reply;
+<pre><code class="language-js">const { cookie } = server.reply;
 const setCookie = ctx =&gt; cookie(&#39;foo&#39;, &#39;bar&#39;).send();
 
 // Test
@@ -177,8 +175,7 @@ run(setCookie).get(&#39;/&#39;).then(res =&gt; {
 <th>Type</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td><code>domain</code></td>
 <td>Current domain</td>
 <td>String</td>
@@ -223,34 +220,33 @@ run(setCookie).get(&#39;/&#39;).then(res =&gt; {
 <td><code>false</code></td>
 <td>Boolean or String</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>See a better explanation of each one of those in <a href="https://expressjs.com/en/4x/api.html#res.cookie">express&#39; documentation</a>.</p>
-<h2 id="download-">download()</h2>
+<h2 id="download">download()</h2>
 <p>An async function that takes a local path and an optional filename. It will return the local file with the filename name for the browser to download.</p>
-<pre><code class="lang-js">server(ctx =&gt; download(&#39;user-file-5674354.pdf&#39;));
+<pre><code class="language-js">server(ctx =&gt; download(&#39;user-file-5674354.pdf&#39;));
 server(ctx =&gt; download(&#39;user-file-5674354.pdf&#39;, &#39;report.pdf&#39;));
 </code></pre>
 <p>You can handle errors for this method downstream:</p>
-<pre><code class="lang-js">server([
+<pre><code class="language-js">server([
   ctx =&gt; download(&#39;user-file-5674354.pdf&#39;),
   error(ctx =&gt; { console.log(ctx.error); })
 ]);
 </code></pre>
-<h2 id="file-">file()</h2>
+<h2 id="file">file()</h2>
 <p>Send a file to the browser with the correct mime type:</p>
-<pre><code class="lang-js">server(ctx =&gt; file(&#39;user-profile-5674354.png&#39;));
+<pre><code class="language-js">server(ctx =&gt; file(&#39;user-profile-5674354.png&#39;));
 </code></pre>
 <p>It does not accept a name since the user is not prompted for download. It will stream the file, so that no files are read fully into memory.</p>
 <p>You can handle errors for this method downstream:</p>
-<pre><code class="lang-js">server([
+<pre><code class="language-js">server([
   ctx =&gt; file(&#39;user-profile-5674354.png&#39;),
   error(ctx =&gt; { console.log(ctx.error); })
 ]);
 </code></pre>
-<h2 id="header-">header()</h2>
+<h2 id="header">header()</h2>
 <p>Set a header to be sent with the response. It accepts two strings as key and value or an object to set multiple headers:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; header(&#39;Content-Type&#39;, &#39;text/plain&#39;);
+<pre><code class="language-js">const mid = ctx =&gt; header(&#39;Content-Type&#39;, &#39;text/plain&#39;);
 const mid2 = ctx =&gt; header(&#39;Content-Length&#39;, &#39;123&#39;);
 
 // Same as above
@@ -260,30 +256,30 @@ const mid = ctx =&gt; header({
 });
 </code></pre>
 <p>You can also send multiple headers with the same name by passing an array as the second parameter:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; header({
+<pre><code class="language-js">const mid = ctx =&gt; header({
   &#39;Link&#39;: [&#39;Fake Value&#39;, &#39;Another Fake Value&#39;]
 });
 </code></pre>
 <p>This <a href="#chainable">can be chained</a> with other methods to e.g. prompt for a download:</p>
-<pre><code class="lang-js">const mid = async ctx =&gt; {
+<pre><code class="language-js">const mid = async ctx =&gt; {
   const data = await readFileAsync(&#39;./hello.pdf&#39;, &#39;utf-8&#39;);
   return header({ &#39;Content-Disposition&#39;: `filename=&#39;welcome.pdf&#39;` })
     .type(&#39;application/pdf&#39;)
     .send(new Buffer(data));
 };
 </code></pre>
-<h2 id="json-">json()</h2>
+<h2 id="json">json()</h2>
 <p>Sends a JSON response. It accepts a plain object or an array that will be stringified with <code>JSON.stringify</code>. Sets the correct <code>Content-Type</code> headers as well:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; json({ foo: &#39;bar&#39; });
+<pre><code class="language-js">const mid = ctx =&gt; json({ foo: &#39;bar&#39; });
 
 // Test it
 run(mid).get(&#39;/&#39;).then(res =&gt; {
   expect(res.body).toEqual(`{&quot;foo&quot;:&quot;bar&quot;}`);
 });
 </code></pre>
-<h2 id="jsonp-">jsonp()</h2>
+<h2 id="jsonp">jsonp()</h2>
 <p>Same as <a href="#json">json()</a> but wrapped with a callback. <a href="https://en.wikipedia.org/wiki/JSONP">Read more about JSONP</a>:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; jsonp({ foo: &#39;bar&#39; });
+<pre><code class="language-js">const mid = ctx =&gt; jsonp({ foo: &#39;bar&#39; });
 
 // Test it
 run(mid).get(&#39;/?callback=callback&#39;).then(res =&gt; {
@@ -291,64 +287,64 @@ run(mid).get(&#39;/?callback=callback&#39;).then(res =&gt; {
 });
 </code></pre>
 <p>It is useful for loading data Cross-Domain. The query <code>?callback=foo</code> <strong>is mandatory</strong> and you should set the callback name there:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; jsonp({ foo: &#39;bar&#39; });
+<pre><code class="language-js">const mid = ctx =&gt; jsonp({ foo: &#39;bar&#39; });
 
 // Test it
 run(mid).get(&#39;/?callback=foo&#39;).then(res =&gt; {
   expect(res.body).toMatch(&#39;foo({foo:&quot;bar&quot;})&#39;);
 });
 </code></pre>
-<h2 id="redirect-">redirect()</h2>
+<h2 id="redirect">redirect()</h2>
 <p>Redirects to the url specified. It can be either internal (just a path) or an external URL:</p>
-<pre><code class="lang-js">const mid1 = ctx =&gt; redirect(&#39;/foo&#39;);
+<pre><code class="language-js">const mid1 = ctx =&gt; redirect(&#39;/foo&#39;);
 const mid2 = ctx =&gt; redirect(&#39;../user&#39;);
 const mid3 = ctx =&gt; redirect(&#39;https://google.com&#39;);
 const mid4 = ctx =&gt; redirect(301, &#39;https://google.com&#39;);
 </code></pre>
-<h2 id="render-">render()</h2>
+<h2 id="render">render()</h2>
 <p>This is the most complex method and yet the most useful one. It takes a filename and some data and renders it:</p>
-<pre><code class="lang-js">const mid1 = ctx =&gt; render(&#39;index.hbs&#39;);
+<pre><code class="language-js">const mid1 = ctx =&gt; render(&#39;index.hbs&#39;);
 const mid2 = ctx =&gt; render(&#39;index.hbs&#39;, { user: &#39;Francisco&#39; });
 </code></pre>
 <p>The filename is relative to the <a href="/documentation/options/#-views-">views option</a>  (defaults to <code>&#39;views&#39;</code>):</p>
-<pre><code class="lang-js">// Renders PROJECT/somefolder/index.hbs
+<pre><code class="language-js">// Renders PROJECT/somefolder/index.hbs
 server({ views: &#39;somefolder&#39; }, ctx =&gt; render(&#39;index.hbs&#39;));
 </code></pre>
 <p>The extension of this filename is optional. It accepts by default <code>.hbs</code>, <code>.pug</code> and <code>.html</code> and can accept more types <a href="/documentation/options/#-engine-">installing other engines</a>:</p>
-<pre><code class="lang-js">const mid1 = ctx =&gt; render(&#39;index.pug&#39;);
+<pre><code class="language-js">const mid1 = ctx =&gt; render(&#39;index.pug&#39;);
 const mid2 = ctx =&gt; render(&#39;index.hbs&#39;);
 const mid3 = ctx =&gt; render(&#39;index.html&#39;);
 </code></pre>
 <p>The data will be passed to the template engine. Note that some plugins might pass additional data as well.</p>
-<h2 id="send-">send()</h2>
+<h2 id="send">send()</h2>
 <p>Send the data to the front-end. It is the method used by default with <a href="#raw-return">the raw returns</a>:</p>
-<pre><code class="lang-js">const mid1 = ctx =&gt; send(&#39;Hello 世界&#39;);
+<pre><code class="language-js">const mid1 = ctx =&gt; send(&#39;Hello 世界&#39;);
 const mid2 = ctx =&gt; &#39;Hello 世界&#39;;
 </code></pre>
 <p>However it supports many more data types: String, object, Array or Buffer:</p>
-<pre><code class="lang-js">const mid1 = ctx =&gt; send(&#39;Hello 世界&#39;);
+<pre><code class="language-js">const mid1 = ctx =&gt; send(&#39;Hello 世界&#39;);
 const mid2 = ctx =&gt; send(&#39;&lt;p&gt;Hello 世界&lt;/p&gt;&#39;);
 const mid4 = ctx =&gt; send({ foo: &#39;bar&#39; });
 const mid3 = ctx =&gt; send(new Buffer(&#39;whatever&#39;));
 </code></pre>
 <p>It also has the advantage that it can be chained, unlike just returning the string:</p>
-<pre><code class="lang-js">const mid1 = ctx =&gt; status(201).send({ resource: &#39;foobar&#39; });
+<pre><code class="language-js">const mid1 = ctx =&gt; status(201).send({ resource: &#39;foobar&#39; });
 const mid2 = ctx =&gt; status(404).send(&#39;Not found&#39;);
 const mid3 = ctx =&gt; status(500).send({ error: &#39;our fault&#39; });
 </code></pre>
-<h2 id="status-">status()</h2>
+<h2 id="status">status()</h2>
 <p>Sets the status of the response. If no reply is done, it will become final and send that response message as the body:</p>
-<pre><code class="lang-js">const mid1 = ctx =&gt; status(404);  // The same as:
+<pre><code class="language-js">const mid1 = ctx =&gt; status(404);  // The same as:
 const mid2 = ctx =&gt; status(404).send(&#39;Not found&#39;);
 </code></pre>
-<h2 id="type-">type()</h2>
+<h2 id="type">type()</h2>
 <p>Set the <code>Content-Type</code> header for the response. It can be a explicit MIME type like these:</p>
-<pre><code class="lang-js">const mid1 = ctx =&gt; type(&#39;text/html&#39;).send(&#39;&lt;p&gt;Hello&lt;/p&gt;&#39;);
+<pre><code class="language-js">const mid1 = ctx =&gt; type(&#39;text/html&#39;).send(&#39;&lt;p&gt;Hello&lt;/p&gt;&#39;);
 const mid2 = ctx =&gt; type(&#39;application/json&#39;).send(JSON.stringify({ foo: &#39;bar&#39; }));
 const mid3 = ctx =&gt; type(&#39;image/png&#39;).send(...);
 </code></pre>
 <p>Or you can also write their more friendly names for an equivalent result:</p>
-<pre><code class="lang-js">const mid1 = ctx =&gt; type(&#39;.html&#39;);
+<pre><code class="language-js">const mid1 = ctx =&gt; type(&#39;.html&#39;);
 const mid2 = ctx =&gt; type(&#39;html&#39;);
 const mid3 = ctx =&gt; type(&#39;json&#39;);
 const mid4 = ctx =&gt; type(&#39;application/json&#39;);

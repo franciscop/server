@@ -12,7 +12,7 @@
 <p>First we are going to create a user interface that looks something like this:</p>
 <p><img src="/tutorials/chat/img/mockup.png" alt="Tokyo Chat"></p>
 <p>In your project folder create a folder <code>public</code> and put the file <code>index.html</code> inside:</p>
-<pre><code class="lang-html">&lt;!-- ./public/index.html --&gt;
+<pre><code class="language-html">&lt;!-- ./public/index.html --&gt;
 &lt;!DOCTYPE html&gt;
 &lt;html&gt;
   &lt;head&gt;
@@ -35,7 +35,7 @@
 </code></pre>
 <p>This is the basic, fairly standard HTML skeleton of your chat. We are including few libraries that we will be using later on. Save it, open the file in your browser and you should see &quot;Hello World&quot;.</p>
 <p>Now let&#39;s make the actual interface. We will wrap everything with a <code>&lt;main&gt;</code> tag for the general layout, then put the different elements inside. This code goes in the place of <code>Hello world</code> in the skeleton above:</p>
-<pre><code class="lang-html">&lt;main&gt;
+<pre><code class="language-html">&lt;main&gt;
   &lt;header&gt;
     &lt;div class=&quot;user-count&quot;&gt;0&lt;/div&gt;
     &lt;h1&gt;Tokyo Chat&lt;/h1&gt;
@@ -53,7 +53,7 @@
 &lt;/main&gt;
 </code></pre>
 <p>The focus of this tutorial is <strong>not</strong> to teach HTML+CSS, so for now let&#39;s copy/paste the CSS into <code>./public/style.css</code>:</p>
-<pre><code class="lang-css">/* ./public/style.css */
+<pre><code class="language-css">/* ./public/style.css */
 * {
   box-sizing: border-box;
   transition: all .3s ease;
@@ -127,7 +127,7 @@ button:hover {
 <p><img src="/tutorials/chat/img/screenshot.png" alt="Screenshot of chat"></p>
 <h2 id="choose-a-username">Choose a username</h2>
 <p>Before doing anything else let&#39;s get the visitor username. Create a file called <code>javascript.js</code> inside the folder <code>public</code> with this:</p>
-<pre><code class="lang-js">// /public/javascript.js
+<pre><code class="language-js">// /public/javascript.js
 
 // Get the current username from the cookies
 var user = cookie.get(&#39;user&#39;);
@@ -149,11 +149,11 @@ if (!user) {
 <h2 id="sending-messages">Sending messages</h2>
 <p><a href="https://en.wikipedia.org/wiki/WebSocket">Websockets</a> is a web technology for real time, bidirectional communication from the browser to the server and back. This has traditionally been a hard problem, with the browser <a href="https://stackoverflow.com/a/28197906/938236">having to poke every X seconds</a> to the server to ask for new data.</p>
 <p>The most commonly used library is <a href="https://socket.io/">socket.io</a> since it makes it a lot easier to use the underlying technology. We will use the client library (already included in our skeleton HTML code) for the browser. First, let&#39;s connect to the server:</p>
-<pre><code class="lang-js">// Connect to the server-side websockets. But there&#39;s no server yet!
+<pre><code class="language-js">// Connect to the server-side websockets. But there&#39;s no server yet!
 var socket = io();
 </code></pre>
 <p>Then we will be sending and receiving messages. Let&#39;s handle the receiving messages first with <code>socket.on(TYPE, callback)</code>:</p>
-<pre><code class="lang-js">// The user count. Can change when someone joins/leaves
+<pre><code class="language-js">// The user count. Can change when someone joins/leaves
 socket.on(&#39;count&#39;, function (data) {
   $(&#39;.user-count&#39;).html(data);
 });
@@ -165,7 +165,7 @@ socket.on(&#39;message&#39;, function (data) {
 });
 </code></pre>
 <p>Finally, let&#39;s send some data when our form is submitted with <code>socket.emit()</code>:</p>
-<pre><code class="lang-js">// When the form is submitted
+<pre><code class="language-js">// When the form is submitted
 $(&#39;form&#39;).submit(function (e) {
   // Avoid submitting it through HTTP
   e.preventDefault();
@@ -185,7 +185,7 @@ $(&#39;form&#39;).submit(function (e) {
 });
 </code></pre>
 <p>Awesome, if you have followed all along this is the final code for <code>javascript.js</code>:</p>
-<pre><code class="lang-js">// ./public/javascript.js
+<pre><code class="language-js">// ./public/javascript.js
 
 // Get the current username from the cookies
 var user = cookie.get(&#39;user&#39;);
@@ -232,11 +232,10 @@ $(&#39;form&#39;).submit(function (e) {
   e.target.reset();
   $(e.target).find(&#39;input&#39;).focus();
 });
-
 </code></pre>
 <h2 id="server-handling">Server handling</h2>
 <p>This library is included by default from <code>server</code>, so let&#39;s take advantage of it! First we create a simple server that will render our HTML page. Create a file in the root of your project called <code>index.js</code>:</p>
-<pre><code class="lang-js">// /index.js
+<pre><code class="language-js">// /index.js
 
 const server = require(&#39;server&#39;);
 const { get, socket } = server.router;
@@ -248,7 +247,7 @@ server([
 </code></pre>
 <p>We can run in the terminal <code>node .</code> and access to <a href="http://localhost:3000/">localhost:3000</a> to see our chat interface.</p>
 <p>Then we will add <code>connect</code> and <code>disconnect</code> routes. We want to update everyone with the current amount of users when someone joins or leaves. We can use the same function for both of them that will send a message to everyone with <a href="https://socket.io/docs/emit-cheatsheet/">socket.io&#39;s <code>io.emit()</code></a>:</p>
-<pre><code class="lang-js">// /index.js
+<pre><code class="language-js">// /index.js
 
 const server = require(&#39;server&#39;);
 const { get, socket } = server.router;
@@ -268,7 +267,7 @@ server([
 ]);
 </code></pre>
 <p>Finally let&#39;s create a new socket router that, when it receives a message, it will push the same message to everyone in a similar way as before:</p>
-<pre><code class="lang-js">// /index.js
+<pre><code class="language-js">// /index.js
 
 const server = require(&#39;server&#39;);
 const { get, socket } = server.router;
@@ -292,7 +291,7 @@ server([
 ]);
 </code></pre>
 <p>Great, now we have our back-end. Launch it by running this in your terminal:</p>
-<pre><code class="lang-bash">node .
+<pre><code class="language-bash">node .
 </code></pre>
 <p>Access <a href="http://localhost:3000/">localhost:3000</a> in two different tabs. You can now talk with yourself in realtime!</p>
 <p><img src="/tutorials/chat/img/screenshot_final.png" alt="Final version"></p>

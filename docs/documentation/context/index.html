@@ -8,8 +8,7 @@
 <th>type</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td><a href="#-options">.options</a></td>
 <td><code>{ port: 3000, public: &#39;public&#39; }</code></td>
 <td>Object</td>
@@ -79,10 +78,9 @@
 <td><code>false</code></td>
 <td>Boolean</td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>It can appear at several points, but the most important one is as a middleware parameter:</p>
-<pre><code class="lang-js">// Load the server from the dependencies
+<pre><code class="language-js">// Load the server from the dependencies
 const server = require(&#39;server&#39;);
 
 // Display &quot;Hello 世界&quot; for any request
@@ -94,9 +92,9 @@ const middleware = ctx =&gt; {
 // Launch the server with a single middleware
 server(middleware);
 </code></pre>
-<h2 id="-options">.options</h2>
+<h2 id="options">.options</h2>
 <p>An object containing <a href="/documentation/options/">all of the parsed options</a> used by server.js. It combines environment variables and explicit options from <code>server({ a: &#39;b&#39; });</code>:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(ctx.options.port).toBe(3012);
 };
 
@@ -105,10 +103,10 @@ const res = await run({ port: 3012 }, mid, () =&gt; 200).get(&#39;/&#39;);
 expect(res.status).toBe(200);
 </code></pre>
 <p>If we have a variable set in the <code>.env</code> or through some other environment variables, it&#39;ll use that instead as <a href="/documentation/options/">environment options take preference</a>:</p>
-<pre><code class="lang-bash"># .env
+<pre><code class="language-bash"># .env
 PORT=80
 </code></pre>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(ctx.options.port).toBe(7693);
 };
 
@@ -116,9 +114,9 @@ PORT=80
 const res = await run({ port: 7693 }, mid, () =&gt; 200).get(&#39;/&#39;);
 expect(res.status).toBe(200);
 </code></pre>
-<h2 id="-data">.data</h2>
+<h2 id="data">.data</h2>
 <p>This is aliased as <code>body</code> as in other libraries. It is the data sent with the request. It can be part of a POST or PUT request, but it can also be set by others such as websockets:</p>
-<pre><code class="lang-js">const middle = ctx =&gt; {
+<pre><code class="language-js">const middle = ctx =&gt; {
   expect(ctx.data).toBe(&#39;Hello 世界&#39;);
 };
 
@@ -127,14 +125,14 @@ run(noCsrf, middle).post(&#39;/&#39;, { body: &#39;Hello 世界&#39; });
 run(middle).emit(&#39;message&#39;, &#39;Hello 世界&#39;);
 </code></pre>
 <p>To handle forms sent normally:</p>
-<pre><code class="lang-pug">//- index.pug
+<pre><code class="language-pug">//- index.pug
 form(method=&quot;POST&quot; action=&quot;/contact&quot;)
   input(name=&quot;email&quot;)
   input(name=&quot;_csrf&quot; value=csrf type=&quot;hidden&quot;)
   input(type=&quot;submit&quot; value=&quot;Subscribe&quot;)
 </code></pre>
 <p>Then to parse the data from the back-end:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 const { render, redirect } = server.reply;
 
@@ -146,9 +144,9 @@ server([
   })
 ]);
 </code></pre>
-<h2 id="-params">.params</h2>
+<h2 id="params">.params</h2>
 <p>Parameters from the URL as specified <a href="/documentation/router/">in the route</a>:</p>
-<pre><code class="lang-js">const mid = get(&#39;/:type/:id&#39;, ctx =&gt; {
+<pre><code class="language-js">const mid = get(&#39;/:type/:id&#39;, ctx =&gt; {
   expect(ctx.params.type).toBe(&#39;dog&#39;);
   expect(ctx.params.id).toBe(&#39;42&#39;);
 });
@@ -157,13 +155,13 @@ server([
 run(mid).get(&#39;/dog/42&#39;);
 </code></pre>
 <p>They come from parsing <a href="#-path">the <code>ctx.path</code></a> with the <a href="https://www.npmjs.com/package/path-to-regexp">package <code>path-to-regexp</code></a>. Go there to see more information about it.</p>
-<pre><code class="lang-js">const mid = del(&#39;/user/:id&#39;, ctx =&gt; {
+<pre><code class="language-js">const mid = del(&#39;/user/:id&#39;, ctx =&gt; {
   console.log(&#39;Delete user:&#39;, ctx.params.id);
 });
 </code></pre>
-<h2 id="-query">.query</h2>
+<h2 id="query">.query</h2>
 <p>The parameters from the query when making a request. These come from the url fragment <code>?answer=42&amp;...</code>:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(ctx.query.answer).toBe(&#39;42&#39;);
   expect(ctx.query.name).toBe(&#39;Francisco&#39;);
 };
@@ -171,9 +169,9 @@ run(mid).get(&#39;/dog/42&#39;);
 // Test it
 run(mid).get(&#39;/question?answer=42&amp;name=Francisco&#39;);
 </code></pre>
-<h2 id="-session">.session</h2>
+<h2 id="session">.session</h2>
 <p>After following the <a href="localhost:3000/tutorials/sessions-production/">sessions in production tutorial</a>, sessions should be ready to get rolling. This is an object that persist among the user refreshing the page and navigation:</p>
-<pre><code class="lang-js">// Count how many pages the visitor sees
+<pre><code class="language-js">// Count how many pages the visitor sees
 const mid = ctx =&gt; {
   ctx.session.counter = (ctx.session.counter || 0) + 1;
   return ctx.session.counter;
@@ -187,48 +185,48 @@ run(ctx).alive(async ctx =&gt; {
   expect(res.body).toBe(&#39;3&#39;);
 });
 </code></pre>
-<h2 id="-headers">.headers</h2>
+<h2 id="headers">.headers</h2>
 <p>Get the headers that were sent with the request:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(ctx.headers.answer).toBe(42);
 };
 
 // Test it
 run(mid).get(&#39;/&#39;, { headers: { answer: 42 } });
 </code></pre>
-<h2 id="-cookies">.cookies</h2>
+<h2 id="cookies">.cookies</h2>
 <p>Object that holds the cookies sent by the client:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   console.log(ctx.cookies);
 };
 
 run(mid).get(&#39;/&#39;);
 </code></pre>
-<h2 id="-files">.files</h2>
+<h2 id="files">.files</h2>
 <p>Contains any and all of the files sent by a request. It would normally be sent through a form with an <code>&lt;input type=&quot;file&quot;&gt;</code> field or through a <a href="https://developer.mozilla.org/en-US/docs/Web/API/FormData"><code>FormData</code> in front-end  javascript</a>:</p>
-<pre><code class="lang-html">&lt;form method=&quot;POST&quot; action=&quot;/profilepic&quot; enctype=&quot;multipart/form-data&quot;&gt;
+<pre><code class="language-html">&lt;form method=&quot;POST&quot; action=&quot;/profilepic&quot; enctype=&quot;multipart/form-data&quot;&gt;
   &lt;input name=&quot;profilepic&quot; type=&quot;input&quot;&gt;
   &lt;input type=&quot;hidden&quot; name=&quot;_csrf&quot; value=&quot;{{_csrf}}&quot;&gt;
   &lt;input type=&quot;submit&quot; value=&quot;Send picture&quot;&gt;
 &lt;/form&gt;
 </code></pre>
 <p>Note the <a href="/documentation/router/#csrf-token">csrf token</a> and the <a href="https://stackoverflow.com/q/1342506/938236"><code>enctype=&quot;multipart/form-data&quot;</code></a>, both of them needed. Then to handle it with Node.js:</p>
-<pre><code class="lang-js">const mid = post(&#39;/profilepic&#39;, ctx =&gt; {
+<pre><code class="language-js">const mid = post(&#39;/profilepic&#39;, ctx =&gt; {
   // This comes from the &quot;name&quot; in the input field
   console.log(ctx.files.profilepic);
   return redirect(&#39;/profile&#39;);
 });
 </code></pre>
-<h2 id="-ip">.ip</h2>
+<h2 id="ip">.ip</h2>
 <p>The IP of the client. If your server is running behind a proxy, it uses <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/X-Forwarded-For">the de-facto standard <code>x-forwarded-for</code> header</a> to get the right client IP:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   console.log(ctx.ip);
 };
 
 run(mid).get(&#39;/&#39;);
 </code></pre>
 <p>It can be useful with services like <code>geoip-lite</code> to find the user&#39;s location:</p>
-<pre><code class="lang-js">// Localize user depending on their IP
+<pre><code class="language-js">// Localize user depending on their IP
 const geoip = require(&#39;geoip-lite&#39;);
 
 module.exports = ctx =&gt; {
@@ -247,17 +245,17 @@ module.exports = ctx =&gt; {
 //   area: 50
 // }
 </code></pre>
-<h2 id="-url">.url</h2>
+<h2 id="url">.url</h2>
 <p>The full cuantified URL:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(ctx.url).toBe(&#39;/hello?answer=42&#39;);
 };
 
 run(mid).get(&#39;/hello?answer=42&#39;);
 </code></pre>
-<h2 id="-method">.method</h2>
+<h2 id="method">.method</h2>
 <p>The request method, it can be <code>GET</code>, <code>POST</code>, <code>PUT</code>, <code>DELETE</code>:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(ctx.method).toBe(&#39;GET&#39;);
 };
 
@@ -265,34 +263,34 @@ run(mid).get(&#39;/hello?answer=42&#39;);
 run(mid).get(&#39;/&#39;);
 </code></pre>
 <p>Or other methods:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(ctx.method).toBe(&#39;POST&#39;);
 };
 
 // Test it
 run(noCsrf, mid).post(&#39;/&#39;);
 </code></pre>
-<h2 id="-path">.path</h2>
+<h2 id="path">.path</h2>
 <p>Only the path part from the URL. It is the full URL except for the query:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(ctx.path).toBe(&#39;/question&#39;);
 };
 
 // Test it
 run(mid).get(&#39;/question?answer=42&#39;);
 </code></pre>
-<h2 id="-secure">.secure</h2>
+<h2 id="secure">.secure</h2>
 <p>Returns true if the request is made through HTTPS. Take into account that if you are behind Cloudflare or similar it might be reported as false even though your clients see <code>https</code>:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(ctx.secure).toBe(false);
 };
 
 // Test it
 run(mid).get(&#39;/&#39;);
 </code></pre>
-<h2 id="-xhr">.xhr</h2>
+<h2 id="xhr">.xhr</h2>
 <p>A boolean set to true if the request was done through AJAX. Specifically, if <code>X-Requested-With</code> is <code>“XMLHttpRequest”</code>:</p>
-<pre><code class="lang-js">const mid = ctx =&gt; {
+<pre><code class="language-js">const mid = ctx =&gt; {
   expect(mid.xhr).toBe(false);
 };
 

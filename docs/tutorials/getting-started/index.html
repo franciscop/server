@@ -1,12 +1,12 @@
 <!DOCTYPE html><html class="initial"><head><title>Getting started - server.js</title><meta property="og:title" content="Getting started - server.js"/><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="keywords" content="server, javascript, js, node.js, library, html, html5, express"><meta name="description" content="Install and setup a Node.js project from scratch to get started."/><meta property="og:description" content="Install and setup a Node.js project from scratch to get started."/><link rel="shortcut icon" type="image/png" href="/img/logo.png"><meta property="og:url" content="http://serverjs.io/"><meta property="og:image" content="https://serverjs.io/img/code.png"><link href="/assets/style.min.css" rel="stylesheet"></head><body id="top"><div class="width-1100"></div><nav><a class="brand" href="/"><img class="logo" src="/img/logo.svg" alt="logo"><span class="text">server.js</span></a><input class="show" id="bmenu" type="checkbox"><label class="burger pseudo button switch" for="bmenu">menu</label><div class="menu"><a class="pseudo button" href="https://medium.com/server-for-node-js" target="_blank">Blog</a><a class="pseudo button" href="https://github.com/franciscop/server" target="_blank">Github</a><a class="pseudo button" href="/tutorials">Tutorials</a><a class="button" href="/documentation">Documentation</a></div></nav><article class="tutorial"><div class="flex"><section class="toc"><h2><a href="/tutorials/#top">Tutorials</a></h2><ul><li><label class="more"></label><a href="/tutorials/getting-started/">Getting started</a><ul><li><a href="/tutorials/getting-started/#install-node-js">Install Node.js</a></li><li><a href="/tutorials/getting-started/#create-your-project">Create your project</a></li><li><a href="/tutorials/getting-started/#initialize-git-and-npm">Initialize Git and npm</a></li><li><a href="/tutorials/getting-started/#make-awesome-things-">Make awesome things!</a></li></ul></li><li><label class="more"></label><a href="/tutorials/sessions-production/">Session in production</a><ul><li><a href="/tutorials/sessions-production/#secret">Secret</a></li><li><a href="/tutorials/sessions-production/#storage">Storage</a></li></ul></li><li><label class="more"></label><a href="/tutorials/spreadsheet/">Spreadsheet database</a><ul><li><a href="/tutorials/spreadsheet/#create-a-spreadsheet">Create a spreadsheet</a></li><li><a href="/tutorials/spreadsheet/#installation">Installation</a></li><li><a href="/tutorials/spreadsheet/#back-end-with-server-js">Back-end with server.js</a></li><li><a href="/tutorials/spreadsheet/#front-end">Front-end</a></li></ul></li><li><label class="more"></label><a href="/tutorials/todo/">TO-DO list</a><ul><li><a href="/tutorials/todo/#install-dependencies">Install dependencies</a></li><li><a href="/tutorials/todo/#code-organization">Code organization</a></li><li><a href="/tutorials/todo/#rest-api">REST API</a></li><li><a href="/tutorials/todo/#database">Database</a></li><li><a href="/tutorials/todo/#todos-logic">Todos logic</a></li><li><a href="/tutorials/todo/#testing">Testing</a></li></ul></li><li><label class="more"></label><a href="/tutorials/chat/">Real-time chat</a><ul><li><a href="/tutorials/chat/#user-interface">User Interface</a></li><li><a href="/tutorials/chat/#choose-a-username">Choose a username</a></li><li><a href="/tutorials/chat/#sending-messages">Sending messages</a></li><li><a href="/tutorials/chat/#server-handling">Server handling</a></li><li><a href="/tutorials/chat/#user-x-joined">User X joined</a></li><li><a href="/tutorials/chat/#upload-to-heroku">Upload to Heroku</a></li><li><a href="/tutorials/chat/#xss-protection">XSS Protection</a></li></ul></li></ul></section><div class="main"><h1 id="getting-started">Getting started</h1>
 <p>In this tutorial you will learn how to get started with Node.js development and create a project from scratch. While there are many ways of doing it, this guide is focused first on making it easy and second on using common tools.</p>
 <p>You will need some basic tools like having git and a code editor (<a href="https://atom.io/">we recommend Atom</a>) as well as some basic knowledge around your operative system and the terminal/command line.</p>
-<h2 id="install-node-js">Install Node.js</h2>
+<h2 id="install-nodejs">Install Node.js</h2>
 <p>This will largely depend on your platform and while you can <a href="https://nodejs.org/en/">just download the binary program from the official page</a> I would recommend using Node Version Manager for mac or Linux:</p>
-<pre><code class="lang-bash">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
+<pre><code class="language-bash">curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.2/install.sh | bash
 </code></pre>
 <p>After this, we have to <strong>close and open the terminal</strong> for it to work properly. Then we use NVM to install a current Node.js&#39; version in the terminal:</p>
-<pre><code class="lang-bash">nvm install node
+<pre><code class="language-bash">nvm install node
 nvm use node
 nvm alias default node
 </code></pre>
@@ -14,47 +14,48 @@ nvm alias default node
 <p>Server requires <strong>Node.js 7.6.0</strong> or newer. <strong>Node.js 8.9.x</strong> LTS is recommended for long-term support from Node.js.</p>
 </blockquote>
 <p>Great, now we should have Node.js installed and working. To test it&#39;s properly installed, execute this on the terminal:</p>
-<pre><code class="lang-bash">node --version    # Should show the version number over 8.x
+<pre><code class="language-bash">node --version    # Should show the version number over 8.x
 npm --version     # verify this is installed as well over 5.x
 </code></pre>
 <h2 id="create-your-project">Create your project</h2>
 <p>Now that we have Node.js installed, let&#39;s get started with one project. Create a folder in your computer and then access it from the terminal. To access it use <code>cd</code>:</p>
-<pre><code class="lang-bash">cd &quot;./projects/My Cool Project&quot;
+<pre><code class="language-bash">cd &quot;./projects/My Cool Project&quot;
 </code></pre>
 <p>From now on, all the operations from the terminal <strong>must</strong> be executed while inside your project in said terminal.</p>
 <p>Then open the project from Atom or your code editor: File &gt; Add project folder... &gt; My Cool Project.</p>
 <h2 id="initialize-git-and-npm">Initialize Git and npm</h2>
 <p>Git will be used for handling your code, deploying it and working collaboratively. To get your git started execute this in your terminal:</p>
-<pre><code class="lang-bash">git init
+<pre><code class="language-bash">git init
 </code></pre>
 <p>It will create a folder called <code>.git</code> with all the version history in there. We highly recommend to create a <strong>file</strong> called <strong><code>.gitignore</code></strong> (yes, a point and the name with no extension) where we add at least the following:</p>
 <pre><code>*.log
 npm-debug.log*
 node_modules
 .env
-</code></pre><p>This is because we want these files and places to only be accessible from our computer, but we don&#39;t want to deploy them along the rest of the code.</p>
+</code></pre>
+<p>This is because we want these files and places to only be accessible from our computer, but we don&#39;t want to deploy them along the rest of the code.</p>
 <p>Finally we will initialize our project by doing init in the terminal:</p>
-<pre><code class="lang-bash">npm init
+<pre><code class="language-bash">npm init
 </code></pre>
 <p>It will ask some questions, just answer them or press the &quot;enter&quot; key to accept the default (set the &quot;main&quot; to &quot;index.js&quot;). After answering everything you should have a <code>package.json</code> file, so now you can edit the part where it says &quot;scripts&quot; to add this:</p>
-<pre><code class="lang-json">  &quot;scripts&quot;: {
+<pre><code class="language-json">  &quot;scripts&quot;: {
     &quot;start&quot;: &quot;node index.js&quot;,
     &quot;test&quot;: &quot;jest --coverage --forceExit&quot;
   },
 </code></pre>
-<h2 id="make-awesome-things-">Make awesome things!</h2>
+<h2 id="make-awesome-things">Make awesome things!</h2>
 <p>That is great! Now you can install the packages that you want like server.js:</p>
-<pre><code class="lang-bash">npm install server
+<pre><code class="language-bash">npm install server
 </code></pre>
 <p>And then create a file called <code>index.js</code> with the demo code to see how it works:</p>
-<pre><code class="lang-js">// Import the library
+<pre><code class="language-js">// Import the library
 const server = require(&#39;server&#39;);
 
 // Launch the server to always answer &quot;Hello world&quot;
 server(ctx =&gt; &#39;Hello world!&#39;);
 </code></pre>
 <p>To execute it <strong>after saving it</strong>, run from the terminal:</p>
-<pre><code class="lang-bash">npm start
+<pre><code class="language-bash">npm start
 </code></pre>
 <p>And finally open <a href="http://localhost:3000/">http://localhost:3000/</a> to see it in action!</p>
 <blockquote>

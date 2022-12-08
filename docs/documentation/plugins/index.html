@@ -11,7 +11,7 @@
 <h2 id="create-a-plugin">Create a plugin</h2>
 <h3 id="api">API</h3>
 <p>Here comes the big one, plugins. First, a wish list. I&#39;d like for a plugin to have this API available:</p>
-<pre><code class="lang-js">module.exports = {
+<pre><code class="language-js">module.exports = {
 
   // This is working right now (highly unstable)
   // String
@@ -42,14 +42,14 @@
 };
 </code></pre>
 <p>Now, I am not 100% it makes sense to open <code>router</code> and <code>reply</code> right now. I think there are some situations where it&#39;d be really useful, like sending a PDF back for example:</p>
-<pre><code class="lang-js">// Send a pdf from server
+<pre><code class="language-js">// Send a pdf from server
 server(ctx =&gt; pdf(&#39;./readme.pdf&#39;));
 </code></pre>
 <p>But there are many options here and doing it one way might limit some other options. So my first question:</p>
 <h4 id="simple-example-database">Simple example: database</h4>
 <p>Why are these useful? Isn&#39;t is enough with middleware?</p>
 <p>Well no, for instance for database connections it is really useful. Let&#39;s say we develop a <code>@server/mongoose</code> and install it with <code>npm install @server/mongoose</code>. Afterwards, just passing the options and we have access to the db through the context:</p>
-<pre><code class="lang-js">server({ mongoose: &#39;url for mongodb (or in .env)&#39; },
+<pre><code class="language-js">server({ mongoose: &#39;url for mongodb (or in .env)&#39; },
   get(&#39;/&#39;, ctx =&gt; &#39;Hello world&#39;),
   get(&#39;/sales&#39;, hasUser, ctx =&gt; ctx.db.sales.find({ user: ctx.user.id }))
 });
@@ -57,7 +57,7 @@ server(ctx =&gt; pdf(&#39;./readme.pdf&#39;));
 <p>This can be applied to anything that has to be connected or configured once initially and later on can be used in the middleware.</p>
 <h4 id="advanced-example-sass">Advanced example: sass</h4>
 <p>It also opens up to new possibilities, let&#39;s see a small example with <code>sass</code>. Let&#39;s say that we want to make a sass plugin that rebuilds the whole thing on each request for dev and only once on production:</p>
-<pre><code class="lang-js">module.exports = {
+<pre><code class="language-js">module.exports = {
   name: &#39;sass&#39;,
   options: {
     __root: &#39;source&#39;,
@@ -90,20 +90,20 @@ server(ctx =&gt; pdf(&#39;./readme.pdf&#39;));
 };
 </code></pre>
 <p>To use it is really simple. First <code>npm install @server/sass</code>, then if your options are the default ones you won&#39;t even need to write any specific javascript for it. Let&#39;s say though that we want to change our source file, which is the <em>root</em> option:</p>
-<pre><code class="lang-js">server({ sass: &#39;./front/style.sass&#39; }, ctx =&gt; render(&#39;index&#39;));
+<pre><code class="language-js">server({ sass: &#39;./front/style.sass&#39; }, ctx =&gt; render(&#39;index&#39;));
 </code></pre>
 <p>That&#39;s it, with the flexibility of plugins you wouldn&#39;t need any more code to have a sass plugin.</p>
 <p>This is why I think plugins can be really awesome if they are built and documented properly. <strong>What plugin would you like to see?</strong></p>
 <h3 id="options">Options</h3>
 <p>A small exploration about how the options for plugins might look like <strong>for a developer of a plugin</strong>. Now I&#39;ve written quite a few and have a better idea of the possibilities and limitations of them. I will be using <code>log</code> as an example. For the simple way with defaults:</p>
-<pre><code class="lang-js">plugin.options = {
+<pre><code class="language-js">plugin.options = {
   level: { default: &#39;info&#39; },
   reporter: { default: process.stdout },
   __root: &#39;level&#39;
 };
 </code></pre>
 <p>There are no mandatory fields, however setting a default is strongly recommended. The last root bit would make both of these usages equivalent when using the plugin <code>log</code>:</p>
-<pre><code class="lang-js">server({
+<pre><code class="language-js">server({
   log: &#39;info&#39;
 });
 
@@ -112,14 +112,14 @@ server({
 });
 </code></pre>
 <p>The <code>.env</code> is also quite straightforward in this situation thanks to the <code>__root</code> option. Both of these are equivalent as well:</p>
-<pre><code class="lang-bash"># Single option
+<pre><code class="language-bash"># Single option
 LOG=info
 
 # Multiple options (note: cannot do a function here though!)
 LOG_LEVEL=info
 </code></pre>
 <p>Now you might want all bells and whistles going on. For instance, let&#39;s define the type of the parameter. This will add a small validate function internally:</p>
-<pre><code class="lang-js">log.options = {
+<pre><code class="language-js">log.options = {
   level: {
     default: &#39;info&#39;,
     type: String
@@ -151,7 +151,7 @@ LOG_LEVEL=info
 <p>On one hand, we can stick to more traditional requests workflow: get, post, put, delete and socket seem like a really good scope.</p>
 <p>But then, if you think about plugins and the possibilities there is so much more we can do and make a nice abstraction layer.</p>
 <p>For example, let&#39;s say you are <a href="https://github.com/line/line-bot-sdk-nodejs">making a LINE bot</a> and there is a LINE plugin for server. This plugin can behave as normal:</p>
-<pre><code class="lang-js">server(
+<pre><code class="language-js">server(
   ..
   post(&#39;/line&#39;, ctx =&gt; {
     ctx.line.sendMessage(&#39;Hello world&#39;);
@@ -159,7 +159,7 @@ LOG_LEVEL=info
 );
 </code></pre>
 <p>This is the traditional way. But if we don&#39;t limit ourselves to that, we could be doing it one abstraction level up where the implementation details are invisible:</p>
-<pre><code class="lang-js">const { line } = server.router;
+<pre><code class="language-js">const { line } = server.router;
 const { message } = server.reply;
 
 server(
@@ -171,7 +171,7 @@ server(
 <p>One of the big issues here would be namespacing. You might want to have a <code>line</code> router but also a <code>line</code> reply, and the same with some of the others I can think right now: <code>sms</code>, <code>email</code>, etc.</p>
 <p>In the example above, you might be tempted to name your reply <code>message()</code>, but so might other plugin.</p>
 <p>Possible solutions: for the plugins you don&#39;t get the router from the main server router, but you get it from the plugin:</p>
-<pre><code class="lang-js">const line = require(&#39;@server/line&#39;);
+<pre><code class="language-js">const line = require(&#39;@server/line&#39;);
 
 server(
   line.router(ctx =&gt; {
@@ -181,7 +181,7 @@ server(
 </code></pre>
 <p>This feels too verbose for the otherwise succint server sintax, but right now seems like the best solution.</p>
 <p>Another solution would be namespacing the whole server in general. This would also ease one of the pain points I am finding more and more frequently: having to import every route/reply I want to use manually:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { router, reply } = server;
 
 server(
@@ -190,7 +190,7 @@ server(
 );
 </code></pre>
 <p>While it is a bit more verbose, it cuts down on the import logic (favoring smaller files), makes things more explicit and clear and it&#39;s really compatible with this idea of plugins:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { router, reply } = server;
 
 server(

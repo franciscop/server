@@ -7,8 +7,7 @@
 <th>example</th>
 </tr>
 </thead>
-<tbody>
-<tr>
+<tbody><tr>
 <td><a href="#get-"><code>get(PATH, FN1, FN2, ...)</code></a></td>
 <td><code>get(&#39;/&#39;, ctx =&gt; { ... })</code></td>
 </tr>
@@ -40,10 +39,9 @@
 <td><a href="#socket-"><code>socket(NAME, FN1, FN2, ...)</code></a></td>
 <td><code>socket(&#39;/&#39;, ctx =&gt; { ... })</code></td>
 </tr>
-</tbody>
-</table>
+</tbody></table>
 <p>A router is a function that tells the server how to handle each request. They are a specific kind of middleware that wraps your logic and acts as a gateway:</p>
-<pre><code class="lang-js">// Import methods &#39;get&#39; and &#39;post&#39; from the router
+<pre><code class="language-js">// Import methods &#39;get&#39; and &#39;post&#39; from the router
 const { get, post } = require(&#39;server/router&#39;);
 
 server([
@@ -53,7 +51,7 @@ server([
 ]);
 </code></pre>
 <p>The <code>ctx</code> argument is <a href="/documentation/context">explained in middleware&#39;s Context</a>. The router methods can be imported in several ways:</p>
-<pre><code class="lang-js">// For whenever you have previously defined `server`
+<pre><code class="language-js">// For whenever you have previously defined `server`
 const { get, post } = server.router;
 
 // For standalone files:
@@ -62,13 +60,13 @@ const { get, post } = require(&#39;server/router&#39;);
 <p>There are many more ways of importing the router methods, but those above are the recommended ones.</p>
 <h3 id="complex-routers">Complex routers</h3>
 <p>If you are going to have many routes, we recommend splitting them into separated files, either in the root of the project as <code>routes.js</code> or in a different place:</p>
-<pre><code class="lang-js">// app.js
+<pre><code class="language-js">// app.js
 const server = require(&#39;server&#39;);
 const routes = require(&#39;./routes&#39;);
 
 server(routes);
 </code></pre>
-<pre><code class="lang-js">// routes.js
+<pre><code class="language-js">// routes.js
 const { get, post } = require(&#39;server/router&#39;);
 const ctrl = require(&#39;auto-load&#39;)(&#39;controllers&#39;);
 
@@ -84,26 +82,26 @@ module.exports = [
 </code></pre>
 <p>The <code>ctx</code> variable is <a href="https://serverjs.io/documentation/context">the context (documentation here)</a>. One important difference between the routes and middleware is that <a href="#routes-are-final"><strong>all routes are final</strong></a>. This means that <strong>each request will use one route at most</strong>.</p>
 <p>All of the routers reside within the <code>server.router</code> and follow this structure:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { TYPE } = server.router;
 const doSomething = TYPE(ID, fn1, [fn2], [fn3]);
 server(doSomething);
 </code></pre>
 <h3 id="csrf-token">CSRF token</h3>
 <p>For POST, PUT and DELETE requests a valid <a href="https://github.com/expressjs/csurf"><strong>CSRF</strong> token</a> with the field name of <code>_csrf</code> must be sent as well. The local variable is set by server.js so you can include it like this:</p>
-<pre><code class="lang-html">&lt;form action=&quot;/&quot; method=&quot;POST&quot;&gt;
+<pre><code class="language-html">&lt;form action=&quot;/&quot; method=&quot;POST&quot;&gt;
  &lt;input name=&quot;firstname&quot;&gt;
  &lt;input type=&quot;submit&quot; value=&quot;Contact us&quot;&gt;
  &lt;input type=&quot;hidden&quot; name=&quot;_csrf&quot; value=&quot;{{csrf}}&quot;&gt;
 &lt;/form&gt;
 </code></pre>
 <p>If you are using an API from Javascript, such as the new <code>fetch()</code> you can handle it this way:</p>
-<pre><code class="lang-html">&lt;!-- within your main template --&gt;
+<pre><code class="language-html">&lt;!-- within your main template --&gt;
 &lt;script&gt;
   window.csrf = &#39;{{csrf}}&#39;;
 &lt;/script&gt;
 </code></pre>
-<pre><code class="lang-js">// Within your javascript.js/bundle.js/app.js
+<pre><code class="language-js">// Within your javascript.js/bundle.js/app.js
 fetch(&#39;/&#39;, {
   method: &#39;POST&#39;,
   body: &#39;hello world&#39;,
@@ -112,11 +110,11 @@ fetch(&#39;/&#39;, {
 }).then(...);
 </code></pre>
 <p>Or you could also just disable it if you know what you are doing:</p>
-<pre><code class="lang-js">server({ security: { csrf: false } }, ...);
+<pre><code class="language-js">server({ security: { csrf: false } }, ...);
 </code></pre>
-<h2 id="get-">get()</h2>
+<h2 id="get">get()</h2>
 <p>Handle requests of the type <code>GET</code> (loading a webpage):</p>
-<pre><code class="lang-js">// Create a single route for GET /
+<pre><code class="language-js">// Create a single route for GET /
 const route = get(&#39;/&#39;, ctx =&gt; &#39;Hello 世界&#39;);
 
 // Testing that it actually works
@@ -128,7 +126,7 @@ run(route).get(&#39;/&#39;).then(res =&gt; {
 <p>Note: Read more about the <a href="/documentation/testing/#code">tests in code examples</a> or just ignore them.</p>
 </blockquote>
 <p>You can specify a query and param to be set:</p>
-<pre><code class="lang-js">const route = get(&#39;/:page&#39;, ctx =&gt; {
+<pre><code class="language-js">const route = get(&#39;/:page&#39;, ctx =&gt; {
   console.log(ctx.params.page);  // hello
   console.log(ctx.query.name);   // Francisco
   return { page: ctx.params.page, name: ctx.query.name };
@@ -139,9 +137,9 @@ run(route).get(&#39;/hello?name=Francisco&#39;).then(res =&gt; {
   expect(res.body).toEqual({ page: &#39;hello&#39;, name: &#39;Francisco&#39; });
 });
 </code></pre>
-<h2 id="head-">head()</h2>
+<h2 id="head">head()</h2>
 <p>Handle requests of the type <code>HEAD</code>, which never contain a body:</p>
-<pre><code class="lang-js">// Create a single route for GET /
+<pre><code class="language-js">// Create a single route for GET /
 const route = head(&#39;/&#39;, ctx =&gt; &#39;Hello 世界&#39;);
 
 // Testing that it actually works
@@ -150,9 +148,9 @@ run(route).head(&#39;/&#39;).then(res =&gt; {
   expect(res.body).toBe(&#39;&#39;);
 });
 </code></pre>
-<h2 id="post-">post()</h2>
+<h2 id="post">post()</h2>
 <p>Handle requests of the type <code>POST</code>. It needs <a href="#csrf-token">a csrf token</a> to be provided:</p>
-<pre><code class="lang-js">// Create a single route for POST /
+<pre><code class="language-js">// Create a single route for POST /
 const route = post(&#39;/&#39;, ctx =&gt; {
   console.log(ctx.data);
 });
@@ -162,7 +160,7 @@ run(noCsrf, route).post(&#39;/&#39;, { body: &#39;Hello 世界&#39; });
 </code></pre>
 <p>The <a href="/documentation/context/#data"><code>data</code> property</a> can be a string or a simple object of <code>{name: value}</code> pairs.</p>
 <p>Example:</p>
-<pre><code class="lang-js">// index.js
+<pre><code class="language-js">// index.js
 const server = require(&#39;server&#39;);
 const { get, post } = server.router;
 const { file, redirect } = server.reply;
@@ -176,7 +174,7 @@ server(
   })
 );
 </code></pre>
-<pre><code class="lang-html">&lt;!-- views/index.hbs (omitting &lt;head&gt;, &lt;body&gt;, etc) --&gt;
+<pre><code class="language-html">&lt;!-- views/index.hbs (omitting &lt;head&gt;, &lt;body&gt;, etc) --&gt;
 &lt;form method=&quot;POST&quot; action=&quot;/&quot;&gt;
   &lt;h2&gt;Contact us&lt;/h1&gt;
   &lt;label&gt;&lt;p&gt;Name:&lt;/p&gt; &lt;input type=&quot;text&quot; name=&quot;fullname&quot;&gt;&lt;/label&gt;
@@ -187,7 +185,7 @@ server(
 &lt;/form&gt;
 </code></pre>
 <p>Example 2: JSON API. To POST with JSON you can follow this:</p>
-<pre><code class="lang-js">fetch(&#39;/42&#39;, {
+<pre><code class="language-js">fetch(&#39;/42&#39;, {
   method: &#39;PUT&#39;,
   body: JSON.stringify({ a: &#39;b&#39;, c: &#39;d&#39; }),
   credentials: &#39;include&#39;, // !important for the CSRF
@@ -199,9 +197,9 @@ server(
   console.log(item);
 });
 </code></pre>
-<h2 id="put-">put()</h2>
+<h2 id="put">put()</h2>
 <p>Handle requests of the type &quot;PUT&quot;. It needs <a href="#csrf-token">a csrf token</a> to be provided:</p>
-<pre><code class="lang-js">// Create a single route for PUT /ID
+<pre><code class="language-js">// Create a single route for PUT /ID
 const route = put(&#39;/:id&#39;, ctx =&gt; {
   console.log(ctx.params.id, ctx.data);
 });
@@ -210,21 +208,21 @@ const route = put(&#39;/:id&#39;, ctx =&gt; {
 run(noCsrf, route).put(&#39;/42&#39;, { body: &#39;Hello 世界&#39; });
 </code></pre>
 <p>The HTML <code>&lt;form&gt;</code> does not support <code>method=&quot;PUT&quot;</code>, however we can overcome this by adding a special field called <code>_method</code> to the query:</p>
-<pre><code class="lang-html">&lt;form method=&quot;POST&quot; action=&quot;/42?_method=PUT&quot;&gt;
+<pre><code class="language-html">&lt;form method=&quot;POST&quot; action=&quot;/42?_method=PUT&quot;&gt;
   ...
 &lt;/form&gt;
 </code></pre>
 <p>For Javascript you can just set it to <code>method</code>, for example using the new API <code>fetch()</code>:</p>
-<pre><code class="lang-js">fetch(&#39;/42&#39;, {
+<pre><code class="language-js">fetch(&#39;/42&#39;, {
   method: &#39;PUT&#39;,
   body: &#39;whatever&#39;,
   credentials: &#39;include&#39;, // !important for the CSRF
   headers: { &#39;csrt-token&#39;: csrf }
 });
 </code></pre>
-<h2 id="del-">del()</h2>
+<h2 id="del">del()</h2>
 <p>Handle requests of the type &quot;DELETE&quot;. It needs <a href="#csrf-token">a csrf token</a> to be provided:</p>
-<pre><code class="lang-js">// Create a single route for DELETE /ID
+<pre><code class="language-js">// Create a single route for DELETE /ID
 const route = del(&#39;/:id&#39;, ctx =&gt; {
   console.log(ctx.params.id);
 });
@@ -233,20 +231,20 @@ const route = del(&#39;/:id&#39;, ctx =&gt; {
 run(noCsrf, route).del(&#39;/42&#39;);
 </code></pre>
 <p>The HTML <code>&lt;form&gt;</code> does not support <code>method=&quot;DELETE&quot;</code>, however we can overcome this by adding a special field called <code>_method</code> to the query:</p>
-<pre><code class="lang-html">&lt;form method=&quot;POST&quot; action=&quot;/42?_method=DELETE&quot;&gt;
+<pre><code class="language-html">&lt;form method=&quot;POST&quot; action=&quot;/42?_method=DELETE&quot;&gt;
   ...
 &lt;/form&gt;
 </code></pre>
 <p>For Javascript you can just set it to <code>method</code>, for example using the new API <code>fetch()</code>:</p>
-<pre><code class="lang-js">fetch(&#39;/42&#39;, {
+<pre><code class="language-js">fetch(&#39;/42&#39;, {
   method: &#39;DELETE&#39;,
   credentials: &#39;include&#39;, // !important for the CSRF
   headers: { &#39;csrt-token&#39;: csrf }
 });
 </code></pre>
-<h2 id="error-">error()</h2>
+<h2 id="error">error()</h2>
 <p>It handles an error thrown by a previous middleware:</p>
-<pre><code class="lang-js">const handle = error(&#39;special&#39;, ctx =&gt; {
+<pre><code class="language-js">const handle = error(&#39;special&#39;, ctx =&gt; {
   console.log(ctx.error);
 });
 
@@ -261,7 +259,7 @@ const throwsError = ctx =&gt; {
 run(throwsError, handle).get(&#39;/&#39;);
 </code></pre>
 <p>It accepts an optional name and then middleware. If there&#39;s no name, it will catch all of the previously thrown errors. The name will match the <strong>beginning</strong> of the string name, so you can split your errors by domain:</p>
-<pre><code class="lang-js">// This will be caught since &#39;user&#39; === &#39;user&#39;
+<pre><code class="language-js">// This will be caught since &#39;user&#39; === &#39;user&#39;
 const mid1 = ctx =&gt; {
   const err = new Error(&#39;No username detected&#39;);
   err.code = &#39;user.noname&#39;;
@@ -281,9 +279,9 @@ const handleUser = error(&#39;user&#39;, ctx =&gt; {
 
 server(mid1, mid2, handleUser);
 </code></pre>
-<h2 id="sub-">sub()</h2>
+<h2 id="sub">sub()</h2>
 <p>Handle subdomain calls:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { sub } = server.router;
 
 server([
@@ -293,15 +291,15 @@ server([
 ]);
 </code></pre>
 <p>It can be a string or a Regex:</p>
-<pre><code class="lang-js">const language = sub(/(en|es|jp)/, ctx =&gt; {
+<pre><code class="language-js">const language = sub(/(en|es|jp)/, ctx =&gt; {
   console.log(&#39;Wikipedia &lt;3&#39;);
 });
 </code></pre>
-<h2 id="socket-">socket()</h2>
+<h2 id="socket">socket()</h2>
 <blockquote>
 <p><em>Experimental now, coming stable in version 1.1</em></p>
 </blockquote>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 const { get, socket } = server.router;
 const { render } = server.reply;
 

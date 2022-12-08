@@ -22,12 +22,12 @@
 <p><img src="img/publish.png" alt="Publish the spreadsheet to the web"></p>
 <p>Finally make a note of the current spreadsheet URL. It will be something like this: <a href="https://docs.google.com/spreadsheets/d/1FeG6UsUC_BKlJBiy3j_c4uctMcQlnmv9iyfkDjuWXpg/edit">https://docs.google.com/spreadsheets/d/1FeG6UsUC_BKlJBiy3j_c4uctMcQlnmv9iyfkDjuWXpg/edit</a></p>
 <h2 id="installation">Installation</h2>
-<p>After <a href="https://en.libre.university/lesson/V1f6Btf8g/Getting started">getting your project started</a>, we&#39;ll be using the packages <code>server</code> and <a href="https://www.npmjs.com/package/drive-db"><code>drive-db</code></a>:</p>
-<pre><code class="lang-bash">npm install server drive-db
+<p>After [getting your project started](<a href="https://en.libre.university/lesson/V1f6Btf8g/Getting">https://en.libre.university/lesson/V1f6Btf8g/Getting</a> started), we&#39;ll be using the packages <code>server</code> and <a href="https://www.npmjs.com/package/drive-db"><code>drive-db</code></a>:</p>
+<pre><code class="language-bash">npm install server drive-db
 </code></pre>
-<h2 id="back-end-with-server-js">Back-end with server.js</h2>
+<h2 id="back-end-with-serverjs">Back-end with server.js</h2>
 <p>Let&#39;s get to the code. Create the entry file <code>index.js</code> where the main logic will reside:</p>
-<pre><code class="lang-js">// Load the dependencies
+<pre><code class="language-js">// Load the dependencies
 const server = require(&#39;server&#39;);
 const { render } = server.reply;
 
@@ -48,7 +48,7 @@ server(async () =&gt; {
 <p>Since this is a fairly simple back-end, everything you will need for the back-end is in this file. It loads the libraries, sets up a route and launches the server.</p>
 <h2 id="front-end">Front-end</h2>
 <p>Now let&#39;s do some fun stuff with the front-end. Create the file <code>views/index.hbs</code> with this basic structure:</p>
-<pre><code class="lang-html">&lt;!DOCTYPE html&gt;
+<pre><code class="language-html">&lt;!DOCTYPE html&gt;
 &lt;html&gt;
 &lt;head&gt;
   &lt;title&gt;Spreadsheet Tutorial&lt;/title&gt;
@@ -75,7 +75,7 @@ server(async () =&gt; {
 <p>The easy way, create a list with the first name and last name:</p>
 <p><img src="img/list_simple.png" alt="Simple user list"></p>
 <p>To achieve this we are using <a href="http://handlebarsjs.com/">Handlebars</a> with some <a href="http://handlebarsjs.com/builtin_helpers.html#iteration"><code>{{#each ...}}</code> looping</a>:</p>
-<pre><code class="lang-html">&lt;h1&gt;Simple list&lt;/h1&gt;
+<pre><code class="language-html">&lt;h1&gt;Simple list&lt;/h1&gt;
 &lt;ul class=&quot;flex one three-800&quot;&gt;
   {{#each users}}
     &lt;li&gt;{{this.firstname}} {{this.lastname}}&lt;/li&gt;
@@ -87,7 +87,7 @@ server(async () =&gt; {
 <p>Let&#39;s show them in a table as they appear in the Spreadsheets:</p>
 <p><img src="img/list_table.png" alt="Table list"></p>
 <p>If you already know the basics of HTML you&#39;ll have guessed this correctly, we are using the native <code>&lt;table&gt;</code> element to display it. First we set up the headers and then the content, again looping with an <code>{{#each ...}}</code> loop from Handlebars:</p>
-<pre><code class="lang-html">&lt;table&gt;
+<pre><code class="language-html">&lt;table&gt;
   &lt;tr&gt;
     &lt;th&gt;Firstname&lt;/th&gt; &lt;th&gt;Lastname&lt;/th&gt; &lt;th&gt;Age&lt;/th&gt; &lt;th&gt;City&lt;/th&gt;
   &lt;/tr&gt;
@@ -105,7 +105,7 @@ server(async () =&gt; {
 <p>Now let&#39;s try showing them as a group of cards such as Airbnb or Dribbble. This is a great way of showcasing creative content:</p>
 <p><img src="img/list_cards.png" alt="Card list"></p>
 <p>Our hbs code is a small grid system and some cards, each with its image and footer:</p>
-<pre><code class="lang-html">&lt;h2&gt;Cards&lt;/h2&gt;
+<pre><code class="language-html">&lt;h2&gt;Cards&lt;/h2&gt;
 
 &lt;div class=&quot;flex one three-900&quot;&gt;
   {{#each users}}
@@ -123,11 +123,11 @@ server(async () =&gt; {
 <p>Maybe you have a fairly longer dataset and want to group them by age and display this into a graph like the following:</p>
 <p><img src="img/demographics_chart.png" alt="Demographics chart"></p>
 <p>First we will define where we want to include the chart. This will be a small HTML placeholder, since the chart library that we are using works with <code>&lt;canvas&gt;</code>:</p>
-<pre><code class="lang-html">&lt;h2&gt;Demographics by age:&lt;/h2&gt;
+<pre><code class="language-html">&lt;h2&gt;Demographics by age:&lt;/h2&gt;
 &lt;canvas id=&quot;people&quot; width=&quot;800&quot; height=&quot;300&quot;&gt;&lt;/canvas&gt;
 </code></pre>
 <p>For the main logic we will be using javascript. We need to include the library <a href="http://www.chartjs.org/">Chart.js</a> and inject our users into the Javascript:</p>
-<pre><code class="lang-html">&lt;script src=&quot;https://unpkg.com/chart.js/dist/Chart.bundle.min.js&quot;&gt;&lt;/script&gt;
+<pre><code class="language-html">&lt;script src=&quot;https://unpkg.com/chart.js/dist/Chart.bundle.min.js&quot;&gt;&lt;/script&gt;
 &lt;script&gt;
   // Create the variable and inject the different parts
   var users = [
@@ -144,7 +144,7 @@ server(async () =&gt; {
 &lt;/script&gt;
 </code></pre>
 <p>Now that we have the data, in the <code>...</code> previously we will write our javascript code to create the chart:</p>
-<pre><code class="lang-js">// Get the place where the chart will be drawn
+<pre><code class="language-js">// Get the place where the chart will be drawn
 var ctx = document.getElementById(&quot;people&quot;).getContext(&#39;2d&#39;);
 
 // Initialize the chart into a variable
@@ -178,11 +178,11 @@ var myChart = new Chart(ctx, {
 <p>Finally let&#39;s geolocate each user into a map:</p>
 <p><img src="img/demographics_map.png" alt="Demographics map"></p>
 <p>First we have to create our html placeholder, where the Javascript will position the map. This time it will be a simple div with the id <code>map</code>:</p>
-<pre><code class="lang-html">&lt;h2&gt;Demographics by location:&lt;/h2&gt;
+<pre><code class="language-html">&lt;h2&gt;Demographics by location:&lt;/h2&gt;
 &lt;div id=&quot;map&quot;&gt;&lt;/div&gt;
 </code></pre>
 <p>Now we have to create the javascript variable <code>users</code>, see the previous point to find out how to do this. Then we create the map and position the markers:</p>
-<pre><code class="lang-js">function initMap() {
+<pre><code class="language-js">function initMap() {
   var map = new google.maps.Map(document.getElementById(&#39;map&#39;), {
     zoom: 4,
     center: { lat: 39, lng: -100 }
@@ -202,7 +202,7 @@ var myChart = new Chart(ctx, {
 }
 </code></pre>
 <p>And finally we have to include Google Maps. You will have to include your own Google Maps API key here where it says <code>YOUR_API_KEY</code>:</p>
-<pre><code class="lang-html">&lt;script async defer src=&quot;https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=YOUR_API_KEY&amp;callback=initMap&quot;&gt;&lt;/script&gt;
+<pre><code class="language-html">&lt;script async defer src=&quot;https://maps.googleapis.com/maps/api/js?libraries=places&amp;key=YOUR_API_KEY&amp;callback=initMap&quot;&gt;&lt;/script&gt;
 </code></pre>
 <p>This will call the function <code>initMap()</code> when the script is loaded, and effectively create your map with all of the markers.</p>
 <h2 id="keep-reading">Keep reading</h2><p>Subscribe to our Mailchimp list to receive more tutorials when released:</p><a class="button" href="http://eepurl.com/cGRggH">Get Great Tutorials</a></div></div></article><script src="https://unpkg.com/paperdocs@1.0.9/paperdocs.min.js"></script><script src="https://unpkg.com/smoothscroll-polyfill@0.4.0/dist/smoothscroll.js"></script><script>// Some super simple heuristics

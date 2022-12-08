@@ -3,10 +3,11 @@
 <h2 id="secret">Secret</h2>
 <p>The first thing to change is adding a <a href="https://martinfowler.com/articles/session-secret.html">session secret</a> as an <a href="/documentation/options/#environment">environment variable</a> in <code>.env</code> for your machine:</p>
 <pre><code>SECRET=your-random-string-here
-</code></pre><p>This will be used to secure the cookies as well as for other plugins that need a secret. Make it unique, long and random. Then <strong>don&#39;t forget to add a different one for the production server</strong> and other stages in your deploy pipeline if any. Also, exclude the <code>.env</code> file from Git <a href="http://localhost:3000/documentation/options/#environment">as explained here</a>.</p>
+</code></pre>
+<p>This will be used to secure the cookies as well as for other plugins that need a secret. Make it unique, long and random. Then <strong>don&#39;t forget to add a different one for the production server</strong> and other stages in your deploy pipeline if any. Also, exclude the <code>.env</code> file from Git <a href="http://localhost:3000/documentation/options/#environment">as explained here</a>.</p>
 <h2 id="storage">Storage</h2>
 <p><strong>By default</strong> <a href="https://github.com/expressjs/session">sessions work in-memory with <em>server</em></a> so they are <a href="https://github.com/expressjs/session/pull/220"><strong>not ready for production</strong></a>:</p>
-<pre><code class="lang-js">// Simple visit counter for the main page
+<pre><code class="language-js">// Simple visit counter for the main page
 const counter = get(&#39;/&#39;, ctx =&gt; {
   ctx.session.views = (ctx.session.views || 0) + 1;
   return { views: ctx.session.views };
@@ -25,14 +26,16 @@ await run(counter).alive(async api =&gt; {
 <p>This works great for testing; for quick demos and for short sessions, but <strong>all session data will die when the server is restarted</strong> since they are stored in the RAM.</p>
 <p>To make them persistent we recommend <a href="https://github.com/expressjs/session#compatible-session-stores">using a compatible session storage</a>. We bundle Redis for Node.js by default, so you just have to install it (*nix systems have it easily available). For example, on Ubuntu:</p>
 <pre><code>sudo apt install redis-server
-</code></pre><p>Then edit your <code>.env</code> to include <code>REDIS_URL</code>:</p>
+</code></pre>
+<p>Then edit your <code>.env</code> to include <code>REDIS_URL</code>:</p>
 <pre><code>SECRET=your-random-string-here
 REDIS_URL=redis://:password@hostname:port/db_number
-</code></pre><blockquote>
+</code></pre>
+<blockquote>
 <p>Note: for Heroku this variable is created automatically when adding <a href="https://devcenter.heroku.com/articles/heroku-redis">the appropriate add-on</a>. For other hosting companies please consult their documentation.</p>
 </blockquote>
 <p>Otherwise add your preferred storage to the session through the options:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 // Your own file for the config:
 const storage = require(&#39;./session-storage.js&#39;);
 server({ session: { storage } }, [
@@ -40,7 +43,7 @@ server({ session: { storage } }, [
 ]);
 </code></pre>
 <p>If you need to use express&#39; session, as some libraries might require you to do, you can access it through <code>server.session</code>:</p>
-<pre><code class="lang-js">const server = require(&#39;server&#39;);
+<pre><code class="language-js">const server = require(&#39;server&#39;);
 
 // Mount it on express&#39; session
 const MongoStore = require(&#39;connect-mongo&#39;)(server.session);

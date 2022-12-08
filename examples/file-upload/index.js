@@ -24,5 +24,6 @@ server(
     console.log("Path:", ctx.files.picture.path);
 
     return ctx.files.picture;
-  })
+  }),
+  get("/favicon.ico", () => 404)
 );
