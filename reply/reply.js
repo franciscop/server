@@ -124,11 +124,11 @@ Reply.prototype.render = function (...args) {
 
   // Guard clauses
   if (args.length < 1) {
-    throw new Error('file() expects a path');
+    throw new Error('render() expects a path');
   }
 
   if (args.length > 2) {
-    throw new Error('file() expects a path and options but nothing else');
+    throw new Error('render() expects a path and options but nothing else');
   }
 
   let [file, opts = {}] = args;
