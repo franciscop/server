@@ -27,8 +27,8 @@ nav {
 
 @each $size in (500, 600, 700, 800, 900, 1000, 1100, 1200, 1300, 1400, 1500) {
   .width-#{$size} ~ nav {
-    padding-left: calc(50% - #{$size / 2}px);
-    padding-right: calc(50% - #{$size / 2}px);
+    padding-left: calc(50% - #{$size * 0.5}px);
+    padding-right: calc(50% - #{$size * 0.5}px);
     position: absolute;
   }
 
