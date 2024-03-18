@@ -24,7 +24,7 @@ await run(counter).alive(async api =&gt; {
 });
 </code></pre>
 <p>This works great for testing; for quick demos and for short sessions, but <strong>all session data will die when the server is restarted</strong> since they are stored in the RAM.</p>
-<p>To make them persistent we recommend <a href="https://github.com/expressjs/session#compatible-session-stores">using a compatible session storage</a>. We bundle Redis for Node.js by default, so you just have to install it (*nix systems have it easily available). For example, on Ubuntu:</p>
+<p>To make them persistent we recommend <a href="https://github.com/expressjs/session#compatible-session-stores">using a compatible session store</a>. We bundle Redis for Node.js by default, so you just have to install it (*nix systems have it easily available). For example, on Ubuntu:</p>
 <pre><code>sudo apt install redis-server
 </code></pre>
 <p>Then edit your <code>.env</code> to include <code>REDIS_URL</code>:</p>
@@ -34,25 +34,13 @@ REDIS_URL=redis://:password@hostname:port/db_number
 <blockquote>
 <p>Note: for Heroku this variable is created automatically when adding <a href="https://devcenter.heroku.com/articles/heroku-redis">the appropriate add-on</a>. For other hosting companies please consult their documentation.</p>
 </blockquote>
-<p>Otherwise add your preferred storage to the session through the options:</p>
+<p>Otherwise add your preferred store to the session through the options:</p>
 <pre><code class="language-js">const server = require(&#39;server&#39;);
 // Your own file for the config:
-const storage = require(&#39;./session-storage.js&#39;);
-server({ session: { storage } }, [
+const store = require(&#39;./session-store.js&#39;);
+server({ session: { store } }, [
   // Routes here
 ]);
-</code></pre>
-<p>If you need to use express&#39; session, as some libraries might require you to do, you can access it through <code>server.session</code>:</p>
-<pre><code class="language-js">const server = require(&#39;server&#39;);
-
-// Mount it on express&#39; session
-const MongoStore = require(&#39;connect-mongo&#39;)(server.session);
-const store = MongoStore(options);
-
-server(
-  { session: { store } }
-  ...
-);
 </code></pre>
 <h3 id="alternatives">Alternatives</h3>
 <p>Why not just use cookie-session? <a href="http://stackoverflow.com/a/15745086/938236">Here is an explanation of the alternative</a>, but it boils down to:</p>

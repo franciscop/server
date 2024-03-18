@@ -37,7 +37,7 @@ await run(counter).alive(async api => {
 
 This works great for testing; for quick demos and for short sessions, but **all session data will die when the server is restarted** since they are stored in the RAM.
 
-To make them persistent we recommend [using a compatible session storage](https://github.com/expressjs/session#compatible-session-stores). We bundle Redis for Node.js by default, so you just have to install it (\*nix systems have it easily available). For example, on Ubuntu:
+To make them persistent we recommend [using a compatible session store](https://github.com/expressjs/session#compatible-session-stores). We bundle Redis for Node.js by default, so you just have to install it (\*nix systems have it easily available). For example, on Ubuntu:
 
 ```
 sudo apt install redis-server
@@ -52,31 +52,17 @@ REDIS_URL=redis://:password@hostname:port/db_number
 
 > Note: for Heroku this variable is created automatically when adding [the appropriate add-on](https://devcenter.heroku.com/articles/heroku-redis). For other hosting companies please consult their documentation.
 
-Otherwise add your preferred storage to the session through the options:
+Otherwise add your preferred store to the session through the options:
 
 ```js
 const server = require('server');
 // Your own file for the config:
-const storage = require('./session-storage.js');
-server({ session: { storage } }, [
+const store = require('./session-store.js');
+server({ session: { store } }, [
   // Routes here
 ]);
 ```
 
-If you need to use express' session, as some libraries might require you to do, you can access it through `server.session`:
-
-```js
-const server = require('server');
-
-// Mount it on express' session
-const MongoStore = require('connect-mongo')(server.session);
-const store = MongoStore(options);
-
-server(
-  { session: { store } }
-  ...
-);
-```
 
 
 ### Alternatives

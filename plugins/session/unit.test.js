@@ -1,4 +1,3 @@
-const server = require('server');
 const run = require('server/test/run');
 const { get } = require('server/router');
 const send = require('server/reply/send');
@@ -28,9 +27,5 @@ describe('static plugin', () => {
         expect(res.body).toBe('n' + (i + 1));
       }
     });
-  });
-
-  it('has the session for creating stores', () => {
-    expect(server.session).toHaveProperty('Store', jasmine.any(Function));
   });
 });

@@ -1,11 +1,9 @@
 const modern = require('../../src/modern');
-const server = require('../../server');
 const session = require('express-session');
-server.session = session;
-const RedisStore = require('connect-redis')(server.session);
-let sessionMiddleware;
+const RedisStore = require('connect-redis');
 const Redis = require('ioredis');
 
+let sessionMiddleware;
 module.exports = {
   name: 'session',
   options: {
