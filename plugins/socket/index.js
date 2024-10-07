@@ -25,7 +25,8 @@ module.exports = {
     cookie: {},
     cookiePath: {},
     cookieHttpOnly: {},
-    wsEngine: {}
+    wsEngine: {},
+    cors: {},
   },
   router: (path, middle) => {
     listeners[path] = listeners[path] || [];
