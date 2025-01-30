@@ -121,3 +121,29 @@ Private Key: 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
         run: npm test
         env:
           CI: true
+          WerMarConsultingToken.sol
+javascript
+
+const hre = require("hardhat");
+
+async function main() {
+  const [deployer] = await hre.ethers.getSigners();
+  console.log("Deploying contracts with the account:", deployer.address);
+
+  const initialSupply = 1000000; // 1 million tokens
+  const WMC = await hre.ethers.getContractFactory("WerMarConsultingToken");
+  const wmc = await WMC.deploy(initialSupply);
+
+  await wmc.deployed();
+  console.log("WMC Token deployed to:", wmc.address);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+
+bash
+
+npx hardhat run scripts/deploy.js --network <network>
+
