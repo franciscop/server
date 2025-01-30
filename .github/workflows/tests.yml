@@ -1,25 +1,128 @@
-name: tests
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
 
-on: [push]
+// Import OpenZeppelin's ERC-20 implementation
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
+contract WerMarConsultingToken is ERC20, Ownable {
+    // Constructor: Initialize the token with a name, symbol, and initial supply
+    constructor(uint256 initialSupply) ERC20("WerMarConsulting", "WMC") {
+        // Mint the initial supply to the deployer's address
+        _mint(msg.sender, initialSupply * 10 ** decimals());
+    }
 
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [16.x, 18.x]
+    // Optional: Add a function to mint more tokens (only callable by the owner)
+    function mint(address to, uint256 amount) public onlyOwner {
+        _mint(to, amount);
+    }
 
-    steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Installing
-        run: npm install
-      - name: Testing
+    // Optional: Add a function to burn tokens (anyone can burn their own tokens)
+    function burn(uint256 amount) public {
+        _burn(msg.sender, amount);
+    }
+} 
+npm install --save-dev hardhat
+
+
+bash
+npm install @openzeppelin/contracts
+// SPDX-License-Identifier: MIT
+
+pragma solidity ^0.8.0;
+
+// Import OpenZeppelin's ERC-20 implementation
+import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
+
+contract WerMarConsultingToken is ERC20, Ownable {
+// Constructor: Initialize the token with a name, symbol, and initial supply
+constructor(uint256 initialSupply) ERC20("WerMarConsulting", "WMC") {
+// Mint the initial supply to the deployer's address
+_mint(msg.sender, initialSupply * 10 ** decimals());
+}
+
+// Optional: Add a function to mint more tokens (only callable by the owner)
+function mint(address to, uint256 amount) public onlyOwner {
+_mint(to, amount);
+}
+
+// Optional: Add a function to burn tokens (anyone can burn their own tokens)
+function burn(uint256 amount) public {
+_burn(msg.sender, amount);
+}
+}
+
+
+Compiled 1 Solidity file successfully
+
+
+contracts/
+    WerMarConsultingToken.sol
+
+artifacts/
+    contracts/WerMarConsultingToken.json
+
+
+
+const hre = require("hardhat");
+
+async function main() {
+  const [deployer] = await hre.ethers.getSigners();
+  console.log("Deploying contracts with the account:", deployer.address);
+
+  const initialSupply = 1000000; // 1 million tokens
+  const WMC = await hre.ethers.getContractFactory("WerMarConsultingToken");
+  const wmc = await WMC.deploy(initialSupply);
+
+  await wmc.deployed();
+  console.log("WMC Token deployed to:", wmc.address);
+}
+
+main().catch((error) => {
+  console.error(error);
+  process.exitCode = 1;
+});
+
+const hre = require("hardhat");
+
+async function main() {
+const [deployer] = await hre.ethers.getSigners();
+console.log("Deploying contracts with the account:", deployer.address);
+
+const initialSupply = 1000000; // 1 million tokens
+const WMC = await hre.ethers.getContractFactory("WerMarConsultingToken");
+const wmc = await WMC.deploy(initialSupply);
+
+await wmc.deployed();
+console.log("WMC Token deployed to:", wmc.address);
+}
+
+main().catch((error) => {
+console.error(error);
+process.exitCode = 1;
+});
+
+
+
+// Import the ERC-20 implementation from @openzeppelin/contracts
+import "@openzeppelin/contracts/token/ERC20/SafeMath.sol";
+
+contract MyToken is SafeMath {
+    // Use safe arithmetic operations with `SafeMath`
+}
+
+$ npx hardhat node
+Started HTTP and WebSocket JSON-RPC server at http://127.0.0.1:8545/
+
+Accounts
+========
+Account #0: 0xf39fd6e51aad88f6f4ce6ab8827279cfffb92266 (10000 ETH)
+Private Key: 0xac0974bec39a17e36ba4a6b4d238ff944bacb478cbed5efcae784d7bf4f2ff80
+
+Account #1: 0x70997970c51812dc3a010c7d01b50e0d17dc79c8 (10000 ETH)
+Private Key: 0x59c6995e998f97a5a0044966f0945389dc9e86dae88c7a8412f4603b6b78690d
+
         run: npm test
         env:
           CI: true
