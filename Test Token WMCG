@@ -1,0 +1,281 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.0;
+
+contract MyToken {
+    string public name = "MyToken";
+    string public symbol = "MTK";
+    uint8 public decimals = 18;
+    uint256 public totalSupply;
+
+    mapping(address => uint256) public balanceOf;
+    mapping(address => mapping(address => uint256)) public allowance;
+
+    event Transfer(address indexed from, address indexed to, uint256 value);
+    event Approval(address indexed owner, address indexed spender, uint256 value);
+
+    constructor(uint256 _totalSupply) {
+        totalSupply = _totalSupply * 10 ** uint256(decimals);
+        balanceOf[msg.sender] = totalSupply;
+        emit Transfer(address(0), msg.sender, totalSupply);
+    }
+
+    function transfer(address _to, uint256 _value) public returns (bool success) {
+        require(_to != address(0), "Invalid address");
+        require(balanceOf[msg.sender] >= _value, "Insufficient balance");
+        balanceOf[msg.sender] -= _value;
+        balanceOf[_to] += _value;
+        emit Transfer(msg.sender, _to, _value);
+        return true;
+    }
+
+    function approve(address _spender, uint256 _value) public returns (bool success) {
+        require(_spender != address(0), "Invalid address");
+        allowance[msg.sender][_spender] = _value;
+        emit Approval(msg.sender, _spender, _value);
+        return true;
+    }
+
+    function transferFrom(address _from, address _to, uint256 _value) public returns (bool success) {
+        require(_to != address(0), "Invalid address");
+        require(balanceOf[_from] >= _value, "Insufficient balance");
+        require(allowance[_from][msg.sender] >= _value, "Allowance exceeded");
+        balanceOf[_from] -= _value;
+        balanceOf[_to] += _value;
+        allowance[_from][msg.sender] -= _value;
+        emit Transfer(_from, _to, _value);
+        return true;
+    }
+}
+
+const Web3 = require('web3');
+const web3 = new Web3(Web3.givenProvider || "http://localhost:8545");
+const contractAddress = "0x7429C4c38b8d189934Bd437D7cCc11198C05d6f4";
+const abi = [ /* ABI from compiled contract */ ];
+const contract = new web3.eth.Contract(abi, contractAddress);
+
+async function transferTokens(to, value) {
+    const accounts = await web3.eth.getAccounts();
+    await contract.methods.transfer(to, value).send({ from: accounts[0] });
+}
+
+see
+
+query {
+  repository(owner: "WerMarConsulting", name: "server") {
+    name
+    description
+    stargazers {
+      totalCount
+    }
+    issues(last: 5) {
+      edges {
+        node {
+          title
+          state
+        }
+      }
+    }
+  }
+}
+// App.js
+import React, { useState, useEffect } from 'react';
+import { View, Text, TextInput, Button, StyleSheet, Linking } from 'react-native';
+import WalletConnect from '@walletconnect/client';
+import QRCodeModal from '@walletconnect/qrcode-modal';
+import { ethers } from 'ethers';
+import axios from 'axios';
+
+const WMC_CONTRACT_ADDRESS = '0x7429C4c38b8d189934Bd437D7cCc11198C05d6f4';
+const API_ENDPOINT = 'https://api.wermarconsulting.com/pvplants';
+
+const App = () => {
+  const [connector, setConnector] = useState(null);
+  const [account, setAccount] = useState('');
+  const [balance, setBalance] = useState('0');
+  const [pvPlantData, setPvPlantData] = useState({
+    name: '',
+    location: '',
+    capacity: '',
+    walletAddress: ''
+  });
+
+  // Initialize WalletConnect
+  useEffect(() => {
+    const initWalletConnect = async () => {
+      const newConnector = new WalletConnect({
+        bridge: 'https://bridge.walletconnect.org',
+        qrcodeModal: QRCodeModal,
+      });
+
+      if (newConnector.connected) {
+        await onConnect(newConnector);
+      }
+
+      newConnector.on('connect', (error, payload) => {
+        if (error) throw error;
+        onConnect(newConnector);
+      });
+
+      setConnector(newConnector);
+    };
+
+    initWalletConnect();
+  }, []);
+
+  const onConnect = async (connector) => {
+    const { accounts } = connector;
+    setAccount(accounts[0]);
+    fetchBalance(accounts[0]);
+  };
+
+  const connectWallet = async () => {
+    if (!connector.connected) {
+      await connector.createSession();
+    }
+  };
+
+  const fetchBalance = async (address) => {
+    try {
+      const provider = new ethers.providers.JsonRpcProvider('https://mainnet.infura.io/v3/YOUR_INFURA_ID');
+      const contractABI = require('./contracts/WMC.json').abi;
+      const contract = new ethers.Contract(WMC_CONTRACT_ADDRESS, contractABI, provider);
+      
+      const balance = await contract.balanceOf(address);
+      setBalance(ethers.utils.formatEther(balance));
+    } catch (error) {
+      console.error('Error fetching balance:', error);
+    }
+  };
+
+  const handleTransfer = async (to, amount) => {
+    try {
+      const tx = {
+        from: account,
+        to: WMC_CONTRACT_ADDRESS,
+        data: contract.methods.transfer(to, ethers.utils.parseEther(amount)).encodeABI(),
+      };
+
+      const result = await connector.sendTransaction(tx);
+      console.log('Transaction result:', result);
+    } catch (error) {
+      console.error('Transfer error:', error);
+    }
+  };
+
+  const registerPVPlant = async () => {
+    try {
+      const response = await axios.post(API_ENDPOINT, {
+        ...pvPlantData,
+        walletAddress: account
+      });
+      
+      console.log('Registration successful:', response.data);
+      alert('PV Plant registered successfully!');
+    } catch (error) {
+      console.error('Registration error:', error);
+      alert('Registration failed');
+    }
+  };
+
+  return (
+    <View style={styles.container}>
+      <Text style={styles.title}>WMC Token Manager</Text>
+      
+      {!account ? (
+        <Button title="Connect with MetaMask" onPress={connectWallet} />
+      ) : (
+        <>
+          <Text style={styles.account}>Connected: {account}</Text>
+          <Text style={styles.balance}>Balance: {balance} WMC</Text>
+
+          {/* Transfer Section */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Transfer WMC</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Recipient Address"
+              onChangeText={(text) => setRecipient(text)}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Amount"
+              keyboardType="numeric"
+              onChangeText={(text) => setAmount(text)}
+            />
+            <Button title="Transfer" onPress={() => handleTransfer(recipient, amount)} />
+          </View>
+
+          {/* PV Plant Registration */}
+          <View style={styles.section}>
+            <Text style={styles.sectionTitle}>Register New PV Plant</Text>
+            <TextInput
+              style={styles.input}
+              placeholder="Plant Name"
+              onChangeText={(text) => setPvPlantData({...pvPlantData, name: text})}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Location"
+              onChangeText={(text) => setPvPlantData({...pvPlantData, location: text})}
+            />
+            <TextInput
+              style={styles.input}
+              placeholder="Capacity (kW)"
+              keyboardType="numeric"
+              onChangeText={(text) => setPvPlantData({...pvPlantData, capacity: text})}
+            />
+            <Button title="Register Plant" onPress={registerPVPlant} />
+          </View>
+        </>
+      )}
+    </View>
+  );
+};
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 20,
+    backgroundColor: '#f5f5f5',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  account: {
+    fontSize: 16,
+    marginBottom: 10,
+  },
+  balance: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  section: {
+    marginBottom: 30,
+    padding: 15,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    marginBottom: 10,
+  },
+  input: {
+    height: 40,
+    borderColor: '#ddd',
+    borderWidth: 1,
+    marginBottom: 10,
+    padding: 10,
+    borderRadius: 5,
+  },
+});
+
+export default App;
+
