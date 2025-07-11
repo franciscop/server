@@ -59,8 +59,6 @@ The library is documented here:
 
 <strong><a class="button" href="https://serverjs.io/documentation/">Full Documentation</a></strong>
 
-> [**Subscribe here**](http://eepurl.com/cGRggH) to receive tutorials when released. Tutorials are *good for learning* while the documentation is good for reference/quick use *once you know the basics*.
-
 You can also download the repository and try the examples by browsing to them and `node .` inside each of them in `/examples`.
 
 
