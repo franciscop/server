@@ -20,12 +20,6 @@ server({ port: 8080 }, [
 ]);
 ```
 
-<blockquote class="external">
-  <p>Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.</p>
-  <cite>― Edsger W. Dijkstra</cite>
-</blockquote>
-
-
 ## Getting started
 
 There's a [whole tutorial on getting started for beginners](https://serverjs.io/tutorials/getting-started/) but the quick version is to first install `server` as a dependency:
