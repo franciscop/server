@@ -1,6 +1,5 @@
 # **server.js** for Node.js
 
-[![Subscribe](https://img.shields.io/badge/%20subscribe%20-%20mailchimp%20-blue.svg )](http://eepurl.com/cGRggH)
 [![Downloads](https://img.shields.io/npm/dm/server.svg)](https://npm-stat.com/charts.html?package=server)
 [![Status](https://github.com/franciscop/server/workflows/tests/badge.svg)](https://github.com/franciscop/server/actions)
 
