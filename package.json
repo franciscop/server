@@ -97,6 +97,7 @@
       "Documentation": "/documentation"
     },
     "home": "home.html",
+    "blog": "docs/blog",
     "documentation": {
       "index": "./docs/documentation/README.md",
       "1. Options": "./docs/documentation/options/README.md",
