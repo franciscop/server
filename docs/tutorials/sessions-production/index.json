@@ -1,9 +1,0 @@
-{
-  "title": "Sessions in production",
-  "description": "Learn how to set-up the session for production using Redis or other available datastores so there's persistence even after a server restart.",
-  "sections": [
-    "Secret",
-    "Storage",
-    "Alternatives"
-  ]
-}
