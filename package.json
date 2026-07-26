@@ -84,5 +84,28 @@
       "/node_modules/"
     ],
     "testRunner": "jest-jasmine2"
+  },
+  "documentation.page": {
+    "name": "Server",
+    "title": "server.js for Node",
+    "description": "Powerful server for Node.js that just works so you can focus on your awesome project",
+    "logo": "https://cdn.jsdelivr.net/gh/franciscop/server@master/docs/img/logo.svg",
+    "menu": {
+      "Blog": "/blog",
+      "Github": "https://github.com/franciscop/server",
+      "Tutorials": "/tutorials",
+      "Documentation": "/documentation"
+    },
+    "home": "home.html",
+    "documentation": {
+      "index": "./docs/documentation/README.md",
+      "1. Options": "./docs/documentation/options/README.md",
+      "2. Context": "./docs/documentation/context/README.md",
+      "3. Router": "./docs/documentation/router/README.md",
+      "4. Reply": "./docs/documentation/reply/README.md",
+      "5. Errors": "./docs/documentation/errors/README.md",
+      "6. Plugins": "./docs/documentation/plugins/README.md",
+      "7. Testing": "./docs/documentation/testing/README.md"
+    }
   }
 }

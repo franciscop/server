@@ -1,0 +1,246 @@
+<style>
+  .home {
+    max-width: 820px;
+    margin: 0 auto;
+  }
+  .home .hero {
+    text-align: center;
+    margin: 16px 0 40px;
+  }
+  .home .hero h1 {
+    margin: 0 0 8px;
+  }
+  .home .hero pre {
+    display: inline-block;
+    text-align: left;
+    margin: 2px 0;
+  }
+  .home .cta {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+  }
+  .home .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+    gap: 16px;
+    margin: 0 0 48px;
+  }
+  .home .feature {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 12px;
+    padding: 18px 20px;
+  }
+  .home .feature h3 {
+    margin: 0 0 6px;
+    font-size: 16px;
+  }
+  .home .feature p {
+    margin: 0;
+    color: var(--text-soft);
+  }
+  .home h2 {
+    font-size: 24px;
+    font-weight: 700;
+    margin: 44px 0 12px;
+  }
+  .home h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin: 28px 0 10px;
+  }
+  .home p {
+    margin: 12px 0;
+    line-height: 1.7;
+  }
+  .home .badges img {
+    height: 20px;
+  }
+  .home blockquote {
+    border-left: 3px solid var(--line);
+    padding: 2px 0 2px 16px;
+    margin: 16px 0;
+    color: var(--text-soft);
+  }
+  .home blockquote cite {
+    display: block;
+    margin-top: 6px;
+    font-style: normal;
+  }
+  /* Prose links, scoped to this home so nothing leaks into the rest of the site.
+     Buttons keep their own styling. */
+  .home a:not(.button) {
+    color: var(--active-fg);
+    font-weight: 500;
+    text-decoration: underline;
+    text-decoration-color: var(--marker);
+    text-decoration-thickness: 1px;
+    text-underline-offset: 2px;
+  }
+  .home a:not(.button):hover {
+    text-decoration-color: var(--active-fg);
+  }
+  /* Code + inline code + syntax highlighting, scoped to this home (mirrors the
+     article rules in style.css) so it doesn't leak into the rest of the site. */
+  .home code {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    background: var(--code-bg);
+    padding: 0 5px;
+    border-radius: 5px;
+    color: var(--text);
+  }
+  .home pre {
+    background: var(--code-bg);
+    border-radius: 10px;
+    padding: 9px 11px;
+    overflow-x: auto;
+    margin: 16px 0 22px;
+  }
+  .home pre code {
+    background: none;
+    border: none;
+    padding: 0;
+    color: var(--text);
+    font-size: 13px;
+    line-height: 1.8;
+  }
+  .home pre code .comment {
+    color: #8a94a6;
+  }
+  .home pre code .keyword {
+    color: var(--primary-dark);
+  }
+  .home pre code .string {
+    color: var(--color-tip);
+  }
+  .home pre code .number {
+    color: #905;
+  }
+  .home pre code .type {
+    color: var(--color-note);
+  }
+  .home pre code .function {
+    color: #ca0029;
+  }
+  .home pre code .operator {
+    color: #a67f59;
+  }
+</style>
+
+<div class="home">
+  <section class="hero">
+    <h1>server.js for Node</h1>
+    <pre><code class="language-bash">npm install server</code></pre>
+    <div class="cta">
+      <a class="button primary" href="/documentation">Documentation</a>
+      <a class="button" href="/tutorials">Tutorials</a>
+    </div>
+  </section>
+
+  <section class="features">
+    <div class="feature"><h3>Batteries on</h3><p>Everything you need is loaded by default.</p></div>
+    <div class="feature"><h3>socket.io</h3><p>Realtime channels in a couple of lines.</p></div>
+    <div class="feature"><h3>Modern ES7+</h3><p>Use async/await and forget Callback Hell.</p></div>
+    <div class="feature"><h3>Documented</h3><p>Many tutorials and docs for productivity.</p></div>
+    <div class="feature"><h3>Secure</h3><p>Sane defaults and great libraries underneath.</p></div>
+    <div class="feature"><h3>Extensible</h3><p>Fully compatible with Express middleware.</p></div>
+  </section>
+
+  <h2>server.js for Node.js</h2>
+  <p class="badges">
+    <a href="https://npm-stat.com/charts.html?package=server"><img src="https://img.shields.io/npm/dm/server.svg" alt="Downloads" /></a>
+    <a href="https://github.com/franciscop/server/actions"><img src="https://github.com/franciscop/server/workflows/tests/badge.svg" alt="Status" /></a>
+  </p>
+  <p>Powerful server for Node.js that just works so <strong>you can focus on your awesome project</strong>:</p>
+  <pre><code class="language-js">// Include it and extract some methods for convenience
+const server = require('server');
+const { get, post } = server.router;
+
+// Launch server with options and a couple of routes
+server({ port: 8080 }, [
+  get('/', ctx => 'Hello world'),
+  post('/', ctx => {
+    console.log(ctx.data);
+    return 'ok';
+  })
+]);</code></pre>
+
+  <blockquote>
+    Simplicity is a great virtue but it requires hard work to achieve it and education to appreciate it. And to make matters worse: complexity sells better.
+    <cite>Edsger W. Dijkstra</cite>
+  </blockquote>
+
+  <h2>Getting started</h2>
+  <p>There's a <a href="/tutorials/getting-started">whole tutorial on getting started for beginners</a> but the quick version is to first install <code>server</code> as a dependency:</p>
+  <pre><code class="language-bash">npm install server</code></pre>
+  <blockquote>Server requires <strong>Node.js 7.6.0</strong> or newer. <strong>Node.js 8.x.y</strong> LTS is recommended.</blockquote>
+  <p>Then you can create a file called <code>index.js</code> with this code:</p>
+  <pre><code class="language-js">// Include the server in your file
+const server = require('server');
+const { get, post } = server.router;
+
+// Handle requests to the url "/" ( http://localhost:3000/ )
+server([
+  get('/', ctx => 'Hello world!')
+]);</code></pre>
+  <p>Execute this in the terminal to get the server started:</p>
+  <pre><code class="language-bash">node .</code></pre>
+  <p>And finally, open your browser on <a href="http://localhost:3000/">localhost:3000</a> and you should see 'Hello world!' on your browser.</p>
+
+  <h2>Documentation</h2>
+  <p>The library is documented here:</p>
+  <p><a class="button primary" href="/documentation">Full Documentation</a></p>
+  <p>You can also download the repository and try the examples by browsing to them and <code>node .</code> inside each of them in <code>/examples</code>.</p>
+
+  <h2>Use cases</h2>
+  <p>The package <code>server</code> is great for many situations. Let's see some of them:</p>
+
+  <h3>Small to medium projects</h3>
+  <p>Everything works out of the box, you get great support for most features and you can easily tap into Express' middleware ecosystem. What's not to love?</p>
+  <p>Some of the included features: body and file parsers, cookies, sessions, websockets, Redis, gzip, favicon, csrf, SSL, etc. They just work so you will save a headache or two and can focus on your actual project. Get a simple form going:</p>
+  <pre><code class="language-js">const server = require('server');
+const { get, post } = server.router;
+const { render, redirect } = server.reply;
+
+server(
+  get('/', () => render('index.pug')),
+  post('/', ctx => {
+    console.log(ctx.data);
+    return redirect('/');
+  })
+);</code></pre>
+
+  <h3>API design</h3>
+  <p>From the flexibility and expressivity of the bundle, designing APIs is a breeze:</p>
+  <pre><code class="language-js">// books/router.js
+const { get, post, put, del } = require('server/router');
+const ctrl = require('./controller');
+
+module.exports = [
+  get('/book', ctrl.list),
+  get('/book/:id', ctrl.item),
+  post('/book', ctrl.create),
+  put('/book/:id', ctrl.update),
+  del('/book/:id', ctrl.delete)
+];</code></pre>
+
+  <h3>Real time</h3>
+  <p>Websockets were never this easy to use! With socket.io on the front-end, you can simply do this in the back-end to handle those events:</p>
+  <pre><code class="language-js">// chat/router.js
+const { socket } = require('server/router');
+const ctrl = require('./controller');
+
+module.exports = [
+  socket('connect', ctrl.join),
+  socket('message', ctrl.message),
+  socket('disconnect', ctrl.leave)
+];</code></pre>
+
+  <h2>Author &amp; support</h2>
+  <p>This package was created by <a href="https://francisco.io/">Francisco Presencia</a> but hopefully developed and maintained by many others. See the <a href="https://github.com/franciscop/server/graphs/contributors">list of contributors here</a>.</p>
+  <p>You can also <a href="/sponsor">sponsor the project</a>, get your logo in here and some other perks with tons of ♥</p>
+</div>
