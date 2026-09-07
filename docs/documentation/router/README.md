@@ -209,7 +209,7 @@ server(
 ```html
 <!-- views/index.hbs (omitting <head>, <body>, etc) -->
 <form method="POST" action="/">
-  <h2>Contact us</h1>
+  <h2>Contact us</h2>
   <label><p>Name:</p> <input type="text" name="fullname"></label>
   <label><p>Message:</p> <textarea name="message"></textarea></label>
 
