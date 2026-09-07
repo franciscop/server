@@ -29,7 +29,7 @@ module.exports = [
 ```
 
 <blockquote class="warning">
-  Make sure to **return** the reply that you want to use. It won't work otherwise.
+  <p>Make sure to **return** the reply that you want to use. It won't work otherwise.</p>
 </blockquote>
 
 
