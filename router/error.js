@@ -1,4 +1,3 @@
-const join = require('../src/join');
 const parse = require('./parse');
 const { match } = require('path-to-regexp');
 

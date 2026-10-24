@@ -6,7 +6,6 @@ const { status } = server.reply;
 
 // Mock middlewares and data:
 const question = { answer: 42 };
-const mirror = ctx => ctx.data;
 const hello = () => 'Hello 世界';
 const throwError = () => {
   const err = new Error('MockError');
@@ -27,7 +26,7 @@ describe('Basic router types', () => {
 
   it('can skip a request', async () => {
     let called = false;
-    const notCalled = ctx => {
+    const notCalled = () => {
       called = true;
     };
     const mid = get('/', () => status(200).send('Done'), notCalled);
@@ -60,7 +59,7 @@ describe('Basic router types', () => {
   });
 
   it('can do a DELETE request', async () => {
-    const mid = del('/', ctx => 'Hello 世界');
+    const mid = del('/', () => 'Hello 世界');
 
     const res = await run(mid).del('/', { body: question });
     expect(res.body).toEqual('Hello 世界');
@@ -192,7 +191,7 @@ describe('Ends where it should end', () => {
   // multiple request to make sure the middleware remains the same
   it('does not modify the router', async () => {
     await run(get('/', hello)).alive(async api => {
-      for (let url of [0, 1, 2]) {
+      for (let _url of [0, 1, 2]) {
         const res = await api.get('/');
         expect(res.body).toBe('Hello 世界');
       }
@@ -226,7 +225,6 @@ describe('Ends where it should end', () => {
   });
 
   it('does empty error matching', async () => {
-    let err;
     const res = await run(throwError).get('/');
     expect(res.status).toBe(500);
   });

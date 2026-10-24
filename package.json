@@ -3,7 +3,7 @@
   "version": "1.0.42",
   "description": "A modern and powerful server for Node.js",
   "homepage": "https://serverjs.io/",
-  "repository": "https://github.com/franciscop/server.git",
+  "repository": "github:franciscop/server",
   "bugs": "https://github.com/franciscop/server/issues",
   "funding": "https://www.paypal.me/franciscopresencia/19",
   "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
@@ -15,7 +15,8 @@
     "pretest": "cp .env.demo .env",
     "test": "jest --coverage --forceExit",
     "kill-comment": "Kill a process running in a specific port: PORT=3000 npm run kill",
-    "kill": "kill $(lsof -t -i:$PORT) && echo '> KILLED!' || echo '> The port was already dead'"
+    "kill": "kill $(lsof -t -i:$PORT) && echo '> KILLED!' || echo '> The port was already dead'",
+    "lint": "oxlint server.js src error router reply plugins"
   },
   "keywords": [
     "server",
@@ -74,6 +75,7 @@
     "jest": "^29.7.0",
     "jest-jasmine2": "^29.7.0",
     "jstransformer-marked": "^1.4.0",
+    "oxlint": "^1.89.0",
     "picnic": "^7.1.0",
     "request-promises": "^1.1.0",
     "sass": "^1.71.1",
@@ -109,5 +111,16 @@
       "6. Plugins": "./docs/documentation/plugins/README.md",
       "7. Testing": "./docs/documentation/testing/README.md"
     }
-  }
+  },
+  "files": [
+    "server.js",
+    "src",
+    "error",
+    "router",
+    "reply",
+    "plugins",
+    "test/run.js",
+    "test/port.js",
+    "!**/*.test.js"
+  ]
 }

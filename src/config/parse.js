@@ -38,7 +38,7 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
     let value;
 
     // Skip the control variables such as '__root'
-    if (/^__/.test(name)) continue;
+    if (name.startsWith('__')) continue;
 
     // Make sure we are dealing with a valid schema definition for this option
     if (typeof def !== 'object') {
@@ -61,7 +61,7 @@ const parse = module.exports = async (schema, arg = {}, env= {}, parent = {}) =>
       if (def.env !== false) {
         def.env = (def.env === true ? name : def.env || name).toUpperCase();
       } else if (env[name.toUpperCase()] && process.env.NODE_ENV === 'test') {
-        if (!/^win/.test(process.platform) || name !== 'public') {
+        if (!process.platform.startsWith('win') || name !== 'public') {
           throw new OptionsError('noenv', { name });
         }
       }
