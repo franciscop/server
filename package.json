@@ -4,10 +4,17 @@
   "description": "A modern and powerful server for Node.js",
   "homepage": "https://serverjs.io/",
   "repository": "github:franciscop/server",
-  "bugs": "https://github.com/franciscop/server/issues",
-  "funding": "https://www.paypal.me/franciscopresencia/19",
   "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
+  "funding": "https://www.paypal.me/franciscopresencia/19",
   "license": "MIT",
+  "keywords": [
+    "server",
+    "node.js",
+    "http",
+    "websocket",
+    "socket",
+    "async"
+  ],
   "scripts": {
     "start": "node .",
     "dev": "grunt watch",
@@ -18,25 +25,46 @@
     "kill": "kill $(lsof -t -i:$PORT) && echo '> KILLED!' || echo '> The port was already dead'",
     "lint": "oxlint server.js src error router reply plugins"
   },
-  "keywords": [
-    "server",
-    "node.js",
-    "http",
-    "websocket",
-    "socket",
-    "async"
-  ],
   "main": "server.js",
-  "directories": {
-    "Documentation": "./docs/documentation",
-    "Code": "./src",
-    "Plugins": "./plugins",
-    "Examples": "./examples"
+  "files": [
+    "server.js",
+    "src",
+    "error",
+    "router",
+    "reply",
+    "plugins",
+    "test/run.js",
+    "test/port.js",
+    "!**/*.test.js"
+  ],
+  "documentation.page": {
+    "name": "Server",
+    "title": "server.js for Node",
+    "description": "Powerful server for Node.js that just works so you can focus on your awesome project",
+    "logo": "https://cdn.jsdelivr.net/gh/franciscop/server@master/docs/img/logo.svg",
+    "menu": {
+      "Blog": "/blog",
+      "Github": "https://github.com/franciscop/server",
+      "Tutorials": "/tutorials",
+      "Documentation": "/documentation"
+    },
+    "home": "home.html",
+    "blog": "docs/blog",
+    "tutorials": "docs/tutorials",
+    "documentation": {
+      "index": "./docs/documentation/README.md",
+      "1. Options": "./docs/documentation/options/README.md",
+      "2. Context": "./docs/documentation/context/README.md",
+      "3. Router": "./docs/documentation/router/README.md",
+      "4. Reply": "./docs/documentation/reply/README.md",
+      "5. Errors": "./docs/documentation/errors/README.md",
+      "6. Plugins": "./docs/documentation/plugins/README.md",
+      "7. Testing": "./docs/documentation/testing/README.md"
+    }
   },
   "engines": {
     "node": ">=10.0.0"
   },
-  "engineStrict": true,
   "dependencies": {
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
@@ -86,41 +114,5 @@
       "/node_modules/"
     ],
     "testRunner": "jest-jasmine2"
-  },
-  "documentation.page": {
-    "name": "Server",
-    "title": "server.js for Node",
-    "description": "Powerful server for Node.js that just works so you can focus on your awesome project",
-    "logo": "https://cdn.jsdelivr.net/gh/franciscop/server@master/docs/img/logo.svg",
-    "menu": {
-      "Blog": "/blog",
-      "Github": "https://github.com/franciscop/server",
-      "Tutorials": "/tutorials",
-      "Documentation": "/documentation"
-    },
-    "home": "home.html",
-    "blog": "docs/blog",
-    "tutorials": "docs/tutorials",
-    "documentation": {
-      "index": "./docs/documentation/README.md",
-      "1. Options": "./docs/documentation/options/README.md",
-      "2. Context": "./docs/documentation/context/README.md",
-      "3. Router": "./docs/documentation/router/README.md",
-      "4. Reply": "./docs/documentation/reply/README.md",
-      "5. Errors": "./docs/documentation/errors/README.md",
-      "6. Plugins": "./docs/documentation/plugins/README.md",
-      "7. Testing": "./docs/documentation/testing/README.md"
-    }
-  },
-  "files": [
-    "server.js",
-    "src",
-    "error",
-    "router",
-    "reply",
-    "plugins",
-    "test/run.js",
-    "test/port.js",
-    "!**/*.test.js"
-  ]
+  }
 }

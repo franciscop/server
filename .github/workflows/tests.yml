@@ -1,25 +1,20 @@
 name: tests
 
-on: [push]
+on:
+  push:
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
-    strategy:
-      matrix:
-        platform: [ubuntu-latest, macos-latest, windows-latest]
-        node-version: [16.x, 18.x]
-
     steps:
-      - uses: actions/checkout@v1
-      - name: Use Node.js ${{ matrix.node-version }}
-        uses: actions/setup-node@v1
-        with:
-          node-version: ${{ matrix.node-version }}
-      - name: Installing
+      - uses: actions/checkout@v6
+      - name: Install dependencies
         run: npm install
-      - name: Testing
+      - name: Run the linter
+        run: npm run lint
+      - name: Run the tests
         run: npm test
         env:
           CI: true
