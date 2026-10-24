@@ -13,7 +13,7 @@ module.exports = {
     type: [String, Boolean],
     file: true,
     clean: (value, option) => {
-      if (process.platform.startsWith('win') && value === 'C:\\Users\\Public') {
+      if (/^win/.test(process.platform) && value === 'C:\\Users\\Public') {
         value = option.arg.public || option.def.default;
 
         if (!value) return;

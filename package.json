@@ -3,10 +3,20 @@
   "version": "1.0.42",
   "description": "A modern and powerful server for Node.js",
   "homepage": "https://serverjs.io/",
-  "repository": "github:franciscop/server",
-  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
+  "repository": "https://github.com/franciscop/server.git",
+  "bugs": "https://github.com/franciscop/server/issues",
   "funding": "https://www.paypal.me/franciscopresencia/19",
+  "author": "Francisco Presencia <public@francisco.io> (https://francisco.io/)",
   "license": "MIT",
+  "scripts": {
+    "start": "node .",
+    "dev": "grunt watch",
+    "build": "grunt",
+    "pretest": "cp .env.demo .env",
+    "test": "jest --coverage --forceExit",
+    "kill-comment": "Kill a process running in a specific port: PORT=3000 npm run kill",
+    "kill": "kill $(lsof -t -i:$PORT) && echo '> KILLED!' || echo '> The port was already dead'"
+  },
   "keywords": [
     "server",
     "node.js",
@@ -15,56 +25,17 @@
     "socket",
     "async"
   ],
-  "scripts": {
-    "start": "node .",
-    "dev": "grunt watch",
-    "build": "grunt",
-    "pretest": "cp .env.demo .env",
-    "test": "jest --coverage --forceExit",
-    "kill-comment": "Kill a process running in a specific port: PORT=3000 npm run kill",
-    "kill": "kill $(lsof -t -i:$PORT) && echo '> KILLED!' || echo '> The port was already dead'",
-    "lint": "oxlint server.js src error router reply plugins"
-  },
   "main": "server.js",
-  "files": [
-    "server.js",
-    "src",
-    "error",
-    "router",
-    "reply",
-    "plugins",
-    "test/run.js",
-    "test/port.js",
-    "!**/*.test.js"
-  ],
-  "documentation.page": {
-    "name": "Server",
-    "title": "server.js for Node",
-    "description": "Powerful server for Node.js that just works so you can focus on your awesome project",
-    "logo": "https://cdn.jsdelivr.net/gh/franciscop/server@master/docs/img/logo.svg",
-    "menu": {
-      "Blog": "/blog",
-      "Github": "https://github.com/franciscop/server",
-      "Tutorials": "/tutorials",
-      "Documentation": "/documentation"
-    },
-    "home": "home.html",
-    "blog": "docs/blog",
-    "tutorials": "docs/tutorials",
-    "documentation": {
-      "index": "./docs/documentation/README.md",
-      "1. Options": "./docs/documentation/options/README.md",
-      "2. Context": "./docs/documentation/context/README.md",
-      "3. Router": "./docs/documentation/router/README.md",
-      "4. Reply": "./docs/documentation/reply/README.md",
-      "5. Errors": "./docs/documentation/errors/README.md",
-      "6. Plugins": "./docs/documentation/plugins/README.md",
-      "7. Testing": "./docs/documentation/testing/README.md"
-    }
+  "directories": {
+    "Documentation": "./docs/documentation",
+    "Code": "./src",
+    "Plugins": "./plugins",
+    "Examples": "./examples"
   },
   "engines": {
     "node": ">=10.0.0"
   },
+  "engineStrict": true,
   "dependencies": {
     "body-parser": "^1.20.2",
     "compression": "^1.7.4",
@@ -103,7 +74,6 @@
     "jest": "^29.7.0",
     "jest-jasmine2": "^29.7.0",
     "jstransformer-marked": "^1.4.0",
-    "oxlint": "^1.89.0",
     "picnic": "^7.1.0",
     "request-promises": "^1.1.0",
     "sass": "^1.71.1",
@@ -114,5 +84,30 @@
       "/node_modules/"
     ],
     "testRunner": "jest-jasmine2"
+  },
+  "documentation.page": {
+    "name": "Server",
+    "title": "server.js for Node",
+    "description": "Powerful server for Node.js that just works so you can focus on your awesome project",
+    "logo": "https://cdn.jsdelivr.net/gh/franciscop/server@master/docs/img/logo.svg",
+    "menu": {
+      "Blog": "/blog",
+      "Github": "https://github.com/franciscop/server",
+      "Tutorials": "/tutorials",
+      "Documentation": "/documentation"
+    },
+    "home": "home.html",
+    "blog": "docs/blog",
+    "tutorials": "docs/tutorials",
+    "documentation": {
+      "index": "./docs/documentation/README.md",
+      "1. Options": "./docs/documentation/options/README.md",
+      "2. Context": "./docs/documentation/context/README.md",
+      "3. Router": "./docs/documentation/router/README.md",
+      "4. Reply": "./docs/documentation/reply/README.md",
+      "5. Errors": "./docs/documentation/errors/README.md",
+      "6. Plugins": "./docs/documentation/plugins/README.md",
+      "7. Testing": "./docs/documentation/testing/README.md"
+    }
   }
 }

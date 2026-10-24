@@ -15,7 +15,6 @@ const type = str => {
   if (is.boolean(str)) return /true/i.test(str);
   try {
     if (is.json(str)) return JSON.parse(str);
-  // oxlint-disable-next-line no-unused-vars
   } catch (err) {
     return str;
   }
